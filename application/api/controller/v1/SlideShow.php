@@ -31,7 +31,8 @@ class SlideShow extends Controller
 
         $slideModel->save();
         $id = $slideModel->getAttr('id');
-        Util::printResult($GLOBALS['ERROR_SUCCESS'],$id);
+        $data['id'] = $id;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'],$data);
 
     }
 }
