@@ -29,52 +29,66 @@ function getRandLengthStr($length = 8)
     }
     return $password;
 }
-/**
- * 递归实现无限极分类
- * @param $array 分类数据
- * @param $pid 父ID
- * @param $level 分类级别
- * @return $list 分好类的数组 直接遍历即可 $level可以用来遍历缩进
- */
 
-function getTree($array, $pid =0, $level = 0){
 
-    //声明静态数组,避免递归调用时,多次声明导致数组覆盖
-    static $list = [];
-    foreach ($array as $key => $value){
-        //第一次遍历,找到父节点为根节点的节点 也就是pid=0的节点
-        if ($value['pid'] == $pid){
-            //父节点为根节点的节点,级别为0，也就是第一级
-            $value['level'] = $level;
-            //把数组放到list中
-            $list[] = $value;
-            //把这个节点从数组中移除,减少后续递归消耗
-            unset($array[$key]);
-            //开始递归,查找父ID为该节点ID的节点,级别则为原级别+1
-            getTree($array, $value['id'], $level+1);
-
+function getChildId($data, $pid)
+{
+    static $ret = array();
+    foreach ($data as $k => $v) {
+        if ($v['pid'] == $pid) {
+            $ret[] = $v['id'];
+            getChildId($data, $v['id']);
         }
     }
-    return $list;
+    return $ret;
 }
 
-function generateTree($array){
+
+/**
+ * 无限极分类
+ * @param $array
+ * @param $node
+ * @return array
+ */
+function generateTree($array, $node)
+{
     //第一步 构造数据
     $items = array();
-    foreach($array as $value){
+    foreach ($array as $value) {
         $items[$value['id']] = $value;
     }
     //第二部 遍历数据 生成树状结构
     $tree = array();
     //遍历构造的数据
-    foreach($items as $key => $value){
+    foreach ($items as $key => $value) {
         //如果pid这个节点存在
-        if(isset($items[$value['pid']])){
+        if (isset($items[$value[$node]])) {
             //把当前的$value放到pid节点的son中 注意 这里传递的是引用 为什么呢？
-            $items[$value['pid']]['son'][] = &$items[$key];
-        }else{
+            $items[$value[$node]]['son'][] = &$items[$key];
+        } else {
             $tree[] = &$items[$key];
         }
     }
     return $tree;
 }
+//function generateTree($array)
+//{
+//    //第一步 构造数据
+//    $items = array();
+//    foreach ($array as $value) {
+//        $items[$value['id']] = $value;
+//    }
+//    //第二部 遍历数据 生成树状结构
+//    $tree = array();
+//    //遍历构造的数据
+//    foreach ($items as $key => $value) {
+//        //如果pid这个节点存在
+//        if (isset($items[$value['pid']])) {
+//            //把当前的$value放到pid节点的son中 注意 这里传递的是引用 为什么呢？
+//            $items[$value['pid']]['son'][] = &$items[$key];
+//        } else {
+//            $tree[] = &$items[$key];
+//        }
+//    }
+//    return $tree;
+//}
