@@ -4,9 +4,8 @@ namespace app\api\model;
 
 use think\Model;
 
-class SlideShowMModel extends Model
+class ResumeModel extends Model
 {
-    protected $table = 'slideShow';
+    protected $name = 'resume';
     protected $pk = 'id';
-
 }

@@ -92,27 +92,28 @@ $GLOBALS['SHA256_SALT'] = "adhisugdd";        //加密的salt
 $GLOBALS['WRITE_MODE_ALONE'] = "0";            //单独撰写
 $GLOBALS['WRITE_MODE_UNION'] = "1";            //联合撰写
 
+$GLOBALS['userId'] = 0;
 
 /*************************************一些默认的设置********************************************/
 
 $GLOBALS['TEST_MODE'] = true;       //测试模式,true的话需要邀请码才能注册,fasle的话不需要邀请码
 
 /*************************************数据库参数********************************************/
-//$GLOBALS['redis_host']='120.26.103.174 | 116.62.25.128';
-$GLOBALS['redis_port'] = '6379';
-$GLOBALS['redis_auth'] = 'flare1111';
-$GLOBALS['CDN_URL'] = 'dl1.izq.kim';
+$GLOBALS['redis_port'] = '';
+$GLOBALS['redis_auth'] = '';
+//$GLOBALS['CDN_URL'] = '47.103.102.22';
+$GLOBALS['CDN_URL'] = '127.0.0.1:9090';
 $GLOBALS['db_config'] = [
     // 数据库类型
     'type' => 'mysql',
     // 服务器地址
-    'hostname' => '47.104.149.49',
+    'hostname' => '',
     // 数据库名
-    'database' => 'family',
+    'database' => '',
     // 用户名
-    'username' => 'family',
+    'username' => '',
     // 密码
-    'password' => 'Flare1111',
+    'password' => '',
     // 端口
     'hostport' => '3306',
     // 连接dsn

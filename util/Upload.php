@@ -78,11 +78,17 @@ class Upload
     public function uploadImage($name)
     {
         $file = Request::instance()->file($name);
+        if (empty($file)){
+            Util::printResult($GLOBALS['ERROR_FILE_UPLOAD'],'文件上传错误');
+            exit;
+        }
         $path = ROOT_PATH . 'public' . DS . 'uploads';
         $info = $file->validate(['ext' => 'jpg,gif,png'])->move($path);
         if ($info) {
             $name = $info->getSaveName();
-            $url = $GLOBALS['CDN_URL'] . '/public/uploads/' . $name;
+//            $ip = $_SERVER['REMOTE_ADDR'];
+//            $url = $GLOBALS['CDN_URL'] . '/public/uploads/' . $name;
+            $url = '/public/uploads/' . $name;
             return $url;
         } else {
             return false;

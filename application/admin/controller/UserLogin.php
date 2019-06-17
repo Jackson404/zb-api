@@ -44,23 +44,23 @@ class UserLogin extends Controller
     /**
      * 注册
      */
-//    public function userRegister()
-//    {
-//        if (Request::instance()->isPost()) {
-//            $username = $_POST['username'];
-//            $password = $_POST['password'];
-//            $CDBAccount = new CDBAccount();
-//            $count = $CDBAccount->userRegister($username, $password);
-//            if ($count > 0) {
-//                util::printResult($GLOBALS['ERROR_SUCCESS'], '注册成功');
-//                exit;
-//            }
-//            util::printResult($GLOBALS['ERROR_REGISTER'], '注册出错');
-//            exit;
-//        } else {
-//            util::printResult($GLOBALS['ERROR_POST'], '不是post传值');
-//            exit;
-//        }
-//
-//    }
+    public function userRegister()
+    {
+        if (Request::instance()->isPost()) {
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+            $CDBAccount = new CDBAccount();
+            $count = $CDBAccount->userRegister($username, $password);
+            if ($count > 0) {
+                util::printResult($GLOBALS['ERROR_SUCCESS'], '注册成功');
+                exit;
+            }
+            util::printResult($GLOBALS['ERROR_REGISTER'], '注册出错');
+            exit;
+        } else {
+            util::printResult($GLOBALS['ERROR_POST'], '不是post传值');
+            exit;
+        }
+
+    }
 }
