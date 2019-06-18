@@ -34,4 +34,9 @@ class LabelManagementModel extends Model
         }
     }
 
+    public function getDetail($labelId)
+    {
+        return $this->where('id', 'eq', $labelId)->where('isDelete', 'eq', 0)
+            ->find();
+    }
 }

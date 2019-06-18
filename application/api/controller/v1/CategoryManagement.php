@@ -73,7 +73,9 @@ class CategoryManagement extends AdminBase
 
         $categoryManagementModel = new CategoryManagementModel();
 
-        if ($categoryManagementModel->checkName($name)) {
+        $detail = $categoryManagementModel->getDetail($categoryId);
+
+        if ($detail['name'] != $name && $categoryManagementModel->checkName($name)) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字已存在');
             exit;
         }
@@ -157,5 +159,20 @@ class CategoryManagement extends AdminBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
 
+
+    /**
+     * 根据分类id获取详情
+     */
+    public function getDetail()
+    {
+        $params = Request::instance()->request();
+        $categoryId = Check::checkInteger($params['categoryId'] ?? '');
+
+        $categoryManagementModel = new CategoryManagementModel();
+        $detail = $categoryManagementModel->getDetail($categoryId);
+
+        $data['detail'] = $detail;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
 
 }

@@ -38,12 +38,17 @@ class CategoryManagementModel extends Model
     public function checkName($name)
     {
         $count = $this->where('name', '=', $name)->where('isDelete', '=', 0)
-            ->limit(0,1)
+            ->limit(0, 1)
             ->count();
         if ($count > 0) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public function getDetail($categoryId)
+    {
+        return $this->where('id', 'eq', $categoryId)->where('isDelete', 'eq', 0)->find();
     }
 }

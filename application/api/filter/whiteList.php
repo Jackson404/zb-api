@@ -15,4 +15,10 @@ $whiteList = [
     'api/v1.News/add',
     'api/v1.News/edit',
     'api/v1.News/del',
+    'api/v1.CompanyManagement/add',
+    'api/v1.CompanyManagement/edit',
+    'api/v1.CompanyManagement/del',
+    'api/v1.PositionManagement/add',
+    'api/v1.PositionManagement/edit',
+    'api/v1.PositionManagement/del',
 ];

@@ -72,8 +72,9 @@ class LabelManagement extends AdminBase
         }
 
         $labelManagementModel = new LabelManagementModel();
+        $detail = $labelManagementModel->getDetail($labelId);
 
-        if ($labelManagementModel->checkName($name)) {
+        if ($detail['name'] != $name && $labelManagementModel->checkName($name)) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字重复');
             exit;
         }
@@ -131,6 +132,16 @@ class LabelManagement extends AdminBase
         $page = $labelManagementModel->getByPage($pageIndex, $pageSize);
 
         $data['page'] = $page;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    public function getDetail()
+    {
+        $params = Request::instance()->request();
+        $labelId = Check::checkInteger($params['labelId'] ?? '');
+        $labelManagementModel = new LabelManagementModel();
+        $detail = $labelManagementModel->getDetail($labelId);
+        $data['detail'] = $detail;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 }
