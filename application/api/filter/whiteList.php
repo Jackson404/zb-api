@@ -6,4 +6,13 @@ $whiteList = [
     'api/v1.CategoryManagement/add',
     'api/v1.CategoryManagement/edit',
     'api/v1.CategoryManagement/del',
+    'api/v1.LabelManagement/add',
+    'api/v1.LabelManagement/edit',
+    'api/v1.LabelManagement/del',
+    'api/v1.NewsCategory/add',
+    'api/v1.NewsCategory/edit',
+    'api/v1.NewsCategory/del',
+    'api/v1.News/add',
+    'api/v1.News/edit',
+    'api/v1.News/del',
 ];

@@ -24,4 +24,16 @@ class Util {
         echo json_encode($result);
     }
 
+    //生成随机码
+    public static function generateRandomCode($len)
+    {
+        $code = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $str = "";
+        $strlen = strlen($code);
+        for ($i = 0; $i < $len; $i++) {
+            $str = $str . substr($code, rand(0, $strlen - 1), 1);
+        }
+        return $str;
+    }
+
 }

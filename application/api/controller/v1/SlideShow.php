@@ -4,6 +4,7 @@ namespace app\api\controller\v1;
 
 use app\api\model\SlideShowModel;
 use think\Request;
+use Util\Check;
 use Util\Upload;
 use Util\Util;
 
@@ -21,8 +22,9 @@ class SlideShow extends AdminBase
     public function add()
     {
         $params = Request::instance()->request();
-        $upload = new Upload();
-        $imgUrl = $upload->uploadImage('imgUrl');
+//        $upload = new Upload();
+//        $imgUrl = $upload->uploadImage('imgUrl');
+        $imgUrl = Check::check($params['imgUrl'] ?? '');
         $turnUrl = $params['turnUrl'] ?? '';
         $remark = $params['remark'] ?? '';
         $userId = $GLOBALS['userId'];
@@ -58,10 +60,10 @@ class SlideShow extends AdminBase
     public function edit()
     {
         $params = Request::instance()->request();
-        $upload = new Upload();
-
-        $slideShowId = $params['id'] ?? '';
-        $imgUrl = $upload->uploadImage('imgUrl');
+//        $upload = new Upload();
+        $slideShowId = Check::checkInteger($params['id'] ?? '');
+//        $imgUrl = $upload->uploadImage('imgUrl');
+        $imgUrl = Check::check($params['imgUrl'] ?? '');
         $turnUrl = $params['turnUrl'] ?? '';
         $remark = $params['remark'] ?? '';
         $userId = $GLOBALS['userId'];

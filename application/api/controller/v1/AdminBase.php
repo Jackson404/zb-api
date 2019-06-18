@@ -2,6 +2,7 @@
 
 namespace app\api\controller\v1;
 
+use app\api\controller\ValidateApi;
 use think\Controller;
 use think\Request;
 use Util\Util;
@@ -22,5 +23,9 @@ class AdminBase extends Controller
                 exit;
             }
         }
+
+//        $validateApi = new ValidateApi();
+//        $validateApi->respond();
+
     }
 }

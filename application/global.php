@@ -94,6 +94,9 @@ $GLOBALS['WRITE_MODE_UNION'] = "1";            //联合撰写
 
 $GLOBALS['userId'] = 0;
 
+$GLOBALS['TOKEN_API'] = 'API';
+$GLOBALS['REQUEST_ILLEGAL'] = '-1';
+
 /*************************************一些默认的设置********************************************/
 
 $GLOBALS['TEST_MODE'] = true;       //测试模式,true的话需要邀请码才能注册,fasle的话不需要邀请码
