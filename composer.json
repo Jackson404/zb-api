@@ -25,7 +25,9 @@
     "topthink/think-mongo": "1.7",
     "topthink/think-captcha": "^1.0",
     "topthink/think-angular": "^1.0",
-    "phpmailer/phpmailer": "5.2.23"
+    "phpmailer/phpmailer": "5.2.23",
+    "alibabacloud/client": "^1.5",
+    "alibabacloud/sdk": "^1.7"
   },
   "extra": {
     "think-path": "thinkphp"

@@ -50,8 +50,8 @@ $GLOBALS['ERROR_PASSWORD'] = "-20000021";                   // 密码错误
 $GLOBALS['ERROR_VERSION_INPUT'] = "-20000022";            //版本号小雨上次输入的
 $GLOBALS['ERROR_SYSTEMUSER_EXISTS'] = "-20000023";                       //'系统用户已经存在'
 $GLOBALS['ERROR_CHANNEL_EXISTS'] = "-20000024";    //'频道名字已经存在'
-$GLOBALS['ERROR_SEND_FAILED'] = "-20000025" ;
-$GLOBALS['ERROR_FAILED_VALIDATE'] = "-20000026" ;
+$GLOBALS['ERROR_SEND_FAILED'] = "-20000025";
+$GLOBALS['ERROR_FAILED_VALIDATE'] = "-20000026";
 
 
 $GLOBALS['ERROR_EXCEPTION'] = "-30000001";                    //出现异常
@@ -93,9 +93,13 @@ $GLOBALS['WRITE_MODE_ALONE'] = "0";            //单独撰写
 $GLOBALS['WRITE_MODE_UNION'] = "1";            //联合撰写
 
 $GLOBALS['userId'] = 0;
+$GLOBALS['indexUserId'] = 0;
 
 $GLOBALS['TOKEN_API'] = 'API';
 $GLOBALS['REQUEST_ILLEGAL'] = '-1';
+
+$GLOBALS['ACCESS_KEY_ID'] = 'LTAIfhJUYdW6Rd2t';
+$GLOBALS['ACCESS_KEY_SECRET'] = 'e7CJAkAqUb9u4iOhFDnMUdEP18NX5E';
 
 /*************************************一些默认的设置********************************************/
 

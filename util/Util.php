@@ -36,4 +36,17 @@ class Util {
         return $str;
     }
 
+    /**
+     * 生成验证码
+     * @param $num 验证码位数
+     * @return string 验证码
+     */
+    public static function generateVcode($num)
+    {
+        $res = "";
+        while (($num--) > 0) {
+            $res .= rand(0, 9);
+        }
+        return $res;
+    }
 }
