@@ -222,5 +222,21 @@ class PositionManagement extends AdminBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    public function search()
+    {
+        $params = Request::instance()->request();
+        $searchValue = Check::check($params['searchValue'] ?? '');
+
+        $positionModel = New PositionManagementModel();
+        $list = $positionModel->search($searchValue);
+        foreach ($list as $k=>$v){
+            $list[$k]['labelIds'] = json_decode($v['labelIds'],true);
+        }
+
+        $data['list'] = $list;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
+    }
+
 
 }

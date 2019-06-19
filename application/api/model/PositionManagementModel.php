@@ -55,4 +55,11 @@ class PositionManagementModel extends Model
         }
 
     }
+
+    public function search($value)
+    {
+        return $this->where('isDelete', '=', 0)
+            ->whereLike('name', '%' . $value . '%')
+            ->select();
+    }
 }
