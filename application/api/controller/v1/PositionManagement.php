@@ -167,14 +167,18 @@ class PositionManagement extends AdminBase
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionManagementModel = new PositionManagementModel();
 
+        $detail = $positionManagementModel->getDetail($positionId);
+        $oldCompanyId = $detail['companyId'];
+
         $data = [
             'id' => $positionId,
             'isDelete' => 1
         ];
 
         $delRow = $positionManagementModel->isUpdate(true)->save($data);
-
         if ($delRow > 0) {
+            $companyModel = new CompanyManagementModel;
+            $companyModel->updatePositionCountDec($oldCompanyId, 1);
             $arr['delRow'] = $delRow;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
             exit;
@@ -191,6 +195,7 @@ class PositionManagement extends AdminBase
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionManagementModel = new PositionManagementModel();
         $detail = $positionManagementModel->getDetail($positionId);
+        $detail['labelIds'] = json_decode($detail['labelIds'], true);
         $data['detail'] = $detail;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
@@ -204,8 +209,16 @@ class PositionManagement extends AdminBase
         $positionManagementModel = new PositionManagementModel();
 
         $page = $positionManagementModel->getByPage($pageIndex, $pageSize);
-        $data['page'] = $page;
 
+        $pageData = $page->toArray();
+        $pageArr = $pageData['data'];
+
+        foreach ($pageArr as $k => $v) {
+            $pageArr[$k]['labelIds'] = json_decode($v['labelIds'], true);
+        }
+
+        $pageData['data'] = $pageArr;
+        $data['page'] = $pageData;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 

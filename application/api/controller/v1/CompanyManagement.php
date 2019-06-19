@@ -73,8 +73,9 @@ class CompanyManagement extends AdminBase
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
+        $detail = $companyManagementModel->getDetail($companyId);
 
-        if ($companyManagementModel->checkName($name)) {
+        if ($detail['name'] != $name && $companyManagementModel->checkName($name)) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字重复');
             exit;
         }

@@ -17,7 +17,15 @@ class PositionManagementModel extends Model
 
     public function getDetail($positionId)
     {
-        return $this->where('id', '=', $positionId)->where('isDelete', '=', 0)->find();
+        return $this->alias('p')
+            ->join('zb_category_management zcm', 'p.positionCateId = zcm.id')
+            ->join('zb_company_management zco', 'p.companyId = zco.id')
+            ->where('p.isDelete', '=', 0)
+            ->where('p.id', '=', $positionId)
+            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
+            p.minPay,p.maxPay,p.minWorkExp,p.maxWorkExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,p.address,
+            p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            ->find();
     }
 
     public function getByPage($pageIndex, $pageSize)
@@ -29,7 +37,10 @@ class PositionManagementModel extends Model
         return $this->alias('p')
             ->join('zb_category_management zcm', 'p.positionCateId = zcm.id')
             ->join('zb_company_management zco', 'p.companyId = zco.id')
-            ->field('*')
+            ->where('p.isDelete', '=', 0)
+            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
+            p.minPay,p.maxPay,p.minWorkExp,p.maxWorkExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,p.address,
+            p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->paginate(null, false, $config);
     }
 

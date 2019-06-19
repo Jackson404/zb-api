@@ -135,6 +135,9 @@ class LabelManagement extends AdminBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    /**
+     * 获取标签详情
+     */
     public function getDetail()
     {
         $params = Request::instance()->request();

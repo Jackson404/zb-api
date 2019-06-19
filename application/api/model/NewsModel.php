@@ -28,4 +28,14 @@ class NewsModel extends Model
             ->paginate(null, false, $config);
     }
 
+    public function getDetail($newsId)
+    {
+        return $this->alias('n')
+            ->join('zb_news_category nc', 'n.categoryId = nc.id')
+            ->where('n.isDelete', '=', 0)
+            ->where('n.id', '=', $newsId)
+            ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.createTime,n.createBy,n.updateTime,n.updateBy')
+            ->find();
+    }
+
 }

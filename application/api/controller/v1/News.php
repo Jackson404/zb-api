@@ -124,4 +124,14 @@ class News extends AdminBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    public function getDetail()
+    {
+        $params = Request::instance()->request();
+        $newsId = Check::checkInteger($params['newsId'] ?? '');
+
+        $newsModel = new NewsModel();
+        $detail = $newsModel->getDetail($newsId);
+        $data['detail'] = $detail;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
 }

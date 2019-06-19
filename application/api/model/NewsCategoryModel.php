@@ -24,4 +24,10 @@ class NewsCategoryModel extends Model
             return false;
         }
     }
+
+    public function getDetail($categoryId)
+    {
+        return $this->where('id', 'eq', $categoryId)->where('isDelete', 'eq', 0)->find();
+
+    }
 }
