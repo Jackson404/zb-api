@@ -62,4 +62,18 @@ class PositionManagementModel extends Model
             ->whereLike('name', '%' . $value . '%')
             ->select();
     }
+
+    public function filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $pageIndex, $pageSize)
+    {
+
+        $offset = ($pageIndex - 1) * $pageSize;
+        $sql = "select * from zb_position_management where isDelete = 0   $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql limit $offset,$pageSize";
+
+        $countSql = "select count(*) from zb_position_management where isDelete = 0   $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql";
+
+        $result = $this->query($sql);
+        $countResult = $this->query($countSql);
+        $total = $countResult[0]["count(*)"];
+        return [$result, $total];
+    }
 }
