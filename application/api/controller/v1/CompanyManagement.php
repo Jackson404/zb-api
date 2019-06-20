@@ -9,15 +9,25 @@ use Util\Util;
 
 class CompanyManagement extends AdminBase
 {
+    /**
+     * 创建公司
+     */
     public function add()
     {
         $params = Request::instance()->request();
         $name = Check::check($params['name'] ?? '');
+        $province = Check::check($params['province'] ?? ''); //省份
+        $city = Check::check($params['city'] ?? ''); // 城市
+        $area = Check::check($params['area'] ?? ''); // 区/县
         $address = Check::check($params['address'] ?? '');
+        $contact = Check::check($params['contact'] ?? ''); // 联系人
         $phone = Check::check($params['phone'] ?? '', 0, 11);
+        $wxNumber = Check::check($params['wxNumber'] ?? ''); //微信号
+        $leader = Check::check($params['leader'] ?? ''); //负责人
         $nature = Check::check($params['nature'] ?? ''); // 公司性质
         $profile = Check::check($params['profile'] ?? ''); //公司简介
         $remark = Check::check($params['remark'] ?? '');
+        $dataBank = Check::check($params['dataBank'] ?? ''); //资料库
         $userId = $GLOBALS['userId'];
 
         $companyManagementModel = new CompanyManagementModel();
@@ -32,13 +42,27 @@ class CompanyManagement extends AdminBase
             exit;
         }
 
+        if ($dataBank != '') {
+            $dataBankArr = explode(',', $dataBank);
+            $dataBankArrJson = json_encode($dataBankArr);
+        } else {
+            $dataBankArrJson = json_encode(array());
+        }
+
         $data = [
             'name' => $name,
+            'province' => $province,
+            'city' => $city,
+            'area' => $area,
             'address' => $address,
+            'contact' => $contact,
             'phone' => $phone,
+            'wxNumber' => $wxNumber,
+            'leader' => $leader,
             'nature' => $nature,
             'profile' => $profile,
             'remark' => $remark,
+            'dataBank' => $dataBankArrJson,
             'createTime' => currentTime(),
             'createBy' => $userId,
             'updateTime' => currentTime(),
@@ -61,11 +85,18 @@ class CompanyManagement extends AdminBase
         $params = Request::instance()->request();
         $companyId = Check::checkInteger($params['companyId'] ?? '');
         $name = Check::check($params['name'] ?? '');
+        $province = Check::check($params['province'] ?? ''); //省份
+        $city = Check::check($params['city'] ?? ''); // 城市
+        $area = Check::check($params['area'] ?? ''); // 区/县
         $address = Check::check($params['address'] ?? '');
+        $contact = Check::check($params['contact'] ?? ''); // 联系人
         $phone = Check::check($params['phone'] ?? '', 0, 11);
+        $wxNumber = Check::check($params['wxNumber'] ?? ''); //微信号
+        $leader = Check::check($params['leader'] ?? ''); //负责人
         $nature = Check::check($params['nature'] ?? ''); // 公司性质
         $profile = Check::check($params['profile'] ?? ''); //公司简介
         $remark = Check::check($params['remark'] ?? '');
+        $dataBank = Check::check($params['dataBank'] ?? ''); //资料库
         $userId = $GLOBALS['userId'];
 
         $companyManagementModel = new CompanyManagementModel();
@@ -73,19 +104,34 @@ class CompanyManagement extends AdminBase
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
+
         $detail = $companyManagementModel->getDetail($companyId);
 
         if ($detail['name'] != $name && $companyManagementModel->checkName($name)) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字重复');
             exit;
         }
+
+        if ($dataBank != '') {
+            $dataBankArr = explode(',', $dataBank);
+            $dataBankArrJson = json_encode($dataBankArr);
+        } else {
+            $dataBankArrJson = json_encode(array());
+        }
         $data = [
             'name' => $name,
+            'province' => $province,
+            'city' => $city,
+            'area' => $area,
             'address' => $address,
+            'contact' => $contact,
             'phone' => $phone,
+            'wxNumber' => $wxNumber,
+            'leader' => $leader,
             'nature' => $nature,
             'profile' => $profile,
             'remark' => $remark,
+            'dataBank' => $dataBankArrJson,
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
@@ -129,6 +175,10 @@ class CompanyManagement extends AdminBase
         $companyManagementModel = new CompanyManagementModel();
         $detail = $companyManagementModel->getDetail($companyId);
 
+        if ($detail != null){
+            $detail['dataBank'] = json_decode($detail['dataBank'],true);
+        }
+
         $arr['detail'] = $detail;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
@@ -142,7 +192,16 @@ class CompanyManagement extends AdminBase
         $companyManagementModel = new CompanyManagementModel();
         $page = $companyManagementModel->getByPage($pageIndex, $pageSize);
 
-        $arr['page'] = $page;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+        $pageData = $page->toArray();
+        $pageArr = $pageData['data'];
+
+        foreach ($pageArr as $k => $v) {
+            $pageArr[$k]['dataBank'] = json_decode($v['dataBank'], true);
+        }
+
+        $pageData['data'] = $pageArr;
+        $data['page'] = $pageData;
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 }
