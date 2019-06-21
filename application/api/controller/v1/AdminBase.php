@@ -2,6 +2,7 @@
 
 namespace app\api\controller\v1;
 
+use app\api\controller\Auth;
 use think\Controller;
 use think\Request;
 use Util\Util;
@@ -26,5 +27,7 @@ class AdminBase extends Controller
 //        $validateApi = new ValidateApi();
 //        $validateApi->respond();
 
+        $auth = new Auth();
+        $auth->respond();
     }
 }

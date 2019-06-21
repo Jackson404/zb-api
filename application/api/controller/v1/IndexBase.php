@@ -2,6 +2,7 @@
 
 namespace app\api\controller\v1;
 
+use app\api\controller\Auth;
 use think\Controller;
 use think\Request;
 use Util\Util;
@@ -23,5 +24,7 @@ class IndexBase extends Controller
             }
         }
 
+        $auth = new Auth();
+        $auth->respond();
     }
 }

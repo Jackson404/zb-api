@@ -98,8 +98,12 @@ $GLOBALS['indexUserId'] = 0;
 $GLOBALS['TOKEN_API'] = 'API';
 $GLOBALS['REQUEST_ILLEGAL'] = '-1';
 
-$GLOBALS['ACCESS_KEY_ID'] = 'LTAIfhJUYdW6Rd2t';
+$GLOBALS['ACCESS_KEY_ID'] = 'LTAIfhJUYdW6Rd2t'; //短信
 $GLOBALS['ACCESS_KEY_SECRET'] = 'e7CJAkAqUb9u4iOhFDnMUdEP18NX5E';
+
+$GLOBALS['WEB_ID'] = 'zhengbuwangluokejiwebid';
+$GLOBALS['WEB_SECRET'] = 'zhengbuwangluokejisecret';
+
 
 /*************************************一些默认的设置********************************************/
 

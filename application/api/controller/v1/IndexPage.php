@@ -25,7 +25,7 @@ class IndexPage extends IndexBase
         });
 
         $newList = NewsModel::all(function ($query) {
-            $query->where('isDelete', '=', 0)->where('isShow', '=', 1)->limit(3);
+            $query->where('isDelete', '=', 0)->where('isShow', '=', 1)->limit(6);
         });
 
         $data['slideShowList'] = $slideList;
@@ -42,6 +42,7 @@ class IndexPage extends IndexBase
 //
 //        foreach ($oldNews as $k => $v) {
 ////            var_dump($v);
+//
 //            $arr['title'] = $v['article_title'];
 //            $arr['keywords'] = $v['article_keywords'];
 //            $arr['description'] = $v['article_description'];
@@ -52,7 +53,7 @@ class IndexPage extends IndexBase
 //            $article_img_url = $v['article_img_url'];
 //            $article_img_urlArr = explode('/', $article_img_url);
 //
-//            $arr['categoryId'] = 0;
+//            $arr['categoryId'] = $v['article_cate'];
 //            $arr['imgUrl'] = '/public/uploads/' . $article_img_urlArr[2] . '/' . $article_img_urlArr[3];
 //            $arr['createTime'] = date('Y-m-d H:i:s', $v['article_create_date']);
 //            $arr['createBy'] = 1;

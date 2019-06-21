@@ -2,35 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b88f2de2-17ed-40ce-adb1-ac791540d3ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/api/controller/v1/IndexPage.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task/doNews.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task/scheduler.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task/script.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/api/controller/Auth.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/News.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/News.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/filter/adminCheckLoginList.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/filter/adminCheckLoginList.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/model/NewsModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/NewsModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/AdminBase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/AdminBase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/IndexBase.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/IndexBase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/IndexPage.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/IndexPage.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/global.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/global.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/thinkphp/library/think/cache/driver/Redis.php" beforeDir="false" afterPath="$PROJECT_DIR$/thinkphp/library/think/cache/driver/Redis.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/client/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/client/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/client/src/AlibabaCloud.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/client/src/AlibabaCloud.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Filter/ClientFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Filter/ClientFilter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Request/RoaRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Request/RoaRequest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Request/Traits/AcsTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Request/Traits/AcsTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Support/Sign.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Support/Sign.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Traits/DefaultRegionTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Traits/DefaultRegionTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Traits/EndpointTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Traits/EndpointTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Traits/RegionTrait.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/client/src/Traits/RegionTrait.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/sdk/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/sdk/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/sdk/SUPPORTED-EN.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/sdk/SUPPORTED-EN.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/sdk/SUPPORTED.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/sdk/SUPPORTED.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/sdk/src/Cr/Cr.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/sdk/src/Cr/Cr.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/sdk/src/Cr/V20181201/CrApiResolver.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/sdk/src/Ram/V20150501/RamApiResolver.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/sdk/src/Ram/V20150501/RamApiResolver.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/alibabacloud/sdk/src/Release.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/alibabacloud/sdk/src/Release.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/installed.json" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/installed.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,8 +26,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="394" selection-start-line="394" selection-end-line="394" />
+            <state relative-caret-position="458">
+              <caret line="380" lean-forward="true" selection-start-line="380" selection-end-line="380" />
               <folding>
                 <element signature="e#41#82#0#PHP" expanded="true" />
               </folding>
@@ -58,11 +35,32 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/ValidateApi.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="527">
+              <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/Auth.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1081">
+              <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
+              <folding>
+                <element signature="e#38#67#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/api/controller/v1/IndexPage.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
-              <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+            <state relative-caret-position="230">
+              <caret line="10" column="33" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="33" />
               <folding>
                 <element signature="e#41#69#0#PHP" expanded="true" />
               </folding>
@@ -71,10 +69,43 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/IndexBase.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="575">
+              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+              <folding>
+                <element signature="e#41#69#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/AdminBase.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="667">
+              <caret line="29" column="27" lean-forward="true" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
+              <folding>
+                <element signature="e#41#69#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/thinkphp/library/think/cache/driver/Redis.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="575">
+              <caret line="33" column="6" lean-forward="true" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/global.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
-              <caret line="117" column="11" selection-start-line="117" selection-start-column="11" selection-end-line="117" selection-end-column="11" />
+            <state relative-caret-position="688">
+              <caret line="104" column="50" selection-start-line="104" selection-start-column="26" selection-end-line="104" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -101,7 +132,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/application/api/model/AdminUserLoingHistoryModel.php" />
         <option value="$PROJECT_DIR$/application/api/model/AdminUserLoginHistoryModel.php" />
         <option value="$PROJECT_DIR$/application/api/filter/SlideShow.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/Base.php" />
@@ -111,7 +141,6 @@
         <option value="$PROJECT_DIR$/util/Check.php" />
         <option value="$PROJECT_DIR$/application/common.php" />
         <option value="$PROJECT_DIR$/public/index.php" />
-        <option value="$PROJECT_DIR$/application/api/controller/ValidateApi.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/SlideShow.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/File.php" />
         <option value="$PROJECT_DIR$/application/api/filter/whiteList.php" />
@@ -128,8 +157,6 @@
         <option value="$PROJECT_DIR$/application/api/model/UserModel.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/AdminUser.php" />
         <option value="$PROJECT_DIR$/application/api/model/UserLoginHistoryModel.php" />
-        <option value="$PROJECT_DIR$/application/api/controller/v1/IndexBase.php" />
-        <option value="$PROJECT_DIR$/application/api/controller/v1/AdminBase.php" />
         <option value="$PROJECT_DIR$/application/api/model/ResumeModel.php" />
         <option value="$PROJECT_DIR$/application/api/model/UserApplyPositionModel.php" />
         <option value="$PROJECT_DIR$/application/api/filter/indexCheckLoginList.php" />
@@ -149,9 +176,13 @@
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/News.php" />
         <option value="$PROJECT_DIR$/application/api/model/NewsModel.php" />
-        <option value="$PROJECT_DIR$/application/global.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php" />
+        <option value="$PROJECT_DIR$/application/api/controller/ValidateApi.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/IndexPage.php" />
+        <option value="$PROJECT_DIR$/application/api/controller/v1/AdminBase.php" />
+        <option value="$PROJECT_DIR$/application/api/controller/Auth.php" />
+        <option value="$PROJECT_DIR$/application/global.php" />
+        <option value="$PROJECT_DIR$/application/api/controller/v1/IndexBase.php" />
       </list>
     </option>
   </component>
@@ -267,30 +298,6 @@
               <item name="api" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="zhengbu_api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="uploads" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="uploads" type="462c0819:PsiDirectoryNode" />
-              <item name="20190618" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -308,6 +315,9 @@
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workplace\zhengbu_api\public\uploads" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\workplace\zhengbu_api" />
     </key>
@@ -338,7 +348,7 @@
       <workItem from="1560819715357" duration="26675000" />
       <workItem from="1560905854406" duration="24678000" />
       <workItem from="1560992040957" duration="23294000" />
-      <workItem from="1561078416985" duration="9095000" />
+      <workItem from="1561078416985" duration="15454000" />
     </task>
     <task id="LOCAL-00001" summary="轮播图和后台用户">
       <created>1560755233075</created>
@@ -424,14 +434,22 @@
       <option name="project" value="LOCAL" />
       <updated>1561009438734</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="表数据移植">
+      <created>1561087745086</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1561087745086</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="106952000" />
+    <option name="totallyTimeSpent" value="113311000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19083156" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -468,26 +486,10 @@
     <MESSAGE value="职位搜索" />
     <MESSAGE value="职位筛选" />
     <MESSAGE value="创建公司添加一些字段" />
-    <option name="LAST_COMMIT_MESSAGE" value="创建公司添加一些字段" />
+    <MESSAGE value="表数据移植" />
+    <option name="LAST_COMMIT_MESSAGE" value="表数据移植" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/alibabacloud/sdk/src/Dysmsapi/V20170525/DysmsapiApiResolver.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="70" column="31" lean-forward="true" selection-start-line="70" selection-start-column="31" selection-end-line="70" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/AdminUser.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="575">
-          <caret line="119" column="53" selection-start-line="119" selection-start-column="53" selection-end-line="119" selection-end-column="53" />
-          <folding>
-            <element signature="e#41#86#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/api/model/AdminUserLoginHistoryModel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="460">
@@ -506,26 +508,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="550">
           <caret line="43" column="40" selection-start-line="43" selection-start-column="27" selection-end-line="43" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/AdminBase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="20" column="63" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
-          <folding>
-            <element signature="e#41#62#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/IndexBase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
-          <folding>
-            <element signature="e#40#61#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -659,13 +641,6 @@
     <entry file="file://$PROJECT_DIR$/vendor/autoload.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/thinkphp/library/think/cache/driver/Redis.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="42" column="27" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/thinkphp/console.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
@@ -768,13 +743,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/model/NewsModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="18" column="5" lean-forward="true" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="667">
@@ -789,42 +757,93 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/uploads/20190618/8cd2df54545c51006f8b3d2d2c03bd17.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/api/controller/v1/News.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="128" column="5" lean-forward="true" selection-start-line="128" selection-start-column="5" selection-end-line="128" selection-end-column="5" />
+        <state relative-caret-position="321">
+          <caret line="122" column="32" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
           <folding>
             <element signature="e#41#69#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/global.php">
+    <entry file="file://$PROJECT_DIR$/application/api/model/NewsModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="117" column="11" selection-start-line="117" selection-start-column="11" selection-end-line="117" selection-end-column="11" />
+        <state relative-caret-position="436">
+          <caret line="26" column="29" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/uploads/20190618/8cd2df54545c51006f8b3d2d2c03bd17.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="394" selection-start-line="394" selection-end-line="394" />
+        <state relative-caret-position="458">
+          <caret line="380" lean-forward="true" selection-start-line="380" selection-end-line="380" />
           <folding>
             <element signature="e#41#82#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/ValidateApi.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="38" column="5" lean-forward="true" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinkphp/library/think/cache/driver/Redis.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="33" column="6" lean-forward="true" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/global.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="688">
+          <caret line="104" column="50" selection-start-line="104" selection-start-column="26" selection-end-line="104" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/api/controller/v1/IndexPage.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+        <state relative-caret-position="230">
+          <caret line="10" column="33" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="33" />
           <folding>
             <element signature="e#41#69#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/AdminBase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="667">
+          <caret line="29" column="27" lean-forward="true" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
+          <folding>
+            <element signature="e#41#69#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/IndexBase.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="e#41#69#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/Auth.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1081">
+          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
+          <folding>
+            <element signature="e#38#67#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
