@@ -16,15 +16,15 @@ class Auth extends Controller
         $webId = $params['webId'] ?? '';
         $secret = $params['webSecret'] ?? '';
 
-        if ($grantType != 'zhengbu_client_credential') {
+        if ($grantType != md5('zhengbu_client_credential')) {
             Util::printResult('-1', 'grant_type is not right');
             exit;
         }
-        if ($webId != $GLOBALS['WEB_ID']) {
+        if ($webId != md5($GLOBALS['WEB_ID'])) {
             Util::printResult('-2', 'web_id is not right');
             exit;
         }
-        if ($secret != $GLOBALS['WEB_SECRET']) {
+        if ($secret != md5($GLOBALS['WEB_SECRET'])) {
             Util::printResult('-3', 'web_secret is not right');
             exit;
         }
