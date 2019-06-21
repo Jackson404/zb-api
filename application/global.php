@@ -114,13 +114,13 @@ $GLOBALS['db_config'] = [
     // 数据库类型
     'type' => 'mysql',
     // 服务器地址
-    'hostname' => '',
+    'hostname' => '47.103.59.100',
     // 数据库名
-    'database' => '',
+    'database' => 'zb_soft_shop_cn',
     // 用户名
-    'username' => '',
+    'username' => 'root',
     // 密码
-    'password' => '',
+    'password' => '0045abcba22aad6d',
     // 端口
     'hostport' => '3306',
     // 连接dsn
@@ -130,7 +130,7 @@ $GLOBALS['db_config'] = [
     // 数据库编码默认采用utf8
     'charset' => 'utf8mb4',
     // 数据库表前缀
-    'prefix' => 'gener_',
+    'prefix' => 'grace_',
     // 数据库调试模式
     'debug' => true,
     // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)

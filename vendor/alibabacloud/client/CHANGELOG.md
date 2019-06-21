@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.5.12 - 2019-06-20
+- Fixed Signature for ROA.
+
+
+## 1.5.11 - 2019-06-14
+- Added endpoint rules.
+
+
 ## 1.5.10 - 2019-06-13
 - Improved `Resovler`.
 - Updated `endpoints`.

@@ -24,6 +24,7 @@ class NewsModel extends Model
         return $this->alias('n')
             ->join('zb_news_category nc', 'n.categoryId = nc.id')
             ->where('n.isDelete', '=', 0)
+            ->where('n.isShow','=',1)
             ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.createTime,n.createBy,n.updateTime,n.updateBy')
             ->paginate(null, false, $config);
     }
@@ -38,4 +39,13 @@ class NewsModel extends Model
             ->find();
     }
 
+    public function getNewsByCateIdPage($categoryId, $pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->where('categoryId', '=', $categoryId)->where('isShow', '=', 1)
+            ->where('isDelete', '=', 0)->paginate(null, false, $config);
+    }
 }

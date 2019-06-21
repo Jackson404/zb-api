@@ -21,4 +21,5 @@ $whiteList = [
     'api/v1.PositionManagement/add',
     'api/v1.PositionManagement/edit',
     'api/v1.PositionManagement/del',
+    'api/v1.PositionManagement/isHot',
 ];

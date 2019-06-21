@@ -3,6 +3,7 @@
 namespace app\api\controller\v1;
 
 use app\api\model\NewsModel;
+use think\cache\driver\Redis;
 use think\Request;
 use Util\Check;
 use Util\Util;
@@ -134,4 +135,20 @@ class News extends AdminBase
         $data['detail'] = $detail;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
+
+    public function getNewsPageByCateId()
+    {
+        $params = Request::instance()->request();
+        $categoryId = Check::checkInteger($params['categoryId'] ?? '');
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        $newsModel = new NewsModel();
+        $page = $newsModel->getNewsByCateIdPage($categoryId, $pageIndex, $pageSize);
+
+        $data['page'] = $page;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+
 }

@@ -22,8 +22,8 @@ class PositionManagement extends AdminBase
         $minWorkExp = Check::checkInteger($params['minWorkExp'] ?? ''); //最低工作经验
         $maxWorkExp = Check::checkInteger($params['maxWorkExp'] ?? ''); //最高工作经验
         $education = Check::check($params['education'] ?? ''); //学历
-        $age = Check::checkInteger($params['age'] ?? 0); //年龄
-        $num = Check::checkInteger($params['num'] ?? ''); //职位招人数
+        $age = Check::check($params['age'] ?? ''); //年龄
+        $num = Check::check($params['num'] ?? ''); //职位招人数
         $labelIds = Check::check($params['labelIds'] ?? ''); //标签
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
         $address = Check::check($params['address'] ?? ''); //公司地址
@@ -44,8 +44,13 @@ class PositionManagement extends AdminBase
             exit;
         }
 
-        $labelIdArr = explode(',', $labelIds);
-        $labelIdsJson = json_encode($labelIdArr);
+        if ($labelIds != ''){
+            $labelIdArr = explode(',', $labelIds);
+            $labelIdsJson = json_encode($labelIdArr);
+        }else{
+            $labelIdsJson = json_encode(array());
+        }
+
 
         $data = [
             'positionCateId' => $positionCateId,
@@ -97,8 +102,8 @@ class PositionManagement extends AdminBase
         $minWorkExp = Check::checkInteger($params['minWorkExp'] ?? ''); //最低工作经验
         $maxWorkExp = Check::checkInteger($params['maxWorkExp'] ?? ''); //最高工作经验
         $education = Check::check($params['education'] ?? ''); //学历
-        $age = Check::checkInteger($params['age'] ?? 0); //年龄
-        $num = Check::checkInteger($params['num'] ?? ''); //职位招人数
+        $age = Check::check($params['age'] ?? ''); //年龄
+        $num = Check::check($params['num'] ?? ''); //职位招人数
         $labelIds = Check::check($params['labelIds'] ?? ''); //标签
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
         $address = Check::check($params['address'] ?? ''); //公司地址
@@ -120,8 +125,12 @@ class PositionManagement extends AdminBase
             exit;
         }
 
-        $labelIdArr = explode(',', $labelIds);
-        $labelIdsJson = json_encode($labelIdArr);
+        if ($labelIds != ''){
+            $labelIdArr = explode(',', $labelIds);
+            $labelIdsJson = json_encode($labelIdArr);
+        }else{
+            $labelIdsJson = json_encode(array());
+        }
 
         $data = [
             'positionCateId' => $positionCateId,
@@ -362,6 +371,25 @@ class PositionManagement extends AdminBase
         $page['page'] = $result;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $page);
 
+    }
+
+    public function isHot()
+    {
+        $params = Request::instance()->request();
+        $positionId = Check::checkInteger($params['positionId'] ?? '');
+        $userId = $GLOBALS['userId'];
+
+        $positionModel = new PositionManagementModel();
+        $data = [
+            'id' => $positionId,
+            'isHot' => 1,
+            'updateTime' => currentTime(),
+            'updateBy' => $userId
+        ];
+        $updateRow = $positionModel->isUpdate(true)->save($data);
+        $arr['updateRow'] = $updateRow;
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
 
 

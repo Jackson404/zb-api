@@ -52,17 +52,17 @@
     },
     {
         "name": "alibabacloud/client",
-        "version": "1.5.10",
-        "version_normalized": "1.5.10.0",
+        "version": "1.5.12",
+        "version_normalized": "1.5.12.0",
         "source": {
             "type": "git",
             "url": "https://github.com/aliyun/openapi-sdk-php-client.git",
-            "reference": "8abfc1c83e57d681150e28bf21dc49f1812d7f06"
+            "reference": "d4df3b5b47ac7eae5e1670841c71451ecbcc1e3c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/aliyun/openapi-sdk-php-client/zipball/8abfc1c83e57d681150e28bf21dc49f1812d7f06",
-            "reference": "8abfc1c83e57d681150e28bf21dc49f1812d7f06",
+            "url": "https://api.github.com/repos/aliyun/openapi-sdk-php-client/zipball/d4df3b5b47ac7eae5e1670841c71451ecbcc1e3c",
+            "reference": "d4df3b5b47ac7eae5e1670841c71451ecbcc1e3c",
             "shasum": ""
         },
         "require": {
@@ -98,7 +98,7 @@
         "suggest": {
             "ext-sockets": "To use client-side monitoring"
         },
-        "time": "2019-06-13T07:32:43+00:00",
+        "time": "2019-06-20T05:31:48+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -135,17 +135,17 @@
     },
     {
         "name": "alibabacloud/sdk",
-        "version": "1.7.23",
-        "version_normalized": "1.7.23.0",
+        "version": "1.7.26",
+        "version_normalized": "1.7.26.0",
         "source": {
             "type": "git",
             "url": "https://github.com/aliyun/openapi-sdk-php.git",
-            "reference": "6b95fb57193aa700123c07d3e14334ba3425617d"
+            "reference": "14453a2e5a0257e84d7bdcadb55a9e76321121a6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/aliyun/openapi-sdk-php/zipball/6b95fb57193aa700123c07d3e14334ba3425617d",
-            "reference": "6b95fb57193aa700123c07d3e14334ba3425617d",
+            "url": "https://api.github.com/repos/aliyun/openapi-sdk-php/zipball/14453a2e5a0257e84d7bdcadb55a9e76321121a6",
+            "reference": "14453a2e5a0257e84d7bdcadb55a9e76321121a6",
             "shasum": ""
         },
         "require": {
@@ -304,7 +304,7 @@
         "suggest": {
             "ext-sockets": "To use client-side monitoring"
         },
-        "time": "2019-06-18T04:24:25+00:00",
+        "time": "2019-06-19T07:59:55+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
