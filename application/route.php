@@ -19,7 +19,7 @@ return [
         ':name' => ['index/hello', ['method' => 'post']],
     ],
     '__alias__' => [
-        'indexPageV1' => 'api/v1.IndexPage',
+        'index_page_v1' => 'api/v1.IndexPage',
     ],
 
 ];
