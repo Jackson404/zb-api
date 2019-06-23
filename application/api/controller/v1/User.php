@@ -5,6 +5,7 @@ namespace app\api\controller\v1;
 use app\api\model\UserLoginHistoryModel;
 use app\api\model\UserModel;
 use Sms;
+use think\cache\driver\Redis;
 use think\Controller;
 use think\Request;
 use think\Session;
@@ -26,7 +27,9 @@ class User extends Controller
         $result = $sms->send($phone, $signName, $templateCode, $code);
 
         if ($result['Code'] == 'OK') {
-            Session::set($phone, $code);
+            $redis = new Redis();
+            $redis->set($phone, $code, 300);
+//            Session::set($phone, $code);
             Util::printResult($GLOBALS['ERROR_SUCCESS'], '验证码发送成功');
             exit;
         } else {
@@ -41,14 +44,16 @@ class User extends Controller
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $vCode = Check::check($params['vCode'] ?? '');
 
-        $verifyCode = Session::get($phone);
+//        $verifyCode = Session::get($phone);
+        $redis = new Redis();
+        $verifyCode = $redis->get($phone);
 
         if ($vCode != $verifyCode) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '验证码错误');
             exit;
         }
 
-        Session::destroy();
+//        Session::destroy();
 
         $userModel = new UserModel();
 
