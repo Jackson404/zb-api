@@ -44,13 +44,24 @@ class PositionManagement extends AdminBase
             exit;
         }
 
-        if ($labelIds != ''){
+        if ($labelIds != '') {
             $labelIdArr = explode(',', $labelIds);
             $labelIdsJson = json_encode($labelIdArr);
-        }else{
+        } else {
             $labelIdsJson = json_encode(array());
         }
 
+        if ($minPay == 0 && $maxPay == 0) {
+            $pay = 0;
+        } else {
+            $pay = $minPay . '-' . $maxPay;
+        }
+
+        if ($minWorkExp == 0 && $maxWorkExp == 0) {
+            $workExp = 0;
+        } else {
+            $workExp = $minWorkExp . '~' . $maxWorkExp;
+        }
 
         $data = [
             'positionCateId' => $positionCateId,
@@ -58,8 +69,10 @@ class PositionManagement extends AdminBase
             'companyId' => $companyId,
             'minPay' => $minPay,
             'maxPay' => $maxPay,
+            'pay' => $pay,
             'minWorkExp' => $minWorkExp,
             'maxWorkExp' => $maxWorkExp,
+            'workExp' => $workExp,
             'education' => $education,
             'age' => $age,
             'num' => $num,
@@ -125,11 +138,23 @@ class PositionManagement extends AdminBase
             exit;
         }
 
-        if ($labelIds != ''){
+        if ($labelIds != '') {
             $labelIdArr = explode(',', $labelIds);
             $labelIdsJson = json_encode($labelIdArr);
-        }else{
+        } else {
             $labelIdsJson = json_encode(array());
+        }
+
+        if ($minPay == 0 && $maxPay == 0) {
+            $pay = 0;
+        } else {
+            $pay = $minPay . '-' . $maxPay;
+        }
+
+        if ($minWorkExp == 0 && $maxWorkExp == 0) {
+            $workExp = 0;
+        } else {
+            $workExp = $minWorkExp . '~' . $maxWorkExp;
         }
 
         $data = [
@@ -138,8 +163,10 @@ class PositionManagement extends AdminBase
             'companyId' => $companyId,
             'minPay' => $minPay,
             'maxPay' => $maxPay,
+            'pay' => $pay,
             'minWorkExp' => $minWorkExp,
             'maxWorkExp' => $maxWorkExp,
+            'workExp' => $workExp,
             'education' => $education,
             'age' => $age,
             'num' => $num,

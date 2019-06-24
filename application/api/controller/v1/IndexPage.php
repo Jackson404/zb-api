@@ -175,8 +175,10 @@ class IndexPage extends IndexBase
 //            $arr['companyId'] = $v['t_gs'];
 //            $arr['minPay'] = $v['s_mon'];
 //            $arr['maxPay'] = $v['e_mon'];
+//            $arr['pay'] = $v['s_mon'].'-'.$v['e_mon'];
 //            $arr['minWorkExp'] = 0;
 //            $arr['maxWorkExp'] = 0;
+//            $arr['workExp'] = 0;
 //            $arr['education'] = $v['t_xl'];
 //            $arr['age'] = $v['t_nj'];
 //            $arr['num'] = $v['t_rs'];

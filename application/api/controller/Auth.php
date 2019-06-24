@@ -29,17 +29,19 @@ class Auth extends Controller
             exit;
         }
 
-        $randomCode = Util::generateRandomCode(8);
+        $timeStamp = time();
+        //$randomCode = Util::generateRandomCode(8);
 
-        $accessToken = $this->authRule($grantType, $webId, $secret, $randomCode);
+        //$accessToken = $this->authRule($grantType, $webId, $secret, $randomCode);
+        $accessToken = $this->authRule($grantType, $webId, $secret, $timeStamp);
 
         // $expiresIn = 7200;
 
         $redis = new Redis();
 
-        $redis->set('accessTokenApi', $accessToken);
+        $redis->set('accessTokenApi_' . $timeStamp, $accessToken);
 
-        $data['access_token'] = $accessToken;
+        $data['access_token'] = $timeStamp . '|' . $accessToken;
         // $data['expires_in'] = $expiresIn;
 
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
@@ -53,33 +55,39 @@ class Auth extends Controller
         $params = Request::instance()->request();
         $accessToken = $params['accessToken'] ?? '';
 
-        $redis = new Redis();
 
         if ($accessToken == '') {
             Util::printResult('-001', '缺少access_token');
             exit;
         }
 
-        $result = $redis->get('accessTokenApi');
+        $arr = explode('|', $accessToken);
+        $timeStamp = $arr[0];
+        $accessTokenResult = $arr[1];
+
+        $redis = new Redis();
+
+        $result = $redis->get('accessTokenApi_' . $timeStamp);
 
 //        if (!$result) {
 //            Util::printResult('-002', 'access_token过期，请重新请求');
 //            exit;
 //        }
 
-        if ($accessToken != $result) {
+        if ($accessTokenResult != $result) {
             Util::printResult('-003', 'access_token错误');
             exit;
         }
     }
 
-    private function authRule($grantType, $webId, $secret, $randomCode)
+    private function authRule($grantType, $webId, $secret, $timeStamp)
     {
         $arr = [
             'grantType' => $grantType,
             'webId' => $webId,
             'webSecret' => $secret,
-            'randomCode' => $randomCode
+//            'randomCode' => $randomCode
+            'timeStamp' => $timeStamp
         ];
         //按照首字母大小写顺序排序
         sort($arr, SORT_STRING);
