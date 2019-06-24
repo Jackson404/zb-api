@@ -10,7 +10,7 @@ use think\Request;
 use Util\Check;
 use Util\Util;
 
-class User extends AuthBase
+class User extends IndexBase
 {
     public function sendSms()
     {
@@ -103,6 +103,76 @@ class User extends AuthBase
             exit;
         }
     }
+
+    public function changePhone()
+    {
+        $params = Request::instance()->request();
+        $phone = Check::check($params['phone'] ?? '', 11, 11);
+        $vCode = Check::check($params['vCode'] ?? '');
+        $userId = $GLOBALS['userId'];
+
+        $userModel = new UserModel();
+
+        if ($userModel->checkPhoneExist($phone)) {
+            Util::printResult($GLOBALS['ERROR_REGISTER_DUPLICATEPHONE'], '手机号重复');
+            exit;
+        }
+
+        $redis = new Redis();
+        $verifyCode = $redis->get($phone);
+
+
+        if ($vCode != $verifyCode) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '验证码错误');
+            exit;
+        }
+
+        $data = [
+            'id' => $userId,
+            'phone' => $phone,
+            'updateTime' => currentTime()
+        ];
+
+        $updateRow = $userModel->isUpdate(true)->save($data);
+
+        if ($updateRow < 0) {
+            util::printResult($GLOBALS['ERROR_SQL_UPDATE'], '更新出错');
+            exit;
+        }
+
+
+        $token = password_hash($userId . $phone, PASSWORD_DEFAULT);
+        $id_token = $userId . '|' . $token;
+
+        $loginIp = $_SERVER["REMOTE_ADDR"];
+        $loginTime = date('Y-m-d H:i:s', time());
+        $loginOut = 0;
+
+        $array = [
+            'loginPhone' => $phone,
+            'userId' => $userId,
+            'token' => $token,
+            'loginIp' => $loginIp,
+            'loginTime' => $loginTime,
+            'loginOut' => $loginOut
+        ];
+        $userLoginHistoryModel = new UserLoginHistoryModel();
+        $result = $userLoginHistoryModel->save($array);
+
+        if ($result > 0) {
+            $arr = [
+                'uid' => $userId,
+                'phone' => $phone,
+                'id_token' => $id_token
+            ];
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+            exit;
+        } else {
+            Util::printResult($GLOBALS['ERROR_LOGIN'], '修改之后,登录失败');
+            exit;
+        }
+    }
+
 
     public function checkLogin()
     {

@@ -132,7 +132,13 @@ class News extends AdminBase
 
         $newsModel = new NewsModel();
         $detail = $newsModel->getDetail($newsId);
+        $detailData = $detail->toArray();
+        $categoryId = $detailData['categoryId'];
+
+        $randomNewsList = $newsModel->getRandomNewsListLimit($categoryId,$newsId);
+
         $data['detail'] = $detail;
+        $data['randomNewsList'] = $randomNewsList;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
