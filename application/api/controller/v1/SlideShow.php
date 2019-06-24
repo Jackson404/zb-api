@@ -22,8 +22,6 @@ class SlideShow extends AdminBase
     public function add()
     {
         $params = Request::instance()->request();
-//        $upload = new Upload();
-//        $imgUrl = $upload->uploadImage('imgUrl');
         $imgUrl = Check::check($params['imgUrl'] ?? '');
         $turnUrl = $params['turnUrl'] ?? '';
         $remark = $params['remark'] ?? '';
@@ -60,9 +58,7 @@ class SlideShow extends AdminBase
     public function edit()
     {
         $params = Request::instance()->request();
-//        $upload = new Upload();
         $slideShowId = Check::checkInteger($params['id'] ?? '');
-//        $imgUrl = $upload->uploadImage('imgUrl');
         $imgUrl = Check::check($params['imgUrl'] ?? '');
         $turnUrl = $params['turnUrl'] ?? '';
         $remark = $params['remark'] ?? '';

@@ -16,21 +16,29 @@ class IndexPage extends IndexBase
      */
     public function index()
     {
-        $slideList = SlideShowModel::all(function ($query) {
-            $query->where('isDelete', 0)->order('id', 'desc');
-        });
 
-        $hotPosition = PositionManagementModel::all(function ($query) {
-            $query->where('isDelete', '=', 0)->where('isShow', '=', 1)->where('isHot', '=', 1)->limit(6);
-        });
+        $slideModel = new SlideShowModel();
+        $slideList = $slideModel->getIndexSlideShow();
 
-        $newList = NewsModel::all(function ($query) {
-            $query->where('isDelete', '=', 0)->where('isShow', '=', 1)->limit(6);
-        });
+        $positionModel = new PositionManagementModel();
+        $hotPosition = $positionModel->getIndexHotPosition();
+        $hotPositionData = $hotPosition->toArray();
+
+        foreach ($hotPositionData as $k => $v) {
+            $hotPositionData[$k]['labelIds'] = json_decode($v['labelIds']);
+        }
+
+        $newsModel = new NewsModel();
+        $newList = $newsModel->getIndexPageNews();
+        $newListData = $newList->toArray();
+
+        foreach ($newListData as $k => $v) {
+            $newListData[$k]['yearMonth'] = date('m-d',strtotime($v['createTime']));
+        }
 
         $data['slideShowList'] = $slideList;
-        $data['hotPositionList'] = $hotPosition;
-        $data['newsList'] = $newList;
+        $data['hotPositionList'] = $hotPositionData;
+        $data['newsList'] = $newListData;
 
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
 

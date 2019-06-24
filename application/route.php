@@ -9,18 +9,9 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-
 return [
-    '__pattern__' => [
-        'name' => '\w+',
-    ],
-    '[hello]' => [
-        ':id' => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
-    ],
     '__alias__' => [
-        'index_page_v1' => 'api/v1.IndexPage',
+        'user' => 'index/User',
     ],
 
 ];
-

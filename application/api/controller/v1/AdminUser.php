@@ -8,7 +8,7 @@ use think\Controller;
 use think\Request;
 use Util\Util;
 
-class AdminUser extends Controller
+class AdminUser extends AuthBase
 {
     /**
      * 后台用户注册

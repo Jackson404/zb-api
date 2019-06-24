@@ -33,14 +33,14 @@ class Auth extends Controller
 
         $accessToken = $this->authRule($grantType, $webId, $secret, $randomCode);
 
-        $expiresIn = 7200;
+        // $expiresIn = 7200;
 
         $redis = new Redis();
 
-        $redis->set('accessTokenApi', $accessToken, $expiresIn);
+        $redis->set('accessTokenApi', $accessToken);
 
         $data['access_token'] = $accessToken;
-        $data['expires_in'] = $expiresIn;
+        // $data['expires_in'] = $expiresIn;
 
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
 
@@ -55,20 +55,20 @@ class Auth extends Controller
 
         $redis = new Redis();
 
-        if ($accessToken == ''){
-            Util::printResult('-001','缺少access_token');
+        if ($accessToken == '') {
+            Util::printResult('-001', '缺少access_token');
             exit;
         }
 
         $result = $redis->get('accessTokenApi');
 
-        if (!$result){
-            Util::printResult('-002','access_token过期，请重新请求');
-            exit;
-        }
+//        if (!$result) {
+//            Util::printResult('-002', 'access_token过期，请重新请求');
+//            exit;
+//        }
 
-        if ($accessToken != $result){
-            Util::printResult('-003','access_token错误');
+        if ($accessToken != $result) {
+            Util::printResult('-003', 'access_token错误');
             exit;
         }
     }

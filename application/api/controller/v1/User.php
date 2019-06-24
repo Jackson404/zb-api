@@ -6,19 +6,17 @@ use app\api\model\UserLoginHistoryModel;
 use app\api\model\UserModel;
 use Sms;
 use think\cache\driver\Redis;
-use think\Controller;
 use think\Request;
-use think\Session;
 use Util\Check;
 use Util\Util;
 
-class User extends Controller
+class User extends AuthBase
 {
     public function sendSms()
     {
         $params = Request::instance()->request();
         $phone = Check::check($params['phone'] ?? '', 11, 11);
-//        $phone = '17621732412';
+
         $signName = '正步网络科技';
         $templateCode = 'SMS_164030786';
         $code = Util::generateVcode(6);
@@ -27,9 +25,10 @@ class User extends Controller
         $result = $sms->send($phone, $signName, $templateCode, $code);
 
         if ($result['Code'] == 'OK') {
+
             $redis = new Redis();
             $redis->set($phone, $code, 300);
-//            Session::set($phone, $code);
+
             Util::printResult($GLOBALS['ERROR_SUCCESS'], '验证码发送成功');
             exit;
         } else {
@@ -44,7 +43,6 @@ class User extends Controller
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $vCode = Check::check($params['vCode'] ?? '');
 
-//        $verifyCode = Session::get($phone);
         $redis = new Redis();
         $verifyCode = $redis->get($phone);
 
@@ -52,8 +50,6 @@ class User extends Controller
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '验证码错误');
             exit;
         }
-
-//        Session::destroy();
 
         $userModel = new UserModel();
 
@@ -96,6 +92,7 @@ class User extends Controller
 
         if ($result > 0) {
             $arr = [
+                'uid' => $userId,
                 'phone' => $phone,
                 'id_token' => $id_token
             ];
@@ -121,7 +118,6 @@ class User extends Controller
         $userLoginHistoryModel = new UserLoginHistoryModel();
         $count = $userLoginHistoryModel->countByIdToken($userId, $token);
         if ($count > 0) {
-//            $GLOBALS['indexUserId'] = $userId;
             $GLOBALS['userId'] = $userId;
             return true;
         }

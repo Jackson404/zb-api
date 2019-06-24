@@ -2,11 +2,10 @@
 
 namespace app\api\controller\v1;
 
-use think\Controller;
 use Util\Upload;
 use Util\Util;
 
-class File extends Controller
+class File extends AuthBase
 {
     /**
      * 单文件上传

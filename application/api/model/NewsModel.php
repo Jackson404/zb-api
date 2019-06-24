@@ -48,4 +48,10 @@ class NewsModel extends Model
         return $this->where('categoryId', '=', $categoryId)->where('isShow', '=', 1)
             ->where('isDelete', '=', 0)->paginate(null, false, $config);
     }
+
+    public function getIndexPageNews(){
+        return $this->where('isDelete', '=', 0)
+            ->where('categoryId','=',2)
+            ->where('isShow', '=', 1)->limit(6)->select();
+    }
 }

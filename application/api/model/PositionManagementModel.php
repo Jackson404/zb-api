@@ -76,4 +76,19 @@ class PositionManagementModel extends Model
         $total = $countResult[0]["count(*)"];
         return [$result, $total];
     }
+
+    public function getIndexHotPosition()
+    {
+        return $this->alias('p')
+            ->join('zb_category_management zcm', 'p.positionCateId = zcm.id')
+            ->join('zb_company_management zco', 'p.companyId = zco.id')
+            ->where('p.isDelete', '=', 0)
+            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
+            p.minPay,p.maxPay,p.minWorkExp,p.maxWorkExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,p.address,
+            p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            ->where('isShow', '=', 1)
+            ->order('id', 'desc')
+            ->limit(0, 6)
+            ->select();
+    }
 }
