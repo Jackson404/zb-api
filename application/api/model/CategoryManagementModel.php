@@ -19,6 +19,12 @@ class CategoryManagementModel extends Model
         return $this->where('isDelete', '=', 0)->where('pid', '=', 0)->paginate(null, false, $config);
     }
 
+    public function getTopCateWithoutPage()
+    {
+        return $this->where('isDelete', '=', 0)->where('pid', '=', 0)
+            ->select();
+    }
+
     public function getNextCate($categoryId, $pageIndex, $pageSize)
     {
         $config = [
@@ -28,6 +34,12 @@ class CategoryManagementModel extends Model
 
         return $this->where('pid', '=', $categoryId)->where('isDelete', '=', 0)
             ->paginate(null, false, $config);
+    }
+
+    public function getNextCateWithoutPage($categoryId)
+    {
+        return $this->where('pid', '=', $categoryId)->where('isDelete', '=', 0)
+            ->select();
     }
 
     public function del($ids)

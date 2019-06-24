@@ -28,6 +28,20 @@ class PositionManagementModel extends Model
             ->find();
     }
 
+    public function getDetailForApply($positionId)
+    {
+        return $this->alias('p')
+            ->join('zb_category_management zcm', 'p.positionCateId = zcm.id')
+            ->join('zb_company_management zco', 'p.companyId = zco.id')
+            ->where('p.isDelete', '=', 0)
+            ->where('p.id', '=', $positionId)
+            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
+            p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.isSoldierPriority,p.address,
+            p.createTime,p.createBy,p.updateTime,p.updateBy')
+            ->find();
+    }
+
+
     public function getByPage($pageIndex, $pageSize)
     {
         $config = [

@@ -24,6 +24,12 @@ class LabelManagementModel extends Model
         return $this->where('isDelete', '=', 0)->paginate(null, false, $config);
     }
 
+    public function getAllLabels()
+    {
+        return $this->where('isDelete', '=', 0)
+            ->select();
+    }
+
     public function checkName($name)
     {
         $count = $this->where('name', '=', $name)->where('isDelete', '=', 0)->count();

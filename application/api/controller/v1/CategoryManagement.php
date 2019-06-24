@@ -121,6 +121,14 @@ class CategoryManagement extends AdminBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    public function getAllTopCategory()
+    {
+        $categoryManagementModel = new CategoryManagementModel();
+        $result = $categoryManagementModel->getTopCateWithoutPage();
+        $data['list'] = $result;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
     /**
      * 获取下一级分类
      */
@@ -134,6 +142,17 @@ class CategoryManagement extends AdminBase
         $categoryManagementModel = new CategoryManagementModel();
         $result = $categoryManagementModel->getNextCate($categoryId, $pageIndex, $pageSize);
         $data['page'] = $result;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    public function getAllNextCategory()
+    {
+        $params = Request::instance()->request();
+        $categoryId = Check::checkInteger($params['categoryId'] ?? '');
+
+        $categoryManagementModel = new CategoryManagementModel();
+        $result = $categoryManagementModel->getNextCateWithoutPage($categoryId);
+        $data['list'] = $result;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 

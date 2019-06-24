@@ -136,6 +136,18 @@ class LabelManagement extends AdminBase
     }
 
     /**
+     * 获取所有的标签
+     */
+    public function getAllLabels()
+    {
+        $labelManagementModel = new LabelManagementModel();
+        $page = $labelManagementModel->getAllLabels();
+        $data['list'] = $page;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+
+    /**
      * 获取标签详情
      */
     public function getDetail()

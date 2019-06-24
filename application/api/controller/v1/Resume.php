@@ -2,6 +2,7 @@
 
 namespace app\api\controller\v1;
 
+use app\api\model\PositionManagementModel;
 use app\api\model\ResumeModel;
 use app\api\model\UserApplyPositionModel;
 use think\Request;
@@ -26,8 +27,8 @@ class Resume extends IndexBase
         $salary = Check::check($params['salary'] ?? ''); //期望薪资
         $skills = Check::check($params['skills'] ?? ''); //技能描述
 
-        if ($name == ''){
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'],'缺少参数');
+        if ($name == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
 
@@ -191,7 +192,15 @@ class Resume extends IndexBase
         $userId = $GLOBALS['userId'];
         $userApplyPositionModel = new UserApplyPositionModel();
         $list = $userApplyPositionModel->getUserApplyList($userId);
-        $data['list'] = $list;
+        $listData = $list->toArray();
+        $positionModel = new PositionManagementModel();
+        foreach ($listData as $k => $v) {
+            $positionId = $v['positionId'];
+            $positionDetail = $positionModel->getDetailForApply($positionId);
+            $listData[$k]['positionDetail'] = $positionDetail;
+        }
+
+        $data['list'] = $listData;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
