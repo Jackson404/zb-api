@@ -26,6 +26,7 @@ class NewsModel extends Model
             ->where('n.isDelete', '=', 0)
             ->where('n.isShow', '=', 1)
             ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.createTime,n.createBy,n.updateTime,n.updateBy')
+            ->order('n.id','desc')
             ->paginate(null, false, $config);
     }
 
@@ -54,14 +55,19 @@ class NewsModel extends Model
             'list_rows' => $pageSize,
             'page' => $pageIndex
         ];
-        return $this->where('categoryId', '=', $categoryId)->where('isShow', '=', 1)
-            ->where('isDelete', '=', 0)->paginate(null, false, $config);
+        return $this->where('categoryId', '=', $categoryId)
+            ->where('isShow', '=', 1)
+            ->where('isDelete', '=', 0)
+            ->order('id','desc')
+            ->paginate(null, false, $config);
     }
 
     public function getIndexPageNews()
     {
         return $this->where('isDelete', '=', 0)
             ->where('categoryId', '=', 2)
-            ->where('isShow', '=', 1)->limit(0, 6)->select();
+            ->where('isShow', '=', 1)
+            ->order('id','desc')
+            ->limit(0, 6)->select();
     }
 }
