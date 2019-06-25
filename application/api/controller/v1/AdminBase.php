@@ -2,6 +2,7 @@
 
 namespace app\api\controller\v1;
 
+use think\Config;
 use think\Request;
 use Util\Util;
 
@@ -13,7 +14,12 @@ class AdminBase extends AuthBase
 
         $whiteList = array();
         $pathInfo = Request::instance()->pathinfo();
+
         include_once APP_PATH . 'api/filter/adminCheckLoginList.php';
+        // 是否强制使用路由
+        if (Config::get('url_route_must')) {
+            include_once APP_PATH . 'api/filter/filterAdminLoginPermission.php';
+        }
 
         if (in_array($pathInfo, $whiteList)) {
             $adminUser = new AdminUser();

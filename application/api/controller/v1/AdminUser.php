@@ -19,6 +19,11 @@ class AdminUser extends AuthBase
         $username = $params['username'] ?? '';
         $password = $params['password'] ?? '';
 
+        if ($username == '' || $password == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
+
         $adminUserModel = new AdminUserModel();
         $count = $adminUserModel->verifyUsername($username);
         if ($count > 0) {
