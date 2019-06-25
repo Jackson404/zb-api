@@ -12,8 +12,10 @@ class UserApplyPositionModel extends Model
 
     public function checkHasApply($positionId, $resumeId)
     {
-        $count = $this->where('isDelete', '=', 0)->where('positionId', '=', $positionId)
-            ->where('resumeId', '=', $resumeId)->count();
+        $count = $this->where('isDelete', '=', 0)
+            ->where('positionId', '=', $positionId)
+            ->where('resumeId', '=', $resumeId)
+            ->count();
         if ($count > 0) {
             return true;
         } else {

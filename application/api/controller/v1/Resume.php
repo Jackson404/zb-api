@@ -32,8 +32,15 @@ class Resume extends IndexBase
             exit;
         }
 
+        $resumeModel = new ResumeModel();
+        if ($resumeModel->checkUserHasCreateResume($userId)) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户已经创建过简历');
+            exit;
+        }
+
         $data = [
             'name' => $name,
+            'userId' => $userId,
             'phone' => $phone,
             'gender' => $gender,
             'age' => $age,
@@ -46,8 +53,6 @@ class Resume extends IndexBase
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
-
-        $resumeModel = new ResumeModel();
 
         $insertRow = $resumeModel->save($data);
 
@@ -148,14 +153,62 @@ class Resume extends IndexBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+//    public function applyPosition()
+//    {
+//        $userId = $GLOBALS['userId'];
+//        $params = Request::instance()->request();
+//        $resumeId = Check::checkInteger($params['resumeId'] ?? ''); // 简历id
+//        $positionId = Check::checkInteger($params['positionId'] ?? '');//职位id
+//
+//        $userApplyPositionModel = new UserApplyPositionModel();
+//
+//        if ($userApplyPositionModel->checkHasApply($positionId, $resumeId)) {
+//            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '已经申请过该职位');
+//            exit;
+//        }
+//
+//        $data = [
+//            'positionId' => $positionId,
+//            'resumeId' => $resumeId,
+//            'userId' => $userId,
+//            'createTime' => currentTime(),
+//            'createBy' => $userId,
+//            'updateTime' => currentTime(),
+//            'updateBy' => $userId
+//        ];
+//
+//        $insertRow = $userApplyPositionModel->save($data);
+//        if ($insertRow > 0) {
+//            $arr['id'] = $userApplyPositionModel->id;
+//            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+//            exit;
+//        } else {
+//            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '创建失败');
+//            exit;
+//        }
+//
+//    }
+
     public function applyPosition()
     {
         $userId = $GLOBALS['userId'];
         $params = Request::instance()->request();
-        $resumeId = Check::checkInteger($params['resumeId'] ?? ''); // 简历id
         $positionId = Check::checkInteger($params['positionId'] ?? '');//职位id
 
+        $resumeModel = new ResumeModel();
+        $resumeResult = $resumeModel->getUserResume($userId);
+
+        if ($resumeResult == null) {
+            Util::printResult($GLOBALS['ERROR_SQL_QUERY'],'用户简历不存在');
+            exit;
+        }
+
+        $resumeData = $resumeResult->toArray();
+        $resumeId = $resumeData['id'];
+
+
         $userApplyPositionModel = new UserApplyPositionModel();
+
 
         if ($userApplyPositionModel->checkHasApply($positionId, $resumeId)) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '已经申请过该职位');

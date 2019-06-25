@@ -10,6 +10,21 @@ class ResumeModel extends Model
     protected $pk = 'id';
     protected $resultSetType = 'collection';
 
+    public function checkUserHasCreateResume($userId)
+    {
+        $count = $this->where('isDelete', '=', 0)->where('userId', '=', $userId)->count();
+        if ($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getUserResume($userId)
+    {
+        return $this->where('isDelete','=',0)->where('userId','=',$userId)->find();
+    }
+
     public function edit($resumeId, $data)
     {
         return $this->where('id', '=', $resumeId)

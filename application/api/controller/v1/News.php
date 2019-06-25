@@ -121,8 +121,20 @@ class News extends AdminBase
 
         $newsModel = new NewsModel();
         $page = $newsModel->getByPage($pageIndex, $pageSize);
-        $data['page'] = $page;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
+        $pageData = $page->toArray();
+        $data = $pageData['data'];
+        foreach ($data as $k => $v) {
+            $data[$k]['year'] = date('Y', strtotime($v['createTime']));
+            $data[$k]['month'] = date('m', strtotime($v['createTime']));
+            $data[$k]['day'] = date('d', strtotime($v['createTime']));
+        }
+
+        $pageData['data'] = $data;
+
+        $arr['page'] = $pageData;
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
 
     public function getDetail()
@@ -135,7 +147,7 @@ class News extends AdminBase
         $detailData = $detail->toArray();
         $categoryId = $detailData['categoryId'];
 
-        $randomNewsList = $newsModel->getRandomNewsListLimit($categoryId,$newsId);
+        $randomNewsList = $newsModel->getRandomNewsListLimit($categoryId, $newsId);
 
         $data['detail'] = $detail;
         $data['randomNewsList'] = $randomNewsList;
@@ -152,8 +164,20 @@ class News extends AdminBase
         $newsModel = new NewsModel();
         $page = $newsModel->getNewsByCateIdPage($categoryId, $pageIndex, $pageSize);
 
-        $data['page'] = $page;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
+        $pageData = $page->toArray();
+        $data = $pageData['data'];
+        foreach ($data as $k => $v) {
+            $data[$k]['year'] = date('Y', strtotime($v['createTime']));
+            $data[$k]['month'] = date('m', strtotime($v['createTime']));
+            $data[$k]['day'] = date('d', strtotime($v['createTime']));
+        }
+
+        $pageData['data'] = $data;
+
+        $arr['page'] = $pageData;
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
 
 
