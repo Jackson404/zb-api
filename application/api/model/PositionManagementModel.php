@@ -55,6 +55,7 @@ class PositionManagementModel extends Model
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,p.address,
             p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            ->order('p.id','desc')
             ->paginate(null, false, $config);
     }
 
@@ -74,16 +75,17 @@ class PositionManagementModel extends Model
     {
         return $this->where('isDelete', '=', 0)
             ->whereLike('name', '%' . $value . '%')
+            ->order('id','desc')
             ->select();
     }
 
-    public function filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $pageIndex, $pageSize)
+    public function filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql,$labelIdsSql, $pageIndex, $pageSize)
     {
 
         $offset = ($pageIndex - 1) * $pageSize;
-        $sql = "select * from zb_position_management where isDelete = 0   $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql limit $offset,$pageSize";
+        $sql = "select * from zb_position_management where isDelete = 0   $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql  order by id desc limit $offset,$pageSize";
 
-        $countSql = "select count(*) from zb_position_management where isDelete = 0   $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql";
+        $countSql = "select count(*) from zb_position_management where isDelete = 0   $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql";
 
         $result = $this->query($sql);
         $countResult = $this->query($countSql);
@@ -100,8 +102,8 @@ class PositionManagementModel extends Model
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,p.address,
             p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
-            ->where('isShow', '=', 1)
-            ->order('id', 'desc')
+            ->where('p.isShow', '=', 1)
+            ->order('p.id', 'desc')
             ->limit(0, 6)
             ->select();
     }
