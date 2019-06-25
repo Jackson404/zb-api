@@ -9,6 +9,6 @@ class Index extends Controller
 
     public function index()
     {
-        echo 'Hello Api';
+        echo 'Hello admin_Api';
     }
 }

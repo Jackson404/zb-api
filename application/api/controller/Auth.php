@@ -62,6 +62,10 @@ class Auth extends Controller
         }
 
         $arr = explode('|', $accessToken);
+        if (count($arr) != 2) {
+            Util::printResult('-003', 'access_token错误');
+            exit;
+        }
         $timeStamp = $arr[0];
         $accessTokenResult = $arr[1];
 
