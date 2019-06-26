@@ -365,6 +365,7 @@ class Resume extends IndexBase
             $listData[$k]['positionDetail'] = $positionDetail;
         }
 
+        $data['total'] = count($listData);
         $data['list'] = $listData;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
