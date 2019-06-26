@@ -26,6 +26,11 @@ class Resume extends IndexBase
         $education = Check::check($params['education'] ?? '');
         $salary = Check::check($params['salary'] ?? ''); //期望薪资
         $skills = Check::check($params['skills'] ?? ''); //技能描述
+        $selfEvaluation = Check::check($params['selfEvaluation'] ?? ''); //自我评价
+        $militaryTime = Check::check($params['militaryTime'] ?? ''); //入伍时间
+        $attendedTime = Check::check($params['attendedTime'] ?? 0); //服役时长
+        $corps = Check::check($params['corps'] ?? ''); //兵种
+
 
         if ($name == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
@@ -48,6 +53,10 @@ class Resume extends IndexBase
             'education' => $education,
             'salary' => $salary,
             'skills' => $skills,
+            'selfEvaluation' => $selfEvaluation,
+            'militaryTime' => $militaryTime,
+            'attendedTime' => $attendedTime,
+            'corps' => $corps,
             'createTime' => currentTime(),
             'createBy' => $userId,
             'updateTime' => currentTime(),
@@ -79,6 +88,10 @@ class Resume extends IndexBase
         $education = Check::check($params['education'] ?? '');
         $salary = Check::check($params['salary'] ?? ''); //期望薪资
         $skills = Check::check($params['skills'] ?? ''); //技能描述
+        $selfEvaluation = Check::check($params['selfEvaluation'] ?? ''); //自我评价
+        $militaryTime = Check::check($params['militaryTime'] ?? ''); //入伍时间
+        $attendedTime = Check::check($params['attendedTime'] ?? 0); //服役时长
+        $corps = Check::check($params['corps'] ?? ''); //兵种
 
         $data = [
             'name' => $name,
@@ -89,6 +102,10 @@ class Resume extends IndexBase
             'education' => $education,
             'salary' => $salary,
             'skills' => $skills,
+            'selfEvaluation' => $selfEvaluation,
+            'militaryTime' => $militaryTime,
+            'attendedTime' => $attendedTime,
+            'corps' => $corps,
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
@@ -189,6 +206,101 @@ class Resume extends IndexBase
 //
 //    }
 
+    /**
+     * 创建并投递简历
+     */
+    public function addResumeAndApplyPosition()
+    {
+        $userId = $GLOBALS['userId'];
+        $params = Request::instance()->request();
+
+        $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
+
+        $name = Check::check($params['name'] ?? '');
+        $phone = Check::check($params['phone'] ?? '', 11, 11);
+        $gender = Check::checkInteger($params['gender'] ?? 0);// 0 未知 1男 2 女
+        $age = Check::checkInteger($params['age'] ?? 0);
+        $workYear = Check::checkInteger($params['workYear'] ?? 0); //工作年限
+        $education = Check::check($params['education'] ?? '');
+        $salary = Check::check($params['salary'] ?? ''); //期望薪资
+        $skills = Check::check($params['skills'] ?? ''); //技能描述
+        $selfEvaluation = Check::check($params['selfEvaluation'] ?? ''); //自我评价
+        $militaryTime = Check::check($params['militaryTime'] ?? ''); //入伍时间
+        $attendedTime = Check::check($params['attendedTime'] ?? 0); //服役时长
+        $corps = Check::check($params['corps'] ?? ''); //兵种
+
+        if ($name == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
+
+        $resumeModel = new ResumeModel();
+        if ($resumeModel->checkUserHasCreateResume($userId)) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户已经创建过简历');
+            exit;
+        }
+
+        $data = [
+            'name' => $name,
+            'userId' => $userId,
+            'phone' => $phone,
+            'gender' => $gender,
+            'age' => $age,
+            'workYear' => $workYear,
+            'education' => $education,
+            'salary' => $salary,
+            'skills' => $skills,
+            'selfEvaluation' => $selfEvaluation,
+            'militaryTime' => $militaryTime,
+            'attendedTime' => $attendedTime,
+            'corps' => $corps,
+            'createTime' => currentTime(),
+            'createBy' => $userId,
+            'updateTime' => currentTime(),
+            'updateBy' => $userId
+        ];
+
+        $insertRow = $resumeModel->save($data);
+
+        if ($insertRow > 0) {
+            $resumeId = $resumeModel->id;
+
+            $userApplyPositionModel = new UserApplyPositionModel();
+
+
+            if ($userApplyPositionModel->checkHasApply($positionId, $resumeId)) {
+                Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '已经申请过该职位');
+                exit;
+            }
+
+            $data = [
+                'positionId' => $positionId,
+                'resumeId' => $resumeId,
+                'userId' => $userId,
+                'createTime' => currentTime(),
+                'createBy' => $userId,
+                'updateTime' => currentTime(),
+                'updateBy' => $userId
+            ];
+
+            $insertRow2 = $userApplyPositionModel->save($data);
+
+            if ($insertRow2 > 0) {
+                $arr['resumeId'] = $resumeId;
+                $arr['applyId'] = $userApplyPositionModel->id;
+                Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+                exit;
+            } else {
+                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '投递失败');
+                exit;
+            }
+
+        } else {
+            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '创建失败');
+            exit;
+        }
+    }
+
     public function applyPosition()
     {
         $userId = $GLOBALS['userId'];
@@ -199,7 +311,7 @@ class Resume extends IndexBase
         $resumeResult = $resumeModel->getUserResume($userId);
 
         if ($resumeResult == null) {
-            Util::printResult($GLOBALS['ERROR_SQL_QUERY'],'用户简历不存在');
+            Util::printResult($GLOBALS['ERROR_SQL_QUERY'], '用户简历不存在');
             exit;
         }
 

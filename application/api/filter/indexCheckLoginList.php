@@ -8,5 +8,6 @@ $whiteList = [
     'api/v1.Resume/applyPosition',
     'api/v1.Resume/userApplyPosition',
     'api/v1.Resume/getUserApplyList',
+    'api/v1.Resume/addResumeAndApplyPosition',
     'api/v1.User/changePhone',
 ];
