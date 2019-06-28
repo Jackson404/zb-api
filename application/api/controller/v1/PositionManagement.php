@@ -286,13 +286,13 @@ class PositionManagement extends AdminBase
         $labelIds = Check::check($params['labelIds'] ?? ''); //福利待遇  label 字符串
         $education = Check::check($params['education'] ?? ''); //学历
         $workYear = Check::check($params['workYear'] ?? ''); //工作年限
-        $isSoldierPriority = Check::check($params['isSoldierPriority'] ?? '');//是否军人优先
+        $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0);//是否军人优先 1,2
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
         if ($positionCateId != 0) {
 
-            $positionSql = "  and positionCateId= '$positionCateId' ";
+            $positionSql = "  and positionCateId= $positionCateId ";
         } else {
             $positionSql = '';
         }
@@ -300,22 +300,22 @@ class PositionManagement extends AdminBase
         if ($salary == '3000元以下') {
             $minPay = 0;
             $maxPay = 3000;
-            $salarySql = "  and minPay >= '$minPay' and  maxPay <= '$maxPay'";
+            $salarySql = "  and minPay >= $minPay and  maxPay <= $maxPay";
         } elseif ($salary == '3000-5000元') {
             $minPay = 3000;
             $maxPay = 5000;
-            $salarySql = "  and minPay >= '$minPay' and maxPay <= '$maxPay'";
+            $salarySql = "  and minPay >= $minPay and maxPay <= $maxPay";
         } elseif ($salary == '5000-8000元') {
             $minPay = 5000;
             $maxPay = 8000;
-            $salarySql = "  and minPay >= '$minPay'  and  maxPay <= '$maxPay'";
+            $salarySql = "  and minPay >= $minPay  and  maxPay <= $maxPay";
         } elseif ($salary == '8000-10000元') {
             $minPay = 8000;
             $maxPay = 10000;
-            $salarySql = "  and minPay >= '$minPay' and maxPay <= '$maxPay'";
+            $salarySql = "  and minPay >= $minPay and maxPay <= $maxPay";
         } elseif ($salary == '10000元以上') {
             $minPay = 10000;
-            $salarySql = "  and minPay >= '$minPay' ";
+            $salarySql = "  and minPay >= $minPay ";
         } else {
             $salarySql = "";
         }
@@ -330,28 +330,28 @@ class PositionManagement extends AdminBase
         if ($workYear == '无经验') {
             $minWorkExp = 0;
             $maxWorkExp = 0;
-            $workYearSql = " and minWorkExp = '$minWorkExp' and maxWorkExp = '$maxWorkExp'";
+            $workYearSql = " and minWorkExp = $minWorkExp and maxWorkExp = $maxWorkExp";
         } elseif ($workYear == '1~3年') {
             $minWorkExp = 1;
             $maxWorkExp = 3;
-            $workYearSql = "  and minWorkExp >= '$minWorkExp' and maxWorkExp <= '$maxWorkExp'";
+            $workYearSql = "  and minWorkExp >= $minWorkExp and maxWorkExp <= $maxWorkExp";
         } elseif ($workYear == '3~5年') {
             $minWorkExp = 3;
             $maxWorkExp = 5;
-            $workYearSql = "  and minWorkExp >= '$minWorkExp' and maxWorkExp <= '$maxWorkExp'";
+            $workYearSql = "  and minWorkExp >= $minWorkExp and maxWorkExp <= $maxWorkExp";
         } elseif ($workYear == '5~10年') {
             $minWorkExp = 5;
             $maxWorkExp = 10;
-            $workYearSql = "  and minWorkExp >= '$minWorkExp' and maxWorkExp <= '$maxWorkExp'";
+            $workYearSql = "  and minWorkExp >= $minWorkExp and maxWorkExp <= $maxWorkExp";
         } elseif ($workYear == '10年以上') {
             $minWorkExp = 10;
-            $workYearSql = "  and minWorkExp >= '$minWorkExp' ";
+            $workYearSql = "  and minWorkExp >= $minWorkExp ";
         } else {
             $workYearSql = '';
         }
 
         if ($isSoldierPriority == 1) {
-            $isSoldierPrioritySql = " and isSoldierPriority = '$isSoldierPriority'";
+            $isSoldierPrioritySql = " and isSoldierPriority = $isSoldierPriority";
         } else {
             $isSoldierPrioritySql = "";
         }
