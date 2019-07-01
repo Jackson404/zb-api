@@ -286,6 +286,8 @@ class Resume extends IndexBase
             $insertRow2 = $userApplyPositionModel->save($data);
 
             if ($insertRow2 > 0) {
+                $positionModel = new PositionManagementModel();
+                $positionModel->updateApplyCountInc($positionId,1);
                 $arr['resumeId'] = $resumeId;
                 $arr['applyId'] = $userApplyPositionModel->id;
                 Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
@@ -339,6 +341,8 @@ class Resume extends IndexBase
 
         $insertRow = $userApplyPositionModel->save($data);
         if ($insertRow > 0) {
+            $positionModel = new PositionManagementModel();
+            $positionModel->updateApplyCountInc($positionId,1);
             $arr['id'] = $userApplyPositionModel->id;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
             exit;

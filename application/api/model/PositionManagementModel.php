@@ -107,4 +107,19 @@ class PositionManagementModel extends Model
             ->limit(0, 6)
             ->select();
     }
+
+    public function updateApplyCountInc($positionId, $count)
+    {
+        return $this->where('id', '=', $positionId)
+            ->where('isDelete', '=', 0)
+            ->inc('positionCount', $count)
+            ->update();
+    }
+    public function updateApplyCountDec($positionId, $count)
+    {
+        return $this->where('id', '=', $positionId)
+            ->where('isDelete', '=', 0)
+            ->dec('positionCount', $count)
+            ->update();
+    }
 }
