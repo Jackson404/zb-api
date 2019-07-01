@@ -25,7 +25,7 @@ class NewsModel extends Model
             ->join('zb_news_category nc', 'n.categoryId = nc.id')
             ->where('n.isDelete', '=', 0)
             ->where('n.isShow', '=', 1)
-            ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.createTime,n.createBy,n.updateTime,n.updateBy')
+            ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.isShow,n.createTime,n.createBy,n.updateTime,n.updateBy')
             ->order('n.id','desc')
             ->paginate(null, false, $config);
     }

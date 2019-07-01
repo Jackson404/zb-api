@@ -16,30 +16,49 @@ class Data extends Command
 
     protected function execute(Input $input, Output $output)
     {
-        $dirname = ROOT_PATH.'public/ans';
-        $filenameArr =   bl_scandir($dirname);
+//        $dirname = ROOT_PATH . 'public/ans';
 
-        foreach ($filenameArr as $filename){
+        $dirname = ROOT_PATH . '../../svn/51job/datajson/149';
+        $filenameArr = bl_scandir($dirname);
+
+        $db = Db::connect($GLOBALS['dbConfig2']);
+
+        foreach ($filenameArr as $filename) {
+
+            //var_dump($filenameArr);
             $jsonStr = file_get_contents($filename);
 
             $data = explode("\n", $jsonStr);
 
             foreach ($data as $k => $v) {
-                $data[$k] = json_decode($v, true);
-                $data[$k]['from'] = '51job';
+
+                $vArr = json_decode($v,true);
+
+//                var_dump($varr);
+
+                if (count($vArr) < 16){
+                    unset($data[$k]);
+                }else{
+                    $data[$k] = $vArr;
+                    $data[$k]['from'] = '51job';
+                }
+
+               // var_dump($data);
+
             }
 
-            unset($data[count($data) - 1]);
-//        var_dump($data);
+            //unset($data[count($data) - 1]);
 
-            $result = Db::connect($GLOBALS['dbConfig2'])
-                ->table('data_resume')
-                ->insertAll($data);
+            //$db->transaction(function () use ($db, $data) {
+               // $db->table('data_resume_copy1')->insertAll($data);
+                $result = $db->table('data_resume')->insertAll($data);
+//                var_dump($result);
+                var_dump($db->getLastInsID());
 
-            var_dump($result);
+            //});
+
 
         }
-
 
 
     }
