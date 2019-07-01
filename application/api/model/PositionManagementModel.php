@@ -54,7 +54,7 @@ class PositionManagementModel extends Model
             ->where('p.isDelete', '=', 0)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,p.address,
-            p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->order('p.id','desc')
             ->paginate(null, false, $config);
     }
