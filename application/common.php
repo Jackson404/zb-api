@@ -72,6 +72,31 @@ function generateTree($array, $node)
     return $tree;
 }
 
+function generateTree1($array, $node)
+{
+    //第一步 构造数据
+    $items = array();
+    foreach ($array as $value) {
+        //var_dump($value);
+        $value['key'] = $value['id'];
+        $value['title'] = $value['name'];
+        $items[$value['id']] = $value;
+    }
+    //第二部 遍历数据 生成树状结构
+    $tree = array();
+    //遍历构造的数据
+    foreach ($items as $key => $value) {
+        //如果pid这个节点存在
+        if (isset($items[$value[$node]])) {
+            //把当前的$value放到pid节点的son中 注意 这里传递的是引用 为什么呢？
+            $items[$value[$node]]['children'][] = &$items[$key];
+        } else {
+            $tree[] = &$items[$key];
+        }
+    }
+    return $tree;
+}
+
 
 /**
  * 遍历文件夹

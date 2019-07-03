@@ -27,8 +27,18 @@ class CompanyManagementModel extends Model
             'page' => $pageIndex
         ];
 
-        return $this->where('isDelete', '=', 0)->paginate(null, false, $config);
+        return $this->where('isDelete', '=', 0)
+            ->order('id','desc')
+            ->paginate(null, false, $config);
 
+    }
+
+    public function getAll()
+    {
+
+        return $this->where('isDelete', '=', 0)
+            ->order('id','desc')
+            ->select();
     }
 
     public function checkName($name)

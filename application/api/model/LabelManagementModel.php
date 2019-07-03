@@ -21,7 +21,9 @@ class LabelManagementModel extends Model
             'list_rows' => $pageSize,
             'page' => $pageIndex
         ];
-        return $this->where('isDelete', '=', 0)->paginate(null, false, $config);
+        return $this->where('isDelete', '=', 0)
+            ->order('id','desc')
+            ->paginate(null, false, $config);
     }
 
     public function getAllLabels()

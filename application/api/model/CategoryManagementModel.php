@@ -63,4 +63,9 @@ class CategoryManagementModel extends Model
     {
         return $this->where('id', 'eq', $categoryId)->where('isDelete', 'eq', 0)->find();
     }
+
+    public function getAll()
+    {
+        return $this->where('isDelete', '=', 0)->order('id', 'desc')->select();
+    }
 }

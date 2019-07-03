@@ -3,8 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="b88f2de2-17ed-40ce-adb1-ac791540d3ec" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/Resume.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/Resume.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/CategoryManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/CategoryManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/CompanyManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/CompanyManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/News.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/News.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/model/CategoryManagementModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/CategoryManagementModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/model/CompanyManagementModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/CompanyManagementModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/model/LabelManagementModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/LabelManagementModel.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application/api/model/PositionManagementModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/PositionManagementModel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/common.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/common.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,51 +26,12 @@
     </execution>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/News.php">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/CompanyManagement.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="122" column="33" selection-start-line="122" selection-start-column="33" selection-end-line="122" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/api/model/NewsModel.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="850">
-              <caret line="47" column="41" lean-forward="true" selection-start-line="47" selection-start-column="41" selection-end-line="47" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/Resume.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="354" lean-forward="true" selection-start-line="354" selection-end-line="354" />
-              <folding>
-                <element signature="e#41#83#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/api/model/PositionManagementModel.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="596">
-              <caret line="115" column="23" lean-forward="true" selection-start-line="115" selection-start-column="23" selection-end-line="115" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="528">
-              <caret line="216" column="38" selection-start-line="216" selection-start-column="38" selection-end-line="216" selection-end-column="38" />
+            <state relative-caret-position="4207">
+              <caret line="214" column="68" lean-forward="true" selection-start-line="214" selection-start-column="68" selection-end-line="214" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -71,8 +39,71 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application/api/model/CompanyManagementModel.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="582">
-              <caret line="52" column="5" lean-forward="true" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+            <state relative-caret-position="697">
+              <caret line="40" column="23" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3819">
+              <caret line="175" column="81" selection-start-line="175" selection-start-column="81" selection-end-line="175" selection-end-column="81" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/CategoryManagement.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="504">
+              <caret line="108" selection-start-line="108" selection-end-line="108" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/api/model/CategoryManagementModel.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="766">
+              <caret line="68" column="79" selection-start-line="68" selection-start-column="79" selection-end-line="68" selection-end-column="79" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/LabelManagement.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="527">
+              <caret line="131" column="44" selection-start-line="131" selection-start-column="44" selection-end-line="131" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/api/model/LabelManagementModel.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/common.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="359">
+              <caret line="83" column="5" lean-forward="true" selection-start-line="83" selection-start-column="5" selection-end-line="83" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/api/model/PositionManagementModel.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="665">
+              <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
             </state>
           </provider>
         </entry>
@@ -100,10 +131,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/application/api/model/UserModel.php" />
-        <option value="$PROJECT_DIR$/application/api/model/UserLoginHistoryModel.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/application/api/controller/v1/CompanyManagement.php" />
         <option value="D:/PhpStudy/PHPTutorial/php/php-7.1.13-nts/php.ini" />
         <option value="$PROJECT_DIR$/application/task/doNews.php" />
         <option value="$PROJECT_DIR$/thinkphp/library/think/cache/driver/Redis.php" />
@@ -114,14 +142,10 @@
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/application/api/controller/ValidateApi.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/AuthBase.php" />
-        <option value="$PROJECT_DIR$/application/api/controller/v1/File.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/SlideShow.php" />
         <option value="$PROJECT_DIR$/application/api/model/SlideShowModel.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/IndexPage.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/IndexBase.php" />
-        <option value="$PROJECT_DIR$/application/api/model/CategoryManagementModel.php" />
-        <option value="$PROJECT_DIR$/application/api/controller/v1/CategoryManagement.php" />
-        <option value="$PROJECT_DIR$/application/api/model/LabelManagementModel.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/LabelManagement.php" />
         <option value="$PROJECT_DIR$/application/api/model/ResumeModel.php" />
         <option value="$PROJECT_DIR$/application/api/model/UserApplyPositionModel.php" />
@@ -133,7 +157,6 @@
         <option value="$PROJECT_DIR$/application/api/controller/v1/User.php" />
         <option value="$PROJECT_DIR$/application/api/controller/Auth.php" />
         <option value="$PROJECT_DIR$/application/api/controller/Index.php" />
-        <option value="$PROJECT_DIR$/application/api/controller/v1/News.php" />
         <option value="$PROJECT_DIR$/application/api/filter/indexCheckLoginList.php" />
         <option value="$PROJECT_DIR$/application/taskscript/ans_data.php" />
         <option value="$PROJECT_DIR$/application/database.php" />
@@ -141,16 +164,24 @@
         <option value="$PROJECT_DIR$/application/command/ans/Data.php" />
         <option value="$PROJECT_DIR$/application/command.php" />
         <option value="$PROJECT_DIR$/../ans_data.py" />
-        <option value="$PROJECT_DIR$/application/common.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/CompResumeManage.php" />
         <option value="$PROJECT_DIR$/application/api/model/DataResume.php" />
         <option value="$USER_HOME$/Desktop/ans_data.py" />
-        <option value="$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php" />
         <option value="$PROJECT_DIR$/application/global.php" />
         <option value="$PROJECT_DIR$/application/ans/command/Data.php" />
         <option value="$PROJECT_DIR$/application/api/model/NewsModel.php" />
-        <option value="$PROJECT_DIR$/application/api/model/PositionManagementModel.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/Resume.php" />
+        <option value="$PROJECT_DIR$/util/Upload.php" />
+        <option value="$PROJECT_DIR$/application/api/controller/v1/File.php" />
+        <option value="$PROJECT_DIR$/application/api/controller/v1/News.php" />
+        <option value="$PROJECT_DIR$/application/api/model/PositionManagementModel.php" />
+        <option value="$PROJECT_DIR$/application/api/model/CompanyManagementModel.php" />
+        <option value="$PROJECT_DIR$/application/api/controller/v1/CompanyManagement.php" />
+        <option value="$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php" />
+        <option value="$PROJECT_DIR$/application/common.php" />
+        <option value="$PROJECT_DIR$/application/api/model/CategoryManagementModel.php" />
+        <option value="$PROJECT_DIR$/application/api/controller/v1/CategoryManagement.php" />
+        <option value="$PROJECT_DIR$/application/api/model/LabelManagementModel.php" />
       </list>
     </option>
   </component>
@@ -219,6 +250,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -264,11 +296,23 @@
               <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="uploads" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="uploads" type="462c0819:PsiDirectoryNode" />
+              <item name="20190702" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -326,7 +370,9 @@
       <workItem from="1561554841868" duration="3000" />
       <workItem from="1561597254775" duration="7952000" />
       <workItem from="1561685256106" duration="16370000" />
-      <workItem from="1561962608224" duration="1413000" />
+      <workItem from="1561962608224" duration="2171000" />
+      <workItem from="1562039277908" duration="6796000" />
+      <workItem from="1562122260087" duration="7676000" />
     </task>
     <task id="LOCAL-00001" summary="轮播图和后台用户">
       <created>1560755233075</created>
@@ -531,17 +577,31 @@
       <option name="project" value="LOCAL" />
       <updated>1561962667072</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="职位的简历投递数量">
+      <created>1561969523617</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1561969523617</updated>
+    </task>
+    <task id="LOCAL-00031" summary="职位的简历投递数量">
+      <created>1561969646181</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1561969646181</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="204236000" />
+    <option name="totallyTimeSpent" value="219466000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19402985" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19829424" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -591,53 +651,10 @@
     <MESSAGE value="投递简历记录个数" />
     <MESSAGE value="json导入数据库" />
     <MESSAGE value="isShow" />
-    <option name="LAST_COMMIT_MESSAGE" value="isShow" />
+    <MESSAGE value="职位的简历投递数量" />
+    <option name="LAST_COMMIT_MESSAGE" value="职位的简历投递数量" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/thinkphp/base.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-577" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thinkphp/start.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/ExampleTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/TestCase.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/task/scheduler.php" />
-    <entry file="file://$PROJECT_DIR$/task/doNews.php" />
-    <entry file="file://$PROJECT_DIR$/task/script.php" />
-    <entry file="file://$PROJECT_DIR$/vendor/composer/autoload_static.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1029">
-          <caret line="103" column="9" lean-forward="true" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
-          <folding>
-            <element signature="e#41#81#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/taskscript/LOG_PATH201906/26_cli.log" />
-    <entry file="file://$PROJECT_DIR$/application/command/AnsData.php" />
     <entry file="file://$PROJECT_DIR$/application/command/ans/Data.php" />
     <entry file="file://$PROJECT_DIR$/application/extra/queue.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -730,13 +747,6 @@
     <entry file="file://D:/svn/51job/datajson/109/10903500.data.json" />
     <entry file="file://D:/svn/51job/datajson/106/10600500.data.json" />
     <entry file="file://D:/svn/51job/datajson/105-----/10500000.data.json" />
-    <entry file="file://$PROJECT_DIR$/application/common.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="79" column="9" selection-start-line="79" selection-start-column="9" selection-end-line="79" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/svn/51job/datajson/122/12216000.data.json" />
     <entry file="file://D:/svn/51job/datajson/122/12208000.data.json" />
     <entry file="file://$PROJECT_DIR$/application/ans/command/Data.php">
@@ -756,45 +766,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/News.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="122" column="33" selection-start-line="122" selection-start-column="33" selection-end-line="122" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/api/model/NewsModel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="850">
           <caret line="47" column="41" lean-forward="true" selection-start-line="47" selection-start-column="41" selection-end-line="47" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thinkphp/library/think/Model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="1037" column="20" selection-start-line="1037" selection-start-column="20" selection-end-line="1037" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/model/CompanyManagementModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="582">
-          <caret line="52" column="5" lean-forward="true" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/model/PositionManagementModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
-          <caret line="115" column="23" lean-forward="true" selection-start-line="115" selection-start-column="23" selection-end-line="115" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="216" column="38" selection-start-line="216" selection-start-column="38" selection-end-line="216" selection-end-column="38" />
         </state>
       </provider>
     </entry>
@@ -805,6 +780,107 @@
           <folding>
             <element signature="e#41#83#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/uploads/20190702/458ddbc86294a0bbfeeb879211c79bd0.jpg" />
+    <entry file="file://$PROJECT_DIR$/public/uploads/20190702/6134aad2fda194954dea2635b1e7790d.jpg" />
+    <entry file="file://$PROJECT_DIR$/public/uploads/20190702/796f0e79e14ffa56a686d92ca9fa69d5.jpg" />
+    <entry file="file://$PROJECT_DIR$/public/uploads/20190702/549d2934e30613f2c8b581da584a7154.jpg" />
+    <entry file="file://$PROJECT_DIR$/util/Upload.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="78" column="5" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/News.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="35" column="42" lean-forward="true" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
+          <folding>
+            <element signature="e#41#69#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/File.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+          <folding>
+            <element signature="e#41#57#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/model/PositionManagementModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="665">
+          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/model/CompanyManagementModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="697">
+          <caret line="40" column="23" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/CompanyManagement.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4207">
+          <caret line="214" column="68" lean-forward="true" selection-start-line="214" selection-start-column="68" selection-end-line="214" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/PositionManagement.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3819">
+          <caret line="175" column="81" selection-start-line="175" selection-start-column="81" selection-end-line="175" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/common.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="83" column="5" lean-forward="true" selection-start-line="83" selection-start-column="5" selection-end-line="83" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thinkphp/library/think/Model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="1718" column="27" selection-start-line="1718" selection-start-column="27" selection-end-line="1718" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/model/CategoryManagementModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="766">
+          <caret line="68" column="79" selection-start-line="68" selection-start-column="79" selection-end-line="68" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/CategoryManagement.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="108" selection-start-line="108" selection-end-line="108" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/LabelManagement.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="131" column="44" selection-start-line="131" selection-start-column="44" selection-end-line="131" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/model/LabelManagementModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
         </state>
       </provider>
     </entry>

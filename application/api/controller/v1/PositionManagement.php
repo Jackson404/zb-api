@@ -79,7 +79,7 @@ class PositionManagement extends AdminBase
             'labelIds' => $labelIdsJson,
             'isSoldierPriority' => $isSoldierPriority,
             'address' => $address,
-            'positionRequirement' => $positionRequirement,
+            'positionRequirement' => htmlspecialchars_decode($positionRequirement),
             'isShow' => $isShow,
             'createTime' => currentTime(),
             'createBy' => $userId,
@@ -173,7 +173,7 @@ class PositionManagement extends AdminBase
             'labelIds' => $labelIdsJson,
             'isSoldierPriority' => $isSoldierPriority,
             'address' => $address,
-            'positionRequirement' => $positionRequirement,
+            'positionRequirement' => htmlspecialchars_decode($positionRequirement),
             'isShow' => $isShow,
             'updateTime' => currentTime(),
             'updateBy' => $userId
@@ -370,7 +370,7 @@ class PositionManagement extends AdminBase
         }
 
         $positionModel = new PositionManagementModel();
-        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql,$labelIdsSql, $pageIndex, $pageSize);
+        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql, $pageIndex, $pageSize);
 
 
         foreach ($result as $k => $v) {
@@ -402,6 +402,31 @@ class PositionManagement extends AdminBase
         $arr['updateRow'] = $updateRow;
 
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+    }
+
+    public function getPositionPageByCompanyId()
+    {
+        $params = Request::instance()->request();
+        $companyId = Check::checkInteger($params['companyId'] ?? '');
+//        $userId = $GLOBALS['userId'];
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        $positionModel = new PositionManagementModel();
+
+        $page = $positionModel->getPageByCompanyId($companyId, $pageIndex, $pageSize);
+
+        $pageData = $page->toArray();
+        $pageArr = $pageData['data'];
+
+        foreach ($pageArr as $k => $v) {
+            $pageArr[$k]['labelIds'] = json_decode($v['labelIds'], true);
+        }
+
+        $pageData['data'] = $pageArr;
+        $data['page'] = $pageData;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
     }
 
 

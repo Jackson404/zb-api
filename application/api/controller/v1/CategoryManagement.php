@@ -100,11 +100,21 @@ class CategoryManagement extends AdminBase
      */
     public function getAllByTree()
     {
+        $params = Request::instance()->request();
+        $type = Check::checkInteger($params['type'] ?? 0); //默认0
 
-        $data = CategoryManagementModel::all(['isDelete' => 0]);
+        $cateModel = new CategoryManagementModel();
+
+        $data = $cateModel->getAll();
         $tree = generateTree($data->toArray(), 'pid');
+
+        if ($type == 1){
+            $tree = generateTree1($data->toArray(), 'pid');
+        }
+
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $tree);
     }
+
 
     /**
      * 获取一级分类

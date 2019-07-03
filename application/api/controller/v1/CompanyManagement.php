@@ -60,7 +60,7 @@ class CompanyManagement extends AdminBase
             'wxNumber' => $wxNumber,
             'leader' => $leader,
             'nature' => $nature,
-            'profile' => $profile,
+            'profile' => htmlspecialchars_decode($profile),
             'remark' => $remark,
             'dataBank' => $dataBankArrJson,
             'createTime' => currentTime(),
@@ -204,4 +204,21 @@ class CompanyManagement extends AdminBase
 
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
+
+    public function getAll()
+    {
+        $companyManagementModel = new CompanyManagementModel();
+        $result = $companyManagementModel->getAll();
+
+        foreach ($result as $k => $v) {
+
+            $result[$k]['dataBank'] = json_decode($v['dataBank'], true);
+        }
+
+        $data['list'] = $result;
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+
 }

@@ -31,7 +31,7 @@ class News extends AdminBase
             'title' => $title,
             'keywords' => $keywords,
             'description' => $description,
-            'content' => $content,
+            'content' => htmlspecialchars_decode($content),
             'imgUrl' => $imgUrl,
             'createTime' => currentTime(),
             'createBy' => $userId,

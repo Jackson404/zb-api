@@ -59,6 +59,25 @@ class PositionManagementModel extends Model
             ->paginate(null, false, $config);
     }
 
+    public function getPageByCompanyId($companyId,$pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->alias('p')
+            ->join('zb_category_management zcm', 'p.positionCateId = zcm.id')
+            ->join('zb_company_management zco', 'p.companyId = zco.id')
+            ->where('p.isDelete', '=', 0)
+            ->where('p.companyId','=',$companyId)
+            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
+            p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,p.address,
+            p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            ->order('p.id','desc')
+            ->paginate(null, false, $config);
+    }
+
+
     public function checkName($name)
     {
         $count = $this->where('name', 'eq', $name)->where('isDelete', 'eq', 0)->count();
