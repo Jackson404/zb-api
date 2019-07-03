@@ -19,6 +19,7 @@ class News extends AdminBase
         $description = Check::check($params['description'] ?? '');
         $content = Check::check($params['content'] ?? '');
         $imgUrl = Check::check($params['imgUrl'] ?? '');
+        $isShow = Check::checkInteger($params['isShow'] ?? 1);
         $userId = $GLOBALS['userId'];
 
         if ($title == '') {
@@ -33,6 +34,7 @@ class News extends AdminBase
             'description' => $description,
             'content' => htmlspecialchars_decode($content),
             'imgUrl' => $imgUrl,
+            'isShow'=>$isShow,
             'createTime' => currentTime(),
             'createBy' => $userId,
             'updateTime' => currentTime(),
@@ -61,6 +63,7 @@ class News extends AdminBase
         $description = Check::check($params['description'] ?? '');
         $content = Check::check($params['content'] ?? '');
         $imgUrl = Check::check($params['imgUrl'] ?? '');
+        $isShow = Check::checkInteger($params['isShow'] ?? 1);
         $userId = $GLOBALS['userId'];
 
         if ($title == '') {
@@ -75,6 +78,7 @@ class News extends AdminBase
             'description' => $description,
             'content' => $content,
             'imgUrl' => $imgUrl,
+            'isShow'=>$isShow,
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
@@ -111,6 +115,31 @@ class News extends AdminBase
             exit;
         }
 
+    }
+
+    // 后台分页获取 展示和不展示都有
+    public function getByPageWithAdmin()
+    {
+        $params = Request::instance()->request();
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        $newsModel = new NewsModel();
+        $page = $newsModel->getByPageWithAdmin($pageIndex, $pageSize);
+
+        $pageData = $page->toArray();
+        $data = $pageData['data'];
+        foreach ($data as $k => $v) {
+            $data[$k]['year'] = date('Y', strtotime($v['createTime']));
+            $data[$k]['month'] = date('m', strtotime($v['createTime']));
+            $data[$k]['day'] = date('d', strtotime($v['createTime']));
+        }
+
+        $pageData['data'] = $data;
+
+        $arr['page'] = $pageData;
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
 
     public function getByPage()
