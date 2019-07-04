@@ -23,6 +23,7 @@ class SlideShow extends AdminBase
     {
         $params = Request::instance()->request();
         $imgUrl = Check::check($params['imgUrl'] ?? '');
+        $imgUrl = stripslashes($imgUrl);
         $turnUrl = $params['turnUrl'] ?? '';
         $remark = $params['remark'] ?? '';
         $userId = $GLOBALS['userId'];
@@ -60,6 +61,7 @@ class SlideShow extends AdminBase
         $params = Request::instance()->request();
         $slideShowId = Check::checkInteger($params['id'] ?? '');
         $imgUrl = Check::check($params['imgUrl'] ?? '');
+        $imgUrl = stripslashes($imgUrl);
         $turnUrl = $params['turnUrl'] ?? '';
         $remark = $params['remark'] ?? '';
         $userId = $GLOBALS['userId'];
@@ -128,6 +130,19 @@ class SlideShow extends AdminBase
             Util::printResult($GLOBALS['ERROR_SQL_DELETE'], '删除失败');
             exit;
         }
+    }
+
+    public function getDetail(){
+        $params = Request::instance()->request();
+        $slideShowId = $params['id'] ?? '';
+        if ($slideShowId == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
+        $slideShowModel = new SlideShowModel();
+        $detail = $slideShowModel->getDetail($slideShowId);
+        $data['detail'] = $detail;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'],$data);
     }
 
 }

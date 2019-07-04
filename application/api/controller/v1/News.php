@@ -18,7 +18,9 @@ class News extends AdminBase
         $keywords = Check::check($params['keywords'] ?? '');
         $description = Check::check($params['description'] ?? '');
         $content = Check::check($params['content'] ?? '');
+        $content = stripslashes($content);
         $imgUrl = Check::check($params['imgUrl'] ?? '');
+        $imgUrl = stripslashes($imgUrl);
         $isShow = Check::checkInteger($params['isShow'] ?? 1);
         $userId = $GLOBALS['userId'];
 
@@ -62,7 +64,9 @@ class News extends AdminBase
         $keywords = Check::check($params['keywords'] ?? '');
         $description = Check::check($params['description'] ?? '');
         $content = Check::check($params['content'] ?? '');
+        $content = stripslashes($content);
         $imgUrl = Check::check($params['imgUrl'] ?? '');
+        $imgUrl = stripslashes($imgUrl);
         $isShow = Check::checkInteger($params['isShow'] ?? 1);
         $userId = $GLOBALS['userId'];
 
@@ -76,7 +80,7 @@ class News extends AdminBase
             'title' => $title,
             'keywords' => $keywords,
             'description' => $description,
-            'content' => $content,
+            'content' => htmlspecialchars_decode($content),
             'imgUrl' => $imgUrl,
             'isShow'=>$isShow,
             'updateTime' => currentTime(),
