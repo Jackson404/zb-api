@@ -28,6 +28,7 @@ class PositionManagement extends AdminBase
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
         $address = Check::check($params['address'] ?? ''); //公司地址
         $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
+        $positionRequirement = stripslashes($positionRequirement);
         $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
 
         $userId = $GLOBALS['userId'];
@@ -46,7 +47,7 @@ class PositionManagement extends AdminBase
 
         if ($labelIds != '') {
             $labelIdArr = explode(',', $labelIds);
-            $labelIdsJson = json_encode($labelIdArr);
+            $labelIdsJson = json_encode($labelIdArr, JSON_UNESCAPED_UNICODE);
         } else {
             $labelIdsJson = json_encode(array());
         }
@@ -121,6 +122,7 @@ class PositionManagement extends AdminBase
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
         $address = Check::check($params['address'] ?? ''); //公司地址
         $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
+        $positionRequirement = stripslashes($positionRequirement);
         $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
 
         $userId = $GLOBALS['userId'];
@@ -140,7 +142,7 @@ class PositionManagement extends AdminBase
 
         if ($labelIds != '') {
             $labelIdArr = explode(',', $labelIds);
-            $labelIdsJson = json_encode($labelIdArr);
+            $labelIdsJson = json_encode($labelIdArr,JSON_UNESCAPED_UNICODE);
         } else {
             $labelIdsJson = json_encode(array());
         }

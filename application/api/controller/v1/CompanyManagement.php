@@ -26,6 +26,7 @@ class CompanyManagement extends AdminBase
         $leader = Check::check($params['leader'] ?? ''); //负责人
         $nature = Check::check($params['nature'] ?? ''); // 公司性质
         $profile = Check::check($params['profile'] ?? ''); //公司简介
+        $profile = stripslashes($profile);
         $remark = Check::check($params['remark'] ?? '');
         $dataBank = Check::check($params['dataBank'] ?? ''); //资料库
         $userId = $GLOBALS['userId'];
@@ -44,7 +45,7 @@ class CompanyManagement extends AdminBase
 
         if ($dataBank != '') {
             $dataBankArr = explode(',', $dataBank);
-            $dataBankArrJson = json_encode($dataBankArr);
+            $dataBankArrJson = json_encode($dataBankArr,JSON_UNESCAPED_UNICODE);
         } else {
             $dataBankArrJson = json_encode(array());
         }
@@ -95,6 +96,7 @@ class CompanyManagement extends AdminBase
         $leader = Check::check($params['leader'] ?? ''); //负责人
         $nature = Check::check($params['nature'] ?? ''); // 公司性质
         $profile = Check::check($params['profile'] ?? ''); //公司简介
+        $profile = stripslashes($profile);
         $remark = Check::check($params['remark'] ?? '');
         $dataBank = Check::check($params['dataBank'] ?? ''); //资料库
         $userId = $GLOBALS['userId'];
@@ -114,7 +116,7 @@ class CompanyManagement extends AdminBase
 
         if ($dataBank != '') {
             $dataBankArr = explode(',', $dataBank);
-            $dataBankArrJson = json_encode($dataBankArr);
+            $dataBankArrJson = json_encode($dataBankArr,JSON_UNESCAPED_UNICODE);
         } else {
             $dataBankArrJson = json_encode(array());
         }
@@ -129,7 +131,7 @@ class CompanyManagement extends AdminBase
             'wxNumber' => $wxNumber,
             'leader' => $leader,
             'nature' => $nature,
-            'profile' => $profile,
+            'profile' => htmlspecialchars_decode($profile),
             'remark' => $remark,
             'dataBank' => $dataBankArrJson,
             'updateTime' => currentTime(),

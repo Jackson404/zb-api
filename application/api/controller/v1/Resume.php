@@ -377,7 +377,7 @@ class Resume extends IndexBase
     /**
      * 获取简历申请的职位记录
      */
-    public function getUserResumeApplyList()
+    public function getResumeApplyList()
     {
 
         $params = Request::instance()->request();
@@ -387,5 +387,43 @@ class Resume extends IndexBase
         $data['list'] = $list;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
+
+    /**
+     * 分页获取简历申请的职位记录
+     */
+    public function getResumeApplyPage()
+    {
+        $params = Request::instance()->request();
+        $resumeId = Check::checkInteger($params['resumeId'] ?? ''); //简历id
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        $userApplyPositionModel = new UserApplyPositionModel();
+        $page = $userApplyPositionModel->getResumeApplyPage($resumeId,$pageIndex,$pageSize);
+        $pageData = $page->toArray();
+        $pageArr = $pageData['data'];
+
+        foreach ($pageArr as $k => $v) {
+            $pageArr[$k]['labelIds'] = json_decode($v['labelIds'], true);
+        }
+
+        $pageData['data'] = $pageArr;
+        $data['page'] = $pageData;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    public function getResumePageByPositionId(){
+        $params = Request::instance()->request();
+        $positionId = Check::checkInteger($params['positionId'] ?? '');
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        $userApplyPositionModel = new UserApplyPositionModel();
+        $page = $userApplyPositionModel->getResumePageByPositionId($positionId,$pageIndex,$pageSize);
+        $data['page'] = $page;
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
 
 }
