@@ -26,16 +26,44 @@ class DataResume extends Model
     protected $pk = 'resumeId';
     protected $resultSetType = 'collection';
 
+    public function getCount()
+    {
+        $countSql = "select count(*) from $this->table where isDelete = 0 ";
+        return $this->query($countSql);
+
+    }
+
     public function getByPage($pageIndex, $pageSize)
     {
-        $config = [
-            'list_rows' => $pageSize,
-            'page' => $pageIndex
-        ];
 
-        return $this->where('isDelete', '=', 0)
-            ->order('resumeId', 'desc')
-            ->paginate(null, false, $config);
+        $offset = ($pageIndex - 1) * $pageSize;
 
+        $sql = "select resumeId,name,sex,birth,work,wage,profession,position,qua,gra,spe,bonus,allow,resume,phone,mail,habitation,profe,`from` from $this->table where isDelete = 0 order by resumeId desc limit $offset,$pageSize";
+        $content = $this->query($sql);
+
+        return $content;
+    }
+
+    public function delResume($resumeId)
+    {
+        return $this->isUpdate(true)
+            ->where('resumeId', '=', $resumeId)
+            ->update([
+                'isDelete' => 1
+            ]);
+    }
+
+    public function editResume($resumeId,$data)
+    {
+        return $this->isUpdate(true)
+            ->where('resumeId','=',$resumeId)
+            ->update($data);
+    }
+
+    public function getDetail($resumeId)
+    {
+        return $this->where('resumeId', '=', $resumeId)
+            ->where('isDelete', '=', 0)
+            ->find();
     }
 }
