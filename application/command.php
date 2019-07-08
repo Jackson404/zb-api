@@ -10,5 +10,6 @@
 // +----------------------------------------------------------------------
 
 return [
-    'app\ans\command\Data'
+    'app\ans\command\Data',
+    'app\ans\command\Position'
 ];
