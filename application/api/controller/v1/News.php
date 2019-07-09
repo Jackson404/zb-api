@@ -36,7 +36,7 @@ class News extends AdminBase
             'description' => $description,
             'content' => htmlspecialchars_decode($content),
             'imgUrl' => $imgUrl,
-            'isShow'=>$isShow,
+            'isShow' => $isShow,
             'createTime' => currentTime(),
             'createBy' => $userId,
             'updateTime' => currentTime(),
@@ -82,7 +82,7 @@ class News extends AdminBase
             'description' => $description,
             'content' => htmlspecialchars_decode($content),
             'imgUrl' => $imgUrl,
-            'isShow'=>$isShow,
+            'isShow' => $isShow,
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
@@ -195,6 +195,9 @@ class News extends AdminBase
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
         $newsModel = new NewsModel();
+        $positionNews = $newsModel->getIndexPageNewsByCateId(3,1);
+        $soldierNews = $newsModel->getIndexPageNewsByCateId(4,1);
+
         $page = $newsModel->getNewsByCateIdPage($categoryId, $pageIndex, $pageSize);
 
 
@@ -209,9 +212,11 @@ class News extends AdminBase
         $pageData['data'] = $data;
 
         $arr['page'] = $pageData;
-
+        $arr['positionNews'] = $positionNews;
+        $arr['soldierNews'] = $soldierNews;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
+
 
 
 }

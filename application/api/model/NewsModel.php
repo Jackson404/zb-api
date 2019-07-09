@@ -26,7 +26,7 @@ class NewsModel extends Model
             ->where('n.isDelete', '=', 0)
             ->where('n.isShow', '=', 1)
             ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.isShow,n.createTime,n.createBy,n.updateTime,n.updateBy')
-            ->order('n.id','desc')
+            ->order('n.id', 'desc')
             ->paginate(null, false, $config);
     }
 
@@ -40,7 +40,7 @@ class NewsModel extends Model
             ->join('zb_news_category nc', 'n.categoryId = nc.id')
             ->where('n.isDelete', '=', 0)
             ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.isShow,n.createTime,n.createBy,n.updateTime,n.updateBy')
-            ->order('n.id','desc')
+            ->order('n.id', 'desc')
             ->paginate(null, false, $config);
     }
 
@@ -55,7 +55,7 @@ class NewsModel extends Model
             ->find();
     }
 
-    public function getRandomNewsListLimit($categoryId,$newsId)
+    public function getRandomNewsListLimit($categoryId, $newsId)
     {
 
         return $this->query("SELECT * FROM zb_news WHERE categoryId='$categoryId'
@@ -73,16 +73,19 @@ class NewsModel extends Model
         return $this->where('categoryId', '=', $categoryId)
             ->where('isShow', '=', 1)
             ->where('isDelete', '=', 0)
-            ->order('id','desc')
+            ->order('id', 'desc')
             ->paginate(null, false, $config);
     }
 
-    public function getIndexPageNews()
+
+    public function getIndexPageNewsByCateId($cateId, $limit)
     {
         return $this->where('isDelete', '=', 0)
-            ->where('categoryId', '=', 2)
+            ->where('categoryId', '=', $cateId)
             ->where('isShow', '=', 1)
-            ->order('id','desc')
-            ->limit(0, 6)->select();
+            ->order('id', 'desc')
+            ->limit(0, $limit)->select();
     }
+
+
 }

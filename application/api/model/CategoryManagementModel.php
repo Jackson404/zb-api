@@ -68,4 +68,5 @@ class CategoryManagementModel extends Model
     {
         return $this->where('isDelete', '=', 0)->order('id', 'desc')->select();
     }
+
 }

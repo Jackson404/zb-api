@@ -26,6 +26,8 @@ class SlideShow extends AdminBase
         $imgUrl = stripslashes($imgUrl);
         $turnUrl = $params['turnUrl'] ?? '';
         $remark = $params['remark'] ?? '';
+        $type = Check::checkInteger($params['type'] ?? 1); //1 轮播图 2广告位
+        $sort = Check::checkInteger($params['sort'] ?? 0); // 值越大越靠前
         $userId = $GLOBALS['userId'];
 
         if ($imgUrl == '') {
@@ -37,6 +39,8 @@ class SlideShow extends AdminBase
         $slideModel->imgUrl = $imgUrl;
         $slideModel->turnUrl = $turnUrl;
         $slideModel->remark = $remark;
+        $slideModel->type = $type;
+        $slideModel->sort = $sort;
         $slideModel->createBy = $userId;
         $slideModel->updateBy = $userId;
         $slideModel->createTime = currentTime();
@@ -64,6 +68,8 @@ class SlideShow extends AdminBase
         $imgUrl = stripslashes($imgUrl);
         $turnUrl = $params['turnUrl'] ?? '';
         $remark = $params['remark'] ?? '';
+        $type = Check::checkInteger($params['type'] ?? 1); //1 轮播图 2广告位
+        $sort = Check::checkInteger($params['sort'] ?? 0); // 值越大越靠前
         $userId = $GLOBALS['userId'];
 
         if ($imgUrl == '') {
@@ -76,6 +82,8 @@ class SlideShow extends AdminBase
         $slideModel->imgUrl = $imgUrl;
         $slideModel->turnUrl = $turnUrl;
         $slideModel->remark = $remark;
+        $slideModel->type = $type;
+        $slideModel->sort = $sort;
         $slideModel->updateBy = $userId;
         $slideModel->updateTime = currentTime();
 
@@ -99,11 +107,23 @@ class SlideShow extends AdminBase
     {
         // 使用闭包查询
         $list = SlideShowModel::all(function ($query) {
-            $query->where('isDelete', 0)->order('id', 'desc');
+            $query->where('isDelete', '=' ,0)->where('type','=','1')->order('sort', 'desc');
         });
         $data['list'] = $list;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
 
+
+    /**
+     * 获取所有的广告图
+     * @throws \think\exception\DbException
+     */
+    public function getAllAds(){
+        $list = SlideShowModel::all(function ($query){
+           $query->where('isDelete','=',0)->where('type','=',2)->order('sort','desc');
+        });
+        $data['list'] = $list;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
     /**

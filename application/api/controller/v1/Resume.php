@@ -369,8 +369,11 @@ class Resume extends IndexBase
             $listData[$k]['positionDetail'] = $positionDetail;
         }
 
+        $randomList = $positionModel->getRandomPositionListLimit($positionId);
+
         $data['total'] = count($listData);
         $data['list'] = $listData;
+        $data['randomList'] = $randomList;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 

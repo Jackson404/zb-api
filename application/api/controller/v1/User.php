@@ -2,8 +2,12 @@
 
 namespace app\api\controller\v1;
 
+use app\api\model\PositionManagementModel;
+use app\api\model\ResumeModel;
+use app\api\model\UserApplyPositionModel;
 use app\api\model\UserLoginHistoryModel;
 use app\api\model\UserModel;
+use app\api\model\UserPositionIntensionModel;
 use Sms;
 use think\cache\driver\Redis;
 use think\Request;
@@ -192,5 +196,32 @@ class User extends IndexBase
             return true;
         }
         return false;
+    }
+
+    public function userCenter()
+    {
+        $userId = $GLOBALS['userId'];
+        $resumeModel = new ResumeModel();
+        $resume = $resumeModel->getUserResume($userId);
+        $userPositionIntension = new UserPositionIntensionModel();
+        $positionIntension = $userPositionIntension->getPositionIntensionByUserId($userId);
+
+        $userApplyPositionModel = new UserApplyPositionModel();
+        $list = $userApplyPositionModel->getUserApplyList($userId);
+        $listData = $list->toArray();
+        $positionModel = new PositionManagementModel();
+        foreach ($listData as $k => $v) {
+            $positionId = $v['positionId'];
+            $positionDetail = $positionModel->getDetailForApply($positionId);
+            $listData[$k]['positionDetail'] = $positionDetail;
+        }
+
+        $data['total'] = count($listData);
+        $data['list'] = $listData;
+        $data['resume'] = $resume;
+        $data['positionIntension'] = $positionIntension;
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
     }
 }

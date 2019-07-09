@@ -11,7 +11,18 @@ class SlideShowModel extends Model
 
     public function getIndexSlideShow()
     {
-        return $this->where('isDelete', '=',0)->order('id', 'desc')->select();
+        return $this->where('isDelete', '=',0)
+            ->where('type','=',1)
+            ->order('sort', 'desc')
+            ->select();
+    }
+
+    public function getIndexAds()
+    {
+        return $this->where('isDelete', '=',0)
+            ->where('type','=',2)
+            ->order('sort', 'desc')
+            ->select();
     }
 
     public function getDetail($slideId){

@@ -98,13 +98,13 @@ class PositionManagementModel extends Model
             ->select();
     }
 
-    public function filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql,$labelIdsSql, $pageIndex, $pageSize)
+    public function filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql,$labelIdsSql, $addressSql,$pageIndex, $pageSize)
     {
 
         $offset = ($pageIndex - 1) * $pageSize;
-        $sql = "select * from zb_position_management where isDelete = 0   $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql  order by id desc limit $offset,$pageSize";
+        $sql = "select * from zb_position_management where isDelete = 0   $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql  $addressSql order by id desc limit $offset,$pageSize";
 
-        $countSql = "select count(*) from zb_position_management where isDelete = 0   $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql";
+        $countSql = "select count(*) from zb_position_management where isDelete = 0   $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql $addressSql";
 
         $result = $this->query($sql);
         $countResult = $this->query($countSql);
@@ -118,12 +118,13 @@ class PositionManagementModel extends Model
             ->join('zb_category_management zcm', 'p.positionCateId = zcm.id')
             ->join('zb_company_management zco', 'p.companyId = zco.id')
             ->where('p.isDelete', '=', 0)
-            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
-            p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,p.address,
-            p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
+//            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
+//            p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,p.address,
+//            p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
+                ->field('p.id,p.name')
             ->where('p.isShow', '=', 1)
             ->order('p.id', 'desc')
-            ->limit(0, 6)
+            ->limit(0, 4)
             ->select();
     }
 
@@ -140,5 +141,36 @@ class PositionManagementModel extends Model
             ->where('isDelete', '=', 0)
             ->dec('positionCount', $count)
             ->update();
+    }
+
+    public function getPositionByCateIdWithLimit($cateId,$limit){
+        return $this->where('positionCateId','=',$cateId)->where('isDelete','=',0)
+            ->where('isShow','=',1)
+            ->limit(0,$limit)
+            ->select();
+    }
+
+    public function getRandomPositionListLimit($positionId)
+    {
+        $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,
+            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address FROM zb_position_management as p LEFT JOIN zb_company_management as c
+            ON p.companyId = c.id 
+            WHERE p.isDelete=0 AND p.isShow=1 AND p.id <> '$positionId'
+             ORDER BY rand() LIMIT 0,5";
+
+        return $this->query($sql);
+
+    }
+
+    public function getRandomPositionLimit()
+    {
+        $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,
+            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address FROM zb_position_management as p LEFT JOIN zb_company_management as c
+            ON p.companyId = c.id 
+            WHERE p.isDelete=0 AND p.isShow=1 
+             ORDER BY rand() LIMIT 0,5";
+
+        return $this->query($sql);
+
     }
 }

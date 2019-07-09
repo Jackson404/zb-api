@@ -233,8 +233,10 @@ class PositionManagement extends AdminBase
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionManagementModel = new PositionManagementModel();
         $detail = $positionManagementModel->getDetail($positionId);
+        $randomList = $positionManagementModel->getRandomPositionListLimit($positionId);
         $detail['labelIds'] = json_decode($detail['labelIds'], true);
         $data['detail'] = $detail;
+        $data['randomList'] = $randomList;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
@@ -289,11 +291,11 @@ class PositionManagement extends AdminBase
         $education = Check::check($params['education'] ?? ''); //学历
         $workYear = Check::check($params['workYear'] ?? ''); //工作年限
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0);//是否军人优先 1,2
+        $address = Check::check($params['address'] ?? ''); //工作地址
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
         if ($positionCateId != 0) {
-
             $positionSql = "  and positionCateId= $positionCateId ";
         } else {
             $positionSql = '';
@@ -315,8 +317,13 @@ class PositionManagement extends AdminBase
             $minPay = 8000;
             $maxPay = 10000;
             $salarySql = "  and minPay >= $minPay and maxPay <= $maxPay";
-        } elseif ($salary == '10000元以上') {
+        } elseif($salary == '10000-15000元'){
             $minPay = 10000;
+            $maxPay = 15000;
+            $salarySql = "  and minPay >= $minPay and maxPay <= $maxPay";
+        }
+        elseif ($salary == '15000元以上') {
+            $minPay = 15000;
             $salarySql = "  and minPay >= $minPay ";
         } else {
             $salarySql = "";
@@ -371,8 +378,14 @@ class PositionManagement extends AdminBase
             $labelIdsSql = '';
         }
 
+        if ($address != ''){
+            $addressSql = " and  address like '%$address%'";
+        }else{
+            $addressSql = '';
+        }
+
         $positionModel = new PositionManagementModel();
-        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql, $pageIndex, $pageSize);
+        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql,$addressSql, $pageIndex, $pageSize);
 
 
         foreach ($result as $k => $v) {

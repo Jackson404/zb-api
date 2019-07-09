@@ -2,6 +2,7 @@
 
 namespace app\api\controller\v1;
 
+use app\api\model\CategoryManagementModel;
 use app\api\model\NewsModel;
 use app\api\model\PositionManagementModel;
 use app\api\model\SlideShowModel;
@@ -20,25 +21,47 @@ class IndexPage extends IndexBase
         $slideModel = new SlideShowModel();
         $slideList = $slideModel->getIndexSlideShow();
 
+        $adsList = $slideModel->getindexAds();
+
+        $cateModel = new CategoryManagementModel();
+
         $positionModel = new PositionManagementModel();
+
+        $topCateList = $cateModel->getTopCateWithoutPage();
+        $topCateListData = $topCateList->toArray();
+        foreach($topCateListData as $k=>$v){
+            $positionCateId = $v['id'];
+            $positionList = $positionModel->getPositionByCateIdWithLimit($positionCateId,6);
+            $positionListData = $positionList->toArray();
+            foreach ($positionListData as $k1=>$v1){
+                $positionListData[$k1]['labelIds'] = json_decode($v1['labelIds'],true);
+            }
+            $topCateListData[$k]['list'] = $positionListData;
+        }
+
+
         $hotPosition = $positionModel->getIndexHotPosition();
         $hotPositionData = $hotPosition->toArray();
 
-        foreach ($hotPositionData as $k => $v) {
-            $hotPositionData[$k]['labelIds'] = json_decode($v['labelIds']);
-        }
-
         $newsModel = new NewsModel();
-        $newList = $newsModel->getIndexPageNews();
-        $newListData = $newList->toArray();
+        $positionNewsList = $newsModel->getIndexPageNewsByCateId(3,3);
+        $soldierNewsList = $newsModel->getIndexPageNewsByCateId(4,3);
+        $positionNewsListData = $positionNewsList->toArray();
+        $soldierNewsListData = $soldierNewsList->toArray();
 
-        foreach ($newListData as $k => $v) {
-            $newListData[$k]['yearMonth'] = date('m-d',strtotime($v['createTime']));
+        foreach ($positionNewsListData as $k => $v) {
+            $positionNewsListData[$k]['yearMonth'] = date('m-d',strtotime($v['createTime']));
+        }
+        foreach ($soldierNewsListData as $k => $v) {
+            $soldierNewsListData[$k]['yearMonth'] = date('m-d',strtotime($v['createTime']));
         }
 
-        $data['slideShowList'] = $slideList;
         $data['hotPositionList'] = $hotPositionData;
-        $data['newsList'] = $newListData;
+        $data['positionCateList'] = $topCateListData;
+        $data['slideShowList'] = $slideList;
+        $data['adsList'] = $adsList;
+        $data['positionNewsList'] = $positionNewsListData;
+        $data['soldierNewsList'] = $soldierNewsListData;
 
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
 
