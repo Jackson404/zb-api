@@ -30,6 +30,11 @@ class IndexPage extends IndexBase
         $topCateList = $cateModel->getTopCateWithoutPage();
         $topCateListData = $topCateList->toArray();
         foreach($topCateListData as $k=>$v){
+            if ($k == 0){
+                $topCateListData[$k]['check'] = true;
+            }else{
+                $topCateListData[$k]['check'] = false;
+            }
             $positionCateId = $v['id'];
             $positionList = $positionModel->getPositionByCateIdWithLimit($positionCateId,6);
             $positionListData = $positionList->toArray();

@@ -127,6 +127,18 @@ class SlideShow extends AdminBase
     }
 
     /**
+     * 获取所有的轮播图和广告图
+     * @throws \think\exception\DbException
+     */
+    public function getAllAdsAndSlide(){
+        $list = SlideShowModel::all(function ($query){
+            $query->where('isDelete','=',0)->order('sort','desc');
+        });
+        $data['list'] = $list;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    /**
      * 删除轮播图
      */
     public function delById()
