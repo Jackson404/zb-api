@@ -144,8 +144,13 @@ class PositionManagementModel extends Model
     }
 
     public function getPositionByCateIdWithLimit($cateId,$limit){
-        return $this->where('positionCateId','=',$cateId)->where('isDelete','=',0)
-            ->where('isShow','=',1)
+        return $this->alias('p')
+            ->join('zb_company_management c','p.companyId = c.id')
+            ->where('p.positionCateId','=',$cateId)->where('p.isDelete','=',0)
+            ->where('p.isShow','=',1)
+            ->field('p.id,p.name,p.positionCateId,p.companyId,c.name as companyName,
+            p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,p.address,
+            p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->limit(0,$limit)
             ->select();
     }
