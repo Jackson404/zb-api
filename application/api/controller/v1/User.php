@@ -58,7 +58,11 @@ class User extends IndexBase
         $userModel = new UserModel();
 
         if (!$userModel->checkPhoneExist($phone)) {
+            $username = '正步_' . Util::generateRandomCode(6);
+            $avatar = '/public/avatar/a1.png';
             $data = [
+                'avatar' => $avatar,
+                'name' => $username,
                 'phone' => $phone,
                 'createTime' => currentTime(),
                 'updateTime' => currentTime()
@@ -75,6 +79,8 @@ class User extends IndexBase
         $detail = $userModel->getByPhone($phone);
         $detailData = $detail->toArray();
         $userId = $detailData['id'];
+        $username = $detailData['name'];
+        $avatar = $detailData['avatar'];
 
         $token = password_hash($userId . $phone, PASSWORD_DEFAULT);
         $id_token = $userId . '|' . $token;
@@ -95,11 +101,31 @@ class User extends IndexBase
         $result = $userLoginHistoryModel->save($array);
 
         if ($result > 0) {
+
             $arr = [
                 'uid' => $userId,
+                'avatar' => $avatar,
+                'name' => $username,
                 'phone' => $phone,
                 'id_token' => $id_token
             ];
+            $resumeModel = new ResumeModel();
+            if ($resumeModel->checkUserHasCreateResume($userId)) {
+                $arr['hasResume'] = true;
+
+                $userApplyPositionModel = new UserApplyPositionModel();
+                $list = $userApplyPositionModel->getUserApplyList($userId);
+                $listData = $list->toArray();
+
+                $arr['list'] = [
+                    'applyPositionTotal' => count($listData),
+                    'see' => 100
+                ];
+            } else {
+                $arr['hasResume'] = false;
+                $arr['list'] = [];
+            }
+
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
             exit;
         } else {
@@ -222,6 +248,38 @@ class User extends IndexBase
         $data['positionIntension'] = $positionIntension;
 
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
+    }
+
+    public function getUserInfo()
+    {
+        $userId = $GLOBALS['userId'];
+        $userModel = new UserModel();
+        $userInfo = $userModel->getUserInfoByUserId($userId);
+        $arr = [
+            'uid' => $userId,
+            'avatar' => $userInfo['avatar'],
+            'name' => $userInfo['name'],
+            'phone' => $userInfo['phone']
+        ];
+        $resumeModel = new ResumeModel();
+        if ($resumeModel->checkUserHasCreateResume($userId)) {
+            $arr['hasResume'] = true;
+
+            $userApplyPositionModel = new UserApplyPositionModel();
+            $list = $userApplyPositionModel->getUserApplyList($userId);
+            $listData = $list->toArray();
+
+            $arr['list'] = [
+                'applyPositionTotal' => count($listData),
+                'see' => 100
+            ];
+        } else {
+            $arr['hasResume'] = false;
+            $arr['list'] = [];
+        }
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
 
     }
 }

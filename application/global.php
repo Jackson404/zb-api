@@ -30,26 +30,25 @@ $GLOBALS['ERROR_LOGIN'] = "-20000001";                        //登录错误
 $GLOBALS['ERROR_PARAM_MISSING'] = "-20000002";                //参数缺失
 $GLOBALS['ERROR_PERMISSION'] = "-20000003";                    //权限错误
 $GLOBALS['ERROR_REQUEST'] = "-20000004";                    //请求错误，接口不存在
-$GLOBALS['ERROR_FAMILY_LOGIN'] = "-20000005";                //家族登录出错
+
 $GLOBALS['ERROR_REGISTER_DUPLICATEEMAIL'] = "-20000006";    //注册邮箱重复出错
 $GLOBALS['ERROR_REGISTER'] = "-20000007";                    //注册出错
 $GLOBALS['ERROR_REGISTER_DUPLICATEUSERNAME'] = "-20000008";    //注册用户名重复出错
 $GLOBALS['ERROR_REGISTER_DUPLICATEPHONE'] = "-20000009";    //注册手机重复出错
 $GLOBALS['ERROR_REGISTER_TYPE'] = "-20000010";                //注册方式不存在出错
 $GLOBALS['ERROR_LOGIN_TYPE'] = "-20000011";                    //登录方式不存在出错
-$GLOBALS['ERROR_ZONE_EXIST'] = "-20000012";                    //空间已经存在，不允许重复创建
+
 $GLOBALS['ERROR_INPUT_FORMAT'] = "-20000013";                //输入格式错误
-$GLOBALS['ERROR_COLLECTION_EXIST'] = "-20000014";           //收藏已经存在，不允许重复创建
+
 $GLOBALS['ERROR_REGISTER_DUPLICATEWECHAT'] = "-20000015";   //微信账号已绑定
 $GLOBALS['ERROR_INSERT_REDIS'] = "-20000016";               //REDIS插入失败
 $GLOBALS['ERROR_ACCOUNT_NOT_EXIST'] = "-20000017";               //REDIS插入失败
 $GLOBALS['ERROR_PARAM_WRONG'] = "-20000018";                //参数不正确
-$GLOBALS['ERROR_PHONE_USETIMES_LIMITED'] = "-20000019";     //电话在24小时中使用了10次
+
 $GLOBALS['ERROR_USER_EXISTS'] = "-20000020";                //用户不存在
 $GLOBALS['ERROR_PASSWORD'] = "-20000021";                   // 密码错误
-$GLOBALS['ERROR_VERSION_INPUT'] = "-20000022";            //版本号小雨上次输入的
 $GLOBALS['ERROR_SYSTEMUSER_EXISTS'] = "-20000023";                       //'系统用户已经存在'
-$GLOBALS['ERROR_CHANNEL_EXISTS'] = "-20000024";    //'频道名字已经存在'
+
 $GLOBALS['ERROR_SEND_FAILED'] = "-20000025";
 $GLOBALS['ERROR_FAILED_VALIDATE'] = "-20000026";
 
@@ -89,11 +88,7 @@ $GLOBALS['LOCK_LOGIN_TIMES'] = "5";            //登录失败锁定的次数
 
 $GLOBALS['SHA256_SALT'] = "adhisugdd";        //加密的salt
 
-$GLOBALS['WRITE_MODE_ALONE'] = "0";            //单独撰写
-$GLOBALS['WRITE_MODE_UNION'] = "1";            //联合撰写
-
 $GLOBALS['userId'] = 0;
-$GLOBALS['indexUserId'] = 0;
 
 $GLOBALS['TOKEN_API'] = 'API';
 $GLOBALS['REQUEST_ILLEGAL'] = '-1';
@@ -105,14 +100,10 @@ $GLOBALS['WEB_ID'] = 'zhengbuwangluokejiwebid';
 $GLOBALS['WEB_SECRET'] = 'zhengbuwangluokejisecret';
 
 
-/*************************************一些默认的设置********************************************/
-
-$GLOBALS['TEST_MODE'] = true;       //测试模式,true的话需要邀请码才能注册,fasle的话不需要邀请码
-
 /*************************************数据库参数********************************************/
 $GLOBALS['redis_port'] = '';
 $GLOBALS['redis_auth'] = '';
-//$GLOBALS['CDN_URL'] = '47.103.102.22';
+
 $GLOBALS['CDN_URL'] = '127.0.0.1:9090';
 $GLOBALS['db_config'] = [
     // 数据库类型
@@ -127,10 +118,6 @@ $GLOBALS['db_config'] = [
     'password' => '0045abcba22aad6d',
     // 端口
     'hostport' => '3306',
-    // 连接dsn
-    'dsn' => '',
-    // 数据库连接参数
-    'params' => [],
     // 数据库编码默认采用utf8
     'charset' => 'utf8mb4',
     // 数据库表前缀

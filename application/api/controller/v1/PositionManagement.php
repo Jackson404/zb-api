@@ -26,7 +26,6 @@ class PositionManagement extends AdminBase
         $num = Check::check($params['num'] ?? ''); //职位招人数
         $labelIds = Check::check($params['labelIds'] ?? ''); //标签
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
-        $address = Check::check($params['address'] ?? ''); //公司地址
         $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
         $positionRequirement = stripslashes($positionRequirement);
         $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
@@ -79,7 +78,6 @@ class PositionManagement extends AdminBase
             'num' => $num,
             'labelIds' => $labelIdsJson,
             'isSoldierPriority' => $isSoldierPriority,
-            'address' => $address,
             'positionRequirement' => htmlspecialchars_decode($positionRequirement),
             'isShow' => $isShow,
             'createTime' => currentTime(),
@@ -120,7 +118,6 @@ class PositionManagement extends AdminBase
         $num = Check::check($params['num'] ?? ''); //职位招人数
         $labelIds = Check::check($params['labelIds'] ?? ''); //标签
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
-        $address = Check::check($params['address'] ?? ''); //公司地址
         $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
         $positionRequirement = stripslashes($positionRequirement);
         $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
@@ -174,7 +171,6 @@ class PositionManagement extends AdminBase
             'num' => $num,
             'labelIds' => $labelIdsJson,
             'isSoldierPriority' => $isSoldierPriority,
-            'address' => $address,
             'positionRequirement' => htmlspecialchars_decode($positionRequirement),
             'isShow' => $isShow,
             'updateTime' => currentTime(),
@@ -291,12 +287,14 @@ class PositionManagement extends AdminBase
         $education = Check::check($params['education'] ?? ''); //学历
         $workYear = Check::check($params['workYear'] ?? ''); //工作年限
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0);//是否军人优先 1,2
-        $address = Check::check($params['address'] ?? ''); //工作地址
+        $province = Check::check($params['province'] ?? ''); //省份
+        $city = Check::check($params['city'] ?? ''); //市
+        $area = Check::check($params['area'] ?? ''); //区
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
         if ($positionCateId != 0) {
-            $positionSql = "  and positionCateId= $positionCateId ";
+            $positionSql = "  and p.positionCateId= $positionCateId ";
         } else {
             $positionSql = '';
         }
@@ -304,34 +302,34 @@ class PositionManagement extends AdminBase
         if ($salary == '3000元以下') {
             $minPay = 0;
             $maxPay = 3000;
-            $salarySql = "  and minPay >= $minPay and  maxPay <= $maxPay";
+            $salarySql = "  and p.minPay >= $minPay and  p.maxPay <= $maxPay";
         } elseif ($salary == '3000-5000元') {
             $minPay = 3000;
             $maxPay = 5000;
-            $salarySql = "  and minPay >= $minPay and maxPay <= $maxPay";
+            $salarySql = "  and p.minPay >= $minPay and p.maxPay <= $maxPay";
         } elseif ($salary == '5000-8000元') {
             $minPay = 5000;
             $maxPay = 8000;
-            $salarySql = "  and minPay >= $minPay  and  maxPay <= $maxPay";
+            $salarySql = "  and p.minPay >= $minPay  and  p.maxPay <= $maxPay";
         } elseif ($salary == '8000-10000元') {
             $minPay = 8000;
             $maxPay = 10000;
-            $salarySql = "  and minPay >= $minPay and maxPay <= $maxPay";
+            $salarySql = "  and p.minPay >= $minPay and p.maxPay <= $maxPay";
         } elseif($salary == '10000-15000元'){
             $minPay = 10000;
             $maxPay = 15000;
-            $salarySql = "  and minPay >= $minPay and maxPay <= $maxPay";
+            $salarySql = "  and p.minPay >= $minPay and p.maxPay <= $maxPay";
         }
         elseif ($salary == '15000元以上') {
             $minPay = 15000;
-            $salarySql = "  and minPay >= $minPay ";
+            $salarySql = "  and p.minPay >= $minPay ";
         } else {
             $salarySql = "";
         }
 
         if ($education == '初中及以下' || $education == '高中' || $education == '专科' || $education == '本科' ||
             $education == '研究生' || $education == '硕士' || $education == '博士') {
-            $educationSql = "  and education  = '$education' ";
+            $educationSql = "  and p.education  = '$education' ";
         } else {
             $educationSql = '';
         }
@@ -339,28 +337,28 @@ class PositionManagement extends AdminBase
         if ($workYear == '无经验') {
             $minWorkExp = 0;
             $maxWorkExp = 0;
-            $workYearSql = " and minWorkExp = $minWorkExp and maxWorkExp = $maxWorkExp";
+            $workYearSql = " and p.minWorkExp = $minWorkExp and p.maxWorkExp = $maxWorkExp";
         } elseif ($workYear == '1~3年') {
             $minWorkExp = 1;
             $maxWorkExp = 3;
-            $workYearSql = "  and minWorkExp >= $minWorkExp and maxWorkExp <= $maxWorkExp";
+            $workYearSql = "  and p.minWorkExp >= $minWorkExp and p.maxWorkExp <= $maxWorkExp";
         } elseif ($workYear == '3~5年') {
             $minWorkExp = 3;
             $maxWorkExp = 5;
-            $workYearSql = "  and minWorkExp >= $minWorkExp and maxWorkExp <= $maxWorkExp";
+            $workYearSql = "  and p.minWorkExp >= $minWorkExp and p.maxWorkExp <= $maxWorkExp";
         } elseif ($workYear == '5~10年') {
             $minWorkExp = 5;
             $maxWorkExp = 10;
-            $workYearSql = "  and minWorkExp >= $minWorkExp and maxWorkExp <= $maxWorkExp";
+            $workYearSql = "  and p.minWorkExp >= $minWorkExp and p.maxWorkExp <= $maxWorkExp";
         } elseif ($workYear == '10年以上') {
             $minWorkExp = 10;
-            $workYearSql = "  and minWorkExp >= $minWorkExp ";
+            $workYearSql = "  and p.minWorkExp >= $minWorkExp ";
         } else {
             $workYearSql = '';
         }
 
         if ($isSoldierPriority == 1) {
-            $isSoldierPrioritySql = " and isSoldierPriority = $isSoldierPriority";
+            $isSoldierPrioritySql = " and p.isSoldierPriority = $isSoldierPriority";
         } else {
             $isSoldierPrioritySql = "";
         }
@@ -371,22 +369,31 @@ class PositionManagement extends AdminBase
 
             $labelIdsSql = '';
             foreach ($labelIdsArr as $k => $v) {
-                $labelIdsSql .= "   and  labelIds like  '%$v%' ";
+                $labelIdsSql .= "   and  p.labelIds like  '%$v%' ";
             }
 
         } else {
             $labelIdsSql = '';
         }
 
-        if ($address != ''){
-            $addressSql = " and  address like '%$address%'";
+        if ($province != ''){
+            $provinceSql = "  and  zco.province = '$province' ";
         }else{
-            $addressSql = '';
+            $provinceSql = '';
+        }
+        if ($city != ''){
+            $citySql = "   and   zco.city = '$city' ";
+        }else{
+            $citySql = '';
+        }
+        if ($area != ''){
+            $areaSql = "   and  zco.area = '$area' ";
+        }else{
+            $areaSql = '';
         }
 
         $positionModel = new PositionManagementModel();
-        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql,$addressSql, $pageIndex, $pageSize);
-
+        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql,$provinceSql,$citySql,$areaSql, $pageIndex, $pageSize);
 
         foreach ($result as $k => $v) {
             $result[$k]['labelIds'] = json_decode($v['labelIds'], true);
@@ -423,7 +430,6 @@ class PositionManagement extends AdminBase
     {
         $params = Request::instance()->request();
         $companyId = Check::checkInteger($params['companyId'] ?? '');
-//        $userId = $GLOBALS['userId'];
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 

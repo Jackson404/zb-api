@@ -24,4 +24,12 @@ class UserModel extends Model
     {
         return $this->where('phone', '=', $phone)->where('isDelete', '=', 0)->find();
     }
+
+    public function getUserInfoByUserId($userId)
+    {
+        return $this->where('id', '=', $userId)
+            ->where('isDelete', '=', 0)
+            ->field('id,avatar,name,phone')
+            ->find();
+    }
 }

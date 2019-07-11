@@ -11,6 +11,7 @@ $whiteList = [
     'api/v1.Resume/addResumeAndApplyPosition',
     'api/v1.User/changePhone',
     'api/v1.User/userCenter',
+    'api/v1.User/getUserInfo',
     'api/v1.UserBrowsingHistory/addPositionRecord',
     'api/v1.UserBrowsingHistory/getPositionRecordList',
     'api/v1.UserPositionIntension/add',

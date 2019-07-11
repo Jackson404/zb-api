@@ -11,5 +11,6 @@
 
 return [
     'app\ans\command\Data',
-    'app\ans\command\Position'
+    'app\ans\command\Position',
+    'app\ans\command\ModifyData',
 ];
