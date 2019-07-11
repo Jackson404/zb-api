@@ -22,7 +22,7 @@ class NewsModel extends Model
             'page' => $pageIndex
         ];
         return $this->alias('n')
-            ->join('zb_news_category nc', 'n.categoryId = nc.id','left')
+            ->join('zb_news_category nc', 'n.categoryId = nc.id', 'left')
             ->where('n.isDelete', '=', 0)
             ->where('n.isShow', '=', 1)
             ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.isShow,n.createTime,n.createBy,n.updateTime,n.updateBy')
@@ -37,7 +37,7 @@ class NewsModel extends Model
             'page' => $pageIndex
         ];
         return $this->alias('n')
-            ->join('zb_news_category nc', 'n.categoryId = nc.id','left')
+            ->join('zb_news_category nc', 'n.categoryId = nc.id', 'left')
             ->where('n.isDelete', '=', 0)
             ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.isShow,n.createTime,n.createBy,n.updateTime,n.updateBy')
             ->order('n.id', 'desc')
@@ -48,7 +48,7 @@ class NewsModel extends Model
     public function getDetail($newsId)
     {
         return $this->alias('n')
-            ->join('zb_news_category nc', 'n.categoryId = nc.id','left')
+            ->join('zb_news_category nc', 'n.categoryId = nc.id', 'left')
             ->where('n.isDelete', '=', 0)
             ->where('n.id', '=', $newsId)
             ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.isShow,n.createTime,n.createBy,n.updateTime,n.updateBy')
@@ -64,6 +64,13 @@ class NewsModel extends Model
 
     }
 
+    public function getRandomNextNewsLimit($newsId)
+    {
+        return $this->query("SELECT * FROM zb_news 
+                WHERE isDelete=0 AND isShow=1 AND id <> '$newsId'
+               ORDER BY rand() LIMIT 0,1");
+    }
+
     public function getNewsByCateIdPage($categoryId, $pageIndex, $pageSize)
     {
         $config = [
@@ -74,6 +81,22 @@ class NewsModel extends Model
             ->where('isShow', '=', 1)
             ->where('isDelete', '=', 0)
             ->order('id', 'desc')
+            ->paginate(null, false, $config);
+    }
+
+    public function getNewsByCateIdPageAdmin($categoryId, $pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+
+        return $this->alias('n')
+            ->join('zb_news_category nc', 'n.categoryId = nc.id', 'left')
+            ->where('n.isDelete', '=', 0)
+            ->where('n.categoryId', '=', $categoryId)
+            ->field('n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.isShow,n.createTime,n.createBy,n.updateTime,n.updateBy')
+            ->order('n.id', 'desc')
             ->paginate(null, false, $config);
     }
 

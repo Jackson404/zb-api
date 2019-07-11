@@ -100,43 +100,26 @@ class SlideShow extends AdminBase
     }
 
     /**
-     * 获取所有的轮播图
+     * 获取所有的轮播图  1 轮播图（默认） 2 广告图  0 全部
      * @throws \think\exception\DbException
      */
     public function getAll()
     {
+        $params = Request::instance()->request();
+        $type = Check::checkInteger($params['type'] ?? 1);
+
         // 使用闭包查询
-        $list = SlideShowModel::all(function ($query) {
-            $query->where('isDelete', '=' ,0)->where('type','=','1')->order('sort', 'desc');
+        $list = SlideShowModel::all(function ($query) use ($type) {
+            if ($type == 0) {
+                $query->where('isDelete', '=', 0)->order('sort', 'desc');
+            } else {
+                $query->where('isDelete', '=', 0)->where('type', '=', $type)->order('sort', 'desc');
+            }
         });
         $data['list'] = $list;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
-
-    /**
-     * 获取所有的广告图
-     * @throws \think\exception\DbException
-     */
-    public function getAllAds(){
-        $list = SlideShowModel::all(function ($query){
-           $query->where('isDelete','=',0)->where('type','=',2)->order('sort','desc');
-        });
-        $data['list'] = $list;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
-
-    /**
-     * 获取所有的轮播图和广告图
-     * @throws \think\exception\DbException
-     */
-    public function getAllAdsAndSlide(){
-        $list = SlideShowModel::all(function ($query){
-            $query->where('isDelete','=',0)->order('sort','desc');
-        });
-        $data['list'] = $list;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
 
     /**
      * 删除轮播图
@@ -164,7 +147,8 @@ class SlideShow extends AdminBase
         }
     }
 
-    public function getDetail(){
+    public function getDetail()
+    {
         $params = Request::instance()->request();
         $slideShowId = $params['id'] ?? '';
         if ($slideShowId == '') {
@@ -174,7 +158,7 @@ class SlideShow extends AdminBase
         $slideShowModel = new SlideShowModel();
         $detail = $slideShowModel->getDetail($slideShowId);
         $data['detail'] = $detail;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'],$data);
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
 }

@@ -21,7 +21,7 @@ class CompanyManagementModel extends Model
             ->join('zb_industry i', 'c.industryId = i.code','left')
             ->where('c.id', '=', $companyId)
             ->where('c.isDelete', '=', 0)
-            ->field('c.id,c.name,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
+            ->field('c.id,c.name,i.id as industryId,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
             c.profile,c.positionCount,c.remark,c.dataBank,c.createTime,c.createBy,c.updateTime,c.updateBy')
             ->find();
     }

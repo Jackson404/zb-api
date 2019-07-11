@@ -182,8 +182,11 @@ class News extends AdminBase
 
         $randomNewsList = $newsModel->getRandomNewsListLimit($categoryId, $newsId);
 
+        $nextNews = $newsModel->getRandomNextNewsLimit($newsId);
+
         $data['detail'] = $detail;
         $data['randomNewsList'] = $randomNewsList;
+        $data['nextNews'] = $nextNews;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
@@ -195,8 +198,8 @@ class News extends AdminBase
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
         $newsModel = new NewsModel();
-        $positionNews = $newsModel->getIndexPageNewsByCateId(3,1);
-        $soldierNews = $newsModel->getIndexPageNewsByCateId(4,1);
+        $positionNews = $newsModel->getIndexPageNewsByCateId(3, 1);
+        $soldierNews = $newsModel->getIndexPageNewsByCateId(4, 1);
 
         $page = $newsModel->getNewsByCateIdPage($categoryId, $pageIndex, $pageSize);
 
@@ -217,6 +220,28 @@ class News extends AdminBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
 
+    public function getNewsPageByCateIdWithAdmin()
+    {
+        $params = Request::instance()->request();
+        $categoryId = Check::checkInteger($params['categoryId'] ?? '');
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        $newsModel = new NewsModel();
+        $page = $newsModel->getNewsByCateIdPageAdmin($categoryId, $pageIndex, $pageSize);
+
+        $pageData = $page->toArray();
+        $data = $pageData['data'];
+        foreach ($data as $k => $v) {
+            $data[$k]['year'] = date('Y', strtotime($v['createTime']));
+            $data[$k]['month'] = date('m', strtotime($v['createTime']));
+            $data[$k]['day'] = date('d', strtotime($v['createTime']));
+        }
+
+        $pageData['data'] = $data;
+        $arr['page'] = $pageData;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+    }
 
 
 }
