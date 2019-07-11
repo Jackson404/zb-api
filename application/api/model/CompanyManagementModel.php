@@ -17,7 +17,13 @@ class CompanyManagementModel extends Model
 
     public function getDetail($companyId)
     {
-        return $this->where('id', '=', $companyId)->where('isDelete', '=', 0)->find();
+        return $this->alias('c')
+            ->join('zb_industry i', 'c.industryId = i.id')
+            ->where('c.id', '=', $companyId)
+            ->where('c.isDelete', '=', 0)
+            ->field('c.id,c.name,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
+            c.profile,c.positionCount,c.remark,c.dataBank,c.createTime,c.createBy,c.updateTime,c.updateBy')
+            ->find();
     }
 
     public function getByPage($pageIndex, $pageSize)
@@ -27,17 +33,23 @@ class CompanyManagementModel extends Model
             'page' => $pageIndex
         ];
 
-        return $this->where('isDelete', '=', 0)
-            ->order('id','desc')
+        return $this->alias('c')
+            ->join('zb_industry i', 'c.industryId = i.id')
+            ->where('c.isDelete', '=', 0)
+            ->field('c.id,c.name,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
+            c.profile,c.positionCount,c.remark,c.dataBank,c.createTime,c.createBy,c.updateTime,c.updateBy')
+            ->order('c.id', 'desc')
             ->paginate(null, false, $config);
-
     }
 
     public function getAll()
     {
-
-        return $this->where('isDelete', '=', 0)
-            ->order('id','desc')
+        return $this->alias('c')
+            ->join('zb_industry i', 'c.industryId = i.id')
+            ->where('c.isDelete', '=', 0)
+            ->field('c.id,c.name,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
+            c.profile,c.positionCount,c.remark,c.dataBank,c.createTime,c.createBy,c.updateTime,c.updateBy')
+            ->order('c.id', 'desc')
             ->select();
     }
 

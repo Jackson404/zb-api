@@ -15,6 +15,7 @@ class CompanyManagement extends AdminBase
     public function add()
     {
         $params = Request::instance()->request();
+        $industryId = Check::check($params['industryId'] ?? ''); //行业分类
         $name = Check::check($params['name'] ?? '');
         $province = Check::check($params['province'] ?? ''); //省份
         $city = Check::check($params['city'] ?? ''); // 城市
@@ -51,6 +52,7 @@ class CompanyManagement extends AdminBase
         }
 
         $data = [
+            'industryId'=>$industryId,
             'name' => $name,
             'province' => $province,
             'city' => $city,
@@ -85,6 +87,7 @@ class CompanyManagement extends AdminBase
     {
         $params = Request::instance()->request();
         $companyId = Check::checkInteger($params['companyId'] ?? '');
+        $industryId = Check::check($params['industryId'] ?? ''); // 行业分类
         $name = Check::check($params['name'] ?? '');
         $province = Check::check($params['province'] ?? ''); //省份
         $city = Check::check($params['city'] ?? ''); // 城市
@@ -121,6 +124,7 @@ class CompanyManagement extends AdminBase
             $dataBankArrJson = json_encode(array());
         }
         $data = [
+            'industryId'=>$industryId,
             'name' => $name,
             'province' => $province,
             'city' => $city,
@@ -213,7 +217,6 @@ class CompanyManagement extends AdminBase
         $result = $companyManagementModel->getAll();
 
         foreach ($result as $k => $v) {
-
             $result[$k]['dataBank'] = json_decode($v['dataBank'], true);
         }
 
