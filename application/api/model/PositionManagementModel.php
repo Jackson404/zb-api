@@ -18,8 +18,8 @@ class PositionManagementModel extends Model
     public function getDetail($positionId)
     {
         return $this->alias('p')
-            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id')
-            ->join('zb_company_management zco', 'p.companyId = zco.id')
+            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id','left')
+            ->join('zb_company_management zco', 'p.companyId = zco.id','left')
             ->where('p.isDelete', '=', 0)
             ->where('p.id', '=', $positionId)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
@@ -31,8 +31,8 @@ class PositionManagementModel extends Model
     public function getDetailForApply($positionId)
     {
         return $this->alias('p')
-            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id')
-            ->join('zb_company_management zco', 'p.companyId = zco.id')
+            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id','left')
+            ->join('zb_company_management zco', 'p.companyId = zco.id','left')
             ->where('p.isDelete', '=', 0)
             ->where('p.id', '=', $positionId)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
@@ -49,8 +49,8 @@ class PositionManagementModel extends Model
             'page' => $pageIndex
         ];
         return $this->alias('p')
-            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id')
-            ->join('zb_company_management zco', 'p.companyId = zco.id')
+            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id','left')
+            ->join('zb_company_management zco', 'p.companyId = zco.id','left')
             ->where('p.isDelete', '=', 0)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
@@ -66,8 +66,8 @@ class PositionManagementModel extends Model
             'page' => $pageIndex
         ];
         return $this->alias('p')
-            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id')
-            ->join('zb_company_management zco', 'p.companyId = zco.id')
+            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id','left')
+            ->join('zb_company_management zco', 'p.companyId = zco.id','left')
             ->where('p.isDelete', '=', 0)
             ->where('p.companyId', '=', $companyId)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
@@ -93,8 +93,8 @@ class PositionManagementModel extends Model
     public function search($value)
     {
         return $this->alias('p')
-            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id')
-            ->join('zb_company_management zco', 'p.companyId = zco.id')
+            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id','left')
+            ->join('zb_company_management zco', 'p.companyId = zco.id','left')
             ->whereLike('p.name', '%' . $value . '%')
             ->where('p.isDelete', '=', 0)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
@@ -130,8 +130,8 @@ class PositionManagementModel extends Model
     public function getIndexHotPosition()
     {
         return $this->alias('p')
-            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id')
-            ->join('zb_company_management zco', 'p.companyId = zco.id')
+            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id','left')
+            ->join('zb_company_management zco', 'p.companyId = zco.id','left')
             ->where('p.isDelete', '=', 0)
             ->where('p.isShow', '=', 1)
             ->field('p.id,p.name')
@@ -159,7 +159,7 @@ class PositionManagementModel extends Model
     public function getPositionByCateIdWithLimit($cateId, $limit)
     {
         return $this->alias('p')
-            ->join('zb_company_management c', 'p.companyId = c.id')
+            ->join('zb_company_management c', 'p.companyId = c.id','left')
             ->where('p.positionCateId', '=', $cateId)->where('p.isDelete', '=', 0)
             ->where('p.isShow', '=', 1)
             ->field('p.id,p.name,p.positionCateId,p.companyId,c.name as companyName,

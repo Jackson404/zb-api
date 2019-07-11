@@ -42,9 +42,9 @@ class UserApplyPositionModel extends Model
             'page' => $pageIndex
         ];
         return $this->alias('aly')
-            ->join('zb_position_management p','aly.positionId = p.id')
-            ->join('zb_position_cate zcm','p.positionCateId = zcm.id')
-            ->join('zb_company_management zco','p.companyId = zco.id')
+            ->join('zb_position_management p','aly.positionId = p.id','left')
+            ->join('zb_position_cate zcm','p.positionCateId = zcm.id','left')
+            ->join('zb_company_management zco','p.companyId = zco.id','left')
             ->where('aly.isDelete', '=', 0)
             ->where('aly.resumeId', '=', $resumeId)
             ->field('aly.id,aly.positionId,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
@@ -61,7 +61,7 @@ class UserApplyPositionModel extends Model
             'page' => $pageIndex
         ];
         return $this->alias('aly')
-            ->join('zb_resume r','aly.resumeId = r.id')
+            ->join('zb_resume r','aly.resumeId = r.id','left')
             ->where('aly.isDelete', '=', 0)
             ->where('aly.positionId', '=', $positionId)
             ->order('aly.id','desc')

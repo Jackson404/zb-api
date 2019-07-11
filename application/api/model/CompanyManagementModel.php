@@ -18,7 +18,7 @@ class CompanyManagementModel extends Model
     public function getDetail($companyId)
     {
         return $this->alias('c')
-            ->join('zb_industry i', 'c.industryId = i.id')
+            ->join('zb_industry i', 'c.industryId = i.id','left')
             ->where('c.id', '=', $companyId)
             ->where('c.isDelete', '=', 0)
             ->field('c.id,c.name,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
@@ -34,7 +34,7 @@ class CompanyManagementModel extends Model
         ];
 
         return $this->alias('c')
-            ->join('zb_industry i', 'c.industryId = i.id')
+            ->join('zb_industry i', 'c.industryId = i.id','left')
             ->where('c.isDelete', '=', 0)
             ->field('c.id,c.name,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
             c.profile,c.positionCount,c.remark,c.dataBank,c.createTime,c.createBy,c.updateTime,c.updateBy')
@@ -45,7 +45,7 @@ class CompanyManagementModel extends Model
     public function getAll()
     {
         return $this->alias('c')
-            ->join('zb_industry i', 'c.industryId = i.id')
+            ->join('zb_industry i', 'c.industryId = i.id','left')
             ->where('c.isDelete', '=', 0)
             ->field('c.id,c.name,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
             c.profile,c.positionCount,c.remark,c.dataBank,c.createTime,c.createBy,c.updateTime,c.updateBy')

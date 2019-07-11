@@ -37,8 +37,8 @@ class UserBrowsingModel extends Model
     public function getPositionRecord($userId, $limit)
     {
         return $this->alias('r')
-            ->join('zb_position_management p', 'r.positionId = p.id')
-            ->join('zb_company_management c','p.companyId = c.id')
+            ->join('zb_position_management p', 'r.positionId = p.id','left')
+            ->join('zb_company_management c','p.companyId = c.id','left')
             ->where('r.userId', '=', $userId)
             ->field('p.id,p.name,p.companyId,c.name as companyName,p.pay,
             r.createTime,r.createBy,r.updateTime,r.updateBy')
