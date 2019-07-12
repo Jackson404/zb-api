@@ -3,7 +3,6 @@
 namespace app\api\controller\v1;
 
 use app\api\model\IndustryModel;
-use app\api\model\PositionCateModel;
 use think\Request;
 use Util\Check;
 use Util\Util;
@@ -24,7 +23,7 @@ class Industry extends AuthBase
         $data = $industryModel->getAll();
         $tree = generateTreeCode($data->toArray(), 'pid');
 
-        if ($type == 1){
+        if ($type == 1) {
             $tree = generateTreeCode1($data->toArray(), 'pid');
         }
 
@@ -98,5 +97,25 @@ class Industry extends AuthBase
         $detail = $industryModel->getDetail($industryId);
         $data['detail'] = $detail;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    public function filterIndustryInfo()
+    {
+        $params = Request::instance()->request();
+        $info = Check::check($params['info'] ?? '');
+        $industryModel = new IndustryModel();
+        $r = $industryModel->allIndustryInfo();
+        $r = array_column($r->toArray(),'name','code');
+
+        if ($info == '') {
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $r);
+            exit;
+        } else {
+            $input = preg_quote($info, '~'); // don't forget to quote input string!
+            $result = preg_grep('~' . $input . '~', $r);
+            $result = array_values($result);
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $result);
+        }
+
     }
 }

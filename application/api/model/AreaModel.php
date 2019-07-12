@@ -27,4 +27,14 @@ class AreaModel extends Model
         return $this->query($sql);
     }
 
+    public function areaInfo()
+    {
+        $sql1 = "select distinct province from zb_area";
+        $sql2 = "select distinct city from zb_area";
+        $sql3 = "select distinct area from zb_area";
+        $res1 = $this->query($sql1);
+        $res2 = $this->query($sql2);
+        $res3 = $this->query($sql3);
+        return [$res1, $res2, $res3];
+    }
 }

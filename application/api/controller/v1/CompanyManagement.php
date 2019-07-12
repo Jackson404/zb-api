@@ -46,13 +46,13 @@ class CompanyManagement extends AdminBase
 
         if ($dataBank != '') {
             $dataBankArr = explode(',', $dataBank);
-            $dataBankArrJson = json_encode($dataBankArr,JSON_UNESCAPED_UNICODE);
+            $dataBankArrJson = json_encode($dataBankArr, JSON_UNESCAPED_UNICODE);
         } else {
             $dataBankArrJson = json_encode(array());
         }
 
         $data = [
-            'industryId'=>$industryId,
+            'industryId' => $industryId,
             'name' => $name,
             'province' => $province,
             'city' => $city,
@@ -119,12 +119,12 @@ class CompanyManagement extends AdminBase
 
         if ($dataBank != '') {
             $dataBankArr = explode(',', $dataBank);
-            $dataBankArrJson = json_encode($dataBankArr,JSON_UNESCAPED_UNICODE);
+            $dataBankArrJson = json_encode($dataBankArr, JSON_UNESCAPED_UNICODE);
         } else {
             $dataBankArrJson = json_encode(array());
         }
         $data = [
-            'industryId'=>$industryId,
+            'industryId' => $industryId,
             'name' => $name,
             'province' => $province,
             'city' => $city,
@@ -181,8 +181,8 @@ class CompanyManagement extends AdminBase
         $companyManagementModel = new CompanyManagementModel();
         $detail = $companyManagementModel->getDetail($companyId);
 
-        if ($detail != null){
-            $detail['dataBank'] = json_decode($detail['dataBank'],true);
+        if ($detail != null) {
+            $detail['dataBank'] = json_decode($detail['dataBank'], true);
         }
 
         $arr['detail'] = $detail;
@@ -225,5 +225,51 @@ class CompanyManagement extends AdminBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    public function filterCompanyPage()
+    {
+        $params = Request::instance()->request();
+        $areaInfo = Check::check($params['areaInfo'] ?? '');
+        $industryInfo = Check::check($params['industryInfo'] ?? '');
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        $companyModel = new CompanyManagementModel();
+        list($r1,$r2) = $companyModel->filterCompanyPage($areaInfo,$industryInfo, $pageIndex, $pageSize);
+
+        foreach ($r1 as $k => $v) {
+            $r1[$k]['dataBank'] = json_decode($v['dataBank'], true);
+        }
+
+        $data['total'] = $r2;
+        $data['pageIndex'] = $pageIndex;
+        $data['pageSize'] = $pageSize;
+        $data['page'] = $r1;
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    public function filterCompanyByIndustryInfoPage()
+    {
+        $params = Request::instance()->request();
+        $info = Check::check($params['info'] ?? '');
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        $companyModel = new CompanyManagementModel();
+
+        $page = $companyModel->filterCompanyByIndustryPage($info, $pageIndex, $pageSize);
+
+        $pageData = $page->toArray();
+        $pageArr = $pageData['data'];
+
+        foreach ($pageArr as $k => $v) {
+            $pageArr[$k]['dataBank'] = json_decode($v['dataBank'], true);
+        }
+
+        $pageData['data'] = $pageArr;
+        $data['page'] = $pageData;
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
 
 }

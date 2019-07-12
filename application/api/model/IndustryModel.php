@@ -57,4 +57,10 @@ class IndustryModel extends Model
             ->where('id', '=', $industryId)
             ->find();
     }
+
+    public function allIndustryInfo(){
+        return $this->where('isDelete','=',0)
+            ->field('name')
+            ->select();
+    }
 }
