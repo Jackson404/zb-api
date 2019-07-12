@@ -11,6 +11,10 @@
 
 return [
     'app\ans\command\Data',
-    'app\ans\command\Position',
-    'app\ans\command\ModifyData',
+    'app\ans\command\ModifyNews',
+    'app\ans\command\ModifyBar',
+    'app\ans\command\ModifyCompany',
+    'app\ans\command\ModifyLabel',
+    'app\ans\command\ModifyPosition',
+    'app\ans\command\ModifySlide'
 ];
