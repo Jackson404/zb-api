@@ -58,9 +58,13 @@ class ResumeModel extends Model
 
     public function getByUserId($userId)
     {
-        return $this->where('createBy', '=', $userId)
-            ->where('isDelete', '=', 0)
-            ->select();
+        return $this->alias('r')
+            ->join('zb_user u','r.userId=u.id','left')
+            ->where('r.userId','=',$userId)
+            ->where('r.isDelete','=',0)
+            ->field('r.id,r.userId,u.avatar,r.name,r.phone,r.gender,r.age,r.workYear,r.education,r.salary,
+            r.skills,r.selfEvaluation,r.militaryTime,r.attendedTime,r.corps,r.createTime,r.createBy,r.updateTime,r.updateBy')
+            ->find();
     }
 
     public function getDetail($resumeId)

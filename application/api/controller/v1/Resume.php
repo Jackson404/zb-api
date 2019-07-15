@@ -365,6 +365,10 @@ class Resume extends IndexBase
         $positionModel = new PositionManagementModel();
         foreach ($listData as $k => $v) {
             $positionId = $v['positionId'];
+            $createTimeStamp = strtotime($v['createTime']);
+            $listData[$k]['year'] = date('Y',$createTimeStamp);
+            $listData[$k]['month'] = date('m',$createTimeStamp);
+            $listData[$k]['day'] = date('d',$createTimeStamp);
             $positionDetail = $positionModel->getDetailForApply($positionId);
             $listData[$k]['positionDetail'] = $positionDetail;
         }
