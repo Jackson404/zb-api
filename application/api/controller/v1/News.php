@@ -178,13 +178,32 @@ class News extends AdminBase
         $newsModel = new NewsModel();
         $detail = $newsModel->getDetail($newsId);
         $detailData = $detail->toArray();
+        $detailCreateTime = $detailData['createTime'];
+        $detailTimeStamp = strtotime($detailCreateTime);
+        $detailData['year'] = date('Y',$detailTimeStamp);
+        $detailData['month'] = date('m',$detailTimeStamp);
+        $detailData['day'] = date('d',$detailTimeStamp);
         $categoryId = $detailData['categoryId'];
 
         $randomNewsList = $newsModel->getRandomNewsListLimit($categoryId, $newsId);
+        foreach ($randomNewsList as $k=>$randomNews){
+            $randomNewsCreateTime = $randomNews['createTime'];
+            $randomNewsTimeStamp = strtotime($randomNewsCreateTime);
+            $randomNewsList[$k]['year'] = date('Y',$randomNewsTimeStamp);
+            $randomNewsList[$k]['month'] = date('m',$randomNewsTimeStamp);
+            $randomNewsList[$k]['day'] = date('d',$randomNewsTimeStamp);
+        }
 
         $nextNews = $newsModel->getRandomNextNewsLimit($newsId);
+        foreach ($nextNews as $k=>$v){
+            $nextCreateTime = $v['createTime'];
+            $nextTimeStamp = strtotime($nextCreateTime);
+            $nextNews[$k]['year'] = date('Y',$nextTimeStamp);
+            $nextNews[$k]['month'] = date('m',$nextTimeStamp);
+            $nextNews[$k]['day'] = date('d',$nextTimeStamp);
+        }
 
-        $data['detail'] = $detail;
+        $data['detail'] = $detailData;
         $data['randomNewsList'] = $randomNewsList;
         $data['nextNews'] = $nextNews;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);

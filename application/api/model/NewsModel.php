@@ -57,18 +57,23 @@ class NewsModel extends Model
 
     public function getRandomNewsListLimit($categoryId, $newsId)
     {
+        $sql = "SELECT n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.createTime,n.createBy,n.updateTime,n.updateBy FROM zb_news as n LEFT JOIN zb_news_category as nc 
+            ON n.categoryId = nc.id
+            WHERE n.categoryId='$categoryId'
+            AND n.isDelete=0 AND n.isShow=1 AND n.id <> '$newsId'
+            ORDER BY rand() LIMIT 0,5";
 
-        return $this->query("SELECT * FROM zb_news WHERE categoryId='$categoryId'
-             AND isDelete=0 AND isShow=1 AND id <> '$newsId'
-             ORDER BY rand() LIMIT 0,5");
+        return $this->query($sql);
 
     }
 
     public function getRandomNextNewsLimit($newsId)
     {
-        return $this->query("SELECT * FROM zb_news 
-                WHERE isDelete=0 AND isShow=1 AND id <> '$newsId'
-               ORDER BY rand() LIMIT 0,1");
+        $sql = "SELECT n.id,n.categoryId,nc.name as categoryName,n.title,n.keywords,n.description,n.content,n.imgUrl,n.createTime,n.createBy,n.updateTime,n.updateBy FROM zb_news as n LEFT JOIN zb_news_category as nc 
+            ON n.categoryId = nc.id
+            AND n.isDelete=0 AND n.isShow=1 AND n.id <> '$newsId'
+            ORDER BY rand() LIMIT 0,1";
+        return $this->query($sql);
     }
 
     public function getNewsByCateIdPage($categoryId, $pageIndex, $pageSize)

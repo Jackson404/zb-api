@@ -2,23 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b88f2de2-17ed-40ce-adb1-ac791540d3ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/application/ans/command/ModifyBar.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/ans/command/ModifyCompany.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/ans/command/ModifyLabel.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/ans/command/ModifyPosition.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/application/ans/command/ModifySlide.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/bash/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/ans/command/Data.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/ans/command/Data.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/ans/command/ModifyData.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/ans/command/ModifyNews.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/ans/command/Position.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/bash/clearSqlProcess.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/bash/copyData" beforeDir="false" afterPath="$PROJECT_DIR$/application/bash/copyData" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/command.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/command.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/201906/5cf726615ce52.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/201906/5cf7266bbc2e5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/201906/5cf743facddae.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/201906/5cf769e3b6319.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/uploads/20190618/8cd2df54545c51006f8b3d2d2c03bd17.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/News.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/News.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/api/model/NewsModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/NewsModel.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,63 +22,24 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyCompany.php">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/Area.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+            <state relative-caret-position="826">
+              <caret line="68" column="9" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
               <folding>
-                <element signature="e#35#61#0#PHP" expanded="true" />
+                <element signature="e#41#69#0#PHP" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyBar.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="407">
-              <caret line="29" column="45" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyLabel.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="22" selection-start-line="22" selection-end-line="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyNews.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
-              <folding>
-                <element signature="e#35#61#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyPosition.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/ans/command/ModifySlide.php">
+        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/News.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="665">
-              <caret line="37" column="32" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
+            <state relative-caret-position="642">
+              <caret line="210" lean-forward="true" selection-start-line="210" selection-end-line="210" />
               <folding>
-                <element signature="e#35#61#0#PHP" expanded="true" />
+                <element signature="e#41#69#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -134,7 +82,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../ans_data.py" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/CompResumeManage.php" />
         <option value="$USER_HOME$/Desktop/ans_data.py" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/CategoryManagement.php" />
@@ -167,8 +114,6 @@
         <option value="$PROJECT_DIR$/application/api/model/UserApplyPositionModel.php" />
         <option value="$PROJECT_DIR$/application/api/model/PositionManagementModel.php" />
         <option value="$PROJECT_DIR$/application/api/model/UserBrowsingModel.php" />
-        <option value="$PROJECT_DIR$/application/api/controller/v1/News.php" />
-        <option value="$PROJECT_DIR$/application/api/model/NewsModel.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/SlideShow.php" />
         <option value="$PROJECT_DIR$/application/api/model/AreaModel.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/Area.php" />
@@ -185,6 +130,9 @@
         <option value="$PROJECT_DIR$/application/bash/copyData" />
         <option value="$PROJECT_DIR$/application/command.php" />
         <option value="$PROJECT_DIR$/application/ans/command/ModifyNews.php" />
+        <option value="$PROJECT_DIR$/application/bash/docker-compose.yml" />
+        <option value="$PROJECT_DIR$/application/api/model/NewsModel.php" />
+        <option value="$PROJECT_DIR$/application/api/controller/v1/News.php" />
       </list>
     </option>
   </component>
@@ -270,19 +218,6 @@
               <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
               <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
               <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="ans" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="ans" type="462c0819:PsiDirectoryNode" />
-              <item name="command" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
               <item name="api" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -296,18 +231,15 @@
               <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
               <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
               <item name="application" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+              <item name="v1" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
+              <item name="application" type="462c0819:PsiDirectoryNode" />
               <item name="bash" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="uploads" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -383,7 +315,8 @@
       <workItem from="1562738242883" duration="9710000" />
       <workItem from="1562806423230" duration="20681000" />
       <workItem from="1562894013968" duration="8626000" />
-      <workItem from="1562909267449" duration="3739000" />
+      <workItem from="1562909267449" duration="6128000" />
+      <workItem from="1563146694796" duration="2289000" />
     </task>
     <task id="LOCAL-00001" summary="轮播图和后台用户">
       <created>1560755233075</created>
@@ -707,17 +640,24 @@
       <option name="project" value="LOCAL" />
       <updated>1562912790422</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="公司增加行业分类">
+      <created>1562918846053</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1562918846053</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="318070000" />
+    <option name="totallyTimeSpent" value="322748000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2196162" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2217484" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -774,8 +714,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="公司增加行业分类" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/data/position.json" />
-    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/CompResumeManage.php" />
     <entry file="file://$PROJECT_DIR$/application/api/controller/v1/ResumeData.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="757">
@@ -902,13 +840,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/ValidateApi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-301">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/api/model/UserApplyPositionModel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="552">
@@ -971,23 +902,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/News.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="185" selection-start-line="185" selection-end-line="185" />
-          <folding>
-            <element signature="e#41#69#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/model/NewsModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="67" column="5" selection-start-line="67" selection-start-column="5" selection-end-line="67" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/api/controller/v1/SlideShow.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -1023,16 +937,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/Area.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1472">
-          <caret line="68" column="9" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
-          <folding>
-            <element signature="e#41#69#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/api/model/AreaModel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="874">
@@ -1057,23 +961,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/ans/command/Position.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="27" column="5" lean-forward="true" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
-          <folding>
-            <element signature="e#35#61#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/bash/clearSqlProcess.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/application/ans/command/Position.php" />
+    <entry file="file://$PROJECT_DIR$/application/bash/clearSqlProcess.sh" />
     <entry file="file://$PROJECT_DIR$/application/bash/copyData">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1094,9 +983,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/uploads/contact.png" />
+    <entry file="file://$PROJECT_DIR$/application/api/controller/ValidateApi.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/api/controller/Index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/ans/command/ModifySlide.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="851">
+          <caret line="37" column="32" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
+          <folding>
+            <element signature="e#35#61#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyPosition.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="19" column="42" lean-forward="true" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyNews.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+          <folding>
+            <element signature="e#35#61#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyLabel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyBar.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
+        <state relative-caret-position="598">
           <caret line="29" column="45" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
         </state>
       </provider>
@@ -1111,39 +1049,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyLabel.php">
+    <entry file="file://$PROJECT_DIR$/application/bash/docker-compose.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        <state relative-caret-position="115">
+          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyNews.php">
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/Area.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+        <state relative-caret-position="826">
+          <caret line="68" column="9" selection-start-line="68" selection-start-column="9" selection-end-line="68" selection-end-column="9" />
           <folding>
-            <element signature="e#35#61#0#PHP" expanded="true" />
+            <element signature="e#41#69#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyPosition.php">
+    <entry file="file://$PROJECT_DIR$/application/api/model/NewsModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        <state relative-caret-position="290">
+          <caret line="47" column="20" selection-start-line="47" selection-start-column="20" selection-end-line="47" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/uploads/contact.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/ans/command/ModifySlide.php">
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/News.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="37" column="32" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
+        <state relative-caret-position="642">
+          <caret line="210" lean-forward="true" selection-start-line="210" selection-end-line="210" />
           <folding>
-            <element signature="e#35#61#0#PHP" expanded="true" />
+            <element signature="e#41#69#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
