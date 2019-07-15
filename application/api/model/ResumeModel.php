@@ -22,7 +22,13 @@ class ResumeModel extends Model
 
     public function getUserResume($userId)
     {
-        return $this->where('isDelete','=',0)->where('userId','=',$userId)->find();
+        return $this->alias('r')
+            ->join('zb_user u','r.userId=u.id','left')
+            ->where('r.userId','=',$userId)
+            ->where('r.isDelete','=',0)
+            ->field('r.id,r.userId,u.avatar,r.name,r.phone,r.gender,r.age,r.workYear,r.education')
+            ->find();
+//        return $this->where('isDelete','=',0)->where('userId','=',$userId)->find();
     }
 
     public function edit($resumeId, $data)
