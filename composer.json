@@ -27,7 +27,9 @@
     "topthink/think-angular": "^1.0",
     "phpmailer/phpmailer": "5.2.23",
     "alibabacloud/client": "^1.5",
-    "alibabacloud/sdk": "^1.7"
+    "alibabacloud/sdk": "^1.7",
+    "php-curl-class/php-curl-class": "^8.6",
+    "ext-curl": "*"
   },
   "extra": {
     "think-path": "thinkphp"

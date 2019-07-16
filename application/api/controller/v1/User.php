@@ -8,6 +8,8 @@ use app\api\model\UserApplyPositionModel;
 use app\api\model\UserLoginHistoryModel;
 use app\api\model\UserModel;
 use app\api\model\UserPositionIntensionModel;
+use Curl\Curl;
+use GuzzleHttp\Handler\CurlFactory;
 use Sms;
 use think\cache\driver\Redis;
 use think\Request;
@@ -282,4 +284,58 @@ class User extends IndexBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
 
     }
+
+    // 小程序默认登录
+    public function codeToSession()
+    {
+        $params = Request::instance()->request();
+        $code = $params['code'] ?? '';
+        if ($code == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
+        $url = $GLOBALS['mini_url'] . '?appid=' . $GLOBALS['mini_appid'] . '&secret=' . $GLOBALS['mini_secret'] .
+            '&js_code=' . $code . '&grant_type=authorization_code';
+
+        $curl = new Curl();
+        $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+        $curl->get($url);
+
+        if ($curl->error) {
+            Util::printResult($curl->errorCode, $curl->errorMessage);
+            exit;
+        }
+        $response = $curl->response;
+
+        $res = json_decode($response, true);
+
+        if (array_key_exists('errcode',$res)){
+            if ($res['errcode'] != 0){
+                Util::printResult($res['errcode'],$res['errmsg']);
+                exit;
+            }
+        }
+
+        $openid = $res['openid'];
+
+        $userModel = new UserModel();
+        if ($userModel->checkMiniOpenIdExist($openid)) {
+            $detail = $userModel->getByMiniOpenId($openid);
+            $detailData = $detail->toArray();
+            $arr = [
+                'u_id' => $detailData['id'],
+                'phone' => $detailData['phone'],
+                'avatar' => $detailData['avatar']
+            ];
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+            exit;
+        }
+        $arr = array(
+            'phone' => 0,
+            'openid' => $openid
+        );
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+        exit;
+    }
+
 }

@@ -219,3 +219,7 @@ $GLOBALS['dbConfig2'] = [
     // 时间字段取出后的默认时间格式
     'datetime_format' => 'Y-m-d H:i:s',
 ];
+
+$GLOBALS['mini_url'] = 'https://api.weixin.qq.com/sns/jscode2session';
+$GLOBALS['mini_appid'] = 'wx02c9a76ab01f424c&secret=22f25c64080e8a640d93d104cbc2a3ea';
+$GLOBALS['mini_secret'] = '56293785e60d1954790d8b09e202efd5';

@@ -19,10 +19,25 @@ class UserModel extends Model
             return false;
         }
     }
+    public function checkMiniOpenIdExist($miniOpenId)
+    {
+        $count = $this->where('isDelete', '=', 0)->where('mini_openid', '=', $miniOpenId)->count();
+        if ($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     public function getByPhone($phone)
     {
         return $this->where('phone', '=', $phone)->where('isDelete', '=', 0)->find();
+    }
+
+    public function getByMiniOpenId($miniOpenId)
+    {
+        return $this->where('mini_openid', '=', $miniOpenId)->where('isDelete', '=', 0)->find();
     }
 
     public function getUserInfoByUserId($userId)

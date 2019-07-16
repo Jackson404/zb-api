@@ -130,8 +130,6 @@ function generateTreeCode1($array, $node)
     //第一步 构造数据
     $items = array();
     foreach ($array as $value) {
-        $value['key'] = $value['code'];
-        $value['title'] = $value['name'];
         $items[$value['code']] = $value;
     }
 

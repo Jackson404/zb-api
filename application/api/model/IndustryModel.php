@@ -12,6 +12,7 @@ class IndustryModel extends Model
     public function getAll()
     {
         return $this->where('isDelete', '=', 0)
+            ->field('id,code,name,pid')
             ->select();
     }
 
