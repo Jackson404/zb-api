@@ -12,6 +12,8 @@ header('Access-Control-Allow-Origin: *');
 header('Content-type:text/html;charset=utf-8');
 header('Access-Control-Allow-Methods:OPTIONS, GET, POST');
 header('Access-Control-Allow-Headers:x-requested-with, content-type');
+header('Access-Control-Allow-Headers:accept, content-type, x-xsrf-token, x-csrf-token, Authorization, Origin');
+
 // [ 应用入口文件 ]
 
 // 定义应用目录
