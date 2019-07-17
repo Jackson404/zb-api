@@ -1,13 +1,13 @@
 <?php
 
-namespace app\api\controller\v1;
+namespace app\api\controller\v1\admin;
 
 use app\api\model\IndustryModel;
 use think\Request;
 use Util\Check;
 use Util\Util;
 
-class Industry extends AuthBase
+class Industry extends AdminBase
 {
     /**
      * 获取所有的分类tree
@@ -99,13 +99,16 @@ class Industry extends AuthBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    /**
+     * 筛选行业分类
+     */
     public function filterIndustryInfo()
     {
         $params = Request::instance()->request();
         $info = Check::check($params['info'] ?? '');
         $industryModel = new IndustryModel();
         $r = $industryModel->allIndustryInfo();
-        $r = array_column($r->toArray(), 'name', 'code');
+        $r = array_column($r->toArray(),'name','code');
 
         if ($info == '') {
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $r);

@@ -2,226 +2,13 @@
 
 namespace app\api\controller\v1;
 
-use app\api\model\CompanyManagementModel;
 use app\api\model\PositionManagementModel;
 use think\Request;
 use Util\Check;
 use Util\Util;
 
-class PositionManagement extends AdminBase
+class PositionManagement extends IndexBase
 {
-    public function add()
-    {
-
-        $params = Request::instance()->request();
-        $positionCateId = Check::checkInteger($params['positionCateId'] ?? ''); // 职位类别
-        $name = Check::check($params['name'] ?? ''); // 职位名字
-        $companyId = Check::checkInteger($params['companyId'] ?? ''); //公司id
-        $minPay = Check::checkInteger($params['minPay'] ?? ''); //最低薪资
-        $maxPay = Check::checkInteger($params['maxPay'] ?? ''); // 最高薪资
-        $minWorkExp = Check::checkInteger($params['minWorkExp'] ?? ''); //最低工作经验
-        $maxWorkExp = Check::checkInteger($params['maxWorkExp'] ?? ''); //最高工作经验
-        $education = Check::check($params['education'] ?? ''); //学历
-        $age = Check::check($params['age'] ?? ''); //年龄
-        $num = Check::check($params['num'] ?? ''); //职位招人数
-        $labelIds = Check::check($params['labelIds'] ?? ''); //标签
-        $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
-        $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
-        $positionRequirement = stripslashes($positionRequirement);
-        $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
-
-        $userId = $GLOBALS['userId'];
-
-        $positionManagementModel = new PositionManagementModel();
-
-        if ($name == '') {
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
-            exit;
-        }
-
-        if ($positionManagementModel->checkName($name)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字重复');
-            exit;
-        }
-
-        if ($labelIds != '') {
-            $labelIdArr = explode(',', $labelIds);
-            $labelIdsJson = json_encode($labelIdArr, JSON_UNESCAPED_UNICODE);
-        } else {
-            $labelIdsJson = json_encode(array());
-        }
-
-        if ($minPay == 0 && $maxPay == 0) {
-            $pay = 0;
-        } else {
-            $pay = $minPay . '-' . $maxPay;
-        }
-
-        if ($minWorkExp == 0 && $maxWorkExp == 0) {
-            $workExp = 0;
-        } else {
-            $workExp = $minWorkExp . '~' . $maxWorkExp;
-        }
-
-        $data = [
-            'positionCateId' => $positionCateId,
-            'name' => $name,
-            'companyId' => $companyId,
-            'minPay' => $minPay,
-            'maxPay' => $maxPay,
-            'pay' => $pay,
-            'minWorkExp' => $minWorkExp,
-            'maxWorkExp' => $maxWorkExp,
-            'workExp' => $workExp,
-            'education' => $education,
-            'age' => $age,
-            'num' => $num,
-            'labelIds' => $labelIdsJson,
-            'isSoldierPriority' => $isSoldierPriority,
-            'positionRequirement' => htmlspecialchars_decode($positionRequirement),
-            'isShow' => $isShow,
-            'createTime' => currentTime(),
-            'createBy' => $userId,
-            'updateTime' => currentTime(),
-            'updateBy' => $userId
-        ];
-
-        $insertRow = $positionManagementModel->save($data);
-        if ($insertRow > 0) {
-            $companyModel = new CompanyManagementModel;
-            $result = $companyModel->updatePositionCountInc($companyId, 1);
-
-            $arr['id'] = $positionManagementModel->id;
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
-            exit;
-        } else {
-            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '添加失败');
-            exit;
-        }
-    }
-
-
-    public function edit()
-    {
-
-        $params = Request::instance()->request();
-        $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
-        $positionCateId = Check::checkInteger($params['positionCateId'] ?? ''); // 职位类别
-        $name = Check::check($params['name'] ?? ''); // 职位名字
-        $companyId = Check::checkInteger($params['companyId'] ?? ''); //公司id
-        $minPay = Check::checkInteger($params['minPay'] ?? ''); //最低薪资
-        $maxPay = Check::checkInteger($params['maxPay'] ?? ''); // 最高薪资
-        $minWorkExp = Check::checkInteger($params['minWorkExp'] ?? ''); //最低工作经验
-        $maxWorkExp = Check::checkInteger($params['maxWorkExp'] ?? ''); //最高工作经验
-        $education = Check::check($params['education'] ?? ''); //学历
-        $age = Check::check($params['age'] ?? ''); //年龄
-        $num = Check::check($params['num'] ?? ''); //职位招人数
-        $labelIds = Check::check($params['labelIds'] ?? ''); //标签
-        $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
-        $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
-        $positionRequirement = stripslashes($positionRequirement);
-        $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
-
-        $userId = $GLOBALS['userId'];
-
-        $positionManagementModel = new PositionManagementModel();
-
-        if ($name == '') {
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
-            exit;
-        }
-
-        $detail = $positionManagementModel->getDetail($positionId);
-        if ($detail['name'] != $name && $positionManagementModel->checkName($name)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字重复');
-            exit;
-        }
-
-        if ($labelIds != '') {
-            $labelIdArr = explode(',', $labelIds);
-            $labelIdsJson = json_encode($labelIdArr,JSON_UNESCAPED_UNICODE);
-        } else {
-            $labelIdsJson = json_encode(array());
-        }
-
-        if ($minPay == 0 && $maxPay == 0) {
-            $pay = 0;
-        } else {
-            $pay = $minPay . '-' . $maxPay;
-        }
-
-        if ($minWorkExp == 0 && $maxWorkExp == 0) {
-            $workExp = 0;
-        } else {
-            $workExp = $minWorkExp . '~' . $maxWorkExp;
-        }
-
-        $data = [
-            'positionCateId' => $positionCateId,
-            'name' => $name,
-            'companyId' => $companyId,
-            'minPay' => $minPay,
-            'maxPay' => $maxPay,
-            'pay' => $pay,
-            'minWorkExp' => $minWorkExp,
-            'maxWorkExp' => $maxWorkExp,
-            'workExp' => $workExp,
-            'education' => $education,
-            'age' => $age,
-            'num' => $num,
-            'labelIds' => $labelIdsJson,
-            'isSoldierPriority' => $isSoldierPriority,
-            'positionRequirement' => htmlspecialchars_decode($positionRequirement),
-            'isShow' => $isShow,
-            'updateTime' => currentTime(),
-            'updateBy' => $userId
-        ];
-
-        $oldCompanyId = $detail['companyId'];
-
-        $updateRow = $positionManagementModel->edit($positionId, $data);
-        if ($updateRow > 0) {
-            $companyModel = new CompanyManagementModel;
-            $companyModel->updatePositionCountDec($oldCompanyId, 1);
-
-            $result = $companyModel->updatePositionCountInc($companyId, 1);
-
-            $arr['updateRow'] = $updateRow;
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
-            exit;
-        } else {
-            Util::printResult($GLOBALS['ERROR_SQL_UPDATE'], '编辑失败');
-            exit;
-        }
-    }
-
-    public function del()
-    {
-        $params = Request::instance()->request();
-        $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
-        $positionManagementModel = new PositionManagementModel();
-
-        $detail = $positionManagementModel->getDetail($positionId);
-        $oldCompanyId = $detail['companyId'];
-
-        $data = [
-            'id' => $positionId,
-            'isDelete' => 1
-        ];
-
-        $delRow = $positionManagementModel->isUpdate(true)->save($data);
-        if ($delRow > 0) {
-            $companyModel = new CompanyManagementModel;
-            $companyModel->updatePositionCountDec($oldCompanyId, 1);
-            $arr['delRow'] = $delRow;
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
-            exit;
-        } else {
-            Util::printResult($GLOBALS['ERROR_SQL_DELETE'], '删除失败');
-            exit;
-        }
-
-    }
 
     public function getDetail()
     {
@@ -315,12 +102,11 @@ class PositionManagement extends AdminBase
             $minPay = 8000;
             $maxPay = 10000;
             $salarySql = "  and p.minPay >= $minPay and p.maxPay <= $maxPay";
-        } elseif($salary == '10000-15000元'){
+        } elseif ($salary == '10000-15000元') {
             $minPay = 10000;
             $maxPay = 15000;
             $salarySql = "  and p.minPay >= $minPay and p.maxPay <= $maxPay";
-        }
-        elseif ($salary == '15000元以上') {
+        } elseif ($salary == '15000元以上') {
             $minPay = 15000;
             $salarySql = "  and p.minPay >= $minPay ";
         } else {
@@ -376,24 +162,24 @@ class PositionManagement extends AdminBase
             $labelIdsSql = '';
         }
 
-        if ($province != ''){
+        if ($province != '') {
             $provinceSql = "  and  zco.province = '$province' ";
-        }else{
+        } else {
             $provinceSql = '';
         }
-        if ($city != ''){
+        if ($city != '') {
             $citySql = "   and   zco.city = '$city' ";
-        }else{
+        } else {
             $citySql = '';
         }
-        if ($area != ''){
+        if ($area != '') {
             $areaSql = "   and  zco.area = '$area' ";
-        }else{
+        } else {
             $areaSql = '';
         }
 
         $positionModel = new PositionManagementModel();
-        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql,$provinceSql,$citySql,$areaSql, $pageIndex, $pageSize);
+        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql, $provinceSql, $citySql, $areaSql, $pageIndex, $pageSize);
 
         foreach ($result as $k => $v) {
             $result[$k]['labelIds'] = json_decode($v['labelIds'], true);
@@ -405,25 +191,6 @@ class PositionManagement extends AdminBase
         $page['page'] = $result;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $page);
 
-    }
-
-    public function isHot()
-    {
-        $params = Request::instance()->request();
-        $positionId = Check::checkInteger($params['positionId'] ?? '');
-        $userId = $GLOBALS['userId'];
-
-        $positionModel = new PositionManagementModel();
-        $data = [
-            'id' => $positionId,
-            'isHot' => 1,
-            'updateTime' => currentTime(),
-            'updateBy' => $userId
-        ];
-        $updateRow = $positionModel->isUpdate(true)->save($data);
-        $arr['updateRow'] = $updateRow;
-
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
 
     public function getPositionPageByCompanyId()

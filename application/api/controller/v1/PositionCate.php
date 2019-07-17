@@ -7,83 +7,8 @@ use think\Request;
 use Util\Check;
 use Util\Util;
 
-class PositionCate extends AdminBase
+class PositionCate extends IndexBase
 {
-    /**
-     * 添加分类
-     */
-    public function add()
-    {
-        $params = Request::instance()->request();
-        $name = $params['name'] ?? '';
-        $pid = Check::checkInteger($params['pid'] ?? 0);
-
-        if ($name == '') {
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
-            exit;
-        }
-        $positionCateModel = model('PositionCateModel');
-
-        if ($positionCateModel->checkName($name)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字已存在');
-            exit;
-        }
-
-        $positionCateModel->data(
-            [
-                'name' => $name,
-                'pid' => $pid
-            ]
-        );
-        $insertRow = $positionCateModel->save();
-
-        if ($insertRow > 0) {
-            $id = $positionCateModel->id;
-            $data['id'] = $id;
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-            exit;
-        } else {
-            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '添加失败');
-            exit;
-        }
-    }
-
-    /**
-     * 编辑分类
-     */
-    public function edit()
-    {
-        $params = Request::instance()->request();
-        $categoryId = Check::checkInteger($params['categoryId'] ?? '');
-        $name = Check::check($params['name'] ?? '');
-        $pid = Check::checkInteger($params['pid'] ?? '');
-
-
-        if ($name == '') {
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
-            exit;
-        }
-
-        $positionCateModel = new PositionCateModel();
-
-        $detail = $positionCateModel->getDetail($categoryId);
-
-        if ($detail['name'] != $name && $positionCateModel->checkName($name)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字已存在');
-            exit;
-        }
-
-        $data = [
-            'name' => $name,
-            'pid' => $pid
-        ];
-        $updateRow = $positionCateModel->save($data, function ($query) use ($categoryId) {
-            $query->where('id', $categoryId);
-        });
-
-        $arr['updateRow'] = $updateRow;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
-    }
 
     /**
      * 获取所有的分类tree
@@ -99,7 +24,7 @@ class PositionCate extends AdminBase
         $data = $cateModel->getAll();
         $tree = generateTree($data->toArray(), 'pid');
 
-        if ($type == 1){
+        if ($type == 1) {
             $tree = generateTree1($data->toArray(), 'pid');
         }
 
@@ -155,28 +80,6 @@ class PositionCate extends AdminBase
         $result = $positionCateModel->getNextCateWithoutPage($categoryId);
         $data['list'] = $result;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
-
-    /**
-     * 删除分类 同时会删除下面的子分类
-     * @throws \think\exception\DbException
-     */
-    public function del()
-    {
-        $params = Request::instance()->request();
-        $categoryId = Check::checkInteger($params['categoryId'] ?? '');
-
-        $result = PositionCateModel::all(['isDelete' => 0]);
-        $data = $result->toArray();
-        $childIdArr = getChildId($data, $categoryId);
-        array_push($childIdArr, $categoryId);
-        $childIds = implode(',', $childIdArr);
-
-        $categoryManagementModel = new PositionCateModel();
-        $result = $categoryManagementModel->del($childIds);
-        $arr['delRows'] = $result;
-
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
 
 

@@ -10,17 +10,17 @@
 // +----------------------------------------------------------------------
 
 return [
-    '__alias__' => [
-        'adminUser_v1' => 'api/v1.AdminUser', // 后台用户模块
-        'categoryManagement_v1' => 'api/v1.CategoryManagement', // 分类模块
-        'companyManagement_v1' => 'api/v1.CompanyManagement',   // 公司模块
-        'file' => 'api/v1.File',  // 文件上传
-        'labelManagement_v1' => 'api/v1.LabelManagement',  // 标签管理模块
-        'news_v1' => 'api/v1.News',  // 新闻模块
-        'newsCategory_v1' => 'api/v1.NewsCategory',  // 新闻分类模块
-        'positionManagement_v1' => 'api/v1.PositionManagement',  // 职位管理模块
-        'resume_v1' => 'api/v1.Resume',  // 简历模块
-        'slideShow_v1' => 'api/v1.SlideShow' // 轮播图模块
-    ],
+//      '__alias__' => [
+//        'admin_user.v1' => 'api/v1.admin.AdminUser', // 后台用户模块
+//        'admin_categoryManagement.v1' => 'api/v1.admin.CategoryManagement', // 后台分类模块
+//        'admin_companyManagement.v1' => 'api/v1.admin.CompanyManagement',   // 后台公司模块
+//        'admin_labelManagement.v1' => 'api/v1.admin.LabelManagement',  // 后台标签管理模块
+//        'admin_news.v1' => 'api/v1.admin.News',  // 后台新闻模块
+//        'admin_newsCategory.v1' => 'api/v1.admin.NewsCategory',  // 后台新闻分类模块
+//        'admin_positionManagement.v1' => 'api/v1.admin.PositionManagement',  // 后台职位管理模块
+//        'admin_resume.v1' => 'api/v1.admin.Resume',  // 后台简历模块
+//        'admin_slideShow.v1' => 'api/v1.admin.SlideShow', // 后台轮播图模块
+//
+//    ],
 
 ];

@@ -75,6 +75,9 @@ class Resume extends IndexBase
         }
     }
 
+    /**
+     * 编辑简历
+     */
     public function edit()
     {
         $userId = $GLOBALS['userId'];
@@ -124,6 +127,9 @@ class Resume extends IndexBase
         }
     }
 
+    /**
+     * 删除简历
+     */
     public function del()
     {
         $userId = $GLOBALS['userId'];
@@ -139,18 +145,9 @@ class Resume extends IndexBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
-    public function getByPage()
-    {
-        $params = Request::instance()->request();
-        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
-        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
-
-        $resumeModel = new ResumeModel();
-        $page = $resumeModel->getByPage($pageIndex, $pageSize);
-        $data['page'] = $page;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
-
+    /**
+     * 获取用户简历
+     */
     public function getResumeByUserId()
     {
         $userId = $GLOBALS['userId'];
@@ -160,6 +157,9 @@ class Resume extends IndexBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    /**
+     * 获取简历详情
+     */
     public function getDetail()
     {
         $params = Request::instance()->request();

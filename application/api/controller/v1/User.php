@@ -9,7 +9,6 @@ use app\api\model\UserLoginHistoryModel;
 use app\api\model\UserModel;
 use app\api\model\UserPositionIntensionModel;
 use Curl\Curl;
-use GuzzleHttp\Handler\CurlFactory;
 use Sms;
 use think\cache\driver\Redis;
 use think\Request;

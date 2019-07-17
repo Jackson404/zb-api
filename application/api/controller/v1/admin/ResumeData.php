@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\controller\v1;
+namespace app\api\controller\v1\admin;
 
 use app\ans\command\Data;
 use app\api\model\DataResume;

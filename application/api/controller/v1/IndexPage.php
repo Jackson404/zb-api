@@ -28,17 +28,17 @@ class IndexPage extends IndexBase
 
         $topCateList = $cateModel->getTopCateWithoutPage();
         $topCateListData = $topCateList->toArray();
-        foreach($topCateListData as $k=>$v){
-            if ($k == 0){
+        foreach ($topCateListData as $k => $v) {
+            if ($k == 0) {
                 $topCateListData[$k]['check'] = true;
-            }else{
+            } else {
                 $topCateListData[$k]['check'] = false;
             }
             $positionCateId = $v['id'];
-            $positionList = $positionModel->getPositionByCateIdWithLimit($positionCateId,6);
+            $positionList = $positionModel->getPositionByCateIdWithLimit($positionCateId, 6);
             $positionListData = $positionList->toArray();
-            foreach ($positionListData as $k1=>$v1){
-                $positionListData[$k1]['labelIds'] = json_decode($v1['labelIds'],true);
+            foreach ($positionListData as $k1 => $v1) {
+                $positionListData[$k1]['labelIds'] = json_decode($v1['labelIds'], true);
             }
             $topCateListData[$k]['list'] = $positionListData;
         }
@@ -47,16 +47,16 @@ class IndexPage extends IndexBase
         $hotPositionData = $hotPosition->toArray();
 
         $newsModel = new NewsModel();
-        $positionNewsList = $newsModel->getIndexPageNewsByCateId(3,3);
-        $soldierNewsList = $newsModel->getIndexPageNewsByCateId(4,3);
+        $positionNewsList = $newsModel->getIndexPageNewsByCateId(3, 3);
+        $soldierNewsList = $newsModel->getIndexPageNewsByCateId(4, 3);
         $positionNewsListData = $positionNewsList->toArray();
         $soldierNewsListData = $soldierNewsList->toArray();
 
         foreach ($positionNewsListData as $k => $v) {
-            $positionNewsListData[$k]['yearMonth'] = date('m-d',strtotime($v['createTime']));
+            $positionNewsListData[$k]['yearMonth'] = date('m-d', strtotime($v['createTime']));
         }
         foreach ($soldierNewsListData as $k => $v) {
-            $soldierNewsListData[$k]['yearMonth'] = date('m-d',strtotime($v['createTime']));
+            $soldierNewsListData[$k]['yearMonth'] = date('m-d', strtotime($v['createTime']));
         }
 
         $data['hotPositionList'] = $hotPositionData;

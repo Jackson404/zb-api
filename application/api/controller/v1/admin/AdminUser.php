@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\controller\v1;
+namespace app\api\controller\v1\admin;
 
 use app\api\model\AdminUserLoginHistoryModel;
 use app\api\model\AdminUserModel;
@@ -13,39 +13,39 @@ class AdminUser extends AuthBase
     /**
      * 后台用户注册
      */
-    public function register()
-    {
-        $params = Request::instance()->request();
-        $username = $params['username'] ?? '';
-        $password = $params['password'] ?? '';
-
-        if ($username == '' || $password == '') {
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
-            exit;
-        }
-
-        $adminUserModel = new AdminUserModel();
-        $count = $adminUserModel->verifyUsername($username);
-        if ($count > 0) {
-            Util::printResult($GLOBALS['ERROR_REGISTER_DUPLICATEUSERNAME'], '用户名已经存在');
-            exit;
-        }
-        $password = password_hash($username . $password, PASSWORD_DEFAULT);
-        $data = [
-            'name' => $username,
-            'password' => $password,
-            'createTime' => currentTime(),
-            'updateTime' => currentTime()
-        ];
-        $insertRow = $adminUserModel->save($data);
-        if ($insertRow > 0) {
-            util::printResult($GLOBALS['ERROR_SUCCESS'], '注册成功');
-            exit;
-        } else {
-            util::printResult($GLOBALS['ERROR_REGISTER'], '注册出错');
-            exit;
-        }
-    }
+//    public function register()
+//    {
+//        $params = Request::instance()->request();
+//        $username = $params['username'] ?? '';
+//        $password = $params['password'] ?? '';
+//
+//        if ($username == '' || $password == '') {
+//            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+//            exit;
+//        }
+//
+//        $adminUserModel = new AdminUserModel();
+//        $count = $adminUserModel->verifyUsername($username);
+//        if ($count > 0) {
+//            Util::printResult($GLOBALS['ERROR_REGISTER_DUPLICATEUSERNAME'], '用户名已经存在');
+//            exit;
+//        }
+//        $password = password_hash($username . $password, PASSWORD_DEFAULT);
+//        $data = [
+//            'name' => $username,
+//            'password' => $password,
+//            'createTime' => currentTime(),
+//            'updateTime' => currentTime()
+//        ];
+//        $insertRow = $adminUserModel->save($data);
+//        if ($insertRow > 0) {
+//            util::printResult($GLOBALS['ERROR_SUCCESS'], '注册成功');
+//            exit;
+//        } else {
+//            util::printResult($GLOBALS['ERROR_REGISTER'], '注册出错');
+//            exit;
+//        }
+//    }
 
 
     /**
