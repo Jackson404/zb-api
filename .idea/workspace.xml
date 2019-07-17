@@ -2,20 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b88f2de2-17ed-40ce-adb1-ac791540d3ec" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/ans/command/ChangeCreateTime.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/zhengbu_api.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/zhengbu_api.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/controller/v1/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/controller/v1/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/model/IndustryModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/IndustryModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/api/model/UserModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/api/model/UserModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/common.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/common.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/application/global.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/global.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_psr4.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/installed.json" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/installed.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application/command.php" beforeDir="false" afterPath="$PROJECT_DIR$/application/command.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,38 +19,7 @@
     </execution>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/api/controller/v1/User.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="536">
-              <caret line="315" column="9" lean-forward="true" selection-start-line="315" selection-start-column="9" selection-end-line="315" selection-end-column="9" />
-              <folding>
-                <element signature="e#41#83#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/api/model/UserModel.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="550">
-              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/api/model/IndustryModel.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -99,7 +57,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/application/api/model/LabelManagementModel.php" />
         <option value="$PROJECT_DIR$/public/index.php" />
         <option value="$PROJECT_DIR$/util/Upload.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/File.php" />
@@ -135,7 +92,6 @@
         <option value="$PROJECT_DIR$/application/ans/command/ModifyLabel.php" />
         <option value="$PROJECT_DIR$/application/ans/command/ModifyPosition.php" />
         <option value="$PROJECT_DIR$/application/bash/copyData" />
-        <option value="$PROJECT_DIR$/application/command.php" />
         <option value="$PROJECT_DIR$/application/ans/command/ModifyNews.php" />
         <option value="$PROJECT_DIR$/application/bash/docker-compose.yml" />
         <option value="$PROJECT_DIR$/application/api/model/NewsModel.php" />
@@ -150,6 +106,8 @@
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/application/api/model/UserModel.php" />
         <option value="$PROJECT_DIR$/application/api/controller/v1/User.php" />
+        <option value="$PROJECT_DIR$/application/command.php" />
+        <option value="$PROJECT_DIR$/application/ans/command/ChangeCreateTime.php" />
       </list>
     </option>
   </component>
@@ -219,6 +177,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -226,51 +185,17 @@
               <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
               <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-              <item name="v1" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="zhengbu_api_admin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="zhengbu_api_admin" type="462c0819:PsiDirectoryNode" />
-              <item name="application" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/avatar" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
@@ -336,14 +261,10 @@
       <workItem from="1562894013968" duration="8626000" />
       <workItem from="1562909267449" duration="6128000" />
       <workItem from="1563146694796" duration="13134000" />
-      <workItem from="1563239096940" duration="6159000" />
-    </task>
-    <task id="LOCAL-00003" summary="新闻管理">
-      <created>1560839127295</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1560839127296</updated>
+      <workItem from="1563239096940" duration="7543000" />
+      <workItem from="1563259025208" duration="599000" />
+      <workItem from="1563261525823" duration="19000" />
+      <workItem from="1563325814316" duration="3294000" />
     </task>
     <task id="LOCAL-00004" summary="新闻管理">
       <created>1560839200103</created>
@@ -681,17 +602,23 @@
       <option name="project" value="LOCAL" />
       <updated>1563175278584</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="小程序code2session">
+      <created>1563248399471</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1563248399471</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="339752000" />
+    <option name="totallyTimeSpent" value="345048000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2238806" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23081024" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -720,7 +647,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.log" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="简历管理" />
     <MESSAGE value="职位搜索" />
     <MESSAGE value="职位筛选" />
     <MESSAGE value="创建公司添加一些字段" />
@@ -745,12 +671,10 @@
     <MESSAGE value="公司增加行业分类" />
     <MESSAGE value="新闻详情分类名字" />
     <MESSAGE value="职位和公司数据copy" />
-    <option name="LAST_COMMIT_MESSAGE" value="职位和公司数据copy" />
+    <MESSAGE value="小程序code2session" />
+    <option name="LAST_COMMIT_MESSAGE" value="小程序code2session" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/avatar/a1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/Util.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
@@ -860,23 +784,6 @@
     <entry file="file://$PROJECT_DIR$/application/bash/copyData">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/command.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/ans/command/Data.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="759">
-          <caret line="33" column="17" lean-forward="true" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
-          <folding>
-            <element signature="e#35#61#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/uploads/contact.png" />
     <entry file="file://$PROJECT_DIR$/application/api/controller/ValidateApi.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -916,13 +823,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
           <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyBar.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="29" column="45" selection-start-line="29" selection-start-column="45" selection-end-line="29" selection-end-column="45" />
         </state>
       </provider>
     </entry>
@@ -1035,13 +935,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/Curl.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2753">
-          <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/util/Curl.php" />
     <entry file="file://$PROJECT_DIR$/vendor/php-angular/php-angular/src/Angular.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
@@ -1077,34 +971,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/global.php">
+    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/User.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="688">
-          <caret line="222" column="70" selection-start-line="222" selection-start-column="70" selection-end-line="222" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/model/IndustryModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
+        <state relative-caret-position="53">
+          <caret line="309" column="44" lean-forward="true" selection-start-line="309" selection-start-column="44" selection-end-line="309" selection-end-column="44" />
+          <folding>
+            <element signature="e#41#83#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/api/model/UserModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+        <state relative-caret-position="943">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/api/controller/v1/User.php">
+    <entry file="file://$PROJECT_DIR$/application/api/model/IndustryModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="536">
-          <caret line="315" column="9" lean-forward="true" selection-start-line="315" selection-start-column="9" selection-end-line="315" selection-end-column="9" />
+        <state relative-caret-position="966">
+          <caret line="42" column="21" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/ans/command/Data.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="759">
+          <caret line="33" column="17" lean-forward="true" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
           <folding>
-            <element signature="e#41#83#0#PHP" expanded="true" />
+            <element signature="e#35#61#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/ans/command/ModifyBar.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/command.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="19" column="37" selection-start-line="19" selection-start-column="37" selection-end-line="19" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/ans/command/ChangeCreateTime.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="481">
+          <caret line="29" column="26" lean-forward="true" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
+          <folding>
+            <element signature="e#35#61#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/global.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="181" column="19" selection-start-line="181" selection-start-column="10" selection-end-line="181" selection-end-column="19" />
         </state>
       </provider>
     </entry>

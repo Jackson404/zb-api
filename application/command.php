@@ -16,5 +16,6 @@ return [
     'app\ans\command\ModifyCompany',
     'app\ans\command\ModifyLabel',
     'app\ans\command\ModifyPosition',
-    'app\ans\command\ModifySlide'
+    'app\ans\command\ModifySlide',
+    'app\ans\command\ChangeCreateTime',
 ];
