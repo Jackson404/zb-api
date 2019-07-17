@@ -3,7 +3,6 @@
 namespace app\api\controller\v1\admin;
 
 use app\api\model\NewsModel;
-use think\cache\driver\Redis;
 use think\Request;
 use Util\Check;
 use Util\Util;

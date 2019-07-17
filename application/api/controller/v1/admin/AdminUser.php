@@ -4,7 +4,6 @@ namespace app\api\controller\v1\admin;
 
 use app\api\model\AdminUserLoginHistoryModel;
 use app\api\model\AdminUserModel;
-use think\Controller;
 use think\Request;
 use Util\Util;
 

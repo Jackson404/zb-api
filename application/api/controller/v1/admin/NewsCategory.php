@@ -2,7 +2,6 @@
 
 namespace app\api\controller\v1\admin;
 
-use app\api\model\CategoryManagementModel;
 use app\api\model\NewsCategoryModel;
 use think\Request;
 use Util\Check;

@@ -2,7 +2,6 @@
 
 namespace app\api\controller\v1\admin;
 
-use app\api\model\PositionManagementModel;
 use app\api\model\ResumeModel;
 use app\api\model\UserApplyPositionModel;
 use think\Request;

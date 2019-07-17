@@ -5,7 +5,6 @@ namespace app\api\controller\v1\admin;
 use app\api\model\SlideShowModel;
 use think\Request;
 use Util\Check;
-use Util\Upload;
 use Util\Util;
 
 /**

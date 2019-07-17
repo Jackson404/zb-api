@@ -2,7 +2,6 @@
 
 namespace app\api\controller\v1\admin;
 
-use app\ans\command\Data;
 use app\api\model\DataResume;
 use think\cache\driver\Redis;
 use think\Controller;
