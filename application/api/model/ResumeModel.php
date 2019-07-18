@@ -26,9 +26,10 @@ class ResumeModel extends Model
             ->join('zb_user u','r.userId=u.id','left')
             ->where('r.userId','=',$userId)
             ->where('r.isDelete','=',0)
-            ->field('r.id,r.userId,u.avatar,r.name,r.phone,r.gender,r.age,r.workYear,r.education')
+            ->field('r.id,r.userId,u.avatar,r.name,r.phone,r.gender,r.age,r.workYear,r.education,
+            r.skills,r.selfEvaluation,r.militaryTime,r.attendedTime,r.corps,r.exPosition,r.salary,
+            r.nature,r.exCity,r.curStatus,r.arrivalTime,r.isSoldierPriority,r.createTime,r.createBy,r.updateTime,r.updateBy')
             ->find();
-//        return $this->where('isDelete','=',0)->where('userId','=',$userId)->find();
     }
 
     public function edit($resumeId, $data)
@@ -62,8 +63,9 @@ class ResumeModel extends Model
             ->join('zb_user u','r.userId=u.id','left')
             ->where('r.userId','=',$userId)
             ->where('r.isDelete','=',0)
-            ->field('r.id,r.userId,u.avatar,r.name,r.phone,r.gender,r.age,r.workYear,r.education,r.salary,
-            r.skills,r.selfEvaluation,r.militaryTime,r.attendedTime,r.corps,r.createTime,r.createBy,r.updateTime,r.updateBy')
+            ->field('r.id,r.userId,u.avatar,r.name,r.phone,r.gender,r.age,r.workYear,r.education,
+            r.skills,r.selfEvaluation,r.militaryTime,r.attendedTime,r.corps,r.exPosition,r.salary,
+            r.nature,r.exCity,r.curStatus,r.arrivalTime,r.isSoldierPriority,r.createTime,r.createBy,r.updateTime,r.updateBy')
             ->find();
     }
 

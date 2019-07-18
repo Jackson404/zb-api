@@ -24,13 +24,19 @@ class Resume extends IndexBase
         $age = Check::checkInteger($params['age'] ?? 0);
         $workYear = Check::checkInteger($params['workYear'] ?? 0); //工作年限
         $education = Check::check($params['education'] ?? '');
-        $salary = Check::check($params['salary'] ?? ''); //期望薪资
+
         $skills = Check::check($params['skills'] ?? ''); //技能描述
         $selfEvaluation = Check::check($params['selfEvaluation'] ?? ''); //自我评价
         $militaryTime = Check::check($params['militaryTime'] ?? ''); //入伍时间
         $attendedTime = Check::check($params['attendedTime'] ?? 0); //服役时长
         $corps = Check::check($params['corps'] ?? ''); //兵种
-
+        $exPosition = Check::check($params['exPosition'] ?? ''); //期望职位
+        $nature = Check::check($params['nature'] ?? ''); //期望工作性质
+        $exCity = Check::check($params['exCity'] ?? ''); //期望城市
+        $salary = Check::check($params['salary'] ?? ''); //期望薪资
+        $curStatus = Check::check($params['curStatus'] ?? ''); //目前状态
+        $arrivalTime = Check::check($params['arrivalTime'] ?? ''); //到岗时间
+        $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否是退役军人 默认0 0否 1是
 
         if ($name == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
@@ -57,6 +63,12 @@ class Resume extends IndexBase
             'militaryTime' => $militaryTime,
             'attendedTime' => $attendedTime,
             'corps' => $corps,
+            'exPosition' => $exPosition,
+            'nature' => $nature,
+            'exCity' => $exCity,
+            'curStatus' => $curStatus,
+            'arrivalTime' => $arrivalTime,
+            'isSoldierPriority'=>$isSoldierPriority,
             'createTime' => currentTime(),
             'createBy' => $userId,
             'updateTime' => currentTime(),
@@ -89,13 +101,19 @@ class Resume extends IndexBase
         $age = Check::checkInteger($params['age'] ?? 0);
         $workYear = Check::checkInteger($params['workYear'] ?? 0); //工作年限
         $education = Check::check($params['education'] ?? '');
-        $salary = Check::check($params['salary'] ?? ''); //期望薪资
+
         $skills = Check::check($params['skills'] ?? ''); //技能描述
         $selfEvaluation = Check::check($params['selfEvaluation'] ?? ''); //自我评价
         $militaryTime = Check::check($params['militaryTime'] ?? ''); //入伍时间
         $attendedTime = Check::check($params['attendedTime'] ?? 0); //服役时长
         $corps = Check::check($params['corps'] ?? ''); //兵种
-
+        $exPosition = Check::check($params['exPosition'] ?? ''); //期望职位
+        $nature = Check::check($params['nature'] ?? ''); //期望工作性质
+        $exCity = Check::check($params['exCity'] ?? ''); //期望城市
+        $salary = Check::check($params['salary'] ?? ''); //期望薪资
+        $curStatus = Check::check($params['curStatus'] ?? ''); //目前状态
+        $arrivalTime = Check::check($params['arrivalTime'] ?? ''); //到岗时间
+        $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0);
         $data = [
             'name' => $name,
             'phone' => $phone,
@@ -109,6 +127,12 @@ class Resume extends IndexBase
             'militaryTime' => $militaryTime,
             'attendedTime' => $attendedTime,
             'corps' => $corps,
+            'exPosition' => $exPosition,
+            'nature' => $nature,
+            'exCity' => $exCity,
+            'curStatus' => $curStatus,
+            'arrivalTime' => $arrivalTime,
+            'isSoldierPriority'=>$isSoldierPriority,
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
@@ -170,42 +194,6 @@ class Resume extends IndexBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
-//    public function applyPosition()
-//    {
-//        $userId = $GLOBALS['userId'];
-//        $params = Request::instance()->request();
-//        $resumeId = Check::checkInteger($params['resumeId'] ?? ''); // 简历id
-//        $positionId = Check::checkInteger($params['positionId'] ?? '');//职位id
-//
-//        $userApplyPositionModel = new UserApplyPositionModel();
-//
-//        if ($userApplyPositionModel->checkHasApply($positionId, $resumeId)) {
-//            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '已经申请过该职位');
-//            exit;
-//        }
-//
-//        $data = [
-//            'positionId' => $positionId,
-//            'resumeId' => $resumeId,
-//            'userId' => $userId,
-//            'createTime' => currentTime(),
-//            'createBy' => $userId,
-//            'updateTime' => currentTime(),
-//            'updateBy' => $userId
-//        ];
-//
-//        $insertRow = $userApplyPositionModel->save($data);
-//        if ($insertRow > 0) {
-//            $arr['id'] = $userApplyPositionModel->id;
-//            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
-//            exit;
-//        } else {
-//            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '创建失败');
-//            exit;
-//        }
-//
-//    }
-
     /**
      * 创建并投递简历
      */
@@ -222,12 +210,20 @@ class Resume extends IndexBase
         $age = Check::checkInteger($params['age'] ?? 0);
         $workYear = Check::checkInteger($params['workYear'] ?? 0); //工作年限
         $education = Check::check($params['education'] ?? '');
-        $salary = Check::check($params['salary'] ?? ''); //期望薪资
+
         $skills = Check::check($params['skills'] ?? ''); //技能描述
         $selfEvaluation = Check::check($params['selfEvaluation'] ?? ''); //自我评价
         $militaryTime = Check::check($params['militaryTime'] ?? ''); //入伍时间
         $attendedTime = Check::check($params['attendedTime'] ?? 0); //服役时长
         $corps = Check::check($params['corps'] ?? ''); //兵种
+
+        $exPosition = Check::check($params['exPosition'] ?? ''); //期望职位
+        $nature = Check::check($params['nature'] ?? ''); //期望工作性质
+        $exCity = Check::check($params['exCity'] ?? ''); //期望城市
+        $salary = Check::check($params['salary'] ?? ''); //期望薪资
+        $curStatus = Check::check($params['curStatus'] ?? ''); //目前状态
+        $arrivalTime = Check::check($params['arrivalTime'] ?? ''); //到岗时间
+        $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否是退役军人 默认0 0否 1是
 
         if ($name == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
@@ -254,6 +250,12 @@ class Resume extends IndexBase
             'militaryTime' => $militaryTime,
             'attendedTime' => $attendedTime,
             'corps' => $corps,
+            'exPosition' => $exPosition,
+            'nature' => $nature,
+            'exCity' => $exCity,
+            'curStatus' => $curStatus,
+            'arrivalTime' => $arrivalTime,
+            'isSoldierPriority'=>$isSoldierPriority,
             'createTime' => currentTime(),
             'createBy' => $userId,
             'updateTime' => currentTime(),
