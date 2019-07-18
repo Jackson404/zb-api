@@ -24,7 +24,7 @@ class PositionManagementModel extends Model
             ->where('p.id', '=', $positionId)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
-            p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->find();
     }
 
@@ -37,7 +37,7 @@ class PositionManagementModel extends Model
             ->where('p.id', '=', $positionId)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
-            p.createTime,p.createBy,p.updateTime,p.updateBy')
+            p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->find();
     }
 
@@ -144,7 +144,7 @@ class PositionManagementModel extends Model
     {
         return $this->where('id', '=', $positionId)
             ->where('isDelete', '=', 0)
-            ->inc('positionCount', $count)
+            ->inc('applyCount', $count)
             ->update();
     }
 
@@ -152,7 +152,7 @@ class PositionManagementModel extends Model
     {
         return $this->where('id', '=', $positionId)
             ->where('isDelete', '=', 0)
-            ->dec('positionCount', $count)
+            ->dec('applyCount', $count)
             ->update();
     }
 
@@ -164,7 +164,7 @@ class PositionManagementModel extends Model
             ->where('p.isShow', '=', 1)
             ->field('p.id,p.name,p.positionCateId,p.companyId,c.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,c.province,c.city,c.area,c.address,
-            p.positionRequirement,p.isShow,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->limit(0, $limit)
             ->select();
     }
@@ -172,7 +172,7 @@ class PositionManagementModel extends Model
     public function getRandomPositionListLimit($positionId)
     {
         $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,
-            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address FROM zb_position_management as p 
+            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address,p.applyCount FROM zb_position_management as p 
             LEFT JOIN zb_company_management as c ON p.companyId = c.id 
             WHERE p.isDelete=0 AND p.isShow=1 AND p.id <> '$positionId'
              ORDER BY rand() LIMIT 0,5";
@@ -184,7 +184,7 @@ class PositionManagementModel extends Model
     public function getRandomPositionLimit()
     {
         $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,
-            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address FROM zb_position_management as p LEFT JOIN zb_company_management as c
+            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address,p.applyCount FROM zb_position_management as p LEFT JOIN zb_company_management as c
             ON p.companyId = c.id 
             WHERE p.isDelete=0 AND p.isShow=1 
              ORDER BY rand() LIMIT 0,5";
