@@ -37,6 +37,8 @@ class PositionManagement extends IndexBase
         $pageArr = $pageData['data'];
 
         foreach ($pageArr as $k => $v) {
+            $pageArr[$k]['createDate'] = date('Y-m-d',strtotime($v['createTime']));
+            $pageArr[$k]['updateDate'] = date('Y-m-d',strtotime($v['updateTime']));
             $pageArr[$k]['labelIds'] = json_decode($v['labelIds'], true);
         }
 
@@ -53,6 +55,8 @@ class PositionManagement extends IndexBase
         $positionModel = New PositionManagementModel();
         $list = $positionModel->search($searchValue);
         foreach ($list as $k => $v) {
+            $list[$k]['createDate'] = date('Y-m-d',strtotime($v['createTime']));
+            $list[$k]['updateDate'] = date('Y-m-d',strtotime($v['updateTime']));
             $list[$k]['labelIds'] = json_decode($v['labelIds'], true);
         }
 
@@ -182,6 +186,8 @@ class PositionManagement extends IndexBase
         list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql, $provinceSql, $citySql, $areaSql, $pageIndex, $pageSize);
 
         foreach ($result as $k => $v) {
+            $result[$k]['createDate'] = date('Y-m-d',strtotime($v['createTime']));
+            $result[$k]['updateDate'] = date('Y-m-d',strtotime($v['updateTime']));
             $result[$k]['labelIds'] = json_decode($v['labelIds'], true);
         }
 
@@ -208,6 +214,8 @@ class PositionManagement extends IndexBase
         $pageArr = $pageData['data'];
 
         foreach ($pageArr as $k => $v) {
+            $pageArr[$k]['createDate'] = date('Y-m-d',strtotime($v['createTime']));
+            $pageArr[$k]['updateDate'] = date('Y-m-d',strtotime($v['updateTime']));
             $pageArr[$k]['labelIds'] = json_decode($v['labelIds'], true);
         }
 
