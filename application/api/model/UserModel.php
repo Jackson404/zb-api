@@ -29,6 +29,30 @@ class UserModel extends Model
         }
     }
 
+    public function checkMiniOpenIdBindPhone($miniOpenId,$phone)
+    {
+        $count = $this->where('isDelete', '=', 0)
+            ->where('mini_openid', '=', $miniOpenId)
+            ->where('phone','=',$phone)
+            ->count();
+        if ($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function bindMiniOpenIdAndPhone($miniOpenId,$phone){
+        $data = [
+            'mini_openid'=>$miniOpenId,
+            'updateTime'=>currentTime()
+        ];
+        return $this->where('phone','=',$phone)
+            ->where('isDelete','=',0)
+            ->update($data);
+    }
+
+
 
     public function getByPhone($phone)
     {

@@ -9,9 +9,9 @@ use Util\Util;
 
 class AdminUser extends AuthBase
 {
-    /**
-     * 后台用户注册
-     */
+//    /**
+//     * 后台用户注册
+//     */
 //    public function register()
 //    {
 //        $params = Request::instance()->request();

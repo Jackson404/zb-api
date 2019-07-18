@@ -47,6 +47,7 @@ class User extends IndexBase
         $params = Request::instance()->request();
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $vCode = Check::check($params['vCode'] ?? '');
+        $miniOpenId = Check::check($params['miniOpenId'] ?? '');
 
         $redis = new Redis();
         $verifyCode = $redis->get($phone);
@@ -79,6 +80,19 @@ class User extends IndexBase
 
         $detail = $userModel->getByPhone($phone);
         $detailData = $detail->toArray();
+
+        //绑定小程序openId
+        if ($miniOpenId != ''){
+            // 没有绑定
+            if (!$userModel->checkMiniOpenIdBindPhone($miniOpenId,$phone)){
+                $bindRow = $userModel->bindMiniOpenIdAndPhone($miniOpenId,$phone);
+                if ($bindRow <= 0){
+                    Util::printResult($GLOBALS['ERROR_SQL_UPDATE'],'绑定失败');
+                    exit;
+                }
+            }
+        }
+
         $userId = $detailData['id'];
         $username = $detailData['name'];
         $avatar = $detailData['avatar'];
@@ -316,13 +330,15 @@ class User extends IndexBase
         }
 
         $openid = $res['openid'];
+//        $openid = $params['miniOpenId'];
 
         $userModel = new UserModel();
         if ($userModel->checkMiniOpenIdExist($openid)) {
             $detail = $userModel->getByMiniOpenId($openid);
             $detailData = $detail->toArray();
             $arr = [
-                'u_id' => $detailData['id'],
+                'uid' => $detailData['id'],
+                'name'=>$detailData['name'],
                 'phone' => $detailData['phone'],
                 'avatar' => $detailData['avatar']
             ];
