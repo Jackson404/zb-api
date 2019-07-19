@@ -146,29 +146,3 @@ function generateTreeCode1($array, $node)
     }
     return $tree;
 }
-
-
-/**
- * 遍历文件夹
- * @param $dirname
- */
-function bl_scandir($dirname)
-{
-
-    $dirArr = scandir($dirname);
-
-    $filenameArr = array();
-    foreach ($dirArr as $v) {
-        //组合文件或文件夹的路径
-        $filename = $dirname . '\\' . $v;
-
-        if ($v != '.' && $v != '..') {
-            if (is_dir($v)) {
-                bl_scandir($v);
-            } else {
-                array_push($filenameArr, $filename);
-            }
-        }
-    }
-    return $filenameArr;
-}
