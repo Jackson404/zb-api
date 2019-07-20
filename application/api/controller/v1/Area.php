@@ -69,5 +69,24 @@ class Area extends Controller
         }
     }
 
+    public function getAllTree()
+    {
+        $areaModel = new AreaModel();
+        $provinceRes = $areaModel->getProvince();
+        foreach ($provinceRes as $k => $province) {
+            $province = $province['province'];
+            $cityRes = $areaModel->getCity($province);
+
+            foreach ($cityRes as $kk => $city) {
+                $city = $city['city'];
+                $areaRes = $areaModel->getArea($city);
+                $cityRes[$kk]['son'] = $areaRes;
+            }
+
+            $provinceRes[$k]['son'] = $cityRes;
+        }
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $provinceRes);
+        exit;
+    }
 
 }
