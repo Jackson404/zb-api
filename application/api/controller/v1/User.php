@@ -336,14 +336,57 @@ class User extends IndexBase
         if ($userModel->checkMiniOpenIdExist($openid)) {
             $detail = $userModel->getByMiniOpenId($openid);
             $detailData = $detail->toArray();
-            $arr = [
-                'uid' => $detailData['id'],
-                'name'=>$detailData['name'],
-                'phone' => $detailData['phone'],
-                'avatar' => $detailData['avatar']
+
+            $token = password_hash($detailData['id'] . $detailData['phone'], PASSWORD_DEFAULT);
+            $id_token = $detailData['id'] . '|' . $token;
+
+            $loginIp = $_SERVER["REMOTE_ADDR"];
+            $loginTime = date('Y-m-d H:i:s', time());
+            $loginOut = 0;
+
+            $array = [
+                'loginPhone' => $detailData['phone'],
+                'userId' => $detailData['id'],
+                'token' => $token,
+                'loginIp' => $loginIp,
+                'loginTime' => $loginTime,
+                'loginOut' => $loginOut
             ];
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
-            exit;
+            $userLoginHistoryModel = new UserLoginHistoryModel();
+            $result = $userLoginHistoryModel->save($array);
+
+            if ($result > 0) {
+                $arr = [
+                    'uid' => $detailData['id'],
+                    'name'=>$detailData['name'],
+                    'phone' => $detailData['phone'],
+                    'avatar' => $detailData['avatar'],
+                    'id_token' => $id_token
+                ];
+
+                $resumeModel = new ResumeModel();
+                if ($resumeModel->checkUserHasCreateResume($detailData['id'])) {
+                    $arr['hasResume'] = true;
+
+                    $userApplyPositionModel = new UserApplyPositionModel();
+                    $list = $userApplyPositionModel->getUserApplyList($detailData['id']);
+                    $listData = $list->toArray();
+
+                    $arr['list'] = [
+                        'applyPositionTotal' => count($listData),
+                        'see' => 100
+                    ];
+                } else {
+                    $arr['hasResume'] = false;
+                    $arr['list'] = [];
+                }
+
+                Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+                exit;
+            } else {
+                Util::printResult($GLOBALS['ERROR_LOGIN'], '登录失败');
+                exit;
+            }
         }
         $arr = array(
             'phone' => 0,
