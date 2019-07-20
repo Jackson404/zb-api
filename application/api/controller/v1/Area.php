@@ -77,11 +77,11 @@ class Area extends Controller
             $province = $province['province'];
             $cityRes = $areaModel->getCity($province);
 
-            foreach ($cityRes as $kk => $city) {
-                $city = $city['city'];
-                $areaRes = $areaModel->getArea($city);
-                $cityRes[$kk]['son'] = $areaRes;
-            }
+//            foreach ($cityRes as $kk => $city) {
+//                $city = $city['city'];
+//                $areaRes = $areaModel->getArea($city);
+//                $cityRes[$kk]['son'] = $areaRes;
+//            }
 
             $provinceRes[$k]['son'] = $cityRes;
         }
