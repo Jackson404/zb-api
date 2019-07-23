@@ -19,4 +19,5 @@ return [
     'app\ans\command\ModifySlide',
     'app\ans\command\ChangeCreateTime',
     'app\ans\command\ExportExcelToMysql',
+    'app\ans\command\Export',
 ];

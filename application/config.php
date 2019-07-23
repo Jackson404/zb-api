@@ -238,4 +238,6 @@ return [
         'var_page'  => 'page',
         'list_rows' => '15',
     ],
+    //断线重连
+    'break_reconnect' => true
 ];

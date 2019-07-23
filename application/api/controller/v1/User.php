@@ -82,12 +82,12 @@ class User extends IndexBase
         $detailData = $detail->toArray();
 
         //绑定小程序openId
-        if ($miniOpenId != ''){
+        if ($miniOpenId != '') {
             // 没有绑定
-            if (!$userModel->checkMiniOpenIdBindPhone($miniOpenId,$phone)){
-                $bindRow = $userModel->bindMiniOpenIdAndPhone($miniOpenId,$phone);
-                if ($bindRow <= 0){
-                    Util::printResult($GLOBALS['ERROR_SQL_UPDATE'],'绑定失败');
+            if (!$userModel->checkMiniOpenIdBindPhone($miniOpenId, $phone)) {
+                $bindRow = $userModel->bindMiniOpenIdAndPhone($miniOpenId, $phone);
+                if ($bindRow <= 0) {
+                    Util::printResult($GLOBALS['ERROR_SQL_UPDATE'], '绑定失败');
                     exit;
                 }
             }
@@ -322,9 +322,9 @@ class User extends IndexBase
 
         $res = json_decode($response, true);
 
-        if (array_key_exists('errcode',$res)){
-            if ($res['errcode'] != 0){
-                Util::printResult($res['errcode'],$res['errmsg']);
+        if (array_key_exists('errcode', $res)) {
+            if ($res['errcode'] != 0) {
+                Util::printResult($res['errcode'], $res['errmsg']);
                 exit;
             }
         }
@@ -358,7 +358,7 @@ class User extends IndexBase
             if ($result > 0) {
                 $arr = [
                     'uid' => $detailData['id'],
-                    'name'=>$detailData['name'],
+                    'name' => $detailData['name'],
                     'phone' => $detailData['phone'],
                     'avatar' => $detailData['avatar'],
                     'id_token' => $id_token
@@ -394,6 +394,118 @@ class User extends IndexBase
         );
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
         exit;
+    }
+
+    public function bindMiniOpenIdWithPhone()
+    {
+        $params = Request::instance()->request();
+        $phone = Check::check($params['phone'] ?? '', 11, 11);
+        $miniOpenId = Check::check($params['miniOpenId'] ?? '');
+
+        $userModel = new UserModel();
+
+        if ($phone == '' || $miniOpenId == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
+
+        // 手机号注册过的情况
+        if ($userModel->checkPhoneExist($phone)) {
+
+            $res = $userModel->checkPhoneHasBind($phone, $miniOpenId);
+            if ($res == -2) {
+                Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '手机号已绑定其他的');
+                exit;
+            }
+            if ($res == -3) {
+                $bindRow = $userModel->bindMiniOpenIdAndPhone($miniOpenId, $phone);
+                if ($bindRow <= 0) {
+                    Util::printResult($GLOBALS['ERROR_SQL_UPDATE'], '绑定失败');
+                    exit;
+                }
+            }
+        } else {
+
+            if ($userModel->checkMiniOpenIdHasBind($miniOpenId)) {
+                Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '小程序绑定了其他手机号');
+                exit;
+            }
+            $username = '正步_' . Util::generateRandomCode(6);
+            $avatar = '/public/avatar/a1.png';
+            $data = [
+                'avatar' => $avatar,
+                'name' => $username,
+                'phone' => $phone,
+                'mini_openid' => $miniOpenId,
+                'createTime' => currentTime(),
+                'updateTime' => currentTime()
+            ];
+
+            $insertRow = $userModel->save($data);
+
+            if ($insertRow < 0) {
+                util::printResult($GLOBALS['ERROR_REGISTER'], '绑定失败');
+                exit;
+            }
+        }
+
+        $detail = $userModel->getByPhone($phone);
+        $detailData = $detail->toArray();
+
+        $userId = $detailData['id'];
+        $username = $detailData['name'];
+        $avatar = $detailData['avatar'];
+
+        $token = password_hash($userId . $phone, PASSWORD_DEFAULT);
+        $id_token = $userId . '|' . $token;
+
+        $loginIp = $_SERVER["REMOTE_ADDR"];
+        $loginTime = date('Y-m-d H:i:s', time());
+        $loginOut = 0;
+
+        $array = [
+            'loginPhone' => $phone,
+            'userId' => $userId,
+            'token' => $token,
+            'loginIp' => $loginIp,
+            'loginTime' => $loginTime,
+            'loginOut' => $loginOut
+        ];
+        $userLoginHistoryModel = new UserLoginHistoryModel();
+        $result = $userLoginHistoryModel->save($array);
+
+        if ($result > 0) {
+
+            $arr = [
+                'uid' => $userId,
+                'avatar' => $avatar,
+                'name' => $username,
+                'phone' => $phone,
+                'id_token' => $id_token
+            ];
+            $resumeModel = new ResumeModel();
+            if ($resumeModel->checkUserHasCreateResume($userId)) {
+                $arr['hasResume'] = true;
+
+                $userApplyPositionModel = new UserApplyPositionModel();
+                $list = $userApplyPositionModel->getUserApplyList($userId);
+                $listData = $list->toArray();
+
+                $arr['list'] = [
+                    'applyPositionTotal' => count($listData),
+                    'see' => 100
+                ];
+            } else {
+                $arr['hasResume'] = false;
+                $arr['list'] = [];
+            }
+
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+            exit;
+        } else {
+            Util::printResult($GLOBALS['ERROR_LOGIN'], '登录失败');
+            exit;
+        }
     }
 
 }
