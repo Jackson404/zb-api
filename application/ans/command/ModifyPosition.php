@@ -31,7 +31,13 @@ class ModifyPosition extends Command
             $arr['age'] = $v['t_nj'];
             $arr['num'] = $v['t_rs'];
             $arr['labelIds'] = $v['t_bq'];
-            $arr['isSoldierPriority'] = $v['t_jr'];
+            if ($v['t_jr'] == 1) {
+                $arr['isSoldierPriority'] = 0;
+            }
+            if ($v['t_jr'] == 2) {
+                $arr['isSoldierPriority'] = 1;
+            }
+//            $arr['isSoldierPriority'] = $v['t_jr'];
             $arr['address'] = $v['t_dz'];
             $arr['positionRequirement'] = $v['t_yq'];
 

@@ -31,13 +31,18 @@ class ModifyNews extends Command
             $article_img_url = $v['article_img_url'];
             $article_img_urlArr = explode('/', $article_img_url);
 
-            $arr['categoryId'] = $v['article_cate'];
+            if ($v['article_cate'] == 1){
+                $arr['categoryId'] = 3;
+            }
+            if ($v['article_cate'] == 2){
+                $arr['categoryId'] = 4;
+            }
+
             $arr['imgUrl'] = '/public/uploads/' . $article_img_urlArr[2] . '/' . $article_img_urlArr[3];
             $arr['createTime'] = date('Y-m-d H:i:s', $v['article_create_date']);
             $arr['createBy'] = 1;
             $arr['updateTime'] = date('Y-m-d H:i:s', $v['article_create_date']);
             $arr['updateBy'] = 1;
-
 
             $insertId = Db::table('zb_news')->insert($arr);
             var_dump($insertId);
