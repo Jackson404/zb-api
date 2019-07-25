@@ -3,27 +3,15 @@
 namespace app\api\controller\v1\admin;
 
 use app\api\model\DataResume;
+use app\api\model\DataResumeRecord;
 use think\cache\driver\Redis;
 use think\Controller;
 use think\Request;
+use Util\Check;
 use Util\Util;
 
 class ResumeData extends Controller
 {
-    public function getCount()
-    {
-        ini_set('max_execution_time', 0);
-        $dataResumeModel = new DataResume();
-        $result = $dataResumeModel->getCount();
-        $total = $result[0]['count(*)'];
-
-        $redis = new Redis();
-        $redis->set('resumeDataCount', $total);
-        $redis->handler()->close();
-        $data['total'] = $total;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
-
     public function getByPage()
     {
         ini_set('max_execution_time', 0);
@@ -31,86 +19,297 @@ class ResumeData extends Controller
 
         $pageIndex = $params['pageIndex'] ?? 1;
         $pageSize = $params['pageSize'] ?? 10;
-        $redis = new Redis();
         $dataResumeModel = new DataResume();
         $content = $dataResumeModel->getByPage($pageIndex, $pageSize);
         $data['pageIndex'] = $pageIndex;
         $data['pageSize'] = $pageSize;
 
-        $data['total'] = $redis->get('resumeDataCount');
-        $redis->handler()->close();
+        $data['total'] = $dataResumeModel->getCount();
         $data['page'] = $content;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
 
     }
 
-    public function delResume()
+    public function filterResumeData()
+    {
+        ini_set('max_execution_time', 0);
+        $params = Request::instance()->request();
+        $posKey = Check::check($params['posKey'] ?? ''); //职位关键词
+        $exWorkLocation = Check::check($params['exWorkLocation'] ?? '');//期望工作地点
+        $workExp = Check::check($params['workExp'] ?? ''); //工作经验
+        $educationName = Check::check($params['educationName'] ?? '');//学历
+        $minAge = Check::check($params['minAge'] ?? 0);//最小年龄
+        $maxAge = Check::check($params['maxAge'] ?? 0); //最大年龄
+        $sex = Check::check($params['sex'] ?? ''); //性别 1男 0女 -1 未知
+
+        if ($posKey != '') {
+            $posKeySql = "  and  exPosition  like  '%$posKey%'";
+        } else {
+            $posKeySql = '';
+        }
+
+        if ($exWorkLocation != '') {
+            $exWorkLocationSql = " and  (exCity like '%$exWorkLocation%' or habitation like '%$exWorkLocation%')";
+        } else {
+            $exWorkLocationSql = "";
+        }
+
+        if ($workExp != '' && $workExp != '不限') {
+            $workExpSql = " and  workYear='$workExp'";
+        } else {
+            $workExpSql = "";
+        }
+        if ($educationName != '' && $educationName != '不限') {
+            $educationNameSql = "  and educationName = '$educationName'";
+        } else {
+            $educationNameSql = "";
+        }
+
+        if ($minAge != 0) {
+            $year = date('Y', time());
+            $birthYear = $year - $minAge;
+            $minAgeSql = "  and birthYear <= $birthYear";
+        } else {
+            $minAgeSql = "";
+        }
+
+        if ($maxAge != 0) {
+            $year = date('Y', time());
+            $birthYear = $year - $maxAge;
+            $maxAgeSql = "  and birthYear >= $birthYear";
+        } else {
+            $maxAgeSql = "";
+        }
+
+        if ($sex != '' && $sex != '不限') {
+            if ($sex == '男'){
+                $sex = 1;
+            }
+            if ($sex == '女'){
+                $sex = 0;
+            }
+            $sexSql = " and sex = $sex";
+        } else {
+            $sexSql = "";
+        }
+
+        $pageIndex = $params['pageIndex'] ?? 1;
+        $pageSize = $params['pageSize'] ?? 10;
+        $dataResumeModel = new DataResume();
+        $content = $dataResumeModel->filterByPage($posKeySql, $exWorkLocationSql, $workExpSql, $educationNameSql, $minAgeSql, $maxAgeSql, $sexSql, $pageIndex, $pageSize);
+        $data['pageIndex'] = $pageIndex;
+        $data['pageSize'] = $pageSize;
+
+        $data['total'] = $dataResumeModel->filterCount($posKeySql, $exWorkLocationSql, $workExpSql, $educationNameSql, $minAgeSql, $maxAgeSql, $sexSql);
+        $data['page'] = $content;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
+    }
+
+    public function addRecord()
     {
         $params = Request::instance()->request();
-        $resumeId = $params['resumeId'] ?? '';
-        $dataResumeModel = new DataResume();
-        $delRow = $dataResumeModel->delResume($resumeId);
-        $data['delRow'] = $delRow;
+        $recordName = $params['recordName'] ?? '';
+        $remark = $params['remark'] ?? '';
+        $posKey = $params['posKey'] ?? '';
+        $exWorkLocation = $params['exWorkLocation'] ?? '';
+        $workExp = Check::check($params['workExp'] ?? ''); //工作经验
+        $educationName = Check::check($params['educationName'] ?? '');//学历
+        $minAge = Check::check($params['minAge'] ?? '');//最小年龄
+        $maxAge = Check::check($params['maxAge'] ?? ''); //最大年龄
+        $sex = Check::check($params['sex'] ?? ''); //性别 1男 0女 -1 未知
+//        $filterData = $params['filterData'] ?? '';
+
+        if ($recordName == '' || $remark == ''){
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'],'缺少参数');
+            exit;
+        }
+
+        $data = [
+            'recordName' => $recordName,
+            'remark' => $remark,
+            'posKey' => $posKey,
+            'exWorkLocation' => $exWorkLocation,
+            'workExp' => $workExp,
+            'educationName' => $educationName,
+            'minAge' => $minAge,
+            'maxAge' => $maxAge,
+            'sex' => $sex,
+            'createTime' => date('Y-m-d', time()),
+            'updateTime' => date('Y-m-d', time())
+        ];
+
+//        $filterData = json_decode($filterData, true);
+
+        $dataResumeRecord = new DataResumeRecord();
+//        $recordId = $dataResumeRecord->addRecord($data, $filterData);
+        $recordId = $dataResumeRecord->addRecordX($data);
+
+        $arr['recordId'] = $recordId;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+
+    }
+
+    public function updateRecord()
+    {
+        $params = Request::instance()->request();
+        $recordId = $params['recordId'] ?? '';
+        $recordName = $params['recordName'] ?? '';
+        $remark = $params['remark'] ?? '';
+        $posKey = $params['posKey'] ?? '';
+        $exWorkLocation = $params['exWorkLocation'] ?? '';
+        $workExp = Check::check($params['workExp'] ?? ''); //工作经验
+        $educationName = Check::check($params['educationName'] ?? '');//学历
+        $minAge = Check::check($params['minAge'] ?? '');//最小年龄
+        $maxAge = Check::check($params['maxAge'] ?? ''); //最大年龄
+        $sex = Check::check($params['sex'] ?? ''); //性别 1男 0女 -1 未知
+
+        if ($recordName == '' || $remark == ''){
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'],'缺少参数');
+            exit;
+        }
+
+        $data = [
+            'recordName' => $recordName,
+            'remark' => $remark,
+            'posKey' => $posKey,
+            'exWorkLocation' => $exWorkLocation,
+            'workExp' => $workExp,
+            'educationName' => $educationName,
+            'minAge' => $minAge,
+            'maxAge' => $maxAge,
+            'sex' => $sex,
+            'updateTime' => date('Y-m-d', time())
+        ];
+
+        $dataResumeRecord = new DataResumeRecord();
+        $updateRow = $dataResumeRecord->updateRecord($recordId,$data);
+
+        $arr['updateRow'] = $updateRow;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+
+    }
+
+
+    public function getRecordByDate()
+    {
+        $params = Request::instance()->request();
+        $date = $params['date'] ?? '';
+        $dataResumeRecord = new DataResumeRecord();
+        $list = $dataResumeRecord->getRecordListByDate($date);
+        $data['list'] = $list;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
-    public function editResume()
+//    public function getRecordByPage()
+//    {
+//        $params = Request::instance()->request();
+//        $recordId = $params['recordId'] ?? '';
+//        $pageIndex = $params['pageIndex'] ?? 1;
+//        $pageSize = $params['pageSize'] ?? 10;
+//
+//        $dataResumeModel = new DataResume();
+//
+//        $content = $dataResumeModel->getByPageRecordId($recordId, $pageIndex, $pageSize);
+//        $data['pageIndex'] = $pageIndex;
+//        $data['pageSize'] = $pageSize;
+//
+//        $data['total'] = $dataResumeModel->getCountByRecordId($recordId);
+//        $data['page'] = $content;
+//        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+//    }
+
+    public function addStar()
     {
         $params = Request::instance()->request();
-        $resumeId = $params['resumeId'] ?? '';
-        $name = $params['name'] ?? '';
-        $sex = $params['sex'] ?? '';
-        $birth = $params['birth'] ?? '';
-        $work = $params['work'] ?? '';
-        $wage = $params['wage'] ?? '';
-        $profession = $params['profession'] ?? '';
-        $position = $params['position'] ?? '';
-        $qua = $params['qua'] ?? '';
-        $gra = $params['gra'] ?? '';
-        $spe = $params['spe'] ?? '';
-        $bonus = $params['bonus'] ?? '';
-        $allow = $params['allow'] ?? '';
-        $resume = $params['resume'] ?? '';
+        $idCard = $params['idCard'] ?? '';
         $phone = $params['phone'] ?? '';
-        $mail = $params['mail'] ?? '';
-        $habitation = $params['habitation'] ?? '';
-        $profe = $params['profe'] ?? '';
-//        $from = $params['from'] ?? '';
+        $type = $params['type'] ?? 1;
 
         $dataResumeModel = new DataResume();
+        $updateRow = $dataResumeModel->star($idCard, $phone,$type);
+        $data['updateRow'] = $updateRow;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    public function edit()
+    {
+        $params = Request::instance()->request();
+        $idCard = $params['idCard'] ?? '';
+        $phone = $params['phone'] ?? '';
+        $name = $params['name'] ?? '';
+        $sex = $params['sex'] ?? '';
+        $birthYear = $params['birthYear'] ?? '';
+        $birth = $params['birth'] ?? '';
+        $school = $params['school'] ?? '';
+        $education = $params['education'] ?? 0;
+        $educationName = $params['educationName'] ?? '';
+        $mail = $params['mail'] ?? '';
+        $profession = $params['profession'] ?? '';
+        $professionId = $params['professionId'] ?? 0;
+        $workYear = $params['workYear'] ?? '';
+        $exPosition = $params['exPosition'] ?? '';
+        $exSalary = $params['exSalary'] ?? '';
+        $exCity = $params['exCity'] ?? '';
+        $habitation = $params['habitation'] ?? '';
+        $houseLocation = $params['houseLocation'] ?? '';
+        $workUnit = $params['workUnit'] ?? '';
+
         $data = [
+            'idCard' => $idCard,
+            'phone' => $phone,
             'name' => $name,
             'sex' => $sex,
+            'birthYear' => $birthYear,
             'birth' => $birth,
-            'work' => $work,
-            'wage' => $wage,
-            'profession' => $profession,
-            'position' => $position,
-            'qua' => $qua,
-            'gra' => $gra,
-            'spe' => $spe,
-            'bonus' => $bonus,
-            'allow' => $allow,
-            'resume' => $resume,
-            'phone' => $phone,
+            'school' => $school,
+            'education' => $education,
+            'educationName' => $educationName,
             'mail' => $mail,
+            'profession' => $profession,
+            'professionId' => $professionId,
+            'workYear' => $workYear,
+            'exPosition' => $exPosition,
+            'exSalary' => $exSalary,
+            'exCity' => $exCity,
             'habitation' => $habitation,
-            'profe' => $profe,
-//            'from' => $from
+            'houseLocation' => $houseLocation,
+            'workUnit' => $workUnit,
+            'updateTime'=>date('Y-m-d',time()),
+            'type' => 2
         ];
 
-        $updateRow = $dataResumeModel->editResume($resumeId,$data);
+        $dataResumeModel = new DataResume();
+        $updateRow = $dataResumeModel->isUpdate(true)->save($data);
         $arr['updateRow'] = $updateRow;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
     }
 
+
+    /**
+     * 真删除啊 对呀 真的删除了
+     */
+    public function delResume()
+    {
+        $params = Request::instance()->request();
+        $idCard = $params['idCard'] ?? '';
+        $phone = $params['phone'] ?? '';
+
+        $dataResumeModel = new DataResume();
+        $delRow = $dataResumeModel->del($idCard, $phone);
+        $data['delRow'] = $delRow;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+
     public function getDetail()
     {
         $params = Request::instance()->request();
-        $resumeId = $params['resumeId'] ?? '';
+        $idCard = $params['idCard'] ?? '';
+        $phone = $params['phone'] ?? '';
 
         $dataResumeModel = new DataResume();
-        $detail = $dataResumeModel->getDetail($resumeId);
+        $detail = $dataResumeModel->detail($idCard, $phone);
         $data['detail'] = $detail;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }

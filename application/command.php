@@ -20,4 +20,7 @@ return [
     'app\ans\command\ChangeCreateTime',
     'app\ans\command\ExportExcelToMysql',
     'app\ans\command\Export',
+    'app\ans\command\Export51job',
+    'app\ans\command\Export58',
+    'app\ans\command\ExportGj',
 ];

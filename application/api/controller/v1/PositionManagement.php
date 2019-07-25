@@ -93,26 +93,22 @@ class PositionManagement extends IndexBase
         if ($salary == '3000元以下') {
             $minPay = 0;
             $maxPay = 3000;
-            $salarySql = "  and p.minPay >= $minPay and  p.maxPay <= $maxPay";
-        } elseif ($salary == '3000-5000元') {
+            $salarySql = "  and (p.minPay >= $minPay or p.maxPay>=$minPay) and (p.minPay <= $maxPay or p.maxPay <= $maxPay)";
+        } elseif ($salary == '3000~5000元') {
             $minPay = 3000;
             $maxPay = 5000;
-            $salarySql = "  and p.minPay >= $minPay and p.maxPay <= $maxPay";
-        } elseif ($salary == '5000-8000元') {
+            $salarySql = "  and (p.minPay >= $minPay or p.maxPay>=$minPay) and (p.minPay <= $maxPay or p.maxPay <= $maxPay)";
+        } elseif ($salary == '5000~8000元') {
             $minPay = 5000;
             $maxPay = 8000;
-            $salarySql = "  and p.minPay >= $minPay  and  p.maxPay <= $maxPay";
-        } elseif ($salary == '8000-10000元') {
+            $salarySql = "  and (p.minPay >= $minPay or p.maxPay>=$minPay) and (p.minPay <= $maxPay or p.maxPay <= $maxPay)";
+        } elseif ($salary == '8000~10000元') {
             $minPay = 8000;
             $maxPay = 10000;
-            $salarySql = "  and p.minPay >= $minPay and p.maxPay <= $maxPay";
-        } elseif ($salary == '10000-15000元') {
+            $salarySql = "  and (p.minPay >= $minPay or p.maxPay>=$minPay) and (p.minPay <= $maxPay or p.maxPay <= $maxPay)";
+        } elseif ($salary == '10000元以上') {
             $minPay = 10000;
-            $maxPay = 15000;
-            $salarySql = "  and p.minPay >= $minPay and p.maxPay <= $maxPay";
-        } elseif ($salary == '15000元以上') {
-            $minPay = 15000;
-            $salarySql = "  and p.minPay >= $minPay ";
+            $salarySql = "  and (p.minPay >= $minPay or p.maxPay >= $minPay) ";
         } else {
             $salarySql = "";
         }
