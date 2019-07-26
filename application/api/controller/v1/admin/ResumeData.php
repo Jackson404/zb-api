@@ -54,13 +54,33 @@ class ResumeData extends Controller
             $exWorkLocationSql = "";
         }
 
+//        1-3年 3-5年 5-10年 10年以上
+
+//        if ($workExp == '不限'){
+//            $workExpSql = "";
+//        }else if ($workExp == '1-3年'){
+//
+//        }
         if ($workExp != '' && $workExp != '不限') {
             $workExpSql = " and  workYear='$workExp'";
         } else {
             $workExpSql = "";
         }
-        if ($educationName != '' && $educationName != '不限') {
-            $educationNameSql = "  and educationName = '$educationName'";
+//        if ($educationName != '' && $educationName != '不限') {
+//            $educationNameSql = "  and educationName = '$educationName'";
+//        } else {
+//            $educationNameSql = "";
+//        }
+        //限 高中及以下 大专 本科及以上
+
+        if ($educationName == '不限') {
+            $educationNameSql = "";
+        } else if ($educationName == '高中及以下') {
+            $educationNameSql = "  and (educationName like '%高中%' or educationName like '%初中%')";
+        } else if ($educationName == '大专') {
+            $educationNameSql = "  and educationName like '%大专%'";
+        } else if ($educationName == '本科及以上') {
+            $educationNameSql = "  and (educationName like '%本科%' or educationName like '%硕士%' or educationName like '%博士%')";
         } else {
             $educationNameSql = "";
         }
@@ -82,10 +102,10 @@ class ResumeData extends Controller
         }
 
         if ($sex != '' && $sex != '不限') {
-            if ($sex == '男'){
+            if ($sex == '男') {
                 $sex = 1;
             }
-            if ($sex == '女'){
+            if ($sex == '女') {
                 $sex = 0;
             }
             $sexSql = " and sex = $sex";
@@ -120,8 +140,8 @@ class ResumeData extends Controller
         $sex = Check::check($params['sex'] ?? ''); //性别 1男 0女 -1 未知
 //        $filterData = $params['filterData'] ?? '';
 
-        if ($recordName == '' || $remark == ''){
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'],'缺少参数');
+        if ($recordName == '' || $remark == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
 
@@ -164,8 +184,8 @@ class ResumeData extends Controller
         $maxAge = Check::check($params['maxAge'] ?? ''); //最大年龄
         $sex = Check::check($params['sex'] ?? ''); //性别 1男 0女 -1 未知
 
-        if ($recordName == '' || $remark == ''){
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'],'缺少参数');
+        if ($recordName == '' || $remark == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
 
@@ -183,7 +203,7 @@ class ResumeData extends Controller
         ];
 
         $dataResumeRecord = new DataResumeRecord();
-        $updateRow = $dataResumeRecord->updateRecord($recordId,$data);
+        $updateRow = $dataResumeRecord->updateRecord($recordId, $data);
 
         $arr['updateRow'] = $updateRow;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
@@ -201,23 +221,6 @@ class ResumeData extends Controller
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
-//    public function getRecordByPage()
-//    {
-//        $params = Request::instance()->request();
-//        $recordId = $params['recordId'] ?? '';
-//        $pageIndex = $params['pageIndex'] ?? 1;
-//        $pageSize = $params['pageSize'] ?? 10;
-//
-//        $dataResumeModel = new DataResume();
-//
-//        $content = $dataResumeModel->getByPageRecordId($recordId, $pageIndex, $pageSize);
-//        $data['pageIndex'] = $pageIndex;
-//        $data['pageSize'] = $pageSize;
-//
-//        $data['total'] = $dataResumeModel->getCountByRecordId($recordId);
-//        $data['page'] = $content;
-//        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-//    }
 
     public function addStar()
     {
@@ -227,7 +230,7 @@ class ResumeData extends Controller
         $type = $params['type'] ?? 1;
 
         $dataResumeModel = new DataResume();
-        $updateRow = $dataResumeModel->star($idCard, $phone,$type);
+        $updateRow = $dataResumeModel->star($idCard, $phone, $type);
         $data['updateRow'] = $updateRow;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
@@ -275,7 +278,7 @@ class ResumeData extends Controller
             'habitation' => $habitation,
             'houseLocation' => $houseLocation,
             'workUnit' => $workUnit,
-            'updateTime'=>date('Y-m-d',time()),
+            'updateTime' => date('Y-m-d', time()),
             'type' => 2
         ];
 

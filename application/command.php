@@ -23,4 +23,5 @@ return [
     'app\ans\command\Export51job',
     'app\ans\command\Export58',
     'app\ans\command\ExportGj',
+    'app\ans\command\ExportOther',
 ];

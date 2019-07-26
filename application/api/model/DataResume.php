@@ -79,6 +79,7 @@ class DataResume extends Model
                 $this->table where isDelete=0 $posKeySql $exWorkLocationSql $workExpSql  $educationNameSql  $minAgeSql $maxAgeSql  $sexSql  order by idCard,phone desc limit $offset,$pageSize";
         $content = $this->query($sql);
 
+//        var_dump($sql);
         return $content;
     }
 
