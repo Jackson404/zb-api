@@ -39,7 +39,7 @@ class DataResume extends Model
 
         $sql = "select idCard,phone,name,sex,birthYear,birth,school,education,educationName,mail,profession,professionId,workYear,
                 exPosition,exSalary,exCity,habitation,houseLocation,workUnit,createTime,deliveryTime,`from`,type  from 
-                $this->table where isDelete=0  order by idCard,phone desc limit $offset,$pageSize";
+                $this->table where isDelete=0  order by concat(idCard,phone,updateTime) desc limit $offset,$pageSize";
         $content = $this->query($sql);
 
         return $content;
@@ -76,7 +76,8 @@ class DataResume extends Model
 
         $sql = "select idCard,phone,name,sex,birthYear,birth,school,education,educationName,mail,profession,professionId,workYear,
                 exPosition,exSalary,exCity,habitation,houseLocation,workUnit,createTime,deliveryTime,`from`,type  from 
-                $this->table where isDelete=0 $posKeySql $exWorkLocationSql $workExpSql  $educationNameSql  $minAgeSql $maxAgeSql  $sexSql  order by idCard,phone desc limit $offset,$pageSize";
+                $this->table where isDelete=0 $posKeySql $exWorkLocationSql $workExpSql  $educationNameSql  $minAgeSql $maxAgeSql  $sexSql  
+                order by concat(idCard,phone,updateTime)  desc limit $offset,$pageSize";
         $content = $this->query($sql);
 
 //        var_dump($sql);
