@@ -96,10 +96,18 @@ class DataResume extends Model
 
     public function star($idCard, $phone,$type)
     {
-        $data = [
-            'type' => $type,
-            'updateTime' => date('Y-m-d', time())
-        ];
+        if ($type == 1){
+            $data = [
+                'type' => $type,
+                'updateTime' => date('Y-m-d', time())
+            ];
+        }else{
+            $data = [
+                'type' => $type,
+                'updateTime' => null
+            ];
+        }
+
         $updateRow = $this->where('idCard', '=', $idCard)->where('phone', '=', $phone)
             ->where('isDelete', '=', 0)->update($data);
         return $updateRow;
