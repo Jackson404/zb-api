@@ -19,6 +19,14 @@ class PositionCateModel extends Model
         return $this->where('isDelete', '=', 0)->where('pid', '=', 0)->paginate(null, false, $config);
     }
 
+    public function getCateListGroupById(){
+        $sql = "select p.positionCateId,count(*) as c,pc.name  from zb_position_management p 
+                left join zb_position_cate as pc on p.positionCateId=pc.id
+                where p.isDelete = 0
+                group by p.positionCateId order by c desc;";
+        return $this->query($sql);
+    }
+
     public function getTopCateWithoutPage()
     {
         return $this->where('isDelete', '=', 0)->where('pid', '=', 0)

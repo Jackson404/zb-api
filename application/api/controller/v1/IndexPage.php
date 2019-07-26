@@ -4,6 +4,7 @@ namespace app\api\controller\v1;
 
 use app\api\model\CategoryManagementModel;
 use app\api\model\NewsModel;
+use app\api\model\PositionCateModel;
 use app\api\model\PositionManagementModel;
 use app\api\model\SlideShowModel;
 use Util\Util;
@@ -22,25 +23,27 @@ class IndexPage extends IndexBase
 
         $adsList = $slideModel->getindexAds();
 
-        $cateModel = new CategoryManagementModel();
+//        $cateModel = new CategoryManagementModel();
+        $positionCateModel = new PositionCateModel();
 
         $positionModel = new PositionManagementModel();
 
-        $topCateList = $cateModel->getTopCateWithoutPage();
-        $topCateListData = $topCateList->toArray();
-        foreach ($topCateListData as $k => $v) {
+        $CateList = $positionCateModel->getCateListGroupById();
+
+
+        foreach ($CateList as $k => $v) {
             if ($k == 0) {
-                $topCateListData[$k]['check'] = true;
+                $CateList[$k]['check'] = true;
             } else {
-                $topCateListData[$k]['check'] = false;
+                $CateList[$k]['check'] = false;
             }
-            $positionCateId = $v['id'];
+            $positionCateId = $v['positionCateId'];
             $positionList = $positionModel->getPositionByCateIdWithLimit($positionCateId, 6);
             $positionListData = $positionList->toArray();
             foreach ($positionListData as $k1 => $v1) {
                 $positionListData[$k1]['labelIds'] = json_decode($v1['labelIds'], true);
             }
-            $topCateListData[$k]['list'] = $positionListData;
+            $CateList[$k]['list'] = $positionListData;
         }
 
         $hotPosition = $positionModel->getIndexHotPosition();
@@ -60,7 +63,7 @@ class IndexPage extends IndexBase
         }
 
         $data['hotPositionList'] = $hotPositionData;
-        $data['positionCateList'] = $topCateListData;
+        $data['positionCateList'] = $CateList;
         $data['slideShowList'] = $slideList;
         $data['adsList'] = $adsList;
         $data['positionNewsList'] = $positionNewsListData;
