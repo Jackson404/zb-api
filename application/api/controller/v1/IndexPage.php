@@ -40,7 +40,7 @@ class IndexPage extends IndexBase
                 $CateList[$k]['check'] = false;
             }
             $positionCateId = $v['positionCateId'];
-            $positionList = $positionModel->getPositionByCateIdWithLimit($positionCateId, 4);
+            $positionList = $positionModel->getPositionByCateIdWithLimit($positionCateId, 6);
             $positionListData = $positionList->toArray();
             foreach ($positionListData as $k1 => $v1) {
                 $positionListData[$k1]['labelIds'] = json_decode($v1['labelIds'], true);
