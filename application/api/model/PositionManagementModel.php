@@ -59,6 +59,53 @@ class PositionManagementModel extends Model
             ->paginate(null, false, $config);
     }
 
+    public function getByLimit($limit)
+    {
+        return $this->alias('p')
+            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id', 'left')
+            ->join('zb_company_management zco', 'p.companyId = zco.id', 'left')
+            ->where('p.isDelete', '=', 0)
+            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
+            p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
+            p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            ->order('p.id', 'desc')
+            ->limit(0,$limit)
+            ->select();
+    }
+
+    public function getPageBySolider($solider,$pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->alias('p')
+            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id', 'left')
+            ->join('zb_company_management zco', 'p.companyId = zco.id', 'left')
+            ->where('p.isSoldierPriority','=',$solider)
+            ->where('p.isDelete', '=', 0)
+            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
+            p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
+            p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            ->order('p.id', 'desc')
+            ->paginate(null, false, $config);
+    }
+
+    public function getLimitBySolider($solider,$limit)
+    {
+        return $this->alias('p')
+            ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id', 'left')
+            ->join('zb_company_management zco', 'p.companyId = zco.id', 'left')
+            ->where('p.isSoldierPriority','=',$solider)
+            ->where('p.isDelete', '=', 0)
+            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
+            p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
+            p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            ->order('p.id', 'desc')
+            ->limit(0,$limit)
+            ->select();
+    }
+
     public function getAll()
     {
         return $this->alias('p')
