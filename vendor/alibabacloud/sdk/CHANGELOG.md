@@ -1,5 +1,104 @@
 # CHANGELOG
 
+## 1.7.48 - 2019-7-26
+- Generated 2019-05-24 for `cusanalytic_sc_online`.
+
+
+## 1.7.47 - 2019-7-26
+- Generated 2019-05-24 for `cusanalytic_sc_online`.
+
+
+## 1.7.46 - 2019-7-25
+- Api createKey add optional parameter `ProtectionLevel`.
+- Api describeKey add a field `ProtectionLevel` in the response.
+- Add Api `DescribeService`.
+
+
+## 1.7.45 - 2019-7-25
+- App-related actions support tag authentication.
+
+
+## 1.7.44 - 2019-7-23
+- Supported CreationOption of CreateDBCluster with `CloneFromPolarDB `,`CloneFromRDS`,`MigrationFromRDS`.
+
+
+## 1.7.43 - 2019-7-19
+- QueryMonthlyBillResponse add roundDownDiscount.
+- QueryBillResponse add roundDownDiscount.
+- QueryInstanceBillResponse add item.
+
+
+## 1.7.42 - 2019-7-18
+- Generated 2016-06-07 for `cr`.
+
+
+## 1.7.41 - 2019-7-18
+- Add a new field named Input to SubmitAIJob api request to set the input file of AI job.
+- Change the field MediaId of SubmitAIJob api to non-mandatory.
+
+
+## 1.7.40 - 2019-7-17
+- Add a lot of new API.
+
+
+## 1.7.39 - 2019-7-14
+- Modify DBS API DescribeBackupPlanList.
+
+
+## 1.7.38 - 2019-7-12
+- Public api AddLivePullStreamInfoConfig.
+
+
+## 1.7.37 - 2019-7-11
+- Modify CreateBackupPlan.
+- Modify ConfigureBackupPlan.
+- Modify DescribeFullBackupList.
+- Modify DescribeRestoreTaskList.
+- Add ModifyBackupSourceEndpoint.
+- Add ModifyBackupStrategy.
+- Add ModifyBackupPlanName.
+
+
+## 1.7.36 - 2019-7-5
+- Supported library managment for simillarity scene.
+- Remove the local file uploader code which can be downloaded from yundun content security document.
+
+
+## 1.7.35 - 2019-7-5
+- Add TaskCancelStatus for QueryTaskList api.
+
+
+## 1.7.34 - 2019-7-4
+- Supported API DescribeRecordStatisticsy for Query Volume.
+- Supported API DescribeDomainStatistics for Query Volume.
+
+
+## 1.7.33 - 2019-7-4
+- Supported batch querying for device detail.
+
+
+## 1.7.32 - 2019-7-3
+- Supported API DescribeRecordStatisticsSummary for Query Volume.
+- Supported API DescribeDomainStatisticsSummary for Query Volume.
+- Supported API DescribeRecordStatisticsHistory for Query Volume.
+- Supported API DescribeDomainDnsStatistics for Query Volume.
+
+
+## 1.7.31 - 2019-7-2
+- FnF public version.
+
+
+## 1.7.30 - 2019-7-1
+- Support cloud_essd disk category for API CreateDisk, CreateInstance and RunInstances, and support configurating PerformanceLevel when choose cloud_essd.
+- Add ModifyDiskSpec API to support cloud_essd PerformanceLevel modification.
+- Add AutoProvisioningGroup interfaces, provide AutoProvisioningGroup function.
+- Add RetentionDays to snapshot creating.
+
+
+## 1.7.29 - 2019-6-27
+- Added setting of crop_mode parameter.
+
+
 ## 1.7.28 - 2019-6-24
 - Add some new apis to manage VoD domain, such as AddVodDomain, UpdateVodDomain, DeleteVodDomain, BatchStartVodDomain, BatchStopVodDomain, DescribeVodUserDomains, DescribeVodDomainDetail.
 - Add some new apis to manage VoD domain config, such as BatchSetVodDomainConfigs, DescribeVodDomainConfigs, DeleteVodSpecificConfig, SetVodDomainCertificate, DescribeVodCertificateList, DescribeVodDomainCertificateInfo.

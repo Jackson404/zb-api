@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": ">=5.4.0",
+    "php": ">=7.1.0",
     "topthink/framework": "~5.0.4",
     "topthink/think-image": "^1.0",
     "topthink/think-queue": "^1.1",
@@ -30,9 +30,7 @@
     "alibabacloud/sdk": "^1.7",
     "php-curl-class/php-curl-class": "^8.6",
     "ext-curl": "*",
-    "phpoffice/phpspreadsheet": "^1.8",
-    "cache/simple-cache-bridge": "^1.0",
-    "cache/redis-adapter": "^1.0"
+    "phpoffice/phpspreadsheet": "^1.8"
   },
   "extra": {
     "think-path": "thinkphp"
@@ -43,7 +41,7 @@
   "repositories": {
     "packagist": {
       "type": "composer",
-      "url": "https://packagist.phpcomposer.com"
+      "url": "https://mirrors.aliyun.com/composer/"
     }
   },
   "autoload": {
