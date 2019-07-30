@@ -33,11 +33,12 @@ class IndexPage extends IndexBase
 
 
         foreach ($CateList as $k => $v) {
-            if ($k == 0) {
-                $CateList[$k]['check'] = true;
-            } else {
-                $CateList[$k]['check'] = false;
-            }
+//            if ($k == 0) {
+//                $CateList[$k]['check'] = true;
+//            } else {
+//                $CateList[$k]['check'] = false;
+//            }
+            $CateList[$k]['check'] = false;
             $positionCateId = $v['positionCateId'];
             $positionList = $positionModel->getPositionByCateIdWithLimit($positionCateId, 6);
             $positionListData = $positionList->toArray();
@@ -56,7 +57,7 @@ class IndexPage extends IndexBase
         $soldierPositionList = $soldierPositionList->toArray();
         $x2['positionCateId'] = -2;
         $x2['name'] = '退役军人职位';
-        $x2['check'] = true;
+        $x2['check'] = false;
         $x2['list'] = $soldierPositionList;
 
         array_unshift($CateList, $x2);
