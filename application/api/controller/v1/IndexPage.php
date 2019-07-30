@@ -20,18 +20,17 @@ class IndexPage extends IndexBase
 
         $slideModel = new SlideShowModel();
         $slideList = $slideModel->getIndexSlideShow();
-
         $adsList = $slideModel->getindexAds();
 
-//        $cateModel = new CategoryManagementModel();
         $positionCateModel = new PositionCateModel();
 
         $positionModel = new PositionManagementModel();
 
         $newPositionList = $positionModel->getByLimit(6);
-        $soldierPositionList = $positionModel->getLimitBySolider(1,6);
+        $soldierPositionList = $positionModel->getLimitBySolider(1, 6);
 
         $CateList = $positionCateModel->getCateListGroupById();
+
 
         foreach ($CateList as $k => $v) {
             if ($k == 0) {
@@ -47,6 +46,21 @@ class IndexPage extends IndexBase
             }
             $CateList[$k]['list'] = $positionListData;
         }
+
+        $newPositionList = $newPositionList->toArray();
+        $x1['positionCateId'] = -1;
+        $x1['name'] = '最新职位';
+        $x1['check'] = true;
+        $x1['list'] = $newPositionList;
+
+        $soldierPositionList = $soldierPositionList->toArray();
+        $x2['positionCateId'] = -2;
+        $x2['name'] = '退役军人职位';
+        $x2['check'] = true;
+        $x2['list'] = $soldierPositionList;
+
+        array_unshift($CateList, $x2);
+        array_unshift($CateList, $x1);
 
         $hotPosition = $positionModel->getIndexHotPosition();
         $hotPositionData = $hotPosition->toArray();
@@ -65,8 +79,6 @@ class IndexPage extends IndexBase
         }
 
         $data['hotPositionList'] = $hotPositionData;
-        $data['newPositionList'] = $newPositionList;
-        $data['soldierPositionList'] = $soldierPositionList;
         $data['positionCateList'] = $CateList;
         $data['slideShowList'] = $slideList;
         $data['adsList'] = $adsList;
