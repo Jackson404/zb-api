@@ -33,11 +33,6 @@ class IndexPage extends IndexBase
 
 
         foreach ($CateList as $k => $v) {
-//            if ($k == 0) {
-//                $CateList[$k]['check'] = true;
-//            } else {
-//                $CateList[$k]['check'] = false;
-//            }
             $CateList[$k]['check'] = false;
             $positionCateId = $v['positionCateId'];
             $positionList = $positionModel->getPositionByCateIdWithLimit($positionCateId, 6);
