@@ -23,7 +23,7 @@ class User extends IndexBase
         $phone = Check::check($params['phone'] ?? '', 11, 11);
 
         $signName = '正步网络科技';
-        $templateCode = 'SMS_164030786';
+        $templateCode = 'SMS_171495133';
         $code = Util::generateVcode(6);
 
         $sms = new Sms();
@@ -48,6 +48,11 @@ class User extends IndexBase
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $vCode = Check::check($params['vCode'] ?? '');
         $miniOpenId = Check::check($params['miniOpenId'] ?? '');
+
+        if ($vCode == ''){
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'],'缺少参数');
+            exit;
+        }
 
         $redis = new Redis();
         $verifyCode = $redis->get($phone);

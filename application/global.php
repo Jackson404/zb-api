@@ -37,7 +37,6 @@ $GLOBALS['ERROR_REGISTER_DUPLICATEUSERNAME'] = "-20000008";    //注册用户名
 $GLOBALS['ERROR_REGISTER_DUPLICATEPHONE'] = "-20000009";    //注册手机重复出错
 $GLOBALS['ERROR_REGISTER_TYPE'] = "-20000010";                //注册方式不存在出错
 $GLOBALS['ERROR_LOGIN_TYPE'] = "-20000011";                    //登录方式不存在出错
-
 $GLOBALS['ERROR_INPUT_FORMAT'] = "-20000013";                //输入格式错误
 
 $GLOBALS['ERROR_REGISTER_DUPLICATEWECHAT'] = "-20000015";   //微信账号已绑定
@@ -51,6 +50,10 @@ $GLOBALS['ERROR_SYSTEMUSER_EXISTS'] = "-20000023";                       //'系�
 
 $GLOBALS['ERROR_SEND_FAILED'] = "-20000025";
 $GLOBALS['ERROR_FAILED_VALIDATE'] = "-20000026";
+
+$GLOBALS['ERROR_REVIEW_REFUSE'] = '-20000027';
+$GLOBALS['ERROR_REVIEW_WAIT'] = '-20000028';
+$GLOBALS['ERROR_REVIEW_WAIT_HAVE'] = '-20000029';
 
 
 $GLOBALS['ERROR_EXCEPTION'] = "-30000001";                    //出现异常

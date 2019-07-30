@@ -30,7 +30,8 @@
     "alibabacloud/sdk": "^1.7",
     "php-curl-class/php-curl-class": "^8.6",
     "ext-curl": "*",
-    "phpoffice/phpspreadsheet": "^1.8"
+    "phpoffice/phpspreadsheet": "^1.8",
+    "ext-json": "*"
   },
   "extra": {
     "think-path": "thinkphp"
