@@ -259,7 +259,7 @@ class User extends IndexBase
             $positionDetail = $positionModel->getDetailForApply($positionId);
             $listData[$k]['positionDetail'] = $positionDetail;
         }
-        
+
         $data['total'] = count($listData);
         $data['list'] = $listData;
         $data['resume'] = $resume;
