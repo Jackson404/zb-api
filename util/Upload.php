@@ -86,9 +86,7 @@ class Upload
         $info = $file->validate(['ext' => 'jpg,gif,png'])->move($path);
         if ($info) {
             $name = $info->getSaveName();
-//            $ip = $_SERVER['REMOTE_ADDR'];
-//            $url = $GLOBALS['CDN_URL'] . '/public/uploads/' . $name;
-            $url = '/public/uploads/' . $name;
+            $url = '/uploads/' . $name;
             return $url;
         } else {
             return false;
