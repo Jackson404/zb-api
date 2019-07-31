@@ -61,7 +61,7 @@ class EpUser extends EpUserBase
 
         if (!$epUserModel->checkPhoneExist($phone)) {
             $username = '正步_' . Util::generateRandomCode(6);
-            $avatar = '/public/avatar/a1.png';
+            $avatar = '/avatar/a1.png';
             $data = [
                 'avatar' => $avatar,
                 'name' => $username,
@@ -254,7 +254,6 @@ class EpUser extends EpUserBase
                 exit;
             }
         }
-
     }
 
 

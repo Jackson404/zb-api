@@ -7,7 +7,6 @@ use app\api\model\ResumeModel;
 use app\api\model\UserApplyPositionModel;
 use app\api\model\UserLoginHistoryModel;
 use app\api\model\UserModel;
-use app\api\model\UserPositionIntensionModel;
 use Curl\Curl;
 use Sms;
 use think\cache\driver\Redis;
@@ -66,7 +65,7 @@ class User extends IndexBase
 
         if (!$userModel->checkPhoneExist($phone)) {
             $username = '正步_' . Util::generateRandomCode(6);
-            $avatar = '/public/avatar/a1.png';
+            $avatar = '/avatar/a1.png';
             $data = [
                 'avatar' => $avatar,
                 'name' => $username,
@@ -436,7 +435,7 @@ class User extends IndexBase
                 exit;
             }
             $username = '正步_' . Util::generateRandomCode(6);
-            $avatar = '/public/avatar/a1.png';
+            $avatar = '/avatar/a1.png';
             $data = [
                 'avatar' => $avatar,
                 'name' => $username,
