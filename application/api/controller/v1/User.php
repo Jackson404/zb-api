@@ -249,6 +249,9 @@ class User extends IndexBase
         $userId = $GLOBALS['userId'];
         $resumeModel = new ResumeModel();
         $resume = $resumeModel->getUserResume($userId);
+        if ($resume == null){
+            $resume = [];
+        }
 
         $userApplyPositionModel = new UserApplyPositionModel();
         $list = $userApplyPositionModel->getUserApplyList($userId);
