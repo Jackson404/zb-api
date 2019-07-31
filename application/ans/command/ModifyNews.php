@@ -38,7 +38,7 @@ class ModifyNews extends Command
                 $arr['categoryId'] = 4;
             }
 
-            $arr['imgUrl'] = '/public/uploads/' . $article_img_urlArr[2] . '/' . $article_img_urlArr[3];
+            $arr['imgUrl'] = '/uploads/' . $article_img_urlArr[2] . '/' . $article_img_urlArr[3];
             $arr['createTime'] = date('Y-m-d H:i:s', $v['article_create_date']);
             $arr['createBy'] = 1;
             $arr['updateTime'] = date('Y-m-d H:i:s', $v['article_create_date']);

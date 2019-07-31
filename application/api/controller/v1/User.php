@@ -249,8 +249,6 @@ class User extends IndexBase
         $userId = $GLOBALS['userId'];
         $resumeModel = new ResumeModel();
         $resume = $resumeModel->getUserResume($userId);
-        $userPositionIntension = new UserPositionIntensionModel();
-        $positionIntension = $userPositionIntension->getPositionIntensionByUserId($userId);
 
         $userApplyPositionModel = new UserApplyPositionModel();
         $list = $userApplyPositionModel->getUserApplyList($userId);
@@ -261,11 +259,10 @@ class User extends IndexBase
             $positionDetail = $positionModel->getDetailForApply($positionId);
             $listData[$k]['positionDetail'] = $positionDetail;
         }
-
+        
         $data['total'] = count($listData);
         $data['list'] = $listData;
         $data['resume'] = $resume;
-        $data['positionIntension'] = $positionIntension;
 
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
 

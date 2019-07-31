@@ -3,7 +3,6 @@
 namespace app\api\controller\v1;
 
 use think\Request;
-use Util\Util;
 
 class EpUserBase extends AuthBase
 {
