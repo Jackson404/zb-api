@@ -9,7 +9,7 @@ use Util\Util;
 
 class EpUserCert extends AdminBase
 {
-    public function changeCertStatus()
+    public function review()
     {
         $params = Request::instance()->request();
         $certId = Check::checkInteger($params['certId'] ?? '');
@@ -22,7 +22,10 @@ class EpUserCert extends AdminBase
             exit;
         }
         $epUserId = $detail['userId'];
-        $updateRow = $epUserCertModel->updateCertStatus($certId, $pass, $epUserId);
+        $companyName = $detail['companyName'];
+        $type = $detail['type'];
+
+        $updateRow = $epUserCertModel->updateCertStatus($certId, $pass, $epUserId,$companyName,$type);
         if ($updateRow > 0) {
             $arr['updateRow'] = $updateRow;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);

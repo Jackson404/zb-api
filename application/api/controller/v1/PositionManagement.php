@@ -16,7 +16,7 @@ class PositionManagement extends IndexBase
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionManagementModel = new PositionManagementModel();
         $detail = $positionManagementModel->getDetail($positionId);
-        $randomList = $positionManagementModel->getRandomPositionListLimit($positionId);
+        $randomList = $positionManagementModel->getRandomPositionListLimit($positionId,5);
         $detail['labelIds'] = json_decode($detail['labelIds'], true);
         $data['detail'] = $detail;
         $data['randomList'] = $randomList;

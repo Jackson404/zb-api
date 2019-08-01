@@ -22,14 +22,15 @@ class Export51job extends Command
     {
         ini_set('memory_limit', '-1');
 
-        $dir = "C:\Users\Mloong\Pictures\\简历\\51jobexcel\\51jobexcel\\2\\";
+        //$dir = "C:\Users\Mloong\Pictures\\简历\\51jobexcel\\51jobexcel\\2\\";
+        $dir = "D:\workplace\\1";
 
         $dd = new DirX();
         $files = $dd->getDirExplorer($dir);
 
         $db = Db::connect($GLOBALS['dbConfigRds']);
 
-        $reader = new Xlsx();
+        $reader = new Xls();
 //        $reader = IOFactory::createReader('Xlsx');
         $sqlData = [];
         foreach ($files as $file) {
@@ -41,48 +42,32 @@ class Export51job extends Command
             $data = $sheet->rangeToArray('A2:' . $range);
 
             foreach ($data as $k => $v) {
-                if ($v[8] == null) {
-                    $birth = 0;
-                    $birthYear = 0;
-                } else {
-                    $birth = str_replace('/', '-', $v[8]);
-                    $birthYear = date('Y', strtotime($birth));
-                }
-                if ($v[7] == null) {
-                    $sex = -1;
-                } else {
-                    if ($v[7] == '男') {
-                        $sex = 1;
-                    } else {
-                        $sex = 0;
 
-                    }
-                }
-
-                if ($v[15] == null || $v[15] == 0) {
-                    continue;
-                }
+                $age = mb_substr($v[3],0,2);
+                $nowYear = date('Y',time());
+                $birthYear = $nowYear-$age;
+                $birth = $birthYear.'-00-00';
 
                 $arr = [
                     'idCard' => 0,
-                    'phone' => $v[15],
-                    'name' => $v[0] == null ? '' : $v[0],
-                    'sex' => $sex,
+                    'phone' => $v[10],
+                    'name' => $v[1] == null ? '' : $v[1],
+                    'sex' => $v[2] == null ? '' : $v[2],
                     'birthYear' => $birthYear,
                     'birth' => $birth,
-                    'school' => $v[13] == null ? '' : $v[13],
-                    'educationName' => $v[12] == null ? '' : $v[12],
-                    'mail' => $v[16] == null ? '' : $v[16],
-                    'profession' => $v[14] == null ? '' : $v[14],
-                    'workYear' => $v[11] == null ? '' : $v[11],
-                    'exPosition' => $v[3] == null ? '' : $v[3],
-                    'exSalary' => $v[22] == null ? '' : $v[22],
-                    'habitation' => $v[9] == null ? '' : $v[9],
-                    'houseLocation' => $v[10] == null ? '' : $v[10],
-                    'workUnit' => $v[19] == null ? '' : $v[19],
-                    'createTime' => $v[6] == null ? '' : str_replace('/', '-', $v[6]),
-                    'deliveryTime' => $v[6] == null ? '' : str_replace('/', '-', $v[6]),
-                    'from' => '51job',
+//                    'school' => $v[13] == null ? '' : $v[13],
+                    'educationName' => $v[4] == null ? '' : $v[4],
+//                    'mail' => $v[16] == null ? '' : $v[16],
+//                    'profession' => $v[14] == null ? '' : $v[14],
+                    'workYear' => $v[5] == null ? '' : $v[5],
+                    'exPosition' => $v[8] == null ? '' : $v[8],
+                    'exSalary' => $v[7] == null ? '' : $v[7],
+                    'habitation' => $v[6] == null ? '' : $v[6],
+//                    'houseLocation' => $v[10] == null ? '' : $v[10],
+//                    'workUnit' => $v[19] == null ? '' : $v[19],
+//                    'createTime' => $v[6] == null ? '' : str_replace('/', '-', $v[6]),
+//                    'deliveryTime' => $v[6] == null ? '' : str_replace('/', '-', $v[6]),
+//                    'from' => '51job',
                 ];
 
 //                $arr = [
