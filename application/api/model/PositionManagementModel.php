@@ -175,7 +175,7 @@ class PositionManagementModel extends Model
             LEFT JOIN zb_position_cate as zcm ON p.positionCateId = zcm.id 
             LEFT JOIN zb_company_management as zco ON p.companyId = zco.id 
             WHERE p.isDelete = 0  $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql  $provinceSql  $citySql  $areaSql  
-            order by concat(p.isSoldierPriority,p.id) desc limit $offset,$pageSize";
+            order by concat(p.isSoldierPriority,p.minPay,p.id) desc limit $offset,$pageSize";
 
         $countSql = "SELECT count('p.*') FROM zb_position_management as p
             LEFT JOIN zb_position_cate as zcm ON p.positionCateId = zcm.id 
