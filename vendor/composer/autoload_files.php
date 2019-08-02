@@ -17,6 +17,7 @@ return array(
     'b067bc7112e384b61c701452d53a14a8' => $vendorDir . '/mtdowling/jmespath.php/src/JmesPath.php',
     '9b552a3cc426e3287cc811caefa3cf53' => $vendorDir . '/topthink/think-helper/src/helper.php',
     '66453932bc1be9fb2f910a27947d11b6' => $vendorDir . '/alibabacloud/client/src/Functions.php',
+    'a9ed0d27b5a698798a89181429f162c5' => $vendorDir . '/khanamiryan/qrcode-detector-decoder/lib/Common/customFunctions.php',
     'abede361264e2ae69ec1eee813a101af' => $vendorDir . '/markbaker/complex/classes/src/functions/abs.php',
     '21a5860fbef5be28db5ddfbc3cca67c4' => $vendorDir . '/markbaker/complex/classes/src/functions/acos.php',
     '1546e3f9d127f2a9bb2d1b6c31c26ef1' => $vendorDir . '/markbaker/complex/classes/src/functions/acosh.php',
