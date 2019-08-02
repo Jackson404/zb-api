@@ -20,7 +20,15 @@ class PositionCateModel extends Model
     }
 
     public function getCateListGroupById(){
-        $sql = "select p.positionCateId,count(*) as c,pc.name  from zb_position_management p 
+        $sql = "select p.positionCateId,count(*) as c,pc.name,pc.pid  from zb_position_management p 
+                left join zb_position_cate as pc on p.positionCateId=pc.id
+                where p.isDelete = 0
+                group by p.positionCateId order by c desc;";
+        return $this->query($sql);
+    }
+
+    public function getCateDataGroupById(){
+        $sql = "select p.positionCateId as id,count(*) as c,pc.name,pc.pid  from zb_position_management p 
                 left join zb_position_cate as pc on p.positionCateId=pc.id
                 where p.isDelete = 0
                 group by p.positionCateId order by c desc;";
@@ -74,6 +82,6 @@ class PositionCateModel extends Model
 
     public function getAll()
     {
-        return $this->where('isDelete', '=', 0)->order('id', 'desc')->select();
+        return $this->where('isDelete', '=', 0)->order('id', 'asc')->select();
     }
 }

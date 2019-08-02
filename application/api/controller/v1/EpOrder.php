@@ -58,13 +58,16 @@ class EpOrder extends EpUserBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $page);
     }
 
+    /**
+     * 获取发布的职位订单详情
+     */
     public function getDetail()
     {
         $params = Request::instance()->request();
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionManagementModel = new PositionManagementModel();
         $detail = $positionManagementModel->getDetail($positionId);
-        $randomList = $positionManagementModel->getRandomPositionListLimit($positionId,5);
+        $randomList = $positionManagementModel->getRandomPositionListLimit($positionId,2);
         $detail['labelIds'] = json_decode($detail['labelIds'], true);
         $data['detail'] = $detail;
         $data['randomList'] = $randomList;

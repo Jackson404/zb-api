@@ -11,6 +11,25 @@ class PositionCate extends IndexBase
 {
 
     /**
+     * 获取有数据的分类(需改进)
+     * @todo 需要改进
+     */
+    public function getCateByGroup()
+    {
+        $cateModel = new PositionCateModel();
+        $list = $cateModel->getCateDataGroupById();
+        foreach ($list as $k => $v) {
+            $detail = $cateModel->getDetail($v['pid']);
+            $detailData = $detail->toArray();
+            array_push($list,$detailData);
+        }
+        $list = assoc_unique($list,'id');
+        $tree = generateTree($list,'pid');
+
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $tree);
+    }
+
+    /**
      * 获取所有的分类tree
      * @throws \think\exception\DbException
      */

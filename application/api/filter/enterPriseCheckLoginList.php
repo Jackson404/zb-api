@@ -9,4 +9,5 @@ $whiteList = [
     'api/v1.EpUser/editEmGroup',
     'api/v1.EpUser/delEmGroup',
     'api/v1.EpUser/changeEmGroupByEpUser',
+    'api/v1.EmUser/receiveOrder',
 ];
