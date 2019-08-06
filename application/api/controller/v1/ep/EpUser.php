@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\controller\v1;
+namespace app\api\controller\v1\ep;
 
 use app\api\model\EpOrderModel;
 use app\api\model\EpUserCertModel;
@@ -10,6 +10,7 @@ use app\api\model\EpUserModel;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\QrCode;
 use Sms;
+
 use think\cache\driver\Redis;
 use think\Exception;
 use think\Request;
@@ -48,7 +49,7 @@ class EpUser extends EpUserBase
         $params = Request::instance()->request();
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $vCode = Check::check($params['vCode'] ?? '');
-//
+
 //        if ($vCode == '') {
 //            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
 //            exit;
@@ -157,7 +158,7 @@ class EpUser extends EpUserBase
     }
 
     /**
-     * 企业认证
+     * 添加企业认证审核
      */
     public function epCertification()
     {
@@ -169,20 +170,15 @@ class EpUser extends EpUserBase
 
         $userId = $GLOBALS['userId'];
 
-        $epUserCertModel = new EpUserCertModel();
-
-        if ($epUserCertModel->checkCompanyNameExist($companyName)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '该公司已通过审核');
-            exit;
-        }
-
-        if ($epUserCertModel->checkCertStatus($userId)) {
-            Util::printResult($GLOBALS['ERROR_REVIEW_WAIT'], '正在审核中');
-            exit;
-        }
-
         if ($companyAddr == '' || $companyName == '' || $businessLic == '' || $otherQuaLic == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
+
+        $epUserCertModel = new EpUserCertModel();
+
+        if ($epUserCertModel->verifyByCompanyNameAndUserId($companyName, $userId)) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '正在审核');
             exit;
         }
 
@@ -210,7 +206,9 @@ class EpUser extends EpUserBase
             Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '添加失败');
             exit;
         }
+
     }
+
 
     /**
      * 个人认证
@@ -219,13 +217,13 @@ class EpUser extends EpUserBase
     {
         $params = Request::instance()->request();
         $companyName = Check::check($params['companyName'] ?? '');
-        $username = Check::check($params['username'] ?? '');
-        $phone = Check::check($params['phone'] ?? '', 1, 11);
+        $realname = Check::check($params['realname'] ?? '');
+        $realphone = Check::check($params['realphone'] ?? '', 1, 11);
         $idCard = Check::check($params['idCard'] ?? '', 1, 20);
         $idCardFrontPic = Check::check($params['idCardFrontPic'] ?? '');
         $idCardBackPic = Check::check($params['idCardBackPic'] ?? '');
 
-        if ($companyName == '' || $username == '' || $phone == '' || $idCard == '' || $idCardFrontPic == '' || $idCardBackPic == '') {
+        if ($companyName == '' || $realname == '' || $realphone == '' || $idCard == '' || $idCardFrontPic == '' || $idCardBackPic == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
@@ -234,28 +232,28 @@ class EpUser extends EpUserBase
 
         $epUserCertModel = new EpUserCertModel();
 
-        if ($epUserCertModel->checkCertStatus($userId)) {
-            Util::printResult($GLOBALS['ERROR_REVIEW_WAIT'], '正在审核中');
-            exit;
-        }
-
-        if (!$epUserCertModel->checkCompanyNameExist($companyName)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '公司不存在');
+        if ($epUserCertModel->verifyByCompanyNameAndUserId($companyName, $userId)) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '正在审核');
             exit;
         }
 
         $epUserModel = new EpUserModel();
         $detail = $epUserModel->getDetailByCompanyName($companyName);
-//        var_dump($detail);
-        $epId = $detail['id'];
+        if ($detail == null) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '公司不存在');
+            exit;
+        }
+
+        $detailData = $detail->toArray();
+        $pid = $detailData['id'];
 
         $arr = [
             'userId' => $userId,
-            'epId' => $epId,
+            'pid' => $pid,
             'type' => 2,
-            'username' => $username,
+            'realname' => $realname,
             'companyName' => $companyName,
-            'phone' => $phone,
+            'realphone' => $realphone,
             'idCard' => $idCard,
             'idCardFrontPic' => $idCardFrontPic,
             'idCardBackPic' => $idCardBackPic,
@@ -280,7 +278,7 @@ class EpUser extends EpUserBase
     /**
      * 获取企业的员工列表
      */
-    public function getEmApplyListByEpUserId()
+    public function getEmListByEpUserId()
     {
         $epUserId = $GLOBALS['userId'];
         $epUserModel = new EpUserModel();
@@ -313,22 +311,32 @@ class EpUser extends EpUserBase
             exit;
         }
         $epUserCertModel = new EpUserCertModel();
-        $detail = $epUserCertModel->getDetail($certId);
-        if (empty($detail)) {
+        $res = $epUserCertModel->getDetail($certId);
+        if ($res == null) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '参数错误');
             exit;
         }
+        $detail = $res->toArray();
         $epUserId = $detail['userId'];
+        $realname = $detail['realname'];
+        $phone = $detail['realphone'];
+        $idCard = $detail['idCard'];
+        $idCardFrontPic = $detail['idCardFrontPic'];
+        $idCardBackPic = $detail['idCardBackPic'];
         $companyName = $detail['companyName'];
+        $companyAddr = $detail['companyAddr'];
+        $businessLic = $detail['businessLic'];
+        $otherQuaLic = $detail['otherQuaLic'];
         $type = $detail['type'];
 
-        $updateRow = $epUserCertModel->updateCertStatus($certId, $pass, $epUserId, $companyName, $type);
+        $updateRow = $epUserCertModel->updateCertStatus($certId, $pass, $epUserId, $realname, $phone, $idCard, $idCardFrontPic, $idCardBackPic,
+            $companyName, $companyAddr, $businessLic, $otherQuaLic, $type);
         if ($updateRow > 0) {
             $arr['updateRow'] = $updateRow;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
             exit;
         } else {
-            Util::printResult($GLOBALS['ERROR_SQL_UPDATE'], '更新失败');
+            Util::printResult($GLOBALS['ERROR_SQL_UPDATE'], '审核失败');
             exit;
         }
     }
@@ -443,18 +451,18 @@ class EpUser extends EpUserBase
     {
         $params = Request::instance()->request();
         //$emUserId = Check::checkInteger($params['emUserId'] ?? ''); // 员工id
-        $emCertId = Check::checkInteger($params['emCertId'] ?? ''); //员工认证id
+        $certId = Check::checkInteger($params['certId'] ?? ''); //员工认证id
         $groupId = Check::checkInteger($params['groupId'] ?? ''); //组别id
 
         $epUserId = $GLOBALS['userId'];
 
         $epUserCertModel = new EpUserCertModel();
-        if (!$epUserCertModel->verifyEmCertIdAndEpUserId($emCertId, $epUserId)) {
+        if (!$epUserCertModel->verifyEmCertIdAndEpUserId($certId, $epUserId)) {
             Util::printResult($GLOBALS['ERROR_PERMISSION'], '权限错误');
             exit;
         }
 
-        $updateRow = $epUserCertModel->updateGroupIdByEpUser($emCertId, $epUserId, $groupId);
+        $updateRow = $epUserCertModel->updateGroupIdByEpUser($certId, $epUserId, $groupId);
         $data['updateRow'] = $updateRow;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
@@ -516,6 +524,7 @@ class EpUser extends EpUserBase
             $recId = $epOrderModel->add($arr);
             if ($recId > 0) {
                 $data['recId'] = $recId;
+                $data['orderId'] = $orderId;
                 $data['qrCode'] = $saveUrl;
                 Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
                 exit;
@@ -547,7 +556,7 @@ class EpUser extends EpUserBase
     }
 
     /**
-     *  用户获取接单列表
+     *  分页获取用户接单列表
      */
     public function getUserRecOrdersPage()
     {

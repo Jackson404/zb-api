@@ -24,7 +24,7 @@ class PositionManagementModel extends Model
             ->where('p.id', '=', $positionId)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
-            p.positionRequirement,p.isShow,p.applyCount,p.interviewTime,p.unitPrice,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            p.positionRequirement,p.isShow,p.applyCount,p.interviewAddress,p.interviewTime,p.unitPrice,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->find();
     }
 
@@ -132,7 +132,7 @@ class PositionManagementModel extends Model
             ->where('p.companyId', '=', $companyId)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
-            p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            p.positionRequirement,p.isShow,p.applyCount,p.interviewTime,p.unitPrice,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->order('p.id', 'desc')
             ->paginate(null, false, $config);
     }
@@ -188,22 +188,33 @@ class PositionManagementModel extends Model
         return [$result, $total];
     }
 
-    public function filterOrder( $areaInfoSql,$priceOrderSql,$keywordsSql, $pageIndex, $pageSize)
+    /**
+     * 筛选订单  面试时间interviewTime 要大于现在的时间
+     * @param $areaInfoSql
+     * @param $priceOrderSql
+     * @param $keywordsSql
+     * @param $pageIndex
+     * @param $pageSize
+     * @return array
+     * @throws \think\db\exception\BindParamException
+     * @throws \think\exception\PDOException
+     */
+    public function filterOrder($areaInfoSql, $priceOrderSql, $keywordsSql, $pageIndex, $pageSize)
     {
 
         $offset = ($pageIndex - 1) * $pageSize;
 
         $sql = "SELECT p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
-            p.positionRequirement,p.isShow,p.applyCount,p.interviewTime,p.unitPrice,p.createTime,p.createBy,p.updateTime,p.updateBy FROM zb_position_management as p
+            p.positionRequirement,p.isShow,p.applyCount,p.interviewAddress,p.interviewTime,p.unitPrice,p.createTime,p.createBy,p.updateTime,p.updateBy FROM zb_position_management as p
             LEFT JOIN zb_position_cate as zcm ON p.positionCateId = zcm.id 
             LEFT JOIN zb_company_management as zco ON p.companyId = zco.id 
-            WHERE p.isDelete = 0    $areaInfoSql $keywordsSql   $priceOrderSql limit $offset,$pageSize";
+            WHERE p.isDelete = 0 and p.interviewTime>=unix_timestamp(now())    $areaInfoSql $keywordsSql   $priceOrderSql limit $offset,$pageSize";
 
         $countSql = "SELECT count('p.*') FROM zb_position_management as p
             LEFT JOIN zb_position_cate as zcm ON p.positionCateId = zcm.id 
             LEFT JOIN zb_company_management as zco ON p.companyId = zco.id 
-            WHERE p.isDelete = 0    $areaInfoSql $keywordsSql ";
+            WHERE p.isDelete = 0 and p.interviewTime>=unix_timestamp(now())    $areaInfoSql $keywordsSql ";
 
         $result = $this->query($sql);
         $countResult = $this->query($countSql);
@@ -259,6 +270,19 @@ class PositionManagementModel extends Model
             p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address,p.applyCount,p.interviewTime,p.unitPrice FROM zb_position_management as p 
             LEFT JOIN zb_company_management as c ON p.companyId = c.id 
             WHERE p.isDelete=0 AND p.isShow=1 AND p.id <> '$positionId'
+             ORDER BY rand() LIMIT 0,$limit";
+
+        return $this->query($sql);
+
+    }
+
+    public function getRandomPositionOrderListLimit($positionId,$limit)
+    {
+        $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,
+            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address,p.applyCount,p.interviewAddress,
+            p.interviewTime,p.unitPrice FROM zb_position_management as p 
+            LEFT JOIN zb_company_management as c ON p.companyId = c.id 
+            WHERE p.isDelete=0 and p.interviewTime >= unix_timestamp(now()) AND p.isShow=1 AND p.id <> '$positionId'
              ORDER BY rand() LIMIT 0,$limit";
 
         return $this->query($sql);

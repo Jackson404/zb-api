@@ -139,6 +139,7 @@ function generateTreeCode1($array, $node)
     foreach ($items as $key => $value) {
         //如果pid这个节点存在
         if (isset($items[$value[$node]])) {
+            $items[$key]['isLeaf'] = true;
             $items[$value[$node]]['children'][] = &$items[$key];
         } else {
             $tree[] = &$items[$key];

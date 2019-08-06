@@ -12,6 +12,7 @@ use Sms;
 use think\cache\driver\Redis;
 use think\Request;
 use Util\Check;
+use Util\Mini\WXBizDataCrypt;
 use Util\Util;
 
 class User extends IndexBase
@@ -48,8 +49,8 @@ class User extends IndexBase
         $vCode = Check::check($params['vCode'] ?? '');
         $miniOpenId = Check::check($params['miniOpenId'] ?? '');
 
-        if ($vCode == ''){
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'],'缺少参数');
+        if ($vCode == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
 
@@ -248,7 +249,7 @@ class User extends IndexBase
         $userId = $GLOBALS['userId'];
         $resumeModel = new ResumeModel();
         $resume = $resumeModel->getUserResume($userId);
-        if ($resume == null){
+        if ($resume == null) {
             $resume = [];
         }
 
@@ -508,6 +509,52 @@ class User extends IndexBase
             exit;
         } else {
             Util::printResult($GLOBALS['ERROR_LOGIN'], '登录失败');
+            exit;
+        }
+    }
+
+
+    //获取手机号
+    public function number()
+    {
+        $params = Request::instance()->request();
+        $appid = $params['appid'] ?? '';
+        $secret = $params['secret'] ?? '';
+        $jsCode = $params['jsCode'] ?? '';
+
+        $encryptedData = $params['encryptedData'] ?? '';
+        $iv = $params['iv'] ?? '';
+        $data = '';
+
+        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$appid.'&secret='.$secret.'&js_code='.$jsCode.'&grant_type=authorization_code';
+        $curl = new Curl();
+        $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+        $curl->get($url);
+
+        if ($curl->error) {
+            Util::printResult($curl->errorCode, $curl->errorMessage);
+            exit;
+        }
+        $response = $curl->response;
+
+        $res = json_decode($response, true);
+
+        if (array_key_exists('errcode', $res)) {
+            if ($res['errcode'] != 0) {
+                Util::printResult($res['errcode'], $res['errmsg']);
+                exit;
+            }
+        }
+
+        $sessionKey = $res['session_key'];
+
+        $pc = new WXBizDataCrypt($appid, $sessionKey); //注意使用\进行转义
+        $errCode = $pc->decryptData($encryptedData, $iv, $data);
+        if ($errCode == 0) {
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], json_decode($data, true));
+            exit;
+        } else {
+            Util::printResult($errCode, '');
             exit;
         }
     }

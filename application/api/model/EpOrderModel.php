@@ -53,4 +53,21 @@ class EpOrderModel extends Model
 
     }
 
+    /**
+     * 根据订单id获取详情
+     * @param $orderId
+     * @return array
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getDetailByOrderId($orderId)
+    {
+        $res = $this->where('orderId', '=', $orderId)
+            ->where('isDelete', '=', 0)
+            ->find();
+        return $res->toArray();
+    }
+
 }

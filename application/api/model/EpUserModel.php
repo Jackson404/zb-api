@@ -27,12 +27,22 @@ class EpUserModel extends Model
             ->find();
     }
 
+    /**
+     * 获取已通过审核的公司的企业用户详情
+     * @param $companyName
+     * @return array|false|\PDOStatement|string|Model
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function getDetailByCompanyName($companyName)
     {
         $res = $this->where('companyName', '=', $companyName)
             ->where('isDelete', '=', 0)
+            ->where('type','=',1)
+            ->where('isReview','=',2)
             ->find();
-        return $res->toArray();
+        return $res;
     }
 
     public function verifyUserType($userId){

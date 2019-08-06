@@ -33,8 +33,15 @@ class CompanyManagementModel extends Model
             'page' => $pageIndex
         ];
 
+//        return $this->alias('c')
+//            ->join('zb_industry i', 'c.industryId = i.code', 'left')
+//            ->where('c.isDelete', '=', 0)
+//            ->field('c.id,c.name,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
+//            c.profile,c.positionCount,c.remark,c.dataBank,c.createTime,c.createBy,c.updateTime,c.updateBy')
+//            ->order('c.id', 'desc')
+//            ->paginate(null, false, $config);
         return $this->alias('c')
-            ->join('zb_industry i', 'c.industryId = i.code', 'left')
+            ->join('zb_position_cate i', 'c.industryId = i.id', 'left')
             ->where('c.isDelete', '=', 0)
             ->field('c.id,c.name,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
             c.profile,c.positionCount,c.remark,c.dataBank,c.createTime,c.createBy,c.updateTime,c.updateBy')

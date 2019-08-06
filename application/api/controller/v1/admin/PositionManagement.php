@@ -32,6 +32,9 @@ class PositionManagement extends AdminBase
         $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
         $positionRequirement = stripslashes($positionRequirement);
         $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
+        $interviewAddress = Check::check($params['interviewAddress'] ?? ''); //面试地点
+        $interviewTime = Check::check($params['interviewTime'] ?? 0); //面试时间
+        $unitPrice = Check::check($params['unitPrice'] ?? 0); //接单价格
 
         $userId = $GLOBALS['userId'];
 
@@ -83,6 +86,9 @@ class PositionManagement extends AdminBase
             'isSoldierPriority' => $isSoldierPriority,
             'positionRequirement' => htmlspecialchars_decode($positionRequirement),
             'isShow' => $isShow,
+            'interviewAddress'=>$interviewAddress,
+            'interviewTime' => strtotime($interviewTime),
+            'unitPrice' => $unitPrice,
             'createTime' => currentTime(),
             'createBy' => $userId,
             'updateTime' => currentTime(),
@@ -127,6 +133,9 @@ class PositionManagement extends AdminBase
         $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
         $positionRequirement = stripslashes($positionRequirement);
         $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
+        $interviewAddress = Check::check($params['interviewAddress'] ?? ''); //面试地点
+        $interviewTime = Check::check($params['interviewTime'] ?? 0); //面试时间
+        $unitPrice = Check::check($params['unitPrice'] ?? 0); //接单价格
 
         $userId = $GLOBALS['userId'];
 
@@ -145,7 +154,7 @@ class PositionManagement extends AdminBase
 
         if ($labelIds != '') {
             $labelIdArr = explode(',', $labelIds);
-            $labelIdsJson = json_encode($labelIdArr,JSON_UNESCAPED_UNICODE);
+            $labelIdsJson = json_encode($labelIdArr, JSON_UNESCAPED_UNICODE);
         } else {
             $labelIdsJson = json_encode(array());
         }
@@ -179,12 +188,14 @@ class PositionManagement extends AdminBase
             'isSoldierPriority' => $isSoldierPriority,
             'positionRequirement' => htmlspecialchars_decode($positionRequirement),
             'isShow' => $isShow,
+            'interviewAddress'=>$interviewAddress,
+            'interviewTime'=>strtotime($interviewTime),
+            'unitPrice'=>$unitPrice,
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
 
         $oldCompanyId = $detail['companyId'];
-
         $updateRow = $positionManagementModel->edit($positionId, $data);
         if ($updateRow > 0) {
             $companyModel = new CompanyManagementModel;
@@ -241,7 +252,7 @@ class PositionManagement extends AdminBase
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionManagementModel = new PositionManagementModel();
         $detail = $positionManagementModel->getDetail($positionId);
-        $randomList = $positionManagementModel->getRandomPositionListLimit($positionId,5);
+        $randomList = $positionManagementModel->getRandomPositionListLimit($positionId, 5);
         $detail['labelIds'] = json_decode($detail['labelIds'], true);
         $data['detail'] = $detail;
         $data['randomList'] = $randomList;
@@ -333,12 +344,11 @@ class PositionManagement extends AdminBase
             $minPay = 8000;
             $maxPay = 10000;
             $salarySql = "  and p.minPay >= $minPay and p.maxPay <= $maxPay";
-        } elseif($salary == '10000-15000元'){
+        } elseif ($salary == '10000-15000元') {
             $minPay = 10000;
             $maxPay = 15000;
             $salarySql = "  and p.minPay >= $minPay and p.maxPay <= $maxPay";
-        }
-        elseif ($salary == '15000元以上') {
+        } elseif ($salary == '15000元以上') {
             $minPay = 15000;
             $salarySql = "  and p.minPay >= $minPay ";
         } else {
@@ -394,24 +404,24 @@ class PositionManagement extends AdminBase
             $labelIdsSql = '';
         }
 
-        if ($province != ''){
+        if ($province != '') {
             $provinceSql = "  and  zco.province = '$province' ";
-        }else{
+        } else {
             $provinceSql = '';
         }
-        if ($city != ''){
+        if ($city != '') {
             $citySql = "   and   zco.city = '$city' ";
-        }else{
+        } else {
             $citySql = '';
         }
-        if ($area != ''){
+        if ($area != '') {
             $areaSql = "   and  zco.area = '$area' ";
-        }else{
+        } else {
             $areaSql = '';
         }
 
         $positionModel = new PositionManagementModel();
-        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql,$provinceSql,$citySql,$areaSql, $pageIndex, $pageSize);
+        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql, $provinceSql, $citySql, $areaSql, $pageIndex, $pageSize);
 
         foreach ($result as $k => $v) {
             $result[$k]['labelIds'] = json_decode($v['labelIds'], true);
