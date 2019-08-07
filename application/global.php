@@ -98,10 +98,13 @@ $GLOBALS['REQUEST_ILLEGAL'] = '-1';
 
 $GLOBALS['ACCESS_KEY_ID'] = 'LTAIfhJUYdW6Rd2t'; //短信
 $GLOBALS['ACCESS_KEY_SECRET'] = 'e7CJAkAqUb9u4iOhFDnMUdEP18NX5E';
+$GLOBALS['ENDPOINT'] = 'http://oss-cn-shanghai.aliyuncs.com';
+$GLOBALS['BUCKET'] = 'zb-pic-server';
 
 $GLOBALS['WEB_ID'] = 'zhengbuwangluokejiwebid';
 $GLOBALS['WEB_SECRET'] = 'zhengbuwangluokejisecret';
 
+$GLOBALS['PIC_SERVER'] = 'pic.zhengbu121.com';
 
 /*************************************数据库参数********************************************/
 $GLOBALS['redis_port'] = '';

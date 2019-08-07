@@ -32,7 +32,8 @@
     "ext-curl": "*",
     "phpoffice/phpspreadsheet": "^1.8",
     "ext-json": "*",
-    "endroid/qr-code": "^3.5"
+    "endroid/qr-code": "^3.5",
+    "aliyuncs/oss-sdk-php": "^2.3"
   },
   "extra": {
     "think-path": "thinkphp"
