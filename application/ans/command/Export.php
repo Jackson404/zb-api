@@ -21,7 +21,8 @@ class Export extends Command
         $rds = Db::connect($GLOBALS['dbConfigRds']);
 
         while (true) {
-            $sql = "select resumeId,name,birth,sex,work,wage,qua,gra,spe,phone,mail,habitation,`from`,createTime from data_resume where isDelete = 0 limit 1";
+            $sql = "select resumeId,name,birth,sex,work,wage,qua,gra,spe,phone,mail,habitation,`from`,resume,createTime 
+            from data_resume where isDelete = 0 limit 1";
             $res = $db->query($sql);
             $res = $res[0];
             if (empty($res)) {
@@ -59,13 +60,14 @@ class Export extends Command
                 'habitation' => $res['habitation'],
                 'createTime' => $createTime,
                 'deliveryTime' => $createTime,
-                'from' => $res['from']
+                'from' => $res['from'],
+                'resume'=>$res['resume']
             ];
 
             $rds->startTrans();
 
             try {
-                $insertId = $rds->table('zb_resume')->insert($data);
+                $insertId = $rds->table('zb_resume_new')->insert($data);
 
                 if ($insertId > 0) {
                     $updateRow = $db->table('data_resume')
