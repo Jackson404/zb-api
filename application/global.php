@@ -46,10 +46,6 @@ $GLOBALS['ERROR_PARAM_WRONG'] = "-20000018";                //参数不正确
 
 $GLOBALS['ERROR_USER_EXISTS'] = "-20000020";                //用户不存在
 $GLOBALS['ERROR_PASSWORD'] = "-20000021";                   // 密码错误
-$GLOBALS['ERROR_SYSTEMUSER_EXISTS'] = "-20000023";                       //'系统用户已经存在'
-
-$GLOBALS['ERROR_SEND_FAILED'] = "-20000025";
-$GLOBALS['ERROR_FAILED_VALIDATE'] = "-20000026";
 
 $GLOBALS['ERROR_REVIEW_REFUSE'] = '-20000027';
 $GLOBALS['ERROR_REVIEW_WAIT'] = '-20000028';
@@ -64,30 +60,6 @@ $GLOBALS['ERROR_MODEL_NOT_FOUND_EXCEPTION'] = "-300000008";    //模型操作出
 
 $GLOBALS['ERROR_FILE_UPLOAD'] = "-30000002";                //文件上传失败
 $GLOBALS['ERROR_VCODE'] = "-30000003";                      //验证错误
-$GLOBALS['ERROR_WECHAT_ACCESS_TOKEN'] = "-30000004";        //获取微信access_token错误
-$GLOBALS['ERROR_WECHAT_USERINFO'] = "-30000005";            //获取用户信息错误
-
-
-$GLOBALS['GENDER_FEMALE'] = "0";        //女性
-$GLOBALS['GENDER_MALE'] = "1";        //男性
-$GLOBALS['GENDER_UNKNOWN'] = "2";     //未知
-
-
-$GLOBALS['REGISTER_TYPE_EMAIL'] = "1";    //通过邮箱注册
-$GLOBALS['REGISTER_TYPE_PHONE'] = "2";    //通过手机注册
-
-$GLOBALS['LOGIN_TYPE_EMAIL'] = "1";        //通过邮件登录
-$GLOBALS['LOGIN_TYPE_PHONE'] = "2";        //登录手机号登录
-$GLOBALS['LOGIN_TYPE_USERNAME'] = "3";    //通过用户名登录
-
-$GLOBALS['LOGIN_DEVICE_BROWSER'] = "1";        //浏览器方式登录
-$GLOBALS['LOGIN_DEVICE_APP'] = "2";            //app方式登录
-$GLOBALS['LOGIN_DEVICE_WECHAT'] = "3";        //微信方式登录
-
-$GLOBALS['LOGIN_FAILED'] = "-1";                //登录失败的值
-$GLOBALS['LOGIN_SUCCESS'] = "1";                //登录成功的值
-
-$GLOBALS['LOCK_LOGIN_TIMES'] = "5";            //登录失败锁定的次数
 
 $GLOBALS['SHA256_SALT'] = "adhisugdd";        //加密的salt
 
