@@ -9,8 +9,11 @@ use app\api\model\EpUserCertModel;
 use app\api\model\EpUserEmGroupModel;
 use app\api\model\EpUserLoginHistoryModel;
 use app\api\model\EpUserModel;
+use Curl\Curl;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\QrCode;
+use OSS\Core\OssException;
+use OSS\OssClient;
 use Sms;
 use think\cache\driver\Redis;
 use think\Exception;
@@ -183,7 +186,7 @@ class EpUser extends EpUserBase
 
         $epUserCertModel = new EpUserCertModel();
 
-        if ($epUserCertModel->checkEpHasCert($companyName)){
+        if ($epUserCertModel->checkEpHasCert($companyName)) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '该公司已经通过审核');
             exit;
         }
@@ -326,7 +329,7 @@ class EpUser extends EpUserBase
         $companyName = $detail['companyName'];
         $type = $detail['type'];
 
-        $res = $epUserCertModel->reviewEmByEp($certId, $pass, $emUserId,$companyName, $type);
+        $res = $epUserCertModel->reviewEmByEp($certId, $pass, $emUserId, $companyName, $type);
         if ($res > 0) {
             $arr['updateRow'] = $res;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
@@ -498,11 +501,72 @@ class EpUser extends EpUserBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    public function receiveOrder()
+    {
+        $params = Request::instance()->request();
+        $positionId = Check::checkInteger($params['positionId'] ?? '');
+        $userId = $GLOBALS['userId'];
+        $epOrderModel = new EpOrderModel();
+        if ($epOrderModel->checkUserRecOrder($positionId, $userId)) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户已经接过该单');
+            exit;
+        }
+        $orderId = get_order_sn();
+        try {
+            $curl = new Curl();
+            $x = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . $GLOBALS['mini_appid'] . '&secret=' . $GLOBALS['mini_secret'];
+            $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+            $curl->setHeader('Content-Type', 'application/json;charset=UTF-8');
+            $curl->get($x);
+            $xRes = $curl->response;
+            $access_token = $xRes->access_token;
+
+            $xx = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' . $access_token;
+            $scene = "$userId&$positionId&$orderId";
+            $page = "pages/index/index";
+
+            $curl->post($xx, ['scene' => $scene,'page'=>$page]);
+            $xxRes = $curl->response;
+            $object = 'mini_' . $orderId . '.png';
+
+            $ossClient = new OssClient($GLOBALS['ACCESS_KEY_ID'], $GLOBALS['ACCESS_KEY_SECRET'], $GLOBALS['ENDPOINT']);
+            $xll = $ossClient->putObject($GLOBALS['BUCKET'], $object, $xxRes);
+
+            $saveUrl = 'https://' . $GLOBALS['PIC_SERVER'] . '/' . $object;
+            $arr = [
+                'orderId' => $orderId,
+                'userId' => $userId,
+                'positionId' => $positionId,
+                'qrCode' => $saveUrl,
+                'createBy' => $userId,
+                'createTime' => currentTime(),
+                'updateBy' => $userId,
+                'updateTime' => currentTime()
+            ];
+            $recId = $epOrderModel->add($arr);
+            if ($recId > 0) {
+                $data['recId'] = $recId;
+                $data['orderId'] = $orderId;
+                $data['qrCode'] = $saveUrl;
+                Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+                exit;
+            } else {
+                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '添加失败');
+            }
+        } catch (Exception $e) {
+            Util::printResult($GLOBALS['ERROR_EXCEPTION'], '出现异常');
+            exit;
+        } catch (OssException $e) {
+            Util::printResult($e->getCode(),$e->getMessage());
+            exit;
+        }
+    }
+
 
     /**
      * 接单 企业用户 普通用户都可以接单
      */
-    public function receiveOrder()
+    public function receiveOrder111()
     {
         $params = Request::instance()->request();
         $positionId = Check::checkInteger($params['positionId'] ?? '');
@@ -536,8 +600,7 @@ class EpUser extends EpUserBase
             $qrCode->setRoundBlockSize(true);
             $qrCode->setValidateResult(false);
             $qrCode->setWriterOptions(['exclude_xml_declaration' => true]);
-//            header('Content-Type: ' . $qrCode->getContentType());
-            // Save it to a file
+
             $qrCodeUrl = ROOT_PATH . 'public/order/' . $orderId . '.png';
             $saveUrl = '/order/' . $orderId . '.png';
             $qrCode->writeFile($qrCodeUrl);
