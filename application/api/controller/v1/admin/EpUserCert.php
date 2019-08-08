@@ -9,12 +9,16 @@ use Util\Util;
 
 class EpUserCert extends AdminBase
 {
+    /**
+     * 审核企业
+     */
     public function review()
     {
         $params = Request::instance()->request();
         $certId = Check::checkInteger($params['certId'] ?? '');
-        $pass = Check::checkInteger($params['pass'] ?? ''); // -1 不通过 1通过 0待审核
+        $pass = Check::checkInteger($params['pass'] ?? ''); // -1 不通过 1通过
 
+        $adminUserId = $GLOBALS['userId'];
         $epUserCertModel = new EpUserCertModel();
 
         $res = $epUserCertModel->getDetail($certId);
@@ -23,19 +27,14 @@ class EpUserCert extends AdminBase
             exit;
         }
         $detail = $res->toArray();
-        $epUserId = $detail['userId'];
-        $realname = $detail['realname'];
-        $phone = $detail['realphone'];
-        $idCard = $detail['idCard'];
-        $idCardFrontPic = $detail['idCardFrontPic'];
-        $idCardBackPic = $detail['idCardBackPic'];
+        $userId = $detail['userId'];
         $companyName = $detail['companyName'];
         $companyAddr = $detail['companyAddr'];
         $businessLic = $detail['businessLic'];
         $otherQuaLic = $detail['otherQuaLic'];
         $type = $detail['type'];
 
-        $updateRow = $epUserCertModel->updateCertStatus($certId, $pass, $epUserId, $realname, $phone, $idCard, $idCardFrontPic, $idCardBackPic,
+        $updateRow = $epUserCertModel->reviewEpByAdmin($adminUserId, $certId, $pass, $userId,
             $companyName, $companyAddr, $businessLic, $otherQuaLic, $type);
 
         if ($updateRow > 0) {

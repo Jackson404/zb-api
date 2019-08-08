@@ -32,14 +32,6 @@ class CompanyManagementModel extends Model
             'list_rows' => $pageSize,
             'page' => $pageIndex
         ];
-
-//        return $this->alias('c')
-//            ->join('zb_industry i', 'c.industryId = i.code', 'left')
-//            ->where('c.isDelete', '=', 0)
-//            ->field('c.id,c.name,i.name as industryName,c.province,c.city,c.area,c.address,c.contact,c.phone,c.wxNumber,c.leader,c.nature,
-//            c.profile,c.positionCount,c.remark,c.dataBank,c.createTime,c.createBy,c.updateTime,c.updateBy')
-//            ->order('c.id', 'desc')
-//            ->paginate(null, false, $config);
         return $this->alias('c')
             ->join('zb_position_cate i', 'c.industryId = i.id', 'left')
             ->where('c.isDelete', '=', 0)
@@ -86,19 +78,19 @@ class CompanyManagementModel extends Model
             ->update();
     }
 
-    public function filterCompanyPage($areaInfo, $industryInfo ,$pageIndex, $pageSize)
+    public function filterCompanyPage($areaInfo, $industryInfo, $pageIndex, $pageSize)
     {
         $offset = ($pageIndex - 1) * $pageSize;
 
-        if ($areaInfo != ''){
+        if ($areaInfo != '') {
             $areaStr = "  AND CONCAT(c.province,c.city,c.area,c.address) like '%$areaInfo%' ";
-        }else{
+        } else {
             $areaStr = '';
         }
 
-        if ($industryInfo != ''){
+        if ($industryInfo != '') {
             $induStr = "  AND i.name like '%$industryInfo%' ";
-        }else{
+        } else {
             $induStr = '';
         }
 
@@ -131,5 +123,17 @@ class CompanyManagementModel extends Model
             c.profile,c.positionCount,c.remark,c.dataBank,c.createTime,c.createBy,c.updateTime,c.updateBy')
             ->order('c.id', 'desc')
             ->paginate(null, false, $config);
+    }
+
+    /**
+     * 根据公司名字获取详情  公司名字不可重复
+     * @param $companyName
+     */
+    public function getDetailByCompanyName($companyName)
+    {
+        return $this->where('isDelete', '=', 0)
+            ->where('name', '=', $companyName)
+            ->where('isCert','=',1)
+            ->find();
     }
 }

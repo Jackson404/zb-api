@@ -68,7 +68,7 @@ class Resume extends IndexBase
             'exCity' => $exCity,
             'curStatus' => $curStatus,
             'arrivalTime' => $arrivalTime,
-            'isSoldierPriority'=>$isSoldierPriority,
+            'isSoldierPriority' => $isSoldierPriority,
             'createTime' => currentTime(),
             'createBy' => $userId,
             'updateTime' => currentTime(),
@@ -132,7 +132,7 @@ class Resume extends IndexBase
             'exCity' => $exCity,
             'curStatus' => $curStatus,
             'arrivalTime' => $arrivalTime,
-            'isSoldierPriority'=>$isSoldierPriority,
+            'isSoldierPriority' => $isSoldierPriority,
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
@@ -177,6 +177,10 @@ class Resume extends IndexBase
         $userId = $GLOBALS['userId'];
         $resumeModel = new ResumeModel();
         $list = $resumeModel->getByUserId($userId);
+        if ($list == null) {
+            Util::printResult($GLOBALS['ERROR_SQL_QUERY'], '用户简历不存在');
+            exit;
+        }
         $data['list'] = $list;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
@@ -255,7 +259,7 @@ class Resume extends IndexBase
             'exCity' => $exCity,
             'curStatus' => $curStatus,
             'arrivalTime' => $arrivalTime,
-            'isSoldierPriority'=>$isSoldierPriority,
+            'isSoldierPriority' => $isSoldierPriority,
             'createTime' => currentTime(),
             'createBy' => $userId,
             'updateTime' => currentTime(),
@@ -289,7 +293,7 @@ class Resume extends IndexBase
 
             if ($insertRow2 > 0) {
                 $positionModel = new PositionManagementModel();
-                $positionModel->updateApplyCountInc($positionId,1);
+                $positionModel->updateApplyCountInc($positionId, 1);
                 $arr['resumeId'] = $resumeId;
                 $arr['applyId'] = $userApplyPositionModel->id;
                 Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
@@ -322,9 +326,7 @@ class Resume extends IndexBase
         $resumeData = $resumeResult->toArray();
         $resumeId = $resumeData['id'];
 
-
         $userApplyPositionModel = new UserApplyPositionModel();
-
 
         if ($userApplyPositionModel->checkHasApply($positionId, $resumeId)) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '已经申请过该职位');
@@ -344,7 +346,7 @@ class Resume extends IndexBase
         $insertRow = $userApplyPositionModel->save($data);
         if ($insertRow > 0) {
             $positionModel = new PositionManagementModel();
-            $positionModel->updateApplyCountInc($positionId,1);
+            $positionModel->updateApplyCountInc($positionId, 1);
             $arr['id'] = $userApplyPositionModel->id;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
             exit;
@@ -368,14 +370,14 @@ class Resume extends IndexBase
         foreach ($listData as $k => $v) {
             $positionId = $v['positionId'];
             $createTimeStamp = strtotime($v['createTime']);
-            $listData[$k]['year'] = date('Y',$createTimeStamp);
-            $listData[$k]['month'] = date('m',$createTimeStamp);
-            $listData[$k]['day'] = date('d',$createTimeStamp);
+            $listData[$k]['year'] = date('Y', $createTimeStamp);
+            $listData[$k]['month'] = date('m', $createTimeStamp);
+            $listData[$k]['day'] = date('d', $createTimeStamp);
             $positionDetail = $positionModel->getDetailForApply($positionId);
             $listData[$k]['positionDetail'] = $positionDetail;
         }
 
-        $randomList = $positionModel->getRandomPositionListLimit($positionId,5);
+        $randomList = $positionModel->getRandomPositionListLimit($positionId, 5);
 
         $data['total'] = count($listData);
         $data['list'] = $listData;
@@ -408,7 +410,7 @@ class Resume extends IndexBase
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
         $userApplyPositionModel = new UserApplyPositionModel();
-        $page = $userApplyPositionModel->getResumeApplyPage($resumeId,$pageIndex,$pageSize);
+        $page = $userApplyPositionModel->getResumeApplyPage($resumeId, $pageIndex, $pageSize);
         $pageData = $page->toArray();
         $pageArr = $pageData['data'];
 
@@ -421,14 +423,15 @@ class Resume extends IndexBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
-    public function getResumePageByPositionId(){
+    public function getResumePageByPositionId()
+    {
         $params = Request::instance()->request();
         $positionId = Check::checkInteger($params['positionId'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
         $userApplyPositionModel = new UserApplyPositionModel();
-        $page = $userApplyPositionModel->getResumePageByPositionId($positionId,$pageIndex,$pageSize);
+        $page = $userApplyPositionModel->getResumePageByPositionId($positionId, $pageIndex, $pageSize);
         $data['page'] = $page;
 
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);

@@ -7,7 +7,7 @@ use think\Model;
 
 class EpUserCertModel extends Model
 {
-    protected $table = 'zb_enterprise_user_cert';
+    protected $table = 'zb_enterprise_cert_review';
     protected $pk = 'id';
     protected $resultSetType = 'collection';
 
@@ -45,16 +45,68 @@ class EpUserCertModel extends Model
     }
 
 
+    /**
+     * 测试用户是否正在审核
+     * @param $companyName
+     * @param $userId
+     * @return bool
+     * @throws Exception
+     */
     public function verifyByCompanyNameAndUserId($companyName, $userId)
     {
         $res = $this->where('companyName', '=', $companyName)
             ->where('userId', '=', $userId)
             ->where('pass', '=', 0)
             ->where('isDelete', '=', 0)
-            ->find();
-        return $res;
+            ->count();
+        if ($res > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
+
+    /**
+     * 检查是否已经通过审核
+     * @param $companyName
+     * @param $userId
+     * @return bool
+     * @throws Exception
+     */
+    public function verifyCompanyNameAndUserId($companyName, $userId)
+    {
+        $res = $this->where('companyName', '=', $companyName)
+            ->where('userId', '=', $userId)
+            ->where('pass', '=', 1)
+            ->where('isDelete', '=', 0)
+            ->count();
+        if ($res > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 检查该企业是否已经认证过
+     * @param $companyName
+     * @return bool
+     * @throws Exception
+     */
+    public function checkEpHasCert($companyName)
+    {
+        $count = $this->where('companyName', '=', $companyName)
+            ->where('type', '=', 1)
+            ->where('isDelete', '=', 0)
+            ->where('pass', '=', 1)
+            ->count();
+        if ($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * 获取认证详情
@@ -74,142 +126,222 @@ class EpUserCertModel extends Model
     }
 
     /**
-     * 后台审核认证状态
+     * 企业审核员工
+     * @param $epUserId
      * @param $certId
      * @param $pass
-     * @param $epUserId
+     * @param $emUserId
+     * @param $companyName
      * @param $realname
      * @param $phone
      * @param $idCard
      * @param $idCardFrontPic
      * @param $idCardBackPic
-     * @param $companyName
-     * @param $companyAddr
-     * @param $businessLic
-     * @param $otherQuaLic
      * @param $type
-     * @return EpUserCertModel|int
+     * @return int|mixed
      * @throws \think\exception\PDOException
      */
-    public function updateCertStatus($certId, $pass, $epUserId, $realname, $phone, $idCard, $idCardFrontPic, $idCardBackPic,
-                                     $companyName, $companyAddr, $businessLic, $otherQuaLic, $type)
+    public function reviewEmByEp($certId, $pass, $emUserId, $companyName, $realname, $phone, $idCard, $idCardFrontPic, $idCardBackPic, $type)
     {
 
         $this->startTrans();
         try {
             if ($pass == 1) {
-                $this->where('userId', '=', $epUserId)
-                    ->where('isDelete', '=', 0)
-                    ->update(
-                        ['pass' => -1, 'isDelete' => 1]
-                    );
                 $updateRow = $this->where('id', '=', $certId)
                     ->update(
-                        ['pass' => 1, 'isDelete' => 0, 'updateTime' => currentTime()]
+                        ['pass' => 1, 'updateTime' => currentTime()]
                     );
                 if ($updateRow == 0) {
                     $this->rollback();
                     return -1;
                 }
 
-                $up = $this->table('zb_enterprise_user')
-                    ->where('id', '=', $epUserId)
+                $x = $this->table('zb_company_management')
                     ->where('isDelete', '=', 0)
+                    ->where('name', '=', $companyName)
+                    ->find();
+                $xData = $x->toArray();
+                $companyId = $xData['id'];
+                $certInsertGetId = $this->table('zb_enterprise_cert')->insertGetId(
+                    [
+                        'userId' => $emUserId,
+                        'epId' => $companyId,
+                        'dataBank' => json_encode(['realname' => $realname, 'companyName' => $companyName, 'phone' => $phone, 'idCard' => $idCard, 'idCardFrontPic' => $idCardFrontPic, 'idCardBackPic' => $idCardBackPic], JSON_UNESCAPED_SLASHES),
+                        'type' => $type,
+                        'createTime' => currentTime(),
+                        'updateTime' => currentTime()
+                    ]
+                );
+                if ($certInsertGetId == 0) {
+                    $this->rollback();
+                    return -1111;
+                }
+                $up = $this->table('zb_enterprise_user')->where('id', '=', $emUserId)->where('isDelete', '=', 0)
                     ->update(
                         [
-                            'realname' => $realname,
-                            'realphone' => $phone,
-                            'idCard' => $idCard,
-                            'idCardFrontPic' => $idCardFrontPic,
-                            'idCardBackPic' => $idCardBackPic,
-                            'companyName' => $companyName,
-                            'companyAddr' => $companyAddr,
-                            'businessLic' => $businessLic,
-                            'otherQuaLic' => $otherQuaLic,
-                            'type' => $type,
                             'isReview' => 2,
-                            'updateTime' => currentTime()
+                            'type' => $type
                         ]
                     );
-            }
-            if ($pass == -1) {
-                $this->where('id', '=', $certId)
-                    ->where('isDelete', '=', 0)
-                    ->update(
-                        ['isDelete' => 1, 'pass' => -1]
-                    );
-                $up = $this->table('zb_enterprise_user')
-                    ->where('id', '=', $epUserId)
-                    ->where('isDelete', '=', 0)
-                    ->update(
-                        [
-                            'realname' => '',
-                            'realphone' => '',
-                            'idCard' => '',
-                            'idCardFrontPic' => '',
-                            'idCardBackPic' => '',
-                            'companyName' => '',
-                            'companyAddr' => '',
-                            'businessLic' => '',
-                            'otherQuaLic' => '',
-                            'type' => 0,
-                            'isReview' => 0,
-                            'updateTime' => currentTime()
-                        ]
-                    );
-            }
-
-            if ($pass == 0) {
-                $this->where('id', '=', $certId)
-                    ->update(
-                        ['isDelete' => 0, 'pass' => 0]
-                    );
-                $up = $this->table('zb_enterprise_user')
-                    ->where('id', '=', $epUserId)
-                    ->where('isDelete', '=', 0)
-                    ->update(
-                        [
-                            'realname' => '',
-                            'realphone' => '',
-                            'idCard' => '',
-                            'idCardFrontPic' => '',
-                            'idCardBackPic' => '',
-                            'companyName' => '',
-                            'companyAddr' => '',
-                            'businessLic' => '',
-                            'otherQuaLic' => '',
-                            'type' => 0,
-                            'isReview' => 0,
-                            'updateTime' => currentTime()
-                        ]
-                    );
-            }
-            if ($up > 0) {
+                if ($up == 0) {
+                    $this->rollback();
+                    return -11111;
+                }
                 $this->commit();
                 return $up;
-            } else {
-                $this->rollback();
-                return -2;
+            }
+
+            if ($pass == -1) {
+                $updateRow = $this->where('id', '=', $certId)
+                    ->update(
+                        ['pass' => -1, 'updateTime' => currentTime()]
+                    );
+                if ($updateRow == 0) {
+                    $this->rollback();
+                    return -1;
+                }
+                $this->commit();
+                return $updateRow;
             }
 
         } catch (Exception $e) {
             $this->rollback();
-            return -3;
+            return $e->getCode();
+        }
+    }
+
+    /**
+     * 正步后台审核企业
+     * @param $adminUserId
+     * @param $certId
+     * @param $pass
+     * @param $userId
+     * @param $companyName
+     * @param $companyAddr
+     * @param $businessLic
+     * @param $otherQuaLic
+     * @param $type
+     * @return EpUserCertModel|int|mixed
+     * @throws \think\exception\PDOException
+     */
+    public function reviewEpByAdmin($adminUserId, $certId, $pass, $userId, $companyName, $companyAddr, $businessLic, $otherQuaLic, $type)
+    {
+        $this->startTrans();
+        try {
+            if ($pass == 1) {
+                $updateRow = $this->where('id', '=', $certId)
+                    ->update(
+                        ['pass' => 1, 'updateTime' => currentTime()]
+                    );
+                if ($updateRow == 0) {
+                    $this->rollback();
+                    return -1;
+                }
+                // 企业
+                $x = $this->table('zb_company_management')
+                    ->where('isDelete', '=', 0)
+                    ->where('name', '=', $companyName)
+                    ->find();
+                if ($x != null) {
+                    $xData = $x->toArray();
+                    $companyId = $xData['id'];
+                    $companyData = [
+                        'id' => $companyId,
+                        'name' => $companyName,
+                        'address' => $companyAddr,
+                        'isCert' => 1,
+                        'createTime' => currentTime(),
+                        'createBy' => $adminUserId,
+                        'updateTime' => currentTime(),
+                        'updateBy' => $adminUserId
+                    ];
+
+                    $updateRow = $this->table('zb_company_management')->update($companyData);
+                    if ($updateRow == 0) {
+                        $this->rollback();
+                        return -111;
+                    }
+                } else {
+                    $companyData = [
+                        'name' => $companyName,
+                        'address' => $companyAddr,
+                        'profile'=>'',
+                        'isCert' => 1,
+                        'createTime' => currentTime(),
+                        'createBy' => $adminUserId,
+                        'updateTime' => currentTime(),
+                        'updateBy' => $adminUserId
+                    ];
+                    $companyId = $this->table('zb_company_management')->insertGetId($companyData);
+                    if ($companyId == 0) {
+                        $this->rollback();
+                        return -11;
+                    }
+                }
+
+                $certInsertGetId = $this->table('zb_enterprise_cert')->insertGetId(
+                    [
+                        'userId' => $userId,
+                        'epId' => $companyId,
+                        'dataBank' => json_encode(['businessLic' => $businessLic, 'otherQuaLic' => $otherQuaLic], JSON_UNESCAPED_SLASHES),
+                        'type' => $type,
+                        'createTime' => currentTime(),
+                        'updateTime' => currentTime()
+                    ]
+                );
+                if ($certInsertGetId == 0) {
+                    $this->rollback();
+                    return -1111;
+                }
+
+                $up = $this->table('zb_enterprise_user')->where('id', '=', $userId)->where('isDelete', '=', 0)
+                    ->update(
+                        [
+                            'isReview' => 2,
+                            'type' => $type
+                        ]
+                    );
+                if ($up == 0) {
+                    $this->rollback();
+                    return -11111;
+                }
+                $this->commit();
+                return $up;
+            }
+
+            if ($pass == -1) {
+                $updateRow = $this->where('id', '=', $certId)
+                    ->update(
+                        ['pass' => -1, 'updateTime' => currentTime()]
+                    );
+                if ($updateRow == 0) {
+                    $this->rollback();
+                    return -1;
+                }
+                $this->commit();
+                return $updateRow;
+            }
+
+
+        } catch (Exception $e) {
+            $this->rollback();
+            var_dump($e->getMessage());
+            return -2;
         }
     }
 
     /**
      * 获取企业的员工申请列表
-     * @param $epUserId
+     * @param $epId
      * @return false|\PDOStatement|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function getEmApplyListByEpId($epUserId)
+    public function getEmApplyListByEpId($epId)
     {
 
-        return $this->where('pid', '=', $epUserId)
+        return $this->where('applyEpId', '=', $epId)
             ->where('isDelete', '=', 0)
             ->select();
     }
@@ -221,10 +353,10 @@ class EpUserCertModel extends Model
      * @return bool
      * @throws Exception
      */
-    public function verifyEmCertIdAndEpUserId($emCertId, $epUserId)
+    public function verifyApplyEpIdAndCertId($epId, $certId)
     {
-        $count = $this->where('id', '=', $emCertId)
-            ->where('pid', '=', $epUserId)
+        $count = $this->where('id', '=', $certId)
+            ->where('applyEpId', '=', $epId)
             ->where('isDelete', '=', 0)
             ->count();
         if ($count > 0) {
@@ -234,14 +366,14 @@ class EpUserCertModel extends Model
         }
     }
 
-    public function updateGroupIdByEpUser($emCertId, $epUserId, $groupId)
+    public function updateGroupIdByEpUser($certId, $epUserId, $groupId)
     {
         $data = [
             'groupId' => $groupId,
             'updateBy' => $epUserId,
             'updateTime' => currentTime()
         ];
-        return $this->where('id', '=', $emCertId)
+        return $this->where('id', '=', $certId)
             ->where('isDelete', '=', 0)
             ->update($data);
     }
