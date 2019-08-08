@@ -12,7 +12,6 @@ use app\api\model\EpUserModel;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\QrCode;
 use Sms;
-
 use think\cache\driver\Redis;
 use think\Exception;
 use think\Request;
@@ -165,6 +164,11 @@ class EpUser extends EpUserBase
     public function epCertification()
     {
         $params = Request::instance()->request();
+        $realname = Check::check($params['realname'] ?? '');
+        $realphone = Check::check($params['realphone'] ?? '', 1, 11);
+        $idCard = Check::check($params['idCard'] ?? '', 1, 20);
+        $idCardFrontPic = Check::check($params['idCardFrontPic'] ?? '');
+        $idCardBackPic = Check::check($params['idCardBackPic'] ?? '');
         $companyName = Check::check($params['companyName'] ?? ''); //公司名称
         $companyAddr = Check::check($params['companyAddr'] ?? ''); //公司地址
         $businessLic = Check::check($params['businessLic'] ?? ''); //营业执照
@@ -172,7 +176,7 @@ class EpUser extends EpUserBase
 
         $userId = $GLOBALS['userId'];
 
-        if ($companyAddr == '' || $companyName == '' || $businessLic == '' || $otherQuaLic == '') {
+        if ($realname == '' || $realphone == '' || $idCard == '' || $idCardFrontPic == '' || $idCardBackPic == '' || $companyAddr == '' || $companyName == '' || $businessLic == '' || $otherQuaLic == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
@@ -193,6 +197,11 @@ class EpUser extends EpUserBase
         $arr = [
             'userId' => $userId,
             'type' => 1,
+            'realname' => $realname,
+            'realphone' => $realphone,
+            'idCard' => $idCard,
+            'idCardFrontPic' => $idCardFrontPic,
+            'idCardBackPic' => $idCardBackPic,
             'companyName' => $companyName,
             'companyAddr' => $companyAddr,
             'businessLic' => $businessLic,
@@ -316,14 +325,9 @@ class EpUser extends EpUserBase
 
         $emUserId = $detail['userId'];
         $companyName = $detail['companyName'];
-        $realname = $detail['realname'];
-        $phone = $detail['realphone'];
-        $idCard = $detail['idCard'];
-        $idCardFrontPic = $detail['idCardFrontPic'];
-        $idCardBackPic = $detail['idCardBackPic'];
         $type = $detail['type'];
 
-        $res = $epUserCertModel->reviewEmByEp($certId, $pass, $emUserId, $companyName, $realname, $phone, $idCard, $idCardFrontPic, $idCardBackPic, $type);
+        $res = $epUserCertModel->reviewEmByEp($certId, $pass, $emUserId,$companyName, $type);
         if ($res > 0) {
             $arr['updateRow'] = $res;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);

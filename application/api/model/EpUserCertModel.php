@@ -141,7 +141,7 @@ class EpUserCertModel extends Model
      * @return int|mixed
      * @throws \think\exception\PDOException
      */
-    public function reviewEmByEp($certId, $pass, $emUserId, $companyName, $realname, $phone, $idCard, $idCardFrontPic, $idCardBackPic, $type)
+    public function reviewEmByEp($certId, $pass, $emUserId, $companyName, $type)
     {
 
         $this->startTrans();
@@ -166,7 +166,7 @@ class EpUserCertModel extends Model
                     [
                         'userId' => $emUserId,
                         'epId' => $companyId,
-                        'dataBank' => json_encode(['realname' => $realname, 'companyName' => $companyName, 'phone' => $phone, 'idCard' => $idCard, 'idCardFrontPic' => $idCardFrontPic, 'idCardBackPic' => $idCardBackPic], JSON_UNESCAPED_SLASHES),
+                        'reviewCertId' => $certId,
                         'type' => $type,
                         'createTime' => currentTime(),
                         'updateTime' => currentTime()
@@ -224,7 +224,7 @@ class EpUserCertModel extends Model
      * @return EpUserCertModel|int|mixed
      * @throws \think\exception\PDOException
      */
-    public function reviewEpByAdmin($adminUserId, $certId, $pass, $userId, $companyName, $companyAddr, $businessLic, $otherQuaLic, $type)
+    public function reviewEpByAdmin($adminUserId, $certId, $pass, $userId, $companyName, $companyAddr, $type)
     {
         $this->startTrans();
         try {
@@ -265,7 +265,7 @@ class EpUserCertModel extends Model
                     $companyData = [
                         'name' => $companyName,
                         'address' => $companyAddr,
-                        'profile'=>'',
+                        'profile' => '',
                         'isCert' => 1,
                         'createTime' => currentTime(),
                         'createBy' => $adminUserId,
@@ -283,7 +283,7 @@ class EpUserCertModel extends Model
                     [
                         'userId' => $userId,
                         'epId' => $companyId,
-                        'dataBank' => json_encode(['businessLic' => $businessLic, 'otherQuaLic' => $otherQuaLic], JSON_UNESCAPED_SLASHES),
+                        'reviewCertId' => $certId,
                         'type' => $type,
                         'createTime' => currentTime(),
                         'updateTime' => currentTime()

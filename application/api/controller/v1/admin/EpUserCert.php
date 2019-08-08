@@ -30,12 +30,10 @@ class EpUserCert extends AdminBase
         $userId = $detail['userId'];
         $companyName = $detail['companyName'];
         $companyAddr = $detail['companyAddr'];
-        $businessLic = $detail['businessLic'];
-        $otherQuaLic = $detail['otherQuaLic'];
         $type = $detail['type'];
 
         $updateRow = $epUserCertModel->reviewEpByAdmin($adminUserId, $certId, $pass, $userId,
-            $companyName, $companyAddr, $businessLic, $otherQuaLic, $type);
+            $companyName, $companyAddr, $type);
 
         if ($updateRow > 0) {
             $arr['updateRow'] = $updateRow;
