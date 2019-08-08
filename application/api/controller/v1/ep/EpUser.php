@@ -181,13 +181,12 @@ class EpUser extends EpUserBase
             exit;
         }
 
-        $companyModel = new CompanyManagementModel();
-        if ($companyModel->getDetailByCompanyName($companyName) != null) {
+        $epUserCertModel = new EpUserCertModel();
+
+        if ($epUserCertModel->checkEpHasCert($companyName)){
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '该公司已经通过审核');
             exit;
         }
-
-        $epUserCertModel = new EpUserCertModel();
 
         if ($epUserCertModel->verifyByCompanyNameAndUserId($companyName, $userId)) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '正在审核');
