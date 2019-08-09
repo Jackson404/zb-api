@@ -40,6 +40,14 @@ class EpOrderModel extends Model
         }
     }
 
+    /**
+     * 分页获取订单列表
+     * @param $userId
+     * @param $pageIndex
+     * @param $pageSize
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
     public function getUserRecOrdersPage($userId, $pageIndex, $pageSize)
     {
         $config = [
@@ -67,7 +75,28 @@ class EpOrderModel extends Model
         $res = $this->where('orderId', '=', $orderId)
             ->where('isDelete', '=', 0)
             ->find();
-        return $res->toArray();
+        return $res;
+    }
+
+    public function getOrderList($userId, $isFinish)
+    {
+        if ($isFinish == 1) {
+            $con = '<';
+        }
+        if ($isFinish == 0) {
+            $con = '>';
+        }
+        $res = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->join('zb_enterprise_user eu', 'o.userId=eu.id', 'left')
+            ->where('p.interviewTime',$con,time())
+            ->where('o.userId', '=', $userId)
+            ->where('o.isDelete', '=', 0)
+            ->field('DATE_FORMAT(o.createTime, "%Y-%m") as orderDate,o.orderId,o.userId,eu.orderNum,eu.incomeTotal,
+            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.emNum,o.income,
+            o.createTime,o.createBy,o.updateTime,o.updateBy')
+            ->select();
+        return $res;
     }
 
 }

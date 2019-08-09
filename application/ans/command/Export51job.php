@@ -23,7 +23,7 @@ class Export51job extends Command
         ini_set('memory_limit', '-1');
 
         //$dir = "C:\Users\Mloong\Pictures\\简历\\51jobexcel\\51jobexcel\\2\\";
-        $dir = "D:\workplace\\1";
+        $dir = ROOT_PATH."application/ans/file";
 
         $dd = new DirX();
         $files = $dd->getDirExplorer($dir);
@@ -45,7 +45,7 @@ class Export51job extends Command
 
                 $age = mb_substr($v[3],0,2);
                 $nowYear = date('Y',time());
-                $birthYear = $nowYear-$age;
+                $birthYear = intval($nowYear)-intval($age);
                 $birth = $birthYear.'-00-00';
 
                 $arr = [
@@ -55,19 +55,12 @@ class Export51job extends Command
                     'sex' => $v[2] == null ? '' : $v[2],
                     'birthYear' => $birthYear,
                     'birth' => $birth,
-//                    'school' => $v[13] == null ? '' : $v[13],
                     'educationName' => $v[4] == null ? '' : $v[4],
-//                    'mail' => $v[16] == null ? '' : $v[16],
-//                    'profession' => $v[14] == null ? '' : $v[14],
                     'workYear' => $v[5] == null ? '' : $v[5],
                     'exPosition' => $v[8] == null ? '' : $v[8],
                     'exSalary' => $v[7] == null ? '' : $v[7],
                     'habitation' => $v[6] == null ? '' : $v[6],
-//                    'houseLocation' => $v[10] == null ? '' : $v[10],
-//                    'workUnit' => $v[19] == null ? '' : $v[19],
-//                    'createTime' => $v[6] == null ? '' : str_replace('/', '-', $v[6]),
-//                    'deliveryTime' => $v[6] == null ? '' : str_replace('/', '-', $v[6]),
-//                    'from' => '51job',
+                    'selfEvaluation'=>$v[9] == null ? '' : $v[9]
                 ];
 
 //                $arr = [

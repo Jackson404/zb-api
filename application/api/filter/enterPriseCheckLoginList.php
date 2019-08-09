@@ -25,4 +25,5 @@ $whiteList = [
     'api/v1.ep.EpUser/receiveOrder',
     'api/v1.ep.EpUser/getUserRecOrdersPage',
     'api/v1.ep.EpOrder/getDetailWithLogin',
+    'api/v1.ep.EpOrder/getOrderList',
 ];

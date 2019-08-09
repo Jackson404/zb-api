@@ -364,6 +364,22 @@ class EpUser extends EpUserBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    /**
+     * 根据组别获取员工列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getEmListByGroupId()
+    {
+        $params = Request::instance()->request();
+        $groupId = Check::checkInteger($params['groupId'] ?? '');
+        $epUserCertModel = new EpUserCertModel();
+        $res = $epUserCertModel->getEmApplyListByGroupId($groupId);
+        $data['list'] = $res;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
 
     /**
      * 企业用户创建员工分组
@@ -501,6 +517,11 @@ class EpUser extends EpUserBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    /**
+     * 接单
+     * @throws Exception
+     * @throws \ErrorException
+     */
     public function receiveOrder()
     {
         $params = Request::instance()->request();
@@ -525,7 +546,7 @@ class EpUser extends EpUserBase
             $scene = "$userId&$positionId&$orderId";
             $page = "pages/index/index";
 
-            $curl->post($xx, ['scene' => $scene,'page'=>$page]);
+            $curl->post($xx, ['scene' => $scene, 'page' => $page]);
             $xxRes = $curl->response;
             $object = 'mini_' . $orderId . '.png';
 
@@ -557,7 +578,7 @@ class EpUser extends EpUserBase
             Util::printResult($GLOBALS['ERROR_EXCEPTION'], '出现异常');
             exit;
         } catch (OssException $e) {
-            Util::printResult($e->getCode(),$e->getMessage());
+            Util::printResult($e->getCode(), $e->getMessage());
             exit;
         }
     }
@@ -629,41 +650,6 @@ class EpUser extends EpUserBase
             Util::printResult($GLOBALS['ERROR_EXCEPTION'], '出现异常');
             exit;
         }
-
     }
-
-    /**
-     * 根据订单id获取详情
-     * @throws Exception
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
-    public function getOrderDetailByOrderId()
-    {
-        $params = Request::instance()->request();
-        $orderId = Check::check($params['orderId'] ?? ''); //订单id
-        $epOrderModel = new EpOrderModel();
-        $detail = $epOrderModel->getDetailByOrderId($orderId);
-        $data['detail'] = $detail;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
-
-    /**
-     *  分页获取用户接单列表
-     */
-    public function getUserRecOrdersPage()
-    {
-        $params = Request::instance()->request();
-        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
-        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
-        $userId = $GLOBALS['userId'];
-
-        $epOrderModel = new EpOrderModel();
-        $page = $epOrderModel->getUserRecOrdersPage($userId, $pageIndex, $pageSize);
-        $data['page'] = $page;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
-
 
 }

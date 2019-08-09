@@ -84,7 +84,32 @@ class DataResume extends Model
         return $content;
     }
 
+    public function filterByPageWithEp($posKeySql, $exWorkLocationSql, $workExpSql, $educationNameSql, $minAgeSql, $maxAgeSql, $sexSql, $pageIndex, $pageSize)
+    {
+
+        $offset = ($pageIndex - 1) * $pageSize;
+
+        $sql = "select idCard,name,sex,birthYear,birth,school,education,educationName,mail,profession,professionId,workYear,
+                exPosition,exSalary,exCity,habitation,houseLocation,workUnit,createTime,deliveryTime,`from`,type  from 
+                $this->table where isDelete=0 $posKeySql $exWorkLocationSql $workExpSql  $educationNameSql  $minAgeSql $maxAgeSql  $sexSql  
+                order by concat(idCard,phone,updateTime)  desc limit $offset,$pageSize";
+        $content = $this->query($sql);
+
+//        var_dump($sql);
+        return $content;
+    }
+
     public function filterCount($posKeySql, $exWorkLocationSql, $workExpSql, $educationNameSql, $minAgeSql, $maxAgeSql, $sexSql)
+    {
+
+        $sql = "select count(*)  from 
+                $this->table where isDelete=0 $posKeySql $exWorkLocationSql $workExpSql  $educationNameSql  $minAgeSql $maxAgeSql  $sexSql ";
+        $res = $this->query($sql);
+        $count = $res[0]["count(*)"];
+        return $count;
+    }
+
+    public function filterCountWithEp($posKeySql, $exWorkLocationSql, $workExpSql, $educationNameSql, $minAgeSql, $maxAgeSql, $sexSql)
     {
 
         $sql = "select count(*)  from 

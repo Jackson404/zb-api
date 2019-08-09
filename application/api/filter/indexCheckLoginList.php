@@ -17,5 +17,5 @@ $whiteList = [
     'api/v1.UserPositionIntension/add',
     'api/v1.UserPositionIntension/edit',
     'api/v1.UserPositionIntension/getPositionIntension',
-
+    'api/v1.ep.EpOrderApply/apply'
 ];

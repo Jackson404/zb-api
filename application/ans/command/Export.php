@@ -17,6 +17,9 @@ class Export extends Command
 
     protected function execute(Input $input, Output $output)
     {
+        ignore_user_abort(); // 后台运行
+        set_time_limit(0); // 取消脚本运行时间的超时上限
+
         $db = Db::connect($GLOBALS['dbConfig2']);
         $rds = Db::connect($GLOBALS['dbConfigRds']);
 

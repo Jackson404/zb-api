@@ -2,6 +2,7 @@
 
 namespace app\api\controller\v1\ep;
 
+use app\api\model\EpOrderApplyModel;
 use app\api\model\EpOrderModel;
 use app\api\model\PositionManagementModel;
 use think\Request;
@@ -103,59 +104,59 @@ class EpOrder extends EpUserBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+
     /**
-     * 扫描二维码，报名申请这个职位
+     * 获取已经完成/未完成的订单列表
      */
-//    public function apply()
-//    {
-//        $params = Request::instance()->request();
-//
-//        $orderId = Check::check($params['orderId'] ?? ''); //订单id
-//        $shareUserId = Check::checkInteger($params['shareUserId'] ?? ''); //分享人的用户id
-//        $name = Check::check($params['name'] ?? ''); //申请人的姓名
-//        $phone = Check::check($params['phone'] ?? '', 11, 11);
-//        $gender = Check::checkInteger($params['gender'] ?? 0);// 0 未知 1男 2 女
-//        $age = Check::checkInteger($params['age'] ?? 0);
-//        $workYear = Check::checkInteger($params['workYear'] ?? 0); //工作年限
-//        $education = Check::check($params['education'] ?? ''); //学历
-//        $skills = Check::check($params['skills'] ?? ''); //技能描述
-//        $selfEvaluation = Check::check($params['selfEvaluation'] ?? ''); //自我评价
-//        $militaryTime = Check::check($params['militaryTime'] ?? ''); //入伍时间
-//        $attendedTime = Check::check($params['attendedTime'] ?? 0); //服役时长
-//        $corps = Check::check($params['corps'] ?? ''); //兵种
-//        $exPosition = Check::check($params['exPosition'] ?? ''); //期望职位
-//        $nature = Check::check($params['nature'] ?? ''); //期望工作性质
-//        $exCity = Check::check($params['exCity'] ?? ''); //期望城市
-//        $salary = Check::check($params['salary'] ?? ''); //期望薪资
-//        $curStatus = Check::check($params['curStatus'] ?? ''); //目前状态
-//        $arrivalTime = Check::check($params['arrivalTime'] ?? ''); //到岗时间
-//        $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否是退役军人 默认0 0否 1是
-//
-//        $data = [
-//            'orderId' => $orderId,
-//            'shareUserId' => $shareUserId,
-//            'name' => $name,
-//            'phone' => $phone,
-//            'gender' => $gender,
-//            'age' => $age,
-//            'workYear' => $workYear,
-//            'education' => $education,
-//            'salary' => $salary,
-//            'skills' => $skills,
-//            'selfEvaluation' => $selfEvaluation,
-//            'militaryTime' => $militaryTime,
-//            'attendedTime' => $attendedTime,
-//            'corps' => $corps,
-//            'exPosition' => $exPosition,
-//            'nature' => $nature,
-//            'exCity' => $exCity,
-//            'curStatus' => $curStatus,
-//            'arrivalTime' => $arrivalTime,
-//            'isSoldierPriority' => $isSoldierPriority,
-//            'createTime' => currentTime(),
-//            'updateTime' => currentTime()
-//        ];
-//
-//
-//    }
+    public function getOrderList()
+    {
+        $params = Request::instance()->request();
+        $orderDate = $params['orderDate'] ?? ''; //筛选订单时间
+        $isFinish = $params['isFinish'] ?? 1; //默认已完成
+
+        $userId = $GLOBALS['userId'];
+        $orderModel = new EpOrderModel();
+
+        $list = $orderModel->getOrderList($userId, $isFinish);
+        $listData = $list->toArray();
+
+        $newList = array();
+        if ($orderDate != '') {
+            foreach ($listData as $k => $v) {
+                if ($v['orderDate'] == $orderDate) {
+                    array_push($newList, $v);
+                }
+            }
+        }
+        $data['list'] = $newList;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
+    }
+
+    /**
+     * 获取订单详情
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getOrderDetail()
+    {
+        $params = Request::instance()->request();
+        $orderId = Check::check($params['orderId'] ?? ''); //订单id
+        $epOrderModel = new EpOrderModel();
+        $detail = $epOrderModel->getDetailByOrderId($orderId);
+        if ($detail == null) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '参数错误');
+            exit;
+        }
+        $data['detail'] = $detail;
+        $epOrderApplyModel = new EpOrderApplyModel();
+        $applyList = $epOrderApplyModel->getApplyListByOrderId($orderId);
+        $data['applyList'] = $applyList;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+
+
 }
