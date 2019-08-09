@@ -356,6 +356,10 @@ class EpUser extends EpUserBase
         $epCertModel = new EpCertModel();
         $res = $epCertModel->getByUserIdAndType($epUserId, 1);
         $resData = $res->toArray();
+        if ($resData == null){
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'],'没有员工');
+            exit;
+        }
         $epId = $resData['epId'];
 
         $epUserCertModel = new EpUserCertModel();

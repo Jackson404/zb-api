@@ -129,8 +129,8 @@ class EpOrderApply extends IndexBase
 
         if ($insertRow > 0) {
             $epResumeModel->commit();
-            $data['insertRow'] = $insertRow;
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+            $x['insertRow'] = $insertRow;
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $x);
             exit;
         } else {
             $epResumeModel->rollback();

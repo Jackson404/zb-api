@@ -1,21 +1,9 @@
 <?php
 $whiteList = [
-    'api/v1.EpUser/epCertification',
-    'api/v1.EpUser/pCertification',
-    'api/v1.EpUser/getEmApplyListByEpUserId',
-    'api/v1.EpUser/review',
-    'api/v1.EpUser/addEmGroup',
-    'api/v1.EpUser/getEmGroupListByEpUserId',
-    'api/v1.EpUser/editEmGroup',
-    'api/v1.EpUser/delEmGroup',
-    'api/v1.EpUser/changeEmGroupByEpUser',
-    'api/v1.EpUser/receiveOrder',
-    'api/v1.EpUser/getUserRecOrdersPage',
-    'api/v1.EpOrder/getDetailWithLogin',
-
     'api/v1.ep.EpUser/epCertification',
     'api/v1.ep.EpUser/pCertification',
     'api/v1.ep.EpUser/getEmListByEpUserId',
+    'api/v1.ep.EpUser/getEmListByGroupId',
     'api/v1.ep.EpUser/review',
     'api/v1.ep.EpUser/addEmGroup',
     'api/v1.ep.EpUser/getEmGroupListByEpUserId',
@@ -26,4 +14,5 @@ $whiteList = [
     'api/v1.ep.EpUser/getUserRecOrdersPage',
     'api/v1.ep.EpOrder/getDetailWithLogin',
     'api/v1.ep.EpOrder/getOrderList',
+    'api/v1.ep.EpOrderApply/apply',
 ];
