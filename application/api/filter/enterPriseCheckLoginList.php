@@ -15,4 +15,12 @@ $whiteList = [
     'api/v1.ep.EpOrder/getDetailWithLogin',
     'api/v1.ep.EpOrder/getOrderList',
     'api/v1.ep.EpOrderApply/apply',
+    'api/v1.ep.ResumeData/filterResumeData',
+    'api/v1.ep.ResumeData/addResumeCate',
+    'api/v1.ep.ResumeData/editResumeCate',
+    'api/v1.ep.ResumeData/delResumeCate',
+    'api/v1.ep.ResumeData/getResumeCateList',
+    'api/v1.ep.ResumeData/moveResumeToCate',
+    'api/v1.ep.ResumeData/downLoadResume',
+    'api/v1.ep.ResumeData/getEpResumeList',
 ];

@@ -106,10 +106,18 @@ class ResumeData extends EpUserBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    /**
+     * 创建简历分类
+     */
     public function addResumeCate()
     {
         $params = Request::instance()->request();
         $name = Check::check($params['name'] ?? '');
+
+        if ($name == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
 
         $userId = $GLOBALS['userId'];
         $epResumeCateModel = new EpResumeCateModel();
@@ -132,6 +140,9 @@ class ResumeData extends EpUserBase
         }
     }
 
+    /**
+     * 编辑简历分类
+     */
     public function editResumeCate()
     {
 
@@ -139,11 +150,14 @@ class ResumeData extends EpUserBase
         $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
         $name = Check::check($params['name'] ?? '');
 
+        if ($name == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
         $userId = $GLOBALS['userId'];
         $epResumeCateModel = new EpResumeCateModel();
         $arr = [
             'id' => $resumeCateId,
-            'userId' => $userId,
             'name' => $name,
             'updateTime' => currentTime(),
             'updateBy' => $userId
@@ -159,6 +173,9 @@ class ResumeData extends EpUserBase
         }
     }
 
+    /**
+     * 删除简历分类
+     */
     public function delResumeCate()
     {
         $params = Request::instance()->request();
@@ -194,6 +211,37 @@ class ResumeData extends EpUserBase
     }
 
     /**
+     * 分组  移动用户申请的简历到不同的类别
+     */
+    public function moveApplyResumeToCate(){
+        $params = Request::instance()->request();
+        $resumeId = Check::checkInteger($params['resumeId'] ?? ''); //简历id
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
+        $userId = $GLOBALS['userId'];
+
+        $arr = [
+            'resumeId' => $resumeId,
+            'resumeCateId' => $resumeCateId,
+            'userId' => $userId,
+            'createTime' => currentTime(),
+            'createBy' => $userId,
+            'updateTime' => currentTime(),
+            'updateBy' => $userId
+        ];
+
+        $epResumeCateModel = new EpResumeModel();
+        $insertRow = $epResumeCateModel->isUpdate(true)->save($arr);
+        if ($insertRow > 0) {
+            $data['insertRow'] = $insertRow;
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+            exit;
+        } else {
+            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '添加失败');
+            exit;
+        }
+    }
+
+    /**
      * 移动简历到简历分类中
      */
     public function moveResumeToCate()
@@ -225,51 +273,60 @@ class ResumeData extends EpUserBase
         }
     }
 
-    public function downLoadResume111()
-    {
-        $params = Request::instance()->request();
-        $resumeId = Check::checkInteger($params['resumeId'] ?? ''); //简历id
-        $userId = $GLOBALS['userId'];
+//    public function downLoadResume111()
+//    {
+//        $params = Request::instance()->request();
+//        $resumeId = Check::checkInteger($params['resumeId'] ?? ''); //简历id
+//        $userId = $GLOBALS['userId'];
+//
+//        $epResumeModel = new EpResumeModel();
+//        $date = date('Y-m-d', time());
+//        $count = $epResumeModel->getDownloadNumOneDay($date, $userId);
+//        if ($count > 100) {
+//            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '一天下载数量超出限制100');
+//            exit;
+//        }
+//        $arr = [
+//            'userId' => $userId,
+//            'resumeId' => $resumeId,
+//            'source' => 2,
+//            'createTime' => currentTime(),
+//            'createBy' => $userId,
+//            'updateTime' => currentTime(),
+//            'updateBy' => $userId
+//        ];
+//
+//        $insertRow = $epResumeModel->save($arr);
+//
+//        if ($insertRow > 0) {
+//            $data['insertRow'] = $insertRow;
+//            Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+//            exit;
+//        } else {
+//            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
+//            exit;
+//        }
+//
+//    }
 
-        $epResumeModel = new EpResumeModel();
-        $date = date('Y-m-d', time());
-        $count = $epResumeModel->getDownloadNumOneDay($date, $userId);
-        if ($count > 100) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '一天下载数量超出限制100');
-            exit;
-        }
-        $arr = [
-            'userId' => $userId,
-            'resumeId' => $resumeId,
-            'source' => 2,
-            'createTime' => currentTime(),
-            'createBy' => $userId,
-            'updateTime' => currentTime(),
-            'updateBy' => $userId
-        ];
 
-        $insertRow = $epResumeModel->save($arr);
-
-        if ($insertRow > 0) {
-            $data['insertRow'] = $insertRow;
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-            exit;
-        } else {
-            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
-            exit;
-        }
-
-    }
-
-
+    /**
+     * 下载简历  下载简历来源source是2  申请简历source来源是1
+     */
     public function downLoadResume()
     {
         $params = Request::instance()->request();
         $idCard = Check::check($params['idCard'] ?? ''); //身份证号
         $phone = Check::check($params['phone'] ?? ''); //手机号
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ??  0); //简历分组id
         $userId = $GLOBALS['userId'];
 
         $epResumeModel = new EpResumeModel();
+        if ($epResumeModel->resumeExistsSource2($userId, $idCard, $phone)) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '简历已经下载过了');
+            exit;
+        }
+
         $date = date('Y-m-d', time());
         $count = $epResumeModel->getDownloadNumOneDay($date, $userId);
         if ($count > 100) {
@@ -281,6 +338,7 @@ class ResumeData extends EpUserBase
             'resumeId' => 0,
             'idCard' => $idCard,
             'phone' => $phone,
+            'resumeCateId'=>$resumeCateId,
             'source' => 2,
             'createTime' => currentTime(),
             'createBy' => $userId,
@@ -304,12 +362,25 @@ class ResumeData extends EpUserBase
     /**
      * 获取企业用户的简历列表
      */
-    public function getDownloadResumeList()
+    public function getEpResumeList()
     {
         $userId = $GLOBALS['userId'];
         $epResumeModel = new EpResumeModel();
-        $list = $epResumeModel->getListByUserId($userId);
-        $data['list'] = $list;
+        $x = $epResumeModel->getEpResumeListApply($userId);
+        $downList = $epResumeModel->getDownResumeListByUserId($userId);
+        $resumeData = new DataResume();
+        $downResumeList = array();
+        if ($downList != null) {
+            $downListData = $downList->toArray();
+            foreach ($downListData as $k => $v) {
+                $idCard = $v['idCard'];
+                $phone = $v['phone'];
+                $detail = $resumeData->detail($idCard, $phone);
+                array_push($downResumeList, $detail);
+            }
+        }
+        $data['applyResumeList'] = $x;
+        $data['downloadResumeList'] = $downResumeList;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
