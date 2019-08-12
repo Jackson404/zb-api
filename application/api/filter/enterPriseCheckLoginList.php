@@ -20,7 +20,8 @@ $whiteList = [
     'api/v1.ep.ResumeData/editResumeCate',
     'api/v1.ep.ResumeData/delResumeCate',
     'api/v1.ep.ResumeData/getResumeCateList',
-    'api/v1.ep.ResumeData/moveResumeToCate',
     'api/v1.ep.ResumeData/downLoadResume',
     'api/v1.ep.ResumeData/getEpResumeList',
+    'api/v1.ep.ResumeData/moveResumeToCate',
+    'api/v1.ep.ResumeData/getEpResumeListByCate',
 ];

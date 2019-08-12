@@ -47,50 +47,50 @@ class EpOrderApply extends IndexBase
             exit;
         }
 
-
         $resumeModel = new ResumeModel();
         if ($resumeModel->checkUserHasCreateResume($applyUserId)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户已经创建过简历');
-            exit;
-        }
-
-        $data = [
-            'name' => $name,
-            'userId' => $applyUserId,
-            'phone' => $phone,
-            'gender' => $gender,
-            'age' => $age,
-            'workYear' => $workYear,
-            'education' => $education,
-            'salary' => $salary,
-            'skills' => $skills,
-            'selfEvaluation' => $selfEvaluation,
-            'militaryTime' => $militaryTime,
-            'attendedTime' => $attendedTime,
-            'corps' => $corps,
-            'exPosition' => $exPosition,
-            'nature' => $nature,
-            'exCity' => $exCity,
-            'curStatus' => $curStatus,
-            'arrivalTime' => $arrivalTime,
-            'isSoldierPriority' => $isSoldierPriority,
-            'isOpen' => 0,
-            'createTime' => currentTime(),
-            'createBy' => $applyUserId,
-            'updateTime' => currentTime(),
-            'updateBy' => $applyUserId
-        ];
-
-        $resumeModel->startTrans();
-        $insertRow = $resumeModel->save($data);
-
-        if ($insertRow > 0) {
-            $resumeId = $resumeModel->getLastInsID();
-            $resumeModel->commit();
+            $resume = $resumeModel->getUserResume($applyUserId);
+            $resumeData = $resume->toArray();
+            $resumeId = $resumeData['id'];
         } else {
-            $resumeModel->rollback();
-            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '简历创建失败');
-            exit;
+            $data = [
+                'name' => $name,
+                'userId' => $applyUserId,
+                'phone' => $phone,
+                'gender' => $gender,
+                'age' => $age,
+                'workYear' => $workYear,
+                'education' => $education,
+                'salary' => $salary,
+                'skills' => $skills,
+                'selfEvaluation' => $selfEvaluation,
+                'militaryTime' => $militaryTime,
+                'attendedTime' => $attendedTime,
+                'corps' => $corps,
+                'exPosition' => $exPosition,
+                'nature' => $nature,
+                'exCity' => $exCity,
+                'curStatus' => $curStatus,
+                'arrivalTime' => $arrivalTime,
+                'isSoldierPriority' => $isSoldierPriority,
+                'isOpen' => 0,
+                'createTime' => currentTime(),
+                'createBy' => $applyUserId,
+                'updateTime' => currentTime(),
+                'updateBy' => $applyUserId
+            ];
+
+            $resumeModel->startTrans();
+            $insertRow = $resumeModel->save($data);
+
+            if ($insertRow > 0) {
+                $resumeId = $resumeModel->getLastInsID();
+                $resumeModel->commit();
+            } else {
+                $resumeModel->rollback();
+                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '简历创建失败');
+                exit;
+            }
         }
 
         $epOrderApplyModel = new EpOrderApplyModel();
@@ -115,32 +115,39 @@ class EpOrderApply extends IndexBase
 
         $epResumeModel = new EpResumeModel();
         $epResumeModel->startTrans();
-        $arr = [
-            'userId' => $shareUserId,
-            'resumeId' => $resumeId,
-            'source' => 1,
-            'createTime' => currentTime(),
-            'createBy' => $shareUserId,
-            'updateTime' => currentTime(),
-            'updateBy' => $shareUserId
-        ];
 
-        $insertRow = $epResumeModel->save($arr);
-
-        if ($insertRow > 0) {
+        if ($epResumeModel->resumeExistsSource1($applyUserId, $resumeId)) {
             $epResumeModel->commit();
-            $x['insertRow'] = $insertRow;
+            $x['insertRow'] = $res;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $x);
             exit;
         } else {
-            $epResumeModel->rollback();
-            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
-            exit;
+            $arr = [
+                'userId' => $shareUserId,
+                'resumeId' => $resumeId,
+                'source' => 1,
+                'createTime' => currentTime(),
+                'createBy' => $shareUserId,
+                'updateTime' => currentTime(),
+                'updateBy' => $shareUserId
+            ];
+
+            $insertRow = $epResumeModel->save($arr);
+
+            if ($insertRow > 0) {
+                $epResumeModel->commit();
+                $x['insertRow'] = $insertRow;
+                Util::printResult($GLOBALS['ERROR_SUCCESS'], $x);
+                exit;
+            } else {
+                $epResumeModel->rollback();
+                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
+                exit;
+            }
         }
 
+
     }
-
-
 
 
 }

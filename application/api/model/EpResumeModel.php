@@ -11,6 +11,26 @@ class EpResumeModel extends Model
     protected $resultSetType = 'collection';
 
     /**
+     * 申请的简历是否存在
+     * @param $userId
+     * @param $resumeId
+     * @return bool
+     * @throws \think\Exception
+     */
+    public function resumeExistsSource1($userId, $resumeId)
+    {
+        $count = $this->where('userId', '=', $userId)
+            ->where('resumeId', '=', $resumeId)
+            ->where('isDelete', '=', 0)
+            ->count();
+        if ($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * 下载的简历是否存在
      * @param $userId
      * @param $idCard
@@ -65,7 +85,7 @@ class EpResumeModel extends Model
     }
 
     /**
-     * 获取
+     * 获取用户下载的简历列表
      * @param $userId
      * @return false|\PDOStatement|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
@@ -75,7 +95,7 @@ class EpResumeModel extends Model
     public function getDownResumeListByUserId($userId)
     {
         return $this->where('userId', '=', $userId)
-            ->where('source','=',2)
+            ->where('source', '=', 2)
             ->where('isDelete', '=', 0)
             ->select();
     }
@@ -93,12 +113,38 @@ class EpResumeModel extends Model
         return $this->alias('er')
             ->join('zb_resume r', 'er.resumeId=r.id', 'left')
             ->join('zb_user u', 'r.userId=u.id', 'left')
+            ->join('zb_enterprise_resume_cate c', 'er.resumeCateId=c.id', 'left')
             ->where('er.userId', '=', $userId)
             ->where('er.source', '=', 1)
             ->where('er.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.avatar,r.name,r.phone,r.gender,r.age,r.workYear,r.education,
+            ->field('er.id,er.resumeId,er.resumeCateId,c.name as resumeCateName,r.userId,u.avatar,r.name,r.phone,r.gender,r.age,r.workYear,r.education,
             r.skills,r.selfEvaluation,r.militaryTime,r.attendedTime,r.corps,r.exPosition,r.salary,
             r.nature,r.exCity,r.curStatus,r.arrivalTime,r.isSoldierPriority,r.createTime,r.createBy,r.updateTime,r.updateBy')
+            ->select();
+    }
+
+    public function getEpResumeListApplyByCate($userId,$resumeCateId)
+    {
+        return $this->alias('er')
+            ->join('zb_resume r', 'er.resumeId=r.id', 'left')
+            ->join('zb_user u', 'r.userId=u.id', 'left')
+            ->join('zb_enterprise_resume_cate c', 'er.resumeCateId=c.id', 'left')
+            ->where('er.userId', '=', $userId)
+            ->where('er.source', '=', 1)
+            ->where('er.resumeCateId','=',$resumeCateId)
+            ->where('er.isDelete', '=', 0)
+            ->field('er.id,er.resumeId,er.resumeCateId,c.name as resumeCateName,r.userId,u.avatar,r.name,r.phone,r.gender,r.age,r.workYear,r.education,
+            r.skills,r.selfEvaluation,r.militaryTime,r.attendedTime,r.corps,r.exPosition,r.salary,
+            r.nature,r.exCity,r.curStatus,r.arrivalTime,r.isSoldierPriority,r.createTime,r.createBy,r.updateTime,r.updateBy')
+            ->select();
+    }
+
+    public function getDownResumeListByUserIdWithCate($userId,$resumeCateId)
+    {
+        return $this->where('userId', '=', $userId)
+            ->where('resumeCateId','=',$resumeCateId)
+            ->where('source', '=', 2)
+            ->where('isDelete', '=', 0)
             ->select();
     }
 
