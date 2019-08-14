@@ -48,8 +48,6 @@ class EpOrder extends EpUserBase
         list($result, $total) = $positionModel->filterOrder($areaInfoSql, $priceOrderSql, $keywordsSql, $pageIndex, $pageSize);
 
         foreach ($result as $k => $v) {
-            // $result[$k]['createDate'] = date('Y-m-d',strtotime($v['createTime']));
-            // $result[$k]['updateDate'] = date('Y-m-d',strtotime($v['updateTime']));
             $result[$k]['labelIds'] = json_decode($v['labelIds'], true);
         }
 
@@ -156,7 +154,6 @@ class EpOrder extends EpUserBase
         $data['applyList'] = $applyList;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
-
 
 
 }

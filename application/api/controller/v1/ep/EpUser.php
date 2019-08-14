@@ -54,10 +54,10 @@ class EpUser extends EpUserBase
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $vCode = Check::check($params['vCode'] ?? '');
 
-//        if ($vCode == '') {
-//            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
-//            exit;
-//        }
+        if ($vCode == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
 
         $redis = new Redis();
         $verifyCode = $redis->get($phone);

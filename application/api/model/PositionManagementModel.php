@@ -22,7 +22,7 @@ class PositionManagementModel extends Model
             ->join('zb_company_management zco', 'p.companyId = zco.id', 'left')
             ->where('p.isDelete', '=', 0)
             ->where('p.id', '=', $positionId)
-            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
+            ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,zco.profile as companyProfile,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
             p.positionRequirement,p.isShow,p.applyCount,p.interviewAddress,p.interviewTime,p.unitPrice,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->find();
