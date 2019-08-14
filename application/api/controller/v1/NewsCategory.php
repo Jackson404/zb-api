@@ -19,7 +19,7 @@ class NewsCategory extends IndexBase
 
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
 
         $newsCategoryModel = new NewsCategoryModel();

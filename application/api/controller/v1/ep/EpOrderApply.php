@@ -18,7 +18,7 @@ class EpOrderApply extends IndexBase
      */
     public function apply()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $name = Check::check($params['name'] ?? '');
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $gender = Check::checkInteger($params['gender'] ?? 0);// 0 未知 1男 2 女

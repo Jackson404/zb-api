@@ -14,7 +14,7 @@ class News extends AdminBase
      */
     public function add()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
         $title = Check::check($params['title'] ?? '');
         $keywords = Check::check($params['keywords'] ?? '');
@@ -62,7 +62,7 @@ class News extends AdminBase
      */
     public function edit()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $newsId = Check::checkInteger($params['newsId'] ?? '');
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
         $title = Check::check($params['title'] ?? '');
@@ -109,7 +109,7 @@ class News extends AdminBase
      */
     public function del()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $newsId = Check::checkInteger($params['newsId'] ?? '');
 
         $newsModel = new NewsModel();
@@ -135,7 +135,7 @@ class News extends AdminBase
      */
     public function getByPageWithAdmin()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -163,7 +163,7 @@ class News extends AdminBase
      */
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $newsId = Check::checkInteger($params['newsId'] ?? '');
 
         $newsModel = new NewsModel();
@@ -205,7 +205,7 @@ class News extends AdminBase
      */
     public function getNewsPageByCateIdWithAdmin()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);

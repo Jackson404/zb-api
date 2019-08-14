@@ -14,7 +14,7 @@ class ResumeData extends EpUserBase
     public function filterResumeData()
     {
         ini_set('max_execution_time', 0);
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $posKey = Check::check($params['posKey'] ?? ''); //职位关键词
         $exWorkLocation = Check::check($params['exWorkLocation'] ?? '');//期望工作地点
         $workExp = Check::check($params['workExp'] ?? ''); //工作经验
@@ -111,7 +111,7 @@ class ResumeData extends EpUserBase
      */
     public function addResumeCate()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $name = Check::check($params['name'] ?? '');
 
         if ($name == '') {
@@ -146,7 +146,7 @@ class ResumeData extends EpUserBase
     public function editResumeCate()
     {
 
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
         $name = Check::check($params['name'] ?? '');
 
@@ -178,7 +178,7 @@ class ResumeData extends EpUserBase
      */
     public function delResumeCate()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
 
         $epResumeCateModel = new EpResumeCateModel();
@@ -216,7 +216,7 @@ class ResumeData extends EpUserBase
      */
     public function downLoadResume()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $idCard = Check::check($params['idCard'] ?? ''); //身份证号
         $phone = Check::check($params['phone'] ?? ''); //手机号
         $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? 0); //简历分组id
@@ -300,7 +300,7 @@ class ResumeData extends EpUserBase
      */
     public function moveResumeToCate()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $epResumeRecordId = Check::checkInteger($params['epResumeRecordId'] ?? ''); //企业简历的记录id
         $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
         $userId = $GLOBALS['userId'];
@@ -329,7 +329,7 @@ class ResumeData extends EpUserBase
     public function getEpResumeListByCate()
     {
         $userId = $GLOBALS['userId'];
-        $params  = Request::instance()->request();
+        $params  = Request::instance()->param();
         $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
 
         $epResumeModel = new EpResumeModel();

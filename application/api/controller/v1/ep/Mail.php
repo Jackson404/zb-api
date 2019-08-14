@@ -11,7 +11,7 @@ class Mail extends EpUserBase
 {
     public function send()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $toAddress = $params['toAddress'] ?? '';
         $toUsername = $params['toUsername'] ?? '';
         $title = $params['title'] ?? '';

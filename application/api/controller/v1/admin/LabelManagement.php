@@ -19,7 +19,7 @@ class LabelManagement extends AdminBase
      */
     public function add()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $name = Check::check($params['name'] ?? '');
         $userId = $GLOBALS['userId'];
 
@@ -61,7 +61,7 @@ class LabelManagement extends AdminBase
      */
     public function edit()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $labelId = Check::checkInteger($params['labelId'] ?? '');
         $name = Check::check($params['name'] ?? '');
         $userId = $GLOBALS['userId'];
@@ -100,7 +100,7 @@ class LabelManagement extends AdminBase
      */
     public function del()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $labelId = Check::checkInteger($params['labelId'] ?? '');
 
         $labelManagementModel = new LabelManagementModel();
@@ -125,7 +125,7 @@ class LabelManagement extends AdminBase
      */
     public function getByPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
         $labelManagementModel = new LabelManagementModel();
@@ -152,7 +152,7 @@ class LabelManagement extends AdminBase
      */
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $labelId = Check::checkInteger($params['labelId'] ?? '');
         $labelManagementModel = new LabelManagementModel();
         $detail = $labelManagementModel->getDetail($labelId);

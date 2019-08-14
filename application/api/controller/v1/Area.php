@@ -22,7 +22,7 @@ class Area extends Controller
     public function getCity()
     {
 
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $province = Check::check($params['province'] ?? '');
 
         $areaModel = new AreaModel();
@@ -35,7 +35,7 @@ class Area extends Controller
     public function getArea()
     {
 
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $city = Check::check($params['city'] ?? '');
 
         $areaModel = new AreaModel();
@@ -47,7 +47,7 @@ class Area extends Controller
 
     public function filterAreaInfo()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $info = Check::check($params['info'] ?? '');
 
         $areaModel = new AreaModel();

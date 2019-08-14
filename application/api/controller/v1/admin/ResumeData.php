@@ -15,7 +15,7 @@ class ResumeData extends Controller
     public function getByPage()
     {
         ini_set('max_execution_time', 0);
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
 
         $pageIndex = $params['pageIndex'] ?? 1;
         $pageSize = $params['pageSize'] ?? 10;
@@ -33,7 +33,7 @@ class ResumeData extends Controller
     public function filterResumeData()
     {
         ini_set('max_execution_time', 0);
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $posKey = Check::check($params['posKey'] ?? ''); //职位关键词
         $exWorkLocation = Check::check($params['exWorkLocation'] ?? '');//期望工作地点
         $workExp = Check::check($params['workExp'] ?? ''); //工作经验
@@ -128,7 +128,7 @@ class ResumeData extends Controller
 
     public function addRecord()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $recordName = $params['recordName'] ?? '';
         $remark = $params['remark'] ?? '';
         $posKey = $params['posKey'] ?? '';
@@ -172,7 +172,7 @@ class ResumeData extends Controller
 
     public function updateRecord()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $recordId = $params['recordId'] ?? '';
         $recordName = $params['recordName'] ?? '';
         $remark = $params['remark'] ?? '';
@@ -213,7 +213,7 @@ class ResumeData extends Controller
 
     public function getRecordByDate()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $date = $params['date'] ?? '';
         $dataResumeRecord = new DataResumeRecord();
         $list = $dataResumeRecord->getRecordListByDate($date);
@@ -224,7 +224,7 @@ class ResumeData extends Controller
 
     public function addStar()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $idCard = $params['idCard'] ?? '';
         $phone = $params['phone'] ?? '';
         $type = $params['type'] ?? 1;
@@ -237,7 +237,7 @@ class ResumeData extends Controller
 
     public function edit()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $idCard = $params['idCard'] ?? '';
         $phone = $params['phone'] ?? '';
         $name = $params['name'] ?? '';
@@ -294,7 +294,7 @@ class ResumeData extends Controller
      */
     public function delResume()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $idCard = $params['idCard'] ?? '';
         $phone = $params['phone'] ?? '';
 
@@ -307,7 +307,7 @@ class ResumeData extends Controller
 
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $idCard = $params['idCard'] ?? '';
         $phone = $params['phone'] ?? '';
 

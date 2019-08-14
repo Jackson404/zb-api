@@ -19,7 +19,7 @@ class User extends IndexBase
 {
     public function sendSms()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $phone = Check::check($params['phone'] ?? '', 11, 11);
 
         $signName = '正步网络科技';
@@ -44,7 +44,7 @@ class User extends IndexBase
 
     public function login()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $vCode = Check::check($params['vCode'] ?? '');
         $miniOpenId = Check::check($params['miniOpenId'] ?? '');
@@ -156,7 +156,7 @@ class User extends IndexBase
 
     public function changePhone()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $vCode = Check::check($params['vCode'] ?? '');
         $userId = $GLOBALS['userId'];
@@ -226,7 +226,7 @@ class User extends IndexBase
 
     public function checkLogin()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $id_token = $params['id_token'] ?? '';
 
         if (!$id_token || $id_token == '') {
@@ -306,7 +306,7 @@ class User extends IndexBase
     // 小程序默认登录
     public function codeToSession()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $code = $params['code'] ?? '';
         if ($code == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
@@ -403,7 +403,7 @@ class User extends IndexBase
 
     public function bindMiniOpenIdWithPhone()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $miniOpenId = Check::check($params['miniOpenId'] ?? '');
 
@@ -517,7 +517,7 @@ class User extends IndexBase
     //获取手机号
     public function number()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $appid = $params['appid'] ?? '';
         $secret = $params['secret'] ?? '';
         $jsCode = $params['jsCode'] ?? '';

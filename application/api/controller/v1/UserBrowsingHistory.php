@@ -15,7 +15,7 @@ class UserBrowsingHistory extends IndexBase
      */
     public function addPositionRecord()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? '');
         $userId = $GLOBALS['userId'];
 

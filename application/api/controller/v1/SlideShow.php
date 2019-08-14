@@ -20,7 +20,7 @@ class SlideShow extends IndexBase
      */
     public function getAll()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $type = Check::checkInteger($params['type'] ?? 1);
 
         // 使用闭包查询
@@ -39,7 +39,7 @@ class SlideShow extends IndexBase
 
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $slideShowId = $params['id'] ?? '';
         if ($slideShowId == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');

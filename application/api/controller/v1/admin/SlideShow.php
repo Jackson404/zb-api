@@ -20,7 +20,7 @@ class SlideShow extends AdminBase
      */
     public function add()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $imgUrl = Check::check($params['imgUrl'] ?? '');
         $imgUrl = stripslashes($imgUrl);
         $turnUrl = $params['turnUrl'] ?? '';
@@ -61,7 +61,7 @@ class SlideShow extends AdminBase
      */
     public function edit()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $slideShowId = Check::checkInteger($params['id'] ?? '');
         $imgUrl = Check::check($params['imgUrl'] ?? '');
         $imgUrl = stripslashes($imgUrl);
@@ -104,7 +104,7 @@ class SlideShow extends AdminBase
      */
     public function getAll()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $type = Check::checkInteger($params['type'] ?? 1);
 
         // 使用闭包查询
@@ -127,7 +127,7 @@ class SlideShow extends AdminBase
      */
     public function delById()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $slideShowId = $params['id'] ?? '';
         if ($slideShowId == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
@@ -153,7 +153,7 @@ class SlideShow extends AdminBase
      */
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $slideShowId = $params['id'] ?? '';
         if ($slideShowId == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');

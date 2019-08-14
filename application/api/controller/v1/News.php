@@ -11,7 +11,7 @@ class News extends IndexBase
 {
     public function getByPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -35,7 +35,7 @@ class News extends IndexBase
 
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $newsId = Check::checkInteger($params['newsId'] ?? '');
 
         $newsModel = new NewsModel();
@@ -74,7 +74,7 @@ class News extends IndexBase
 
     public function getNewsPageByCateId()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);

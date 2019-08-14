@@ -16,7 +16,7 @@ class EpOrder extends EpUserBase
      */
     public function filter()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $areaInfo = Check::check($params['areaInfo'] ?? '');  //区域信息
         $priceOrder = Check::checkInteger($params['priceOrder'] ?? 1); //价格高低  1高-低   0低-高
         $keywords = Check::check($params['keywords'] ?? ''); //搜索关键词
@@ -65,7 +65,7 @@ class EpOrder extends EpUserBase
      */
     public function getDetailWithLogin()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $epOrderModel = new EpOrderModel();
         $userId = $GLOBALS['userId'];
@@ -90,7 +90,7 @@ class EpOrder extends EpUserBase
      */
     public function getDetailNoLogin()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
 
         $positionManagementModel = new PositionManagementModel();
@@ -108,7 +108,7 @@ class EpOrder extends EpUserBase
      */
     public function getOrderList()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $orderDate = $params['orderDate'] ?? ''; //筛选订单时间
         $isFinish = $params['isFinish'] ?? 1; //默认已完成
 
@@ -140,7 +140,7 @@ class EpOrder extends EpUserBase
      */
     public function getOrderDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $orderId = Check::check($params['orderId'] ?? ''); //订单id
         $epOrderModel = new EpOrderModel();
         $detail = $epOrderModel->getDetailByOrderId($orderId);

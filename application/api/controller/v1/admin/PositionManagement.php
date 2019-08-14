@@ -16,7 +16,7 @@ class PositionManagement extends AdminBase
     public function add()
     {
 
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionCateId = Check::checkInteger($params['positionCateId'] ?? ''); // 职位类别
         $name = Check::check($params['name'] ?? ''); // 职位名字
         $companyId = Check::checkInteger($params['companyId'] ?? ''); //公司id
@@ -116,7 +116,7 @@ class PositionManagement extends AdminBase
     public function edit()
     {
 
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionCateId = Check::checkInteger($params['positionCateId'] ?? ''); // 职位类别
         $name = Check::check($params['name'] ?? ''); // 职位名字
@@ -217,7 +217,7 @@ class PositionManagement extends AdminBase
      */
     public function del()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionManagementModel = new PositionManagementModel();
 
@@ -248,7 +248,7 @@ class PositionManagement extends AdminBase
      */
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionManagementModel = new PositionManagementModel();
         $detail = $positionManagementModel->getDetail($positionId);
@@ -264,7 +264,7 @@ class PositionManagement extends AdminBase
      */
     public function getByPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -289,7 +289,7 @@ class PositionManagement extends AdminBase
      */
     public function search()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $searchValue = Check::check($params['searchValue'] ?? '');
 
         $positionModel = New PositionManagementModel();
@@ -308,7 +308,7 @@ class PositionManagement extends AdminBase
      */
     public function filter()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
 
         $positionCateId = Check::checkInteger($params['positionCateId'] ?? 0); // 职位分类id
         $salary = Check::check($params['salary'] ?? ''); // 薪资
@@ -440,7 +440,7 @@ class PositionManagement extends AdminBase
      */
     public function isHot()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? '');
         $userId = $GLOBALS['userId'];
 
@@ -462,7 +462,7 @@ class PositionManagement extends AdminBase
      */
     public function getPositionPageByCompanyId()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $companyId = Check::checkInteger($params['companyId'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);

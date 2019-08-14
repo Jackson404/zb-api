@@ -16,7 +16,7 @@ class Resume extends AdminBase
      */
     public function getByPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -31,7 +31,7 @@ class Resume extends AdminBase
      */
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $resumeId = Check::checkInteger($params['resumeId'] ?? ''); // 简历id
         $resumeModel = new ResumeModel();
         $detail = $resumeModel->getDetail($resumeId);
@@ -45,7 +45,7 @@ class Resume extends AdminBase
     public function getResumeApplyList()
     {
 
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $resumeId = Check::checkInteger($params['resumeId'] ?? ''); //简历id
         $userApplyPositionModel = new UserApplyPositionModel();
         $list = $userApplyPositionModel->getResumeApplyList($resumeId);
@@ -58,7 +58,7 @@ class Resume extends AdminBase
      */
     public function getResumeApplyPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $resumeId = Check::checkInteger($params['resumeId'] ?? ''); //简历id
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
@@ -81,7 +81,7 @@ class Resume extends AdminBase
      * 分页获取职位下的简历列表
      */
     public function getResumePageByPositionId(){
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);

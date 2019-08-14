@@ -15,7 +15,7 @@ class Industry extends AuthBase
      */
     public function getAllByTree()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $type = Check::checkInteger($params['type'] ?? 0); //默认0
 
         $industryModel = new IndustryModel();
@@ -36,7 +36,7 @@ class Industry extends AuthBase
      */
     public function getTopIndustryPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -62,7 +62,7 @@ class Industry extends AuthBase
      */
     public function getNextIndustryPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $code = Check::checkInteger($params['code'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
@@ -78,7 +78,7 @@ class Industry extends AuthBase
      */
     public function getAllNextIndustry()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $code = Check::checkInteger($params['code'] ?? '');
         $industryModel = new IndustryModel();
         $result = $industryModel->getAllNextIndustry($code);
@@ -91,7 +91,7 @@ class Industry extends AuthBase
      */
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $industryId = Check::checkInteger($params['industryId'] ?? '');
         $industryModel = new IndustryModel();
         $detail = $industryModel->getDetail($industryId);
@@ -101,7 +101,7 @@ class Industry extends AuthBase
 
     public function filterIndustryInfo()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $info = Check::check($params['info'] ?? '');
         $industryModel = new IndustryModel();
         $r = $industryModel->allIndustryInfo();

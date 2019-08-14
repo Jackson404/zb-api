@@ -12,7 +12,7 @@ class PositionManagement extends IndexBase
 
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionManagementModel = new PositionManagementModel();
         $detail = $positionManagementModel->getDetail($positionId);
@@ -25,7 +25,7 @@ class PositionManagement extends IndexBase
 
     public function getByPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -49,7 +49,7 @@ class PositionManagement extends IndexBase
 
     public function search()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $searchValue = Check::check($params['searchValue'] ?? '');
 
         $positionModel = New PositionManagementModel();
@@ -70,7 +70,7 @@ class PositionManagement extends IndexBase
      */
     public function filter()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
 
         $positionCateId = Check::checkInteger($params['positionCateId'] ?? 0); // 职位分类id
         $salary = Check::check($params['salary'] ?? ''); // 薪资
@@ -197,7 +197,7 @@ class PositionManagement extends IndexBase
 
     public function getPositionPageByCompanyId()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $companyId = Check::checkInteger($params['companyId'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);

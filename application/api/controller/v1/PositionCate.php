@@ -35,7 +35,7 @@ class PositionCate extends IndexBase
      */
     public function getAllByTree()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $type = Check::checkInteger($params['type'] ?? 0); //默认0
 
         $cateModel = new PositionCateModel();
@@ -56,7 +56,7 @@ class PositionCate extends IndexBase
      */
     public function getTopCategoryPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -79,7 +79,7 @@ class PositionCate extends IndexBase
      */
     public function getNextCategory()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
@@ -92,7 +92,7 @@ class PositionCate extends IndexBase
 
     public function getAllNextCategory()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
 
         $positionCateModel = new PositionCateModel();
@@ -107,7 +107,7 @@ class PositionCate extends IndexBase
      */
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
 
         $categoryManagementModel = new PositionCateModel();

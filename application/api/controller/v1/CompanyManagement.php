@@ -11,7 +11,7 @@ class CompanyManagement extends IndexBase
 {
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $companyId = Check::checkInteger($params['companyId'] ?? '');
 
         $companyManagementModel = new CompanyManagementModel();
@@ -27,7 +27,7 @@ class CompanyManagement extends IndexBase
 
     public function getByPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -63,7 +63,7 @@ class CompanyManagement extends IndexBase
 
     public function filterCompanyPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $areaInfo = Check::check($params['areaInfo'] ?? '');
         $industryInfo = Check::check($params['industryInfo'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
@@ -86,7 +86,7 @@ class CompanyManagement extends IndexBase
 
     public function filterCompanyByIndustryInfoPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $info = Check::check($params['info'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);

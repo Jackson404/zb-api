@@ -16,6 +16,7 @@ use OSS\Core\OssException;
 use OSS\OssClient;
 use Sms;
 use think\cache\driver\Redis;
+use think\Controller;
 use think\Exception;
 use think\Request;
 use Util\Check;
@@ -25,7 +26,7 @@ class EpUser extends EpUserBase
 {
     public function sendSms()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $phone = Check::check($params['phone'] ?? '', 11, 11);
 
         $signName = '正步网络科技';
@@ -50,7 +51,7 @@ class EpUser extends EpUserBase
 
     public function login()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $vCode = Check::check($params['vCode'] ?? '');
 
@@ -136,7 +137,7 @@ class EpUser extends EpUserBase
 
     public function checkLogin()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $id_token = $params['id_token'] ?? '';
 
         if (!$id_token || $id_token == '') {
@@ -166,7 +167,7 @@ class EpUser extends EpUserBase
      */
     public function epCertification()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $realname = Check::check($params['realname'] ?? '');
         $realphone = Check::check($params['realphone'] ?? '', 1, 11);
         $idCard = Check::check($params['idCard'] ?? '', 1, 20);
@@ -234,7 +235,7 @@ class EpUser extends EpUserBase
      */
     public function pCertification()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $companyName = Check::check($params['companyName'] ?? '');
         $realname = Check::check($params['realname'] ?? '');
         $realphone = Check::check($params['realphone'] ?? '', 1, 11);
@@ -308,7 +309,7 @@ class EpUser extends EpUserBase
      */
     public function review()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $certId = Check::checkInteger($params['certId'] ?? ''); //审核的id
         $pass = Check::check($params['pass'] ?? ''); // 1通过 -1 拒绝
 //        $epUserId = $GLOBALS['userId'];
@@ -376,7 +377,7 @@ class EpUser extends EpUserBase
      */
     public function getEmListByGroupId()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $groupId = Check::checkInteger($params['groupId'] ?? '');
         $epUserCertModel = new EpUserCertModel();
         $res = $epUserCertModel->getEmApplyListByGroupId($groupId);
@@ -390,7 +391,7 @@ class EpUser extends EpUserBase
      */
     public function addEmGroup()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $groupName = Check::check($params['groupName'] ?? ''); //组名
         $epUserId = $GLOBALS['userId'];
 
@@ -421,7 +422,7 @@ class EpUser extends EpUserBase
      */
     public function editEmGroup()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $groupId = Check::checkInteger($params['groupId'] ?? ''); //组别id
         $groupName = Check::check($params['groupName'] ?? ''); //组名
         $epUserId = $GLOBALS['userId'];
@@ -447,7 +448,7 @@ class EpUser extends EpUserBase
      */
     public function delEmGroup()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $groupId = Check::checkInteger($params['groupId'] ?? ''); //组别id
         $epUserId = $GLOBALS['userId'];
 
@@ -493,7 +494,7 @@ class EpUser extends EpUserBase
      */
     public function changeEmGroupByEpUser()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $certId = Check::checkInteger($params['certId'] ?? ''); //员工认证id
         $groupId = Check::checkInteger($params['groupId'] ?? ''); //组别id
 
@@ -528,7 +529,7 @@ class EpUser extends EpUserBase
      */
     public function receiveOrder()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? '');
         $userId = $GLOBALS['userId'];
         $epOrderModel = new EpOrderModel();
@@ -593,7 +594,7 @@ class EpUser extends EpUserBase
      */
     public function receiveOrder111()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? '');
         $userId = $GLOBALS['userId'];
         $epOrderModel = new EpOrderModel();

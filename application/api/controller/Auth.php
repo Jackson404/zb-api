@@ -11,7 +11,7 @@ class Auth extends Controller
 {
     public function getToken()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $grantType = $params['grantType'] ?? '';
         $webId = $params['webId'] ?? '';
         $secret = $params['webSecret'] ?? '';
@@ -52,7 +52,7 @@ class Auth extends Controller
     public function respond()
     {
         //验证身份
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $accessToken = $params['accessToken'] ?? '';
 
 

@@ -14,7 +14,7 @@ class EpUserCert extends AdminBase
      */
     public function review()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $certId = Check::checkInteger($params['certId'] ?? '');
         $pass = Check::checkInteger($params['pass'] ?? ''); // -1 不通过 1通过
 

@@ -17,7 +17,7 @@ class Resume extends IndexBase
     public function add()
     {
         $userId = $GLOBALS['userId'];
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $name = Check::check($params['name'] ?? '');
         $phone = Check::check($params['phone'] ?? '', 11, 11);
         $gender = Check::checkInteger($params['gender'] ?? 0);// 0 未知 1男 2 女
@@ -93,7 +93,7 @@ class Resume extends IndexBase
     public function edit()
     {
         $userId = $GLOBALS['userId'];
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $resumeId = Check::checkInteger($params['resumeId'] ?? ''); // 简历id
         $name = Check::check($params['name'] ?? '');
         $phone = Check::check($params['phone'] ?? '', 11, 11);
@@ -157,7 +157,7 @@ class Resume extends IndexBase
     public function del()
     {
         $userId = $GLOBALS['userId'];
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $resumeId = Check::checkInteger($params['resumeId'] ?? ''); // 简历id
 
         $resumeModel = new ResumeModel();
@@ -190,7 +190,7 @@ class Resume extends IndexBase
      */
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $resumeId = Check::checkInteger($params['resumeId'] ?? ''); // 简历id
         $resumeModel = new ResumeModel();
         $detail = $resumeModel->getDetail($resumeId);
@@ -204,7 +204,7 @@ class Resume extends IndexBase
     public function addResumeAndApplyPosition()
     {
         $userId = $GLOBALS['userId'];
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
 
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
 
@@ -312,7 +312,7 @@ class Resume extends IndexBase
     public function applyPosition()
     {
         $userId = $GLOBALS['userId'];
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? '');//职位id
 
         $resumeModel = new ResumeModel();
@@ -391,7 +391,7 @@ class Resume extends IndexBase
     public function getResumeApplyList()
     {
 
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $resumeId = Check::checkInteger($params['resumeId'] ?? ''); //简历id
         $userApplyPositionModel = new UserApplyPositionModel();
         $list = $userApplyPositionModel->getResumeApplyList($resumeId);
@@ -404,7 +404,7 @@ class Resume extends IndexBase
      */
     public function getResumeApplyPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $resumeId = Check::checkInteger($params['resumeId'] ?? ''); //简历id
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
@@ -425,7 +425,7 @@ class Resume extends IndexBase
 
     public function getResumePageByPositionId()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);

@@ -11,7 +11,7 @@ class NewsCategory extends AdminBase
 {
     public function add()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $name = Check::check($params['name'] ?? '');
         $userId = $GLOBALS['userId'];
 
@@ -47,7 +47,7 @@ class NewsCategory extends AdminBase
 
     public function edit()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
         $name = Check::check($params['name'] ?? '');
         $userId = $GLOBALS['userId'];
@@ -85,7 +85,7 @@ class NewsCategory extends AdminBase
 
     public function del()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
 
         $newsCategoryModel = new NewsCategoryModel();
@@ -116,7 +116,7 @@ class NewsCategory extends AdminBase
 
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
 
         $newsCategoryModel = new NewsCategoryModel();

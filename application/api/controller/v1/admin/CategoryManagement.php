@@ -14,7 +14,7 @@ class CategoryManagement extends AdminBase
      */
     public function add()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $name = $params['name'] ?? '';
         $pid = Check::checkInteger($params['pid'] ?? 0);
 
@@ -59,7 +59,7 @@ class CategoryManagement extends AdminBase
      */
     public function edit()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
         $name = Check::check($params['name'] ?? '');
         $pid = Check::checkInteger($params['pid'] ?? '');
@@ -100,7 +100,7 @@ class CategoryManagement extends AdminBase
      */
     public function getAllByTree()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $type = Check::checkInteger($params['type'] ?? 0); //默认0
 
         $cateModel = new CategoryManagementModel();
@@ -121,7 +121,7 @@ class CategoryManagement extends AdminBase
      */
     public function getTopCategoryPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -144,7 +144,7 @@ class CategoryManagement extends AdminBase
      */
     public function getNextCategory()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
@@ -157,7 +157,7 @@ class CategoryManagement extends AdminBase
 
     public function getAllNextCategory()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
 
         $categoryManagementModel = new CategoryManagementModel();
@@ -172,7 +172,7 @@ class CategoryManagement extends AdminBase
      */
     public function del()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
 
         $result = CategoryManagementModel::all(['isDelete' => 0]);
@@ -194,7 +194,7 @@ class CategoryManagement extends AdminBase
      */
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
 
         $categoryManagementModel = new CategoryManagementModel();

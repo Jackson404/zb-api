@@ -14,7 +14,7 @@ class AdminUser extends AuthBase
 //     */
 //    public function register()
 //    {
-//        $params = Request::instance()->request();
+//        $params = Request::instance()->param();
 //        $username = $params['username'] ?? '';
 //        $password = $params['password'] ?? '';
 //
@@ -53,7 +53,7 @@ class AdminUser extends AuthBase
      */
     public function login()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $username = $params['username'] ?? '';
         $password = $params['password'] ?? '';
 
@@ -111,7 +111,7 @@ class AdminUser extends AuthBase
      */
     public function checkLogin()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $id_token = $params['id_token'] ?? '';
 
         if (!$id_token || $id_token == '') {

@@ -14,7 +14,7 @@ class CompanyManagement extends AdminBase
      */
     public function add()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $industryId = Check::check($params['industryId'] ?? ''); //行业分类
         $name = Check::check($params['name'] ?? '');
         $province = Check::check($params['province'] ?? ''); //省份
@@ -88,7 +88,7 @@ class CompanyManagement extends AdminBase
      */
     public function edit()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $companyId = Check::checkInteger($params['companyId'] ?? '');
         $industryId = Check::check($params['industryId'] ?? ''); // 行业分类
         $name = Check::check($params['name'] ?? '');
@@ -161,7 +161,7 @@ class CompanyManagement extends AdminBase
      */
     public function del()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $companyId = Check::checkInteger($params['companyId'] ?? '');
         $companyManagementModel = new CompanyManagementModel();
         $data = [
@@ -184,7 +184,7 @@ class CompanyManagement extends AdminBase
      */
     public function getDetail()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $companyId = Check::checkInteger($params['companyId'] ?? '');
 
         $companyManagementModel = new CompanyManagementModel();
@@ -203,7 +203,7 @@ class CompanyManagement extends AdminBase
      */
     public function getByPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -245,7 +245,7 @@ class CompanyManagement extends AdminBase
      */
     public function filterCompanyPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $areaInfo = Check::check($params['areaInfo'] ?? '');
         $industryInfo = Check::check($params['industryInfo'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
@@ -271,7 +271,7 @@ class CompanyManagement extends AdminBase
      */
     public function filterCompanyByIndustryInfoPage()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $info = Check::check($params['info'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);

@@ -11,7 +11,7 @@ class UserPositionIntension extends IndexBase
 {
     public function add()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
         $exPosition = Check::check($params['exPosition'] ?? ''); //期望职位
         $nature = Check::check($params['nature'] ?? ''); //期望工作性质
         $exCity = Check::check($params['exCity'] ?? ''); //期望城市
@@ -46,7 +46,7 @@ class UserPositionIntension extends IndexBase
 
     public function edit()
     {
-        $params = Request::instance()->request();
+        $params = Request::instance()->param();
 
         $exPosition = Check::check($params['exPosition'] ?? ''); //期望职位
         $nature = Check::check($params['nature'] ?? ''); //期望工作性质
