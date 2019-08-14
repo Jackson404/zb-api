@@ -13,6 +13,7 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
+//    'hostname'=>'zhengbu123.mysql.rds.aliyuncs.com',
 //    'hostname'        => '47.103.102.222',
     'hostname'        => '127.0.0.1',
     // 数据库名

@@ -16,7 +16,6 @@ use OSS\Core\OssException;
 use OSS\OssClient;
 use Sms;
 use think\cache\driver\Redis;
-use think\Controller;
 use think\Exception;
 use think\Request;
 use Util\Check;

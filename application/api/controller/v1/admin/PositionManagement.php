@@ -45,10 +45,10 @@ class PositionManagement extends AdminBase
             exit;
         }
 
-        if ($positionManagementModel->checkName($name)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字重复');
-            exit;
-        }
+//        if ($positionManagementModel->checkName($name)) {
+//            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字重复');
+//            exit;
+//        }
 
         if ($labelIds != '') {
             $labelIdArr = explode(',', $labelIds);
