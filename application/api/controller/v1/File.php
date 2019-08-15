@@ -27,6 +27,12 @@ class File extends AuthBase
     public function oss()
     {
         $file = Request::instance()->file('img');
+
+        if ($file == null) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '参数错误');
+            exit;
+        }
+
         $tmpInfo = $file->getInfo();
         $object = $tmpInfo['name'];
         $filepath = $tmpInfo['tmp_name'];

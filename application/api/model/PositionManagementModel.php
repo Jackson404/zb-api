@@ -69,11 +69,11 @@ class PositionManagementModel extends Model
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
             p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->order('p.id', 'desc')
-            ->limit(0,$limit)
+            ->limit(0, $limit)
             ->select();
     }
 
-    public function getPageBySolider($solider,$pageIndex, $pageSize)
+    public function getPageBySolider($solider, $pageIndex, $pageSize)
     {
         $config = [
             'list_rows' => $pageSize,
@@ -82,7 +82,7 @@ class PositionManagementModel extends Model
         return $this->alias('p')
             ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id', 'left')
             ->join('zb_company_management zco', 'p.companyId = zco.id', 'left')
-            ->where('p.isSoldierPriority','=',$solider)
+            ->where('p.isSoldierPriority', '=', $solider)
             ->where('p.isDelete', '=', 0)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
@@ -91,18 +91,18 @@ class PositionManagementModel extends Model
             ->paginate(null, false, $config);
     }
 
-    public function getLimitBySolider($solider,$limit)
+    public function getLimitBySolider($solider, $limit)
     {
         return $this->alias('p')
             ->join('zb_position_cate zcm', 'p.positionCateId = zcm.id', 'left')
             ->join('zb_company_management zco', 'p.companyId = zco.id', 'left')
-            ->where('p.isSoldierPriority','=',$solider)
+            ->where('p.isSoldierPriority', '=', $solider)
             ->where('p.isDelete', '=', 0)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
             p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->order('p.id', 'desc')
-            ->limit(0,$limit)
+            ->limit(0, $limit)
             ->select();
     }
 
@@ -138,9 +138,12 @@ class PositionManagementModel extends Model
     }
 
 
-    public function checkName($name)
+    public function checkName($name, $companyId)
     {
-        $count = $this->where('name', 'eq', $name)->where('isDelete', 'eq', 0)->count();
+        $count = $this->where('name', 'eq', $name)
+            ->where('companyId', 'eq', $companyId)
+            ->where('isDelete', 'eq', 0)
+            ->count();
 
         if ($count > 0) {
             return true;
@@ -209,12 +212,12 @@ class PositionManagementModel extends Model
             p.positionRequirement,p.isShow,p.applyCount,p.interviewAddress,p.interviewTime,p.unitPrice,p.createTime,p.createBy,p.updateTime,p.updateBy FROM zb_position_management as p
             LEFT JOIN zb_position_cate as zcm ON p.positionCateId = zcm.id 
             LEFT JOIN zb_company_management as zco ON p.companyId = zco.id 
-            WHERE p.isDelete = 0 and p.interviewTime>=unix_timestamp(now())    $areaInfoSql $keywordsSql   $priceOrderSql limit $offset,$pageSize";
+            WHERE p.isDelete = 0 and p.interviewTime>=unix_timestamp(now()) and p.positionType =2   $areaInfoSql $keywordsSql   $priceOrderSql limit $offset,$pageSize";
 
         $countSql = "SELECT count('p.*') FROM zb_position_management as p
             LEFT JOIN zb_position_cate as zcm ON p.positionCateId = zcm.id 
             LEFT JOIN zb_company_management as zco ON p.companyId = zco.id 
-            WHERE p.isDelete = 0 and p.interviewTime>=unix_timestamp(now())    $areaInfoSql $keywordsSql ";
+            WHERE p.isDelete = 0 and p.interviewTime>=unix_timestamp(now())  and p.positionType =2    $areaInfoSql $keywordsSql ";
 
         $result = $this->query($sql);
         $countResult = $this->query($countSql);
@@ -264,7 +267,7 @@ class PositionManagementModel extends Model
             ->select();
     }
 
-    public function getRandomPositionListLimit($positionId,$limit)
+    public function getRandomPositionListLimit($positionId, $limit)
     {
         $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,
             p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address,p.applyCount,p.interviewTime,p.unitPrice FROM zb_position_management as p 
@@ -276,7 +279,7 @@ class PositionManagementModel extends Model
 
     }
 
-    public function getRandomPositionOrderListLimit($positionId,$limit)
+    public function getRandomPositionOrderListLimit($positionId, $limit)
     {
         $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,
             p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address,p.applyCount,p.interviewAddress,

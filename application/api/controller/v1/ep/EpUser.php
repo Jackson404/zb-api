@@ -23,6 +23,9 @@ use Util\Util;
 
 class EpUser extends EpUserBase
 {
+    /**
+     * 发送验证码
+     */
     public function sendSms()
     {
         $params = Request::instance()->param();
@@ -48,6 +51,10 @@ class EpUser extends EpUserBase
         }
     }
 
+    /**
+     * 用户登录
+     * @throws Exception
+     */
     public function login()
     {
         $params = Request::instance()->param();
@@ -134,6 +141,9 @@ class EpUser extends EpUserBase
         }
     }
 
+    /**
+     * 检查用户是否登录
+     */
     public function checkLogin()
     {
         $params = Request::instance()->param();
@@ -162,7 +172,7 @@ class EpUser extends EpUserBase
     }
 
     /**
-     * 添加企业认证审核
+     * 企业认证审核 添加
      */
     public function epCertification()
     {
@@ -179,7 +189,8 @@ class EpUser extends EpUserBase
 
         $userId = $GLOBALS['userId'];
 
-        if ($realname == '' || $realphone == '' || $idCard == '' || $idCardFrontPic == '' || $idCardBackPic == '' || $companyAddr == '' || $companyName == '' || $businessLic == '' || $otherQuaLic == '') {
+        if ($realname == '' || $realphone == '' || $idCard == '' || $idCardFrontPic == '' || $idCardBackPic == ''
+            || $companyAddr == '' || $companyName == '' || $businessLic == '' || $otherQuaLic == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
@@ -356,8 +367,8 @@ class EpUser extends EpUserBase
         $epCertModel = new EpCertModel();
         $res = $epCertModel->getByUserIdAndType($epUserId, 1);
         $resData = $res->toArray();
-        if ($resData == null){
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'],'没有员工');
+        if ($resData == null) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '没有员工');
             exit;
         }
         $epId = $resData['epId'];

@@ -95,10 +95,8 @@ class EpOrder extends EpUserBase
 
         $positionManagementModel = new PositionManagementModel();
         $detail = $positionManagementModel->getDetail($positionId);
-//        $randomList = $positionManagementModel->getRandomPositionOrderListLimit($positionId, 2);
         $detail['labelIds'] = json_decode($detail['labelIds'], true);
         $data['detail'] = $detail;
-//        $data['randomList'] = $randomList;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 

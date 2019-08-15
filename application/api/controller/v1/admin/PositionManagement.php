@@ -32,9 +32,12 @@ class PositionManagement extends AdminBase
         $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
         $positionRequirement = stripslashes($positionRequirement);
         $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
+
         $interviewAddress = Check::check($params['interviewAddress'] ?? ''); //面试地点
-        $interviewTime = Check::check($params['interviewTime'] ?? 0); //面试时间
         $unitPrice = Check::check($params['unitPrice'] ?? 0); //接单价格
+        $interviewTime = Check::check($params['interviewTime'] ?? 0); //面试时间
+        $endTime = Check::check($params['endTime'] ?? 0);   //订单结束时间
+        $positionType = Check::checkInteger($params['positionType'] ?? 1);  //1 c端职位  2职位订单
 
         $userId = $GLOBALS['userId'];
 
@@ -45,109 +48,7 @@ class PositionManagement extends AdminBase
             exit;
         }
 
-//        if ($positionManagementModel->checkName($name)) {
-//            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字重复');
-//            exit;
-//        }
-
-        if ($labelIds != '') {
-            $labelIdArr = explode(',', $labelIds);
-            $labelIdsJson = json_encode($labelIdArr, JSON_UNESCAPED_UNICODE);
-        } else {
-            $labelIdsJson = json_encode(array());
-        }
-
-        if ($minPay == 0 && $maxPay == 0) {
-            $pay = 0;
-        } else {
-            $pay = $minPay . '-' . $maxPay;
-        }
-
-        if ($minWorkExp == 0 && $maxWorkExp == 0) {
-            $workExp = 0;
-        } else {
-            $workExp = $minWorkExp . '~' . $maxWorkExp;
-        }
-
-        $data = [
-            'positionCateId' => $positionCateId,
-            'name' => $name,
-            'companyId' => $companyId,
-            'minPay' => $minPay,
-            'maxPay' => $maxPay,
-            'pay' => $pay,
-            'minWorkExp' => $minWorkExp,
-            'maxWorkExp' => $maxWorkExp,
-            'workExp' => $workExp,
-            'education' => $education,
-            'age' => $age,
-            'num' => $num,
-            'labelIds' => $labelIdsJson,
-            'isSoldierPriority' => $isSoldierPriority,
-            'positionRequirement' => htmlspecialchars_decode($positionRequirement),
-            'isShow' => $isShow,
-            'interviewAddress'=>$interviewAddress,
-            'interviewTime' => strtotime($interviewTime),
-            'unitPrice' => $unitPrice,
-            'createTime' => currentTime(),
-            'createBy' => $userId,
-            'updateTime' => currentTime(),
-            'updateBy' => $userId
-        ];
-
-        $insertRow = $positionManagementModel->save($data);
-        if ($insertRow > 0) {
-            $companyModel = new CompanyManagementModel;
-            $result = $companyModel->updatePositionCountInc($companyId, 1);
-
-            $arr['id'] = $positionManagementModel->id;
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
-            exit;
-        } else {
-            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '添加失败');
-            exit;
-        }
-    }
-
-
-    /**
-     * 编辑职位
-     */
-    public function edit()
-    {
-
-        $params = Request::instance()->param();
-        $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
-        $positionCateId = Check::checkInteger($params['positionCateId'] ?? ''); // 职位类别
-        $name = Check::check($params['name'] ?? ''); // 职位名字
-        $companyId = Check::checkInteger($params['companyId'] ?? ''); //公司id
-        $minPay = Check::checkInteger($params['minPay'] ?? ''); //最低薪资
-        $maxPay = Check::checkInteger($params['maxPay'] ?? ''); // 最高薪资
-        $minWorkExp = Check::checkInteger($params['minWorkExp'] ?? ''); //最低工作经验
-        $maxWorkExp = Check::checkInteger($params['maxWorkExp'] ?? ''); //最高工作经验
-        $education = Check::check($params['education'] ?? ''); //学历
-        $age = Check::check($params['age'] ?? ''); //年龄
-        $num = Check::check($params['num'] ?? ''); //职位招人数
-        $labelIds = Check::check($params['labelIds'] ?? ''); //标签
-        $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
-        $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
-        $positionRequirement = stripslashes($positionRequirement);
-        $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
-        $interviewAddress = Check::check($params['interviewAddress'] ?? ''); //面试地点
-        $interviewTime = Check::check($params['interviewTime'] ?? 0); //面试时间
-        $unitPrice = Check::check($params['unitPrice'] ?? 0); //接单价格
-
-        $userId = $GLOBALS['userId'];
-
-        $positionManagementModel = new PositionManagementModel();
-
-        if ($name == '') {
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
-            exit;
-        }
-
-        $detail = $positionManagementModel->getDetail($positionId);
-        if ($detail['name'] != $name && $positionManagementModel->checkName($name)) {
+        if ($positionManagementModel->checkName($name, $companyId)) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字重复');
             exit;
         }
@@ -188,25 +89,152 @@ class PositionManagement extends AdminBase
             'isSoldierPriority' => $isSoldierPriority,
             'positionRequirement' => htmlspecialchars_decode($positionRequirement),
             'isShow' => $isShow,
-            'interviewAddress'=>$interviewAddress,
-            'interviewTime'=>strtotime($interviewTime),
-            'unitPrice'=>$unitPrice,
+            'interviewAddress' => $interviewAddress,
+            'interviewTime' => strtotime($interviewTime),
+            'unitPrice' => $unitPrice,
+            'endTime' => strtotime($endTime),
+            'positionType' => $positionType,
+            'createTime' => currentTime(),
+            'createBy' => $userId,
+            'updateTime' => currentTime(),
+            'updateBy' => $userId
+        ];
+
+        $positionManagementModel->startTrans();
+
+        $insertRow = $positionManagementModel->save($data);
+        if ($insertRow > 0) {
+            $companyModel = new CompanyManagementModel;
+            $result = $companyModel->updatePositionCountInc($companyId, 1);
+            if ($result > 0) {
+                $positionManagementModel->commit();
+                $arr['id'] = $positionManagementModel->id;
+                Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+                exit;
+            } else {
+                $positionManagementModel->rollback();
+                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '添加失败');
+                exit;
+            }
+
+        } else {
+            $positionManagementModel->rollback();
+            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '添加失败');
+            exit;
+        }
+    }
+
+
+    /**
+     * 编辑职位
+     */
+    public function edit()
+    {
+
+        $params = Request::instance()->param();
+        $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
+        $positionCateId = Check::checkInteger($params['positionCateId'] ?? ''); // 职位类别
+        $name = Check::check($params['name'] ?? ''); // 职位名字
+        $companyId = Check::checkInteger($params['companyId'] ?? ''); //公司id
+        $minPay = Check::checkInteger($params['minPay'] ?? ''); //最低薪资
+        $maxPay = Check::checkInteger($params['maxPay'] ?? ''); // 最高薪资
+        $minWorkExp = Check::checkInteger($params['minWorkExp'] ?? ''); //最低工作经验
+        $maxWorkExp = Check::checkInteger($params['maxWorkExp'] ?? ''); //最高工作经验
+        $education = Check::check($params['education'] ?? ''); //学历
+        $age = Check::check($params['age'] ?? ''); //年龄
+        $num = Check::check($params['num'] ?? ''); //职位招人数
+        $labelIds = Check::check($params['labelIds'] ?? ''); //标签
+        $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
+        $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
+        $positionRequirement = stripslashes($positionRequirement);
+        $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
+        $interviewAddress = Check::check($params['interviewAddress'] ?? ''); //面试地点
+        $interviewTime = Check::check($params['interviewTime'] ?? 0); //面试时间
+        $unitPrice = Check::check($params['unitPrice'] ?? 0); //接单价格
+        $endTime = Check::check($params['endTime'] ?? 0);     // 订单结束时间
+        $positionType = Check::checkInteger($params['positionType'] ?? 1); //职位类型 1 c端职位  2 订单类型的职位
+
+        $userId = $GLOBALS['userId'];
+
+        $positionManagementModel = new PositionManagementModel();
+
+        if ($name == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
+
+        $detail = $positionManagementModel->getDetail($positionId);
+        if ($detail['name'] != $name && $positionManagementModel->checkName($name, $companyId)) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '名字重复');
+            exit;
+        }
+
+        if ($labelIds != '') {
+            $labelIdArr = explode(',', $labelIds);
+            $labelIdsJson = json_encode($labelIdArr, JSON_UNESCAPED_UNICODE);
+        } else {
+            $labelIdsJson = json_encode(array());
+        }
+
+        if ($minPay == 0 && $maxPay == 0) {
+            $pay = 0;
+        } else {
+            $pay = $minPay . '-' . $maxPay;
+        }
+
+        if ($minWorkExp == 0 && $maxWorkExp == 0) {
+            $workExp = 0;
+        } else {
+            $workExp = $minWorkExp . '~' . $maxWorkExp;
+        }
+
+        $data = [
+            'positionCateId' => $positionCateId,
+            'name' => $name,
+            'companyId' => $companyId,
+            'minPay' => $minPay,
+            'maxPay' => $maxPay,
+            'pay' => $pay,
+            'minWorkExp' => $minWorkExp,
+            'maxWorkExp' => $maxWorkExp,
+            'workExp' => $workExp,
+            'education' => $education,
+            'age' => $age,
+            'num' => $num,
+            'labelIds' => $labelIdsJson,
+            'isSoldierPriority' => $isSoldierPriority,
+            'positionRequirement' => htmlspecialchars_decode($positionRequirement),
+            'isShow' => $isShow,
+            'interviewAddress' => $interviewAddress,
+            'interviewTime' => strtotime($interviewTime),
+            'unitPrice' => $unitPrice,
+            'endTime' => strtotime($endTime),
+            'positionType' => $positionType,
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
 
         $oldCompanyId = $detail['companyId'];
+        $positionManagementModel->startTrans();
         $updateRow = $positionManagementModel->edit($positionId, $data);
         if ($updateRow > 0) {
             $companyModel = new CompanyManagementModel;
             $companyModel->updatePositionCountDec($oldCompanyId, 1);
 
             $result = $companyModel->updatePositionCountInc($companyId, 1);
+            if ($result > 0) {
+                $positionManagementModel->commit();
+                $arr['updateRow'] = $updateRow;
+                Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+                exit;
+            } else {
+                $positionManagementModel->rollback();
+                Util::printResult($GLOBALS['ERROR_SQL_UPDATE'], '编辑失败');
+                exit;
+            }
 
-            $arr['updateRow'] = $updateRow;
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
-            exit;
         } else {
+            $positionManagementModel->rollback();
             Util::printResult($GLOBALS['ERROR_SQL_UPDATE'], '编辑失败');
             exit;
         }
@@ -229,14 +257,22 @@ class PositionManagement extends AdminBase
             'isDelete' => 1
         ];
 
+        $positionManagementModel->startTrans();
         $delRow = $positionManagementModel->isUpdate(true)->save($data);
         if ($delRow > 0) {
             $companyModel = new CompanyManagementModel;
-            $companyModel->updatePositionCountDec($oldCompanyId, 1);
-            $arr['delRow'] = $delRow;
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
-            exit;
+            if ($companyModel->updatePositionCountDec($oldCompanyId, 1) > 0) {
+                $positionManagementModel->commit();
+                $arr['delRow'] = $delRow;
+                Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+                exit;
+            } else {
+                $positionManagementModel->rollback();
+                Util::printResult($GLOBALS['ERROR_SQL_DELETE'], '删除失败');
+                exit;
+            }
         } else {
+            $positionManagementModel->rollback();
             Util::printResult($GLOBALS['ERROR_SQL_DELETE'], '删除失败');
             exit;
         }
