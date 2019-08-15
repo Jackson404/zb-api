@@ -89,7 +89,7 @@ class EpOrderModel extends Model
         $res = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
             ->join('zb_enterprise_user eu', 'o.userId=eu.id', 'left')
-            ->where('p.interviewTime',$con,time())
+            ->where('p.interviewTime', $con, time())
             ->where('o.userId', '=', $userId)
             ->where('o.isDelete', '=', 0)
             ->field('DATE_FORMAT(o.createTime, "%Y-%m") as orderDate,o.orderId,o.userId,eu.orderNum,eu.incomeTotal,
@@ -97,6 +97,95 @@ class EpOrderModel extends Model
             o.createTime,o.createBy,o.updateTime,o.updateBy')
             ->select();
         return $res;
+    }
+
+    /**
+     * 后台用户获取所有的订单列表
+     * @param $userId
+     * @param $isFinish
+     * @param $pageIndex
+     * @param $pageSize
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public function getOrderListByPageAdmin($isFinish, $pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        if ($isFinish == 1) {
+            $con = '<';
+        }
+        if ($isFinish == 0) {
+            $con = '>';
+        }
+        $res = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->join('zb_enterprise_user eu', 'o.userId=eu.id', 'left')
+            ->where('p.interviewTime', $con, time())
+            ->where('o.isDelete', '=', 0)
+            ->field('DATE_FORMAT(o.createTime, "%Y-%m") as orderDate,o.orderId,o.userId,eu.orderNum,eu.incomeTotal,
+            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.emNum,o.income,
+            o.createTime,o.createBy,o.updateTime,o.updateBy')
+            ->paginate(null, false, $config);
+        return $res;
+    }
+
+    public function incApplyNum($orderId, $inc)
+    {
+        return $this->where('orderId', '=', $orderId)
+            ->where('isDelete', '=', 0)
+            ->setInc('applyNum', $inc);
+    }
+
+    public function decApplyNum($orderId, $dec)
+    {
+        return $this->where('orderId', '=', $orderId)
+            ->where('isDelete', '=', 0)
+            ->setDec('applyNum', $dec);
+    }
+
+    public function incEntryNum($orderId, $inc)
+    {
+        return $this->where('orderId', '=', $orderId)
+            ->where('isDelete', '=', 0)
+            ->setInc('entryNum', $inc);
+    }
+
+    public function decEntryNum($orderId, $dec)
+    {
+        return $this->where('orderId', '=', $orderId)
+            ->where('isDelete', '=', 0)
+            ->setDec('entryNum', $dec);
+    }
+
+    public function incInterviewNum($orderId, $inc)
+    {
+        return $this->where('orderId', '=', $orderId)
+            ->where('isDelete', '=', 0)
+            ->setInc('interviewNum', $inc);
+    }
+
+    public function decInterviewNum($orderId, $dec)
+    {
+        return $this->where('orderId', '=', $orderId)
+            ->where('isDelete', '=', 0)
+            ->setDec('interviewNum', $dec);
+    }
+
+    public function incIncome($orderId, $inc)
+    {
+        return $this->where('orderId', '=', $orderId)
+            ->where('isDelete', '=', 0)
+            ->setInc('income', $inc);
+    }
+
+    public function decIncome($orderId, $dec)
+    {
+        return $this->where('orderId', '=', $orderId)
+            ->where('isDelete', '=', 0)
+            ->setDec('income', $dec);
     }
 
 }

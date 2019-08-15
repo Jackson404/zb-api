@@ -4,6 +4,7 @@ namespace app\api\controller\v1\ep;
 
 use app\api\controller\v1\IndexBase;
 use app\api\model\EpOrderApplyModel;
+use app\api\model\EpOrderModel;
 use app\api\model\EpResumeModel;
 use app\api\model\ResumeModel;
 use think\console\command\make\Model;
@@ -85,7 +86,6 @@ class EpOrderApply extends IndexBase
 
             if ($insertRow > 0) {
                 $resumeId = $resumeModel->getLastInsID();
-                $resumeModel->commit();
             } else {
                 $resumeModel->rollback();
                 Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '简历创建失败');
@@ -94,7 +94,13 @@ class EpOrderApply extends IndexBase
         }
 
         $epOrderApplyModel = new EpOrderApplyModel();
-        $epOrderApplyModel->startTrans();
+
+        if ($epOrderApplyModel->checkUserHasApply($orderId, $applyUserId) > 0) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户已经申请过该订单');
+            exit;
+        }
+
+
         $arr = [
             'orderId' => $orderId,
             'resumeId' => $resumeId,
@@ -106,18 +112,18 @@ class EpOrderApply extends IndexBase
 
         $res = $epOrderApplyModel->save($arr);
         if ($res > 0) {
-            $epOrderApplyModel->commit();
+            $epOrderModel = new EpOrderModel();
+            $xx = $epOrderModel->incApplyNum($orderId, 1);
         } else {
-            $epOrderApplyModel->rollback();
+            $resumeModel->rollback();
             Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '申请失败');
             exit;
         }
 
         $epResumeModel = new EpResumeModel();
-        $epResumeModel->startTrans();
 
         if ($epResumeModel->resumeExistsSource1($applyUserId, $resumeId)) {
-            $epResumeModel->commit();
+            $resumeModel->commit();
             $x['insertRow'] = $res;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $x);
             exit;
@@ -135,12 +141,12 @@ class EpOrderApply extends IndexBase
             $insertRow = $epResumeModel->save($arr);
 
             if ($insertRow > 0) {
-                $epResumeModel->commit();
+                $resumeModel->commit();
                 $x['insertRow'] = $insertRow;
                 Util::printResult($GLOBALS['ERROR_SUCCESS'], $x);
                 exit;
             } else {
-                $epResumeModel->rollback();
+                $resumeModel->rollback();
                 Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
                 exit;
             }
