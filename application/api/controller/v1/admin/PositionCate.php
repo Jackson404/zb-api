@@ -4,8 +4,8 @@ namespace app\api\controller\v1\admin;
 
 use app\api\model\PositionCateModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class PositionCate extends AdminBase
 {
@@ -55,7 +55,7 @@ class PositionCate extends AdminBase
     {
         $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
-        $name = Check::check($params['name'] ?? '');
+        $name = Check::checkStr($params['name'] ?? '');
         $pid = Check::checkInteger($params['pid'] ?? '');
 
 

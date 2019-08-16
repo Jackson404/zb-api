@@ -1,5 +1,4 @@
 <?php
-namespace Util\Mini;
 
 /**
  * error code 说明.

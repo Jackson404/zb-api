@@ -3,9 +3,10 @@
 namespace app\api\controller\v1\admin;
 
 use app\api\model\LabelManagementModel;
+use Check;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Util;
+
 
 /**
  * 标签管理
@@ -20,7 +21,7 @@ class LabelManagement extends AdminBase
     public function add()
     {
         $params = Request::instance()->param();
-        $name = Check::check($params['name'] ?? '');
+        $name = Check::checkStr($params['name'] ?? '');
         $userId = $GLOBALS['userId'];
 
         if ($name == '') {
@@ -63,7 +64,7 @@ class LabelManagement extends AdminBase
     {
         $params = Request::instance()->param();
         $labelId = Check::checkInteger($params['labelId'] ?? '');
-        $name = Check::check($params['name'] ?? '');
+        $name = Check::checkStr($params['name'] ?? '');
         $userId = $GLOBALS['userId'];
 
         if ($name == '') {

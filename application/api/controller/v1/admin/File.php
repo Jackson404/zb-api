@@ -2,8 +2,8 @@
 
 namespace app\api\controller\v1\admin;
 
-use Util\Upload;
-use Util\Util;
+use Upload;
+use Util;
 
 class File extends AdminBase
 {

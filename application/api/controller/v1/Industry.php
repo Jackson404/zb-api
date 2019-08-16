@@ -4,8 +4,8 @@ namespace app\api\controller\v1;
 
 use app\api\model\IndustryModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class Industry extends AuthBase
 {
@@ -102,7 +102,7 @@ class Industry extends AuthBase
     public function filterIndustryInfo()
     {
         $params = Request::instance()->param();
-        $info = Check::check($params['info'] ?? '');
+        $info = Check::checkStr($params['info'] ?? '');
         $industryModel = new IndustryModel();
         $r = $industryModel->allIndustryInfo();
         $r = array_column($r->toArray(), 'name', 'code');

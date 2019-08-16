@@ -5,7 +5,7 @@ namespace app\api\controller\v1\ep;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use think\Request;
-use Util\Util;
+use Util;
 
 class Mail extends EpUserBase
 {

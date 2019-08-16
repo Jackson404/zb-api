@@ -5,8 +5,8 @@ namespace app\api\controller\v1;
 use app\api\model\AreaModel;
 use think\Controller;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class Area extends Controller
 {
@@ -23,7 +23,7 @@ class Area extends Controller
     {
 
         $params = Request::instance()->param();
-        $province = Check::check($params['province'] ?? '');
+        $province = Check::checkStr($params['province'] ?? '');
 
         $areaModel = new AreaModel();
         $list = $areaModel->getCity($province);
@@ -36,7 +36,7 @@ class Area extends Controller
     {
 
         $params = Request::instance()->param();
-        $city = Check::check($params['city'] ?? '');
+        $city = Check::checkStr($params['city'] ?? '');
 
         $areaModel = new AreaModel();
         $list = $areaModel->getArea($city);
@@ -48,7 +48,7 @@ class Area extends Controller
     public function filterAreaInfo()
     {
         $params = Request::instance()->param();
-        $info = Check::check($params['info'] ?? '');
+        $info = Check::checkStr($params['info'] ?? '');
 
         $areaModel = new AreaModel();
         list($res1, $res2, $res3) = $areaModel->areaInfo();

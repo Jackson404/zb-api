@@ -4,8 +4,8 @@ namespace app\api\controller\v1;
 
 use app\api\model\PositionManagementModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class PositionManagement extends IndexBase
 {
@@ -50,7 +50,7 @@ class PositionManagement extends IndexBase
     public function search()
     {
         $params = Request::instance()->param();
-        $searchValue = Check::check($params['searchValue'] ?? '');
+        $searchValue = Check::checkStr($params['searchValue'] ?? '');
 
         $positionModel = New PositionManagementModel();
         $list = $positionModel->search($searchValue);
@@ -73,14 +73,14 @@ class PositionManagement extends IndexBase
         $params = Request::instance()->param();
 
         $positionCateId = Check::checkInteger($params['positionCateId'] ?? 0); // 职位分类id
-        $salary = Check::check($params['salary'] ?? ''); // 薪资
-        $labelIds = Check::check($params['labelIds'] ?? ''); //福利待遇  label 字符串
-        $education = Check::check($params['education'] ?? ''); //学历
-        $workYear = Check::check($params['workYear'] ?? ''); //工作年限
+        $salary = Check::checkStr($params['salary'] ?? ''); // 薪资
+        $labelIds = Check::checkStr($params['labelIds'] ?? ''); //福利待遇  label 字符串
+        $education = Check::checkStr($params['education'] ?? ''); //学历
+        $workYear = Check::checkStr($params['workYear'] ?? ''); //工作年限
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0);//是否军人优先 1,2
-        $province = Check::check($params['province'] ?? ''); //省份
-        $city = Check::check($params['city'] ?? ''); //市
-        $area = Check::check($params['area'] ?? ''); //区
+        $province = Check::checkStr($params['province'] ?? ''); //省份
+        $city = Check::checkStr($params['city'] ?? ''); //市
+        $area = Check::checkStr($params['area'] ?? ''); //区
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 

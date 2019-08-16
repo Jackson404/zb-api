@@ -2,10 +2,10 @@
 
 namespace app\api\controller;
 
-use think\cache\driver\Redis;
 use think\Controller;
 use think\Request;
-use Util\Util;
+use Util;
+
 
 class Auth extends Controller
 {
@@ -30,11 +30,7 @@ class Auth extends Controller
         }
 
         $timeStamp = time();
-        //$randomCode = Util::generateRandomCode(8);
-
-        //$accessToken = $this->authRule($grantType, $webId, $secret, $randomCode);
         $accessToken = $this->authRule($grantType, $webId, $secret, $timeStamp);
-
         // $expiresIn = 7200;
 
         $options = [
@@ -47,7 +43,8 @@ class Auth extends Controller
             'persistent' => false,
             'prefix'     => '',
         ];
-        $redis = new Redis($options);
+//        $redis = new Redis($options);
+        $redis = \RedisX::instance();
         $redis->set('accessTokenApi_' . $timeStamp, $accessToken);
 
         $data['access_token'] = $timeStamp . '|' . $accessToken;
@@ -78,7 +75,7 @@ class Auth extends Controller
         $timeStamp = $arr[0];
         $accessTokenResult = $arr[1];
 
-        $redis = new Redis();
+        $redis = \RedisX::instance();
 
         $result = $redis->get('accessTokenApi_' . $timeStamp);
 

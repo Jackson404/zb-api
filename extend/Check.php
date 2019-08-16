@@ -5,7 +5,7 @@
  * Date: 2017/10/31 0031
  * Time: 17:06
  */
-namespace Util;
+
 class Check
 {
     /**
@@ -15,7 +15,7 @@ class Check
      * @param $maxLen  字符串的最大长度
      * @return string 经过html预处理和mysql预处理的字符串
      */
-    public static function check($param, $minLen = 0, $maxLen = -1)
+    public static function checkStr($param, $minLen = 0, $maxLen = -1)
     {
         if ($param === null) {
             return null;
@@ -94,7 +94,7 @@ class Check
         $min = 5;
         $max = 50;
         $msg = "邮箱格式错误，请检查后重新填入";
-        return self::checkInput(self::check($email), $regex, $min, $max, $msg, $isAssert);
+        return self::checkInput(self::checkStr($email), $regex, $min, $max, $msg, $isAssert);
     }
     /**
      * 检查用户名是否合法,用户名中不能是数字开头，只能包含字母数字下划线
@@ -108,7 +108,7 @@ class Check
         $min = 1;
         $max = 45;
         $msg = "用户名不合法，请检查后重新填入";
-        return self::checkInput(self::check($username), $regex, $min, $max, $msg, $isAssert);
+        return self::checkInput(self::checkStr($username), $regex, $min, $max, $msg, $isAssert);
     }
     /**
      * 检查电话号码,目前只考虑了国内的电话号码长度
@@ -122,7 +122,7 @@ class Check
         $min = 11;
         $max = 11;
         $msg = "手机号码格式错误，请检查后重新填入";
-        return self::checkInput(self::check($phoneNumber), $regex, $min, $max, $msg, $isAssert);
+        return self::checkInput(self::checkStr($phoneNumber), $regex, $min, $max, $msg, $isAssert);
     }
     /**
      * 检查是否全部为数字
@@ -136,7 +136,7 @@ class Check
         $min = 7;
         $max = 16;
         $msg = "号码格式错误，请不要输入非数字";
-        return self::checkInput(self::check($numberStr), $regex, $min, $max, $msg, $isAssert);
+        return self::checkInput(self::checkStr($numberStr), $regex, $min, $max, $msg, $isAssert);
     }
     /**
      * 检查输入是否是整型

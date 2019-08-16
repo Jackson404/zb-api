@@ -7,20 +7,20 @@ use app\api\model\ResumeModel;
 use app\api\model\UserApplyPositionModel;
 use app\api\model\UserLoginHistoryModel;
 use app\api\model\UserModel;
+use Check;
 use Curl\Curl;
 use Sms;
-use think\cache\driver\Redis;
 use think\Request;
-use Util\Check;
-use Util\Mini\WXBizDataCrypt;
-use Util\Util;
+use Util;
+use WXBizDataCrypt;
+
 
 class User extends IndexBase
 {
     public function sendSms()
     {
         $params = Request::instance()->param();
-        $phone = Check::check($params['phone'] ?? '', 11, 11);
+        $phone = Check::checkStr($params['phone'] ?? '', 11, 11);
 
         $signName = '正步网络科技';
         $templateCode = 'SMS_171495133';
@@ -31,7 +31,7 @@ class User extends IndexBase
 
         if ($result['Code'] == 'OK') {
 
-            $redis = new Redis();
+            $redis = \RedisX::instance();
             $redis->set($phone, $code, 300);
 
             Util::printResult($GLOBALS['ERROR_SUCCESS'], '验证码发送成功');
@@ -45,16 +45,16 @@ class User extends IndexBase
     public function login()
     {
         $params = Request::instance()->param();
-        $phone = Check::check($params['phone'] ?? '', 11, 11);
-        $vCode = Check::check($params['vCode'] ?? '');
-        $miniOpenId = Check::check($params['miniOpenId'] ?? '');
+        $phone = Check::checkStr($params['phone'] ?? '', 11, 11);
+        $vCode = Check::checkStr($params['vCode'] ?? '');
+        $miniOpenId = Check::checkStr($params['miniOpenId'] ?? '');
 
         if ($vCode == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
 
-        $redis = new Redis();
+        $redis = \RedisX::instance();
         $verifyCode = $redis->get($phone);
 
         if ($vCode != $verifyCode) {
@@ -157,8 +157,8 @@ class User extends IndexBase
     public function changePhone()
     {
         $params = Request::instance()->param();
-        $phone = Check::check($params['phone'] ?? '', 11, 11);
-        $vCode = Check::check($params['vCode'] ?? '');
+        $phone = Check::checkStr($params['phone'] ?? '', 11, 11);
+        $vCode = Check::checkStr($params['vCode'] ?? '');
         $userId = $GLOBALS['userId'];
 
         $userModel = new UserModel();
@@ -168,7 +168,7 @@ class User extends IndexBase
             exit;
         }
 
-        $redis = new Redis();
+        $redis = \RedisX::instance();
         $verifyCode = $redis->get($phone);
 
 
@@ -404,8 +404,8 @@ class User extends IndexBase
     public function bindMiniOpenIdWithPhone()
     {
         $params = Request::instance()->param();
-        $phone = Check::check($params['phone'] ?? '', 11, 11);
-        $miniOpenId = Check::check($params['miniOpenId'] ?? '');
+        $phone = Check::checkStr($params['phone'] ?? '', 11, 11);
+        $miniOpenId = Check::checkStr($params['miniOpenId'] ?? '');
 
         $userModel = new UserModel();
 

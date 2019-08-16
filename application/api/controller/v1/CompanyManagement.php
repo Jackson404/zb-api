@@ -4,8 +4,8 @@ namespace app\api\controller\v1;
 
 use app\api\model\CompanyManagementModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class CompanyManagement extends IndexBase
 {
@@ -64,8 +64,8 @@ class CompanyManagement extends IndexBase
     public function filterCompanyPage()
     {
         $params = Request::instance()->param();
-        $areaInfo = Check::check($params['areaInfo'] ?? '');
-        $industryInfo = Check::check($params['industryInfo'] ?? '');
+        $areaInfo = Check::checkStr($params['areaInfo'] ?? '');
+        $industryInfo = Check::checkStr($params['industryInfo'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -87,7 +87,7 @@ class CompanyManagement extends IndexBase
     public function filterCompanyByIndustryInfoPage()
     {
         $params = Request::instance()->param();
-        $info = Check::check($params['info'] ?? '');
+        $info = Check::checkStr($params['info'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 

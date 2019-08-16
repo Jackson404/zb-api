@@ -6,8 +6,8 @@ use app\api\model\DataResume;
 use app\api\model\EpResumeCateModel;
 use app\api\model\EpResumeModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class ResumeData extends EpUserBase
 {
@@ -15,13 +15,13 @@ class ResumeData extends EpUserBase
     {
         ini_set('max_execution_time', 0);
         $params = Request::instance()->param();
-        $posKey = Check::check($params['posKey'] ?? ''); //职位关键词
-        $exWorkLocation = Check::check($params['exWorkLocation'] ?? '');//期望工作地点
-        $workExp = Check::check($params['workExp'] ?? ''); //工作经验
-        $educationName = Check::check($params['educationName'] ?? '');//学历
-        $minAge = Check::check($params['minAge'] ?? 0);//最小年龄
-        $maxAge = Check::check($params['maxAge'] ?? 0); //最大年龄
-        $sex = Check::check($params['sex'] ?? ''); //性别 1男 0女 -1 未知
+        $posKey = Check::checkStr($params['posKey'] ?? ''); //职位关键词
+        $exWorkLocation = Check::checkStr($params['exWorkLocation'] ?? '');//期望工作地点
+        $workExp = Check::checkStr($params['workExp'] ?? ''); //工作经验
+        $educationName = Check::checkStr($params['educationName'] ?? '');//学历
+        $minAge = Check::checkStr($params['minAge'] ?? 0);//最小年龄
+        $maxAge = Check::checkStr($params['maxAge'] ?? 0); //最大年龄
+        $sex = Check::checkStr($params['sex'] ?? ''); //性别 1男 0女 -1 未知
 
         if ($posKey != '') {
             $posKeySql = "  and  exPosition  like  '%$posKey%'";
@@ -112,7 +112,7 @@ class ResumeData extends EpUserBase
     public function addResumeCate()
     {
         $params = Request::instance()->param();
-        $name = Check::check($params['name'] ?? '');
+        $name = Check::checkStr($params['name'] ?? '');
 
         if ($name == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
@@ -148,7 +148,7 @@ class ResumeData extends EpUserBase
 
         $params = Request::instance()->param();
         $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
-        $name = Check::check($params['name'] ?? '');
+        $name = Check::checkStr($params['name'] ?? '');
 
         if ($name == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
@@ -217,8 +217,8 @@ class ResumeData extends EpUserBase
     public function downLoadResume()
     {
         $params = Request::instance()->param();
-        $idCard = Check::check($params['idCard'] ?? ''); //身份证号
-        $phone = Check::check($params['phone'] ?? ''); //手机号
+        $idCard = Check::checkStr($params['idCard'] ?? ''); //身份证号
+        $phone = Check::checkStr($params['phone'] ?? ''); //手机号
         $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? 0); //简历分组id
         $userId = $GLOBALS['userId'];
 

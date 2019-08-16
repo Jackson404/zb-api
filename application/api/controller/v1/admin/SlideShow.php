@@ -4,8 +4,8 @@ namespace app\api\controller\v1\admin;
 
 use app\api\model\SlideShowModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 /**
  * 轮播图
@@ -21,7 +21,7 @@ class SlideShow extends AdminBase
     public function add()
     {
         $params = Request::instance()->param();
-        $imgUrl = Check::check($params['imgUrl'] ?? '');
+        $imgUrl = Check::checkStr($params['imgUrl'] ?? '');
         $imgUrl = stripslashes($imgUrl);
         $turnUrl = $params['turnUrl'] ?? '';
         $remark = $params['remark'] ?? '';
@@ -63,7 +63,7 @@ class SlideShow extends AdminBase
     {
         $params = Request::instance()->param();
         $slideShowId = Check::checkInteger($params['id'] ?? '');
-        $imgUrl = Check::check($params['imgUrl'] ?? '');
+        $imgUrl = Check::checkStr($params['imgUrl'] ?? '');
         $imgUrl = stripslashes($imgUrl);
         $turnUrl = $params['turnUrl'] ?? '';
         $remark = $params['remark'] ?? '';

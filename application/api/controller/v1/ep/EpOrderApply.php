@@ -7,10 +7,9 @@ use app\api\model\EpOrderApplyModel;
 use app\api\model\EpOrderModel;
 use app\api\model\EpResumeModel;
 use app\api\model\ResumeModel;
-use think\console\command\make\Model;
+use Check;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Util;
 
 class EpOrderApply extends IndexBase
 {
@@ -20,23 +19,23 @@ class EpOrderApply extends IndexBase
     public function apply()
     {
         $params = Request::instance()->param();
-        $name = Check::check($params['name'] ?? '');
-        $phone = Check::check($params['phone'] ?? '', 11, 11);
+        $name = Check::checkStr($params['name'] ?? '');
+        $phone = Check::checkStr($params['phone'] ?? '', 11, 11);
         $gender = Check::checkInteger($params['gender'] ?? 0);// 0 未知 1男 2 女
         $age = Check::checkInteger($params['age'] ?? 0);
         $workYear = Check::checkInteger($params['workYear'] ?? 0); //工作年限
-        $education = Check::check($params['education'] ?? '');
-        $skills = Check::check($params['skills'] ?? ''); //技能描述
-        $selfEvaluation = Check::check($params['selfEvaluation'] ?? ''); //自我评价
-        $militaryTime = Check::check($params['militaryTime'] ?? ''); //入伍时间
-        $attendedTime = Check::check($params['attendedTime'] ?? 0); //服役时长
-        $corps = Check::check($params['corps'] ?? ''); //兵种
-        $exPosition = Check::check($params['exPosition'] ?? ''); //期望职位
-        $nature = Check::check($params['nature'] ?? ''); //期望工作性质
-        $exCity = Check::check($params['exCity'] ?? ''); //期望城市
-        $salary = Check::check($params['salary'] ?? ''); //期望薪资
-        $curStatus = Check::check($params['curStatus'] ?? ''); //目前状态
-        $arrivalTime = Check::check($params['arrivalTime'] ?? ''); //到岗时间
+        $education = Check::checkStr($params['education'] ?? '');
+        $skills = Check::checkStr($params['skills'] ?? ''); //技能描述
+        $selfEvaluation = Check::checkStr($params['selfEvaluation'] ?? ''); //自我评价
+        $militaryTime = Check::checkStr($params['militaryTime'] ?? ''); //入伍时间
+        $attendedTime = Check::checkStr($params['attendedTime'] ?? 0); //服役时长
+        $corps = Check::checkStr($params['corps'] ?? ''); //兵种
+        $exPosition = Check::checkStr($params['exPosition'] ?? ''); //期望职位
+        $nature = Check::checkStr($params['nature'] ?? ''); //期望工作性质
+        $exCity = Check::checkStr($params['exCity'] ?? ''); //期望城市
+        $salary = Check::checkStr($params['salary'] ?? ''); //期望薪资
+        $curStatus = Check::checkStr($params['curStatus'] ?? ''); //目前状态
+        $arrivalTime = Check::checkStr($params['arrivalTime'] ?? ''); //到岗时间
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否是退役军人 默认0 0否 1是
 
         $orderId = Check::checkInteger($params['orderId'] ?? '');

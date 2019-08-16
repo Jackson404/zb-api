@@ -6,8 +6,8 @@ use app\api\model\EpOrderApplyModel;
 use app\api\model\EpOrderModel;
 use app\api\model\PositionManagementModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class EpOrder extends EpUserBase
 {
@@ -17,9 +17,9 @@ class EpOrder extends EpUserBase
     public function filter()
     {
         $params = Request::instance()->param();
-        $areaInfo = Check::check($params['areaInfo'] ?? '');  //区域信息
+        $areaInfo = Check::checkStr($params['areaInfo'] ?? '');  //区域信息
         $priceOrder = Check::checkInteger($params['priceOrder'] ?? 1); //价格高低  1高-低   0低-高
-        $keywords = Check::check($params['keywords'] ?? ''); //搜索关键词
+        $keywords = Check::checkStr($params['keywords'] ?? ''); //搜索关键词
 
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
@@ -166,7 +166,7 @@ class EpOrder extends EpUserBase
     public function getOrderDetail()
     {
         $params = Request::instance()->param();
-        $orderId = Check::check($params['orderId'] ?? ''); //订单id
+        $orderId = Check::checkStr($params['orderId'] ?? ''); //订单id
         $epOrderModel = new EpOrderModel();
         $detail = $epOrderModel->getDetailByOrderId($orderId);
         if ($detail == null) {

@@ -6,7 +6,6 @@
  * Time: 13:37
  */
 
-namespace Util;
 
 class Dir
 {

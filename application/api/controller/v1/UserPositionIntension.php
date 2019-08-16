@@ -4,20 +4,20 @@ namespace app\api\controller\v1;
 
 use app\api\model\UserPositionIntensionModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class UserPositionIntension extends IndexBase
 {
     public function add()
     {
         $params = Request::instance()->param();
-        $exPosition = Check::check($params['exPosition'] ?? ''); //期望职位
-        $nature = Check::check($params['nature'] ?? ''); //期望工作性质
-        $exCity = Check::check($params['exCity'] ?? ''); //期望城市
-        $exSalary = Check::check($params['exSalary'] ?? ''); //期望薪资
-        $curStatus = Check::check($params['curStatus'] ?? ''); //目前状态
-        $arrivalTime = Check::check($params['arrivalTime'] ?? ''); //到岗时间
+        $exPosition = Check::checkStr($params['exPosition'] ?? ''); //期望职位
+        $nature = Check::checkStr($params['nature'] ?? ''); //期望工作性质
+        $exCity = Check::checkStr($params['exCity'] ?? ''); //期望城市
+        $exSalary = Check::checkStr($params['exSalary'] ?? ''); //期望薪资
+        $curStatus = Check::checkStr($params['curStatus'] ?? ''); //目前状态
+        $arrivalTime = Check::checkStr($params['arrivalTime'] ?? ''); //到岗时间
         $userId = $GLOBALS['userId'];
         $userIntensionModel = new UserPositionIntensionModel();
         if ($userIntensionModel->checkExist($userId)) {
@@ -48,12 +48,12 @@ class UserPositionIntension extends IndexBase
     {
         $params = Request::instance()->param();
 
-        $exPosition = Check::check($params['exPosition'] ?? ''); //期望职位
-        $nature = Check::check($params['nature'] ?? ''); //期望工作性质
-        $exCity = Check::check($params['exCity'] ?? ''); //期望城市
-        $exSalary = Check::check($params['exSalary'] ?? ''); //期望薪资
-        $curStatus = Check::check($params['curStatus'] ?? ''); //目前状态
-        $arrivalTime = Check::check($params['arrivalTime'] ?? ''); //到岗时间
+        $exPosition = Check::checkStr($params['exPosition'] ?? ''); //期望职位
+        $nature = Check::checkStr($params['nature'] ?? ''); //期望工作性质
+        $exCity = Check::checkStr($params['exCity'] ?? ''); //期望城市
+        $exSalary = Check::checkStr($params['exSalary'] ?? ''); //期望薪资
+        $curStatus = Check::checkStr($params['curStatus'] ?? ''); //目前状态
+        $arrivalTime = Check::checkStr($params['arrivalTime'] ?? ''); //到岗时间
         $userId = $GLOBALS['userId'];
         $userIntensionModel = new UserPositionIntensionModel();
         $positionIntension = $userIntensionModel->getPositionIntensionByUserId($userId);

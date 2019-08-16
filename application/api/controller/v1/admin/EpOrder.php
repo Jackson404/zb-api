@@ -3,9 +3,10 @@
 namespace app\api\controller\v1\admin;
 
 use app\api\model\EpOrderModel;
+use Check;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Util;
+
 
 class EpOrder extends AdminBase
 {

@@ -4,8 +4,8 @@ namespace app\api\controller\v1;
 
 use app\api\model\UserBrowsingModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class UserBrowsingHistory extends IndexBase
 {

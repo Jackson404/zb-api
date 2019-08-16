@@ -5,9 +5,10 @@ namespace app\api\controller\v1\admin;
 use app\api\model\EpOrderApplyModel;
 use app\api\model\EpOrderModel;
 use app\api\model\PositionManagementModel;
+use Check;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Util;
+
 
 class EpOrderApply extends AdminBase
 {
@@ -36,7 +37,7 @@ class EpOrderApply extends AdminBase
     public function updateInterviewStatus()
     {
         $params = Request::instance()->param();
-        $orderId = Check::check($params['orderId'] ?? '');
+        $orderId = Check::checkStr($params['orderId'] ?? '');
         $interviewStatus = Check::checkInteger($params['interviewStatus'] ?? 1);
         $epOrderApplyModel = new EpOrderApplyModel();
         $epOrderApplyModel->startTrans();
@@ -63,7 +64,7 @@ class EpOrderApply extends AdminBase
     public function updateEntryStatus()
     {
         $params = Request::instance()->param();
-        $orderId = Check::check($params['orderId'] ?? '');
+        $orderId = Check::checkStr($params['orderId'] ?? '');
         $entryStatus = Check::checkInteger($params['entryStatus'] ?? 1);
 
         $epOrderModel = new EpOrderModel();

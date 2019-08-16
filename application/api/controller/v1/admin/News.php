@@ -3,9 +3,10 @@
 namespace app\api\controller\v1\admin;
 
 use app\api\model\NewsModel;
+use Check;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Util;
+
 
 class News extends AdminBase
 {
@@ -16,12 +17,12 @@ class News extends AdminBase
     {
         $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
-        $title = Check::check($params['title'] ?? '');
-        $keywords = Check::check($params['keywords'] ?? '');
-        $description = Check::check($params['description'] ?? '');
-        $content = Check::check($params['content'] ?? '');
+        $title = Check::checkStr($params['title'] ?? '');
+        $keywords = Check::checkStr($params['keywords'] ?? '');
+        $description = Check::checkStr($params['description'] ?? '');
+        $content = Check::checkStr($params['content'] ?? '');
         $content = stripslashes($content);
-        $imgUrl = Check::check($params['imgUrl'] ?? '');
+        $imgUrl = Check::checkStr($params['imgUrl'] ?? '');
         $imgUrl = stripslashes($imgUrl);
         $isShow = Check::checkInteger($params['isShow'] ?? 1);
         $userId = $GLOBALS['userId'];
@@ -65,12 +66,12 @@ class News extends AdminBase
         $params = Request::instance()->param();
         $newsId = Check::checkInteger($params['newsId'] ?? '');
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
-        $title = Check::check($params['title'] ?? '');
-        $keywords = Check::check($params['keywords'] ?? '');
-        $description = Check::check($params['description'] ?? '');
-        $content = Check::check($params['content'] ?? '');
+        $title = Check::checkStr($params['title'] ?? '');
+        $keywords = Check::checkStr($params['keywords'] ?? '');
+        $description = Check::checkStr($params['description'] ?? '');
+        $content = Check::checkStr($params['content'] ?? '');
         $content = stripslashes($content);
-        $imgUrl = Check::check($params['imgUrl'] ?? '');
+        $imgUrl = Check::checkStr($params['imgUrl'] ?? '');
         $imgUrl = stripslashes($imgUrl);
         $isShow = Check::checkInteger($params['isShow'] ?? 1);
         $userId = $GLOBALS['userId'];

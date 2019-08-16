@@ -3,7 +3,8 @@
 namespace app\api\controller\v1;
 
 use think\Request;
-use Util\Util;
+use Util;
+
 
 class IndexBase extends AuthBase
 {

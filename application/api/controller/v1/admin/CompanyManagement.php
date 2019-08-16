@@ -3,9 +3,10 @@
 namespace app\api\controller\v1\admin;
 
 use app\api\model\CompanyManagementModel;
+use Check;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Util;
+
 
 class CompanyManagement extends AdminBase
 {
@@ -15,21 +16,21 @@ class CompanyManagement extends AdminBase
     public function add()
     {
         $params = Request::instance()->param();
-        $industryId = Check::check($params['industryId'] ?? ''); //行业分类
-        $name = Check::check($params['name'] ?? '');
-        $province = Check::check($params['province'] ?? ''); //省份
-        $city = Check::check($params['city'] ?? ''); // 城市
-        $area = Check::check($params['area'] ?? ''); // 区/县
-        $address = Check::check($params['address'] ?? '');
-        $contact = Check::check($params['contact'] ?? ''); // 联系人
-        $phone = Check::check($params['phone'] ?? '', 0, 11);
-        $wxNumber = Check::check($params['wxNumber'] ?? ''); //微信号
-        $leader = Check::check($params['leader'] ?? ''); //负责人
-        $nature = Check::check($params['nature'] ?? ''); // 公司性质
-        $profile = Check::check($params['profile'] ?? ''); //公司简介
+        $industryId = Check::checkStr($params['industryId'] ?? ''); //行业分类
+        $name = Check::checkStr($params['name'] ?? '');
+        $province = Check::checkStr($params['province'] ?? ''); //省份
+        $city = Check::checkStr($params['city'] ?? ''); // 城市
+        $area = Check::checkStr($params['area'] ?? ''); // 区/县
+        $address = Check::checkStr($params['address'] ?? '');
+        $contact = Check::checkStr($params['contact'] ?? ''); // 联系人
+        $phone = Check::checkStr($params['phone'] ?? '', 0, 11);
+        $wxNumber = Check::checkStr($params['wxNumber'] ?? ''); //微信号
+        $leader = Check::checkStr($params['leader'] ?? ''); //负责人
+        $nature = Check::checkStr($params['nature'] ?? ''); // 公司性质
+        $profile = Check::checkStr($params['profile'] ?? ''); //公司简介
         $profile = stripslashes($profile);
-        $remark = Check::check($params['remark'] ?? '');
-        $dataBank = Check::check($params['dataBank'] ?? ''); //资料库
+        $remark = Check::checkStr($params['remark'] ?? '');
+        $dataBank = Check::checkStr($params['dataBank'] ?? ''); //资料库
         $userId = $GLOBALS['userId'];
 
         $companyManagementModel = new CompanyManagementModel();
@@ -90,21 +91,21 @@ class CompanyManagement extends AdminBase
     {
         $params = Request::instance()->param();
         $companyId = Check::checkInteger($params['companyId'] ?? '');
-        $industryId = Check::check($params['industryId'] ?? ''); // 行业分类
-        $name = Check::check($params['name'] ?? '');
-        $province = Check::check($params['province'] ?? ''); //省份
-        $city = Check::check($params['city'] ?? ''); // 城市
-        $area = Check::check($params['area'] ?? ''); // 区/县
-        $address = Check::check($params['address'] ?? '');
-        $contact = Check::check($params['contact'] ?? ''); // 联系人
-        $phone = Check::check($params['phone'] ?? '', 0, 11);
-        $wxNumber = Check::check($params['wxNumber'] ?? ''); //微信号
-        $leader = Check::check($params['leader'] ?? ''); //负责人
-        $nature = Check::check($params['nature'] ?? ''); // 公司性质
-        $profile = Check::check($params['profile'] ?? ''); //公司简介
+        $industryId = Check::checkStr($params['industryId'] ?? ''); // 行业分类
+        $name = Check::checkStr($params['name'] ?? '');
+        $province = Check::checkStr($params['province'] ?? ''); //省份
+        $city = Check::checkStr($params['city'] ?? ''); // 城市
+        $area = Check::checkStr($params['area'] ?? ''); // 区/县
+        $address = Check::checkStr($params['address'] ?? '');
+        $contact = Check::checkStr($params['contact'] ?? ''); // 联系人
+        $phone = Check::checkStr($params['phone'] ?? '', 0, 11);
+        $wxNumber = Check::checkStr($params['wxNumber'] ?? ''); //微信号
+        $leader = Check::checkStr($params['leader'] ?? ''); //负责人
+        $nature = Check::checkStr($params['nature'] ?? ''); // 公司性质
+        $profile = Check::checkStr($params['profile'] ?? ''); //公司简介
         $profile = stripslashes($profile);
-        $remark = Check::check($params['remark'] ?? '');
-        $dataBank = Check::check($params['dataBank'] ?? ''); //资料库
+        $remark = Check::checkStr($params['remark'] ?? '');
+        $dataBank = Check::checkStr($params['dataBank'] ?? ''); //资料库
         $userId = $GLOBALS['userId'];
 
         $companyManagementModel = new CompanyManagementModel();
@@ -246,8 +247,8 @@ class CompanyManagement extends AdminBase
     public function filterCompanyPage()
     {
         $params = Request::instance()->param();
-        $areaInfo = Check::check($params['areaInfo'] ?? '');
-        $industryInfo = Check::check($params['industryInfo'] ?? '');
+        $areaInfo = Check::checkStr($params['areaInfo'] ?? '');
+        $industryInfo = Check::checkStr($params['industryInfo'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
@@ -272,7 +273,7 @@ class CompanyManagement extends AdminBase
     public function filterCompanyByIndustryInfoPage()
     {
         $params = Request::instance()->param();
-        $info = Check::check($params['info'] ?? '');
+        $info = Check::checkStr($params['info'] ?? '');
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 

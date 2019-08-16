@@ -6,8 +6,6 @@
  * Time: 15:29
  */
 
-namespace Util;
-
 class Util
 {
     /**

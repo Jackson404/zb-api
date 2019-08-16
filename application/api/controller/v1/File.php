@@ -5,8 +5,9 @@ namespace app\api\controller\v1;
 use OSS\Core\OssException;
 use OSS\OssClient;
 use think\Request;
-use Util\Upload;
-use Util\Util;
+use Upload;
+use Util;
+
 
 class File extends AuthBase
 {

@@ -4,15 +4,15 @@ namespace app\api\controller\v1\admin;
 
 use app\api\model\NewsCategoryModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class NewsCategory extends AdminBase
 {
     public function add()
     {
         $params = Request::instance()->param();
-        $name = Check::check($params['name'] ?? '');
+        $name = Check::checkStr($params['name'] ?? '');
         $userId = $GLOBALS['userId'];
 
         if ($name == '') {
@@ -49,7 +49,7 @@ class NewsCategory extends AdminBase
     {
         $params = Request::instance()->param();
         $categoryId = Check::checkInteger($params['categoryId'] ?? '');
-        $name = Check::check($params['name'] ?? '');
+        $name = Check::checkStr($params['name'] ?? '');
         $userId = $GLOBALS['userId'];
 
         if ($name == '') {

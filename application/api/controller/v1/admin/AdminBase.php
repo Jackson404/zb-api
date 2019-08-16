@@ -4,7 +4,7 @@ namespace app\api\controller\v1\admin;
 
 use think\Config;
 use think\Request;
-use Util\Util;
+use Util;
 
 class AdminBase extends AuthBase
 {

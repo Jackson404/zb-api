@@ -9,17 +9,16 @@ use app\api\model\EpUserCertModel;
 use app\api\model\EpUserEmGroupModel;
 use app\api\model\EpUserLoginHistoryModel;
 use app\api\model\EpUserModel;
+use Check;
 use Curl\Curl;
 use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\QrCode;
 use OSS\Core\OssException;
 use OSS\OssClient;
 use Sms;
-use think\cache\driver\Redis;
 use think\Exception;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Util;
 
 class EpUser extends EpUserBase
 {
@@ -29,7 +28,7 @@ class EpUser extends EpUserBase
     public function sendSms()
     {
         $params = Request::instance()->param();
-        $phone = Check::check($params['phone'] ?? '', 11, 11);
+        $phone = Check::checkStr($params['phone'] ?? '', 11, 11);
 
         $signName = '正步网络科技';
         $templateCode = 'SMS_171495133';
@@ -40,7 +39,7 @@ class EpUser extends EpUserBase
 
         if ($result['Code'] == 'OK') {
 
-            $redis = new Redis();
+            $redis = \RedisX::instance();
             $redis->set($phone, $code, 300);
 
             Util::printResult($GLOBALS['ERROR_SUCCESS'], '验证码发送成功');
@@ -58,15 +57,15 @@ class EpUser extends EpUserBase
     public function login()
     {
         $params = Request::instance()->param();
-        $phone = Check::check($params['phone'] ?? '', 11, 11);
-        $vCode = Check::check($params['vCode'] ?? '');
+        $phone = Check::checkStr($params['phone'] ?? '', 11, 11);
+        $vCode = Check::checkStr($params['vCode'] ?? '');
 
         if ($vCode == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
 
-        $redis = new Redis();
+        $redis = \RedisX::instance();
         $verifyCode = $redis->get($phone);
 
         if ($vCode != $verifyCode) {
@@ -177,15 +176,15 @@ class EpUser extends EpUserBase
     public function epCertification()
     {
         $params = Request::instance()->param();
-        $realname = Check::check($params['realname'] ?? '');
-        $realphone = Check::check($params['realphone'] ?? '', 1, 11);
-        $idCard = Check::check($params['idCard'] ?? '', 1, 20);
-        $idCardFrontPic = Check::check($params['idCardFrontPic'] ?? '');
-        $idCardBackPic = Check::check($params['idCardBackPic'] ?? '');
-        $companyName = Check::check($params['companyName'] ?? ''); //公司名称
-        $companyAddr = Check::check($params['companyAddr'] ?? ''); //公司地址
-        $businessLic = Check::check($params['businessLic'] ?? ''); //营业执照
-        $otherQuaLic = Check::check($params['otherQuaLic'] ?? ''); //其他资质证明
+        $realname = Check::checkStr($params['realname'] ?? '');
+        $realphone = Check::checkStr($params['realphone'] ?? '', 1, 11);
+        $idCard = Check::checkStr($params['idCard'] ?? '', 1, 20);
+        $idCardFrontPic = Check::checkStr($params['idCardFrontPic'] ?? '');
+        $idCardBackPic = Check::checkStr($params['idCardBackPic'] ?? '');
+        $companyName = Check::checkStr($params['companyName'] ?? ''); //公司名称
+        $companyAddr = Check::checkStr($params['companyAddr'] ?? ''); //公司地址
+        $businessLic = Check::checkStr($params['businessLic'] ?? ''); //营业执照
+        $otherQuaLic = Check::checkStr($params['otherQuaLic'] ?? ''); //其他资质证明
 
         $userId = $GLOBALS['userId'];
 
@@ -246,12 +245,12 @@ class EpUser extends EpUserBase
     public function pCertification()
     {
         $params = Request::instance()->param();
-        $companyName = Check::check($params['companyName'] ?? '');
-        $realname = Check::check($params['realname'] ?? '');
-        $realphone = Check::check($params['realphone'] ?? '', 1, 11);
-        $idCard = Check::check($params['idCard'] ?? '', 1, 20);
-        $idCardFrontPic = Check::check($params['idCardFrontPic'] ?? '');
-        $idCardBackPic = Check::check($params['idCardBackPic'] ?? '');
+        $companyName = Check::checkStr($params['companyName'] ?? '');
+        $realname = Check::checkStr($params['realname'] ?? '');
+        $realphone = Check::checkStr($params['realphone'] ?? '', 1, 11);
+        $idCard = Check::checkStr($params['idCard'] ?? '', 1, 20);
+        $idCardFrontPic = Check::checkStr($params['idCardFrontPic'] ?? '');
+        $idCardBackPic = Check::checkStr($params['idCardBackPic'] ?? '');
 
         if ($companyName == '' || $realname == '' || $realphone == '' || $idCard == '' || $idCardFrontPic == '' || $idCardBackPic == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
@@ -321,7 +320,7 @@ class EpUser extends EpUserBase
     {
         $params = Request::instance()->param();
         $certId = Check::checkInteger($params['certId'] ?? ''); //审核的id
-        $pass = Check::check($params['pass'] ?? ''); // 1通过 -1 拒绝
+        $pass = Check::checkStr($params['pass'] ?? ''); // 1通过 -1 拒绝
 //        $epUserId = $GLOBALS['userId'];
         if ($pass == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
@@ -402,7 +401,7 @@ class EpUser extends EpUserBase
     public function addEmGroup()
     {
         $params = Request::instance()->param();
-        $groupName = Check::check($params['groupName'] ?? ''); //组名
+        $groupName = Check::checkStr($params['groupName'] ?? ''); //组名
         $epUserId = $GLOBALS['userId'];
 
         $epUserModel = new EpUserModel();
@@ -434,7 +433,7 @@ class EpUser extends EpUserBase
     {
         $params = Request::instance()->param();
         $groupId = Check::checkInteger($params['groupId'] ?? ''); //组别id
-        $groupName = Check::check($params['groupName'] ?? ''); //组名
+        $groupName = Check::checkStr($params['groupName'] ?? ''); //组名
         $epUserId = $GLOBALS['userId'];
         $epUserEmGroupModel = new EpUserEmGroupModel();
         if (!$epUserEmGroupModel->verifyCreatePermission($groupId, $epUserId)) {

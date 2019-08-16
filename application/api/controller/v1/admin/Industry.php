@@ -3,9 +3,10 @@
 namespace app\api\controller\v1\admin;
 
 use app\api\model\IndustryModel;
+use Check;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Util;
+
 
 class Industry extends AdminBase
 {
@@ -105,7 +106,7 @@ class Industry extends AdminBase
     public function filterIndustryInfo()
     {
         $params = Request::instance()->param();
-        $info = Check::check($params['info'] ?? '');
+        $info = Check::checkStr($params['info'] ?? '');
         $industryModel = new IndustryModel();
         $r = $industryModel->allIndustryInfo();
         $r = array_column($r->toArray(),'name','code');

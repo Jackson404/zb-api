@@ -5,8 +5,8 @@ namespace app\api\controller\v1\admin;
 use app\api\model\CompanyManagementModel;
 use app\api\model\PositionManagementModel;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Check;
+use Util;
 
 class PositionManagement extends AdminBase
 {
@@ -18,25 +18,25 @@ class PositionManagement extends AdminBase
 
         $params = Request::instance()->param();
         $positionCateId = Check::checkInteger($params['positionCateId'] ?? ''); // 职位类别
-        $name = Check::check($params['name'] ?? ''); // 职位名字
+        $name = Check::checkStr($params['name'] ?? ''); // 职位名字
         $companyId = Check::checkInteger($params['companyId'] ?? ''); //公司id
         $minPay = Check::checkInteger($params['minPay'] ?? ''); //最低薪资
         $maxPay = Check::checkInteger($params['maxPay'] ?? ''); // 最高薪资
         $minWorkExp = Check::checkInteger($params['minWorkExp'] ?? ''); //最低工作经验
         $maxWorkExp = Check::checkInteger($params['maxWorkExp'] ?? ''); //最高工作经验
-        $education = Check::check($params['education'] ?? ''); //学历
-        $age = Check::check($params['age'] ?? ''); //年龄
-        $num = Check::check($params['num'] ?? ''); //职位招人数
-        $labelIds = Check::check($params['labelIds'] ?? ''); //标签
+        $education = Check::checkStr($params['education'] ?? ''); //学历
+        $age = Check::checkStr($params['age'] ?? ''); //年龄
+        $num = Check::checkStr($params['num'] ?? ''); //职位招人数
+        $labelIds = Check::checkStr($params['labelIds'] ?? ''); //标签
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
-        $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
+        $positionRequirement = Check::checkStr($params['positionRequirement'] ?? ''); // 岗位职责
         $positionRequirement = stripslashes($positionRequirement);
         $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
 
-        $interviewAddress = Check::check($params['interviewAddress'] ?? ''); //面试地点
-        $unitPrice = Check::check($params['unitPrice'] ?? 0); //接单价格
-        $interviewTime = Check::check($params['interviewTime'] ?? 0); //面试时间
-        $endTime = Check::check($params['endTime'] ?? 0);   //订单结束时间
+        $interviewAddress = Check::checkStr($params['interviewAddress'] ?? ''); //面试地点
+        $unitPrice = Check::checkStr($params['unitPrice'] ?? 0); //接单价格
+        $interviewTime = Check::checkStr($params['interviewTime'] ?? 0); //面试时间
+        $endTime = Check::checkStr($params['endTime'] ?? 0);   //订单结束时间
         $positionType = Check::checkInteger($params['positionType'] ?? 1);  //1 c端职位  2职位订单
 
         $userId = $GLOBALS['userId'];
@@ -134,24 +134,24 @@ class PositionManagement extends AdminBase
         $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionCateId = Check::checkInteger($params['positionCateId'] ?? ''); // 职位类别
-        $name = Check::check($params['name'] ?? ''); // 职位名字
+        $name = Check::checkStr($params['name'] ?? ''); // 职位名字
         $companyId = Check::checkInteger($params['companyId'] ?? ''); //公司id
         $minPay = Check::checkInteger($params['minPay'] ?? ''); //最低薪资
         $maxPay = Check::checkInteger($params['maxPay'] ?? ''); // 最高薪资
         $minWorkExp = Check::checkInteger($params['minWorkExp'] ?? ''); //最低工作经验
         $maxWorkExp = Check::checkInteger($params['maxWorkExp'] ?? ''); //最高工作经验
-        $education = Check::check($params['education'] ?? ''); //学历
-        $age = Check::check($params['age'] ?? ''); //年龄
-        $num = Check::check($params['num'] ?? ''); //职位招人数
-        $labelIds = Check::check($params['labelIds'] ?? ''); //标签
+        $education = Check::checkStr($params['education'] ?? ''); //学历
+        $age = Check::checkStr($params['age'] ?? ''); //年龄
+        $num = Check::checkStr($params['num'] ?? ''); //职位招人数
+        $labelIds = Check::checkStr($params['labelIds'] ?? ''); //标签
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否军人有限 默认0 0否 1是
-        $positionRequirement = Check::check($params['positionRequirement'] ?? ''); // 岗位职责
+        $positionRequirement = Check::checkStr($params['positionRequirement'] ?? ''); // 岗位职责
         $positionRequirement = stripslashes($positionRequirement);
         $isShow = Check::checkInteger($params['isShow'] ?? 1); //是否显示 1是 0否
-        $interviewAddress = Check::check($params['interviewAddress'] ?? ''); //面试地点
-        $interviewTime = Check::check($params['interviewTime'] ?? 0); //面试时间
-        $unitPrice = Check::check($params['unitPrice'] ?? 0); //接单价格
-        $endTime = Check::check($params['endTime'] ?? 0);     // 订单结束时间
+        $interviewAddress = Check::checkStr($params['interviewAddress'] ?? ''); //面试地点
+        $interviewTime = Check::checkStr($params['interviewTime'] ?? 0); //面试时间
+        $unitPrice = Check::checkStr($params['unitPrice'] ?? 0); //接单价格
+        $endTime = Check::checkStr($params['endTime'] ?? 0);     // 订单结束时间
         $positionType = Check::checkInteger($params['positionType'] ?? 1); //职位类型 1 c端职位  2 订单类型的职位
 
         $userId = $GLOBALS['userId'];
@@ -326,7 +326,7 @@ class PositionManagement extends AdminBase
     public function search()
     {
         $params = Request::instance()->param();
-        $searchValue = Check::check($params['searchValue'] ?? '');
+        $searchValue = Check::checkStr($params['searchValue'] ?? '');
 
         $positionModel = New PositionManagementModel();
         $list = $positionModel->search($searchValue);
@@ -347,14 +347,14 @@ class PositionManagement extends AdminBase
         $params = Request::instance()->param();
 
         $positionCateId = Check::checkInteger($params['positionCateId'] ?? 0); // 职位分类id
-        $salary = Check::check($params['salary'] ?? ''); // 薪资
-        $labelIds = Check::check($params['labelIds'] ?? ''); //福利待遇  label 字符串
-        $education = Check::check($params['education'] ?? ''); //学历
-        $workYear = Check::check($params['workYear'] ?? ''); //工作年限
+        $salary = Check::checkStr($params['salary'] ?? ''); // 薪资
+        $labelIds = Check::checkStr($params['labelIds'] ?? ''); //福利待遇  label 字符串
+        $education = Check::checkStr($params['education'] ?? ''); //学历
+        $workYear = Check::checkStr($params['workYear'] ?? ''); //工作年限
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0);//是否军人优先 1,2
-        $province = Check::check($params['province'] ?? ''); //省份
-        $city = Check::check($params['city'] ?? ''); //市
-        $area = Check::check($params['area'] ?? ''); //区
+        $province = Check::checkStr($params['province'] ?? ''); //省份
+        $city = Check::checkStr($params['city'] ?? ''); //市
+        $area = Check::checkStr($params['area'] ?? ''); //区
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 

@@ -5,7 +5,8 @@ namespace app\api\controller\v1\admin;
 use app\api\model\AdminUserLoginHistoryModel;
 use app\api\model\AdminUserModel;
 use think\Request;
-use Util\Util;
+use Util;
+
 
 class AdminUser extends AuthBase
 {

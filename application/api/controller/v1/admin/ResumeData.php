@@ -4,11 +4,10 @@ namespace app\api\controller\v1\admin;
 
 use app\api\model\DataResume;
 use app\api\model\DataResumeRecord;
-use think\cache\driver\Redis;
+use Check;
 use think\Controller;
 use think\Request;
-use Util\Check;
-use Util\Util;
+use Util;
 
 class ResumeData extends Controller
 {
@@ -34,13 +33,13 @@ class ResumeData extends Controller
     {
         ini_set('max_execution_time', 0);
         $params = Request::instance()->param();
-        $posKey = Check::check($params['posKey'] ?? ''); //职位关键词
-        $exWorkLocation = Check::check($params['exWorkLocation'] ?? '');//期望工作地点
-        $workExp = Check::check($params['workExp'] ?? ''); //工作经验
-        $educationName = Check::check($params['educationName'] ?? '');//学历
-        $minAge = Check::check($params['minAge'] ?? 0);//最小年龄
-        $maxAge = Check::check($params['maxAge'] ?? 0); //最大年龄
-        $sex = Check::check($params['sex'] ?? ''); //性别 1男 0女 -1 未知
+        $posKey = Check::checkStr($params['posKey'] ?? ''); //职位关键词
+        $exWorkLocation = Check::checkStr($params['exWorkLocation'] ?? '');//期望工作地点
+        $workExp = Check::checkStr($params['workExp'] ?? ''); //工作经验
+        $educationName = Check::checkStr($params['educationName'] ?? '');//学历
+        $minAge = Check::checkStr($params['minAge'] ?? 0);//最小年龄
+        $maxAge = Check::checkStr($params['maxAge'] ?? 0); //最大年龄
+        $sex = Check::checkStr($params['sex'] ?? ''); //性别 1男 0女 -1 未知
 
         if ($posKey != '') {
             $posKeySql = "  and  exPosition  like  '%$posKey%'";
@@ -133,11 +132,11 @@ class ResumeData extends Controller
         $remark = $params['remark'] ?? '';
         $posKey = $params['posKey'] ?? '';
         $exWorkLocation = $params['exWorkLocation'] ?? '';
-        $workExp = Check::check($params['workExp'] ?? ''); //工作经验
-        $educationName = Check::check($params['educationName'] ?? '');//学历
-        $minAge = Check::check($params['minAge'] ?? '');//最小年龄
-        $maxAge = Check::check($params['maxAge'] ?? ''); //最大年龄
-        $sex = Check::check($params['sex'] ?? ''); //性别 1男 0女 -1 未知
+        $workExp = Check::checkStr($params['workExp'] ?? ''); //工作经验
+        $educationName = Check::checkStr($params['educationName'] ?? '');//学历
+        $minAge = Check::checkStr($params['minAge'] ?? '');//最小年龄
+        $maxAge = Check::checkStr($params['maxAge'] ?? ''); //最大年龄
+        $sex = Check::checkStr($params['sex'] ?? ''); //性别 1男 0女 -1 未知
 //        $filterData = $params['filterData'] ?? '';
 
         if ($recordName == '' || $remark == '') {
@@ -178,11 +177,11 @@ class ResumeData extends Controller
         $remark = $params['remark'] ?? '';
         $posKey = $params['posKey'] ?? '';
         $exWorkLocation = $params['exWorkLocation'] ?? '';
-        $workExp = Check::check($params['workExp'] ?? ''); //工作经验
-        $educationName = Check::check($params['educationName'] ?? '');//学历
-        $minAge = Check::check($params['minAge'] ?? '');//最小年龄
-        $maxAge = Check::check($params['maxAge'] ?? ''); //最大年龄
-        $sex = Check::check($params['sex'] ?? ''); //性别 1男 0女 -1 未知
+        $workExp = Check::checkStr($params['workExp'] ?? ''); //工作经验
+        $educationName = Check::checkStr($params['educationName'] ?? '');//学历
+        $minAge = Check::checkStr($params['minAge'] ?? '');//最小年龄
+        $maxAge = Check::checkStr($params['maxAge'] ?? ''); //最大年龄
+        $sex = Check::checkStr($params['sex'] ?? ''); //性别 1男 0女 -1 未知
 
         if ($recordName == '' || $remark == '') {
             Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');

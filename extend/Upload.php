@@ -6,8 +6,6 @@
  * Time: 10:14
  */
 
-namespace Util;
-
 use think\Db;
 use think\exception\ValidateException;
 use think\Request;

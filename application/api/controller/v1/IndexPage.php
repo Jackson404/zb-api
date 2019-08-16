@@ -2,12 +2,12 @@
 
 namespace app\api\controller\v1;
 
-use app\api\model\CategoryManagementModel;
 use app\api\model\NewsModel;
 use app\api\model\PositionCateModel;
 use app\api\model\PositionManagementModel;
 use app\api\model\SlideShowModel;
-use Util\Util;
+use Util;
+
 
 class IndexPage extends IndexBase
 {
