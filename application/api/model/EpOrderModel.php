@@ -110,7 +110,7 @@ class EpOrderModel extends Model
             ->where('o.userId', '=', $userId)
             ->where('o.isDelete', '=', 0)
             ->field('DATE_FORMAT(o.createTime, "%Y-%m") as orderDate,o.orderId,o.userId,eu.orderNum,eu.incomeTotal,
-            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.emNum,o.income,
+            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
             o.createTime,o.createBy,o.updateTime,o.updateBy')
             ->select();
         return $res;
@@ -143,7 +143,7 @@ class EpOrderModel extends Model
             ->where('p.interviewTime', $con, time())
             ->where('o.isDelete', '=', 0)
             ->field('DATE_FORMAT(o.createTime, "%Y-%m") as orderDate,o.orderId,o.userId,eu.orderNum,eu.incomeTotal,
-            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.emNum,o.income,
+            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
             o.createTime,o.createBy,o.updateTime,o.updateBy')
             ->paginate(null, false, $config);
         return $res;
