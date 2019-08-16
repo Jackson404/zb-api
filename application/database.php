@@ -13,15 +13,15 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-//    'hostname'=>'zhengbu123.mysql.rds.aliyuncs.com',
+    'hostname'=>'zhengbu123.mysql.rds.aliyuncs.com',
 //    'hostname'        => '47.103.102.222',
-    'hostname'        => '127.0.0.1',
+//    'hostname'        => '127.0.0.1',
     // 数据库名
     'database'        => 'zhengbu',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'zhengbu',
     // 密码
-    'password'        => 'zhengbu123',
+    'password'        => 'Zhengbu123',
     // 端口
     'hostport'        => '3306',
     // 连接dsn

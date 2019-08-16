@@ -41,6 +41,23 @@ class EpOrderModel extends Model
     }
 
     /**
+     * 获取用户是否结果该职位订单  详情
+     * @param $positionId
+     * @param $userId
+     * @return array|false|\PDOStatement|string|Model
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function verifyUserRecOrderDetail($positionId, $userId)
+    {
+        return $this->where('positionId', '=', $positionId)
+            ->where('userId', '=', $userId)
+            ->where('isDelete', '=', 0)
+            ->find();
+    }
+
+    /**
      * 分页获取订单列表
      * @param $userId
      * @param $pageIndex

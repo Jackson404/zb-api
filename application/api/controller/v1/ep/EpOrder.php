@@ -69,7 +69,8 @@ class EpOrder extends EpUserBase
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $epOrderModel = new EpOrderModel();
         $userId = $GLOBALS['userId'];
-        if ($epOrderModel->checkUserRecOrder($positionId, $userId)) {
+
+        if ($epOrderModel->checkUserRecOrder($positionId,$userId)) {
             $data['hasRecOrder'] = 1;
         } else {
             $data['hasRecOrder'] = 0;
@@ -81,6 +82,32 @@ class EpOrder extends EpUserBase
         $detail['labelIds'] = json_decode($detail['labelIds'], true);
         $data['detail'] = $detail;
         $data['randomList'] = $randomList;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    /**
+     * 分享订单
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function shareOrder()
+    {
+        $params = Request::instance()->param();
+        $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
+        $epOrderModel = new EpOrderModel();
+        $userId = $GLOBALS['userId'];
+        $x = $epOrderModel->verifyUserRecOrderDetail($positionId, $userId);
+        if ($x != null) {
+            $xData = $x->toArray();
+            $qrCode = $xData['qrCode'];
+            $data['hasRecOrder'] = 1;
+            $data['qrCode'] = $qrCode;
+        } else {
+            $data['hasRecOrder'] = 0;
+        }
+
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
