@@ -19,6 +19,7 @@ use think\cache\driver\Redis;
 use think\Exception;
 use think\Request;
 use Util\Check;
+use Util\RedisX;
 use Util\Util;
 
 class EpUser extends EpUserBase
@@ -40,7 +41,8 @@ class EpUser extends EpUserBase
 
         if ($result['Code'] == 'OK') {
 
-            $redis = new Redis();
+//            $redis = new Redis();
+            $redis = RedisX::instance();
             $redis->set($phone, $code, 300);
 
             Util::printResult($GLOBALS['ERROR_SUCCESS'], '验证码发送成功');
@@ -66,7 +68,8 @@ class EpUser extends EpUserBase
             exit;
         }
 
-        $redis = new Redis();
+//        $redis = new Redis();
+        $redis = RedisX::instance();
         $verifyCode = $redis->get($phone);
 
         if ($vCode != $verifyCode) {

@@ -5,6 +5,7 @@ namespace app\api\controller;
 use think\cache\driver\Redis;
 use think\Controller;
 use think\Request;
+use Util\RedisX;
 use Util\Util;
 
 class Auth extends Controller
@@ -37,8 +38,8 @@ class Auth extends Controller
 
         // $expiresIn = 7200;
 
-        $redis = new Redis();
-
+//        $redis = new Redis();
+        $redis = RedisX::instance();
         $redis->set('accessTokenApi_' . $timeStamp, $accessToken);
 
         $data['access_token'] = $timeStamp . '|' . $accessToken;
@@ -69,10 +70,9 @@ class Auth extends Controller
         $timeStamp = $arr[0];
         $accessTokenResult = $arr[1];
 
-        $redis = new Redis();
-
+//        $redis = new Redis();
+        $redis = RedisX::instance();
         $result = $redis->get('accessTokenApi_' . $timeStamp);
-
 //        if (!$result) {
 //            Util::printResult('-002', 'access_token过期，请重新请求');
 //            exit;

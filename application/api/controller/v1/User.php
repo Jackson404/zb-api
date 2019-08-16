@@ -13,6 +13,7 @@ use think\cache\driver\Redis;
 use think\Request;
 use Util\Check;
 use Util\Mini\WXBizDataCrypt;
+use Util\RedisX;
 use Util\Util;
 
 class User extends IndexBase
@@ -31,7 +32,8 @@ class User extends IndexBase
 
         if ($result['Code'] == 'OK') {
 
-            $redis = new Redis();
+            // $redis = new Redis();
+            $redis = RedisX::instance();
             $redis->set($phone, $code, 300);
 
             Util::printResult($GLOBALS['ERROR_SUCCESS'], '验证码发送成功');
@@ -54,7 +56,8 @@ class User extends IndexBase
             exit;
         }
 
-        $redis = new Redis();
+//        $redis = new Redis();
+        $redis = RedisX::instance();
         $verifyCode = $redis->get($phone);
 
         if ($vCode != $verifyCode) {
@@ -168,7 +171,8 @@ class User extends IndexBase
             exit;
         }
 
-        $redis = new Redis();
+//        $redis = new Redis();
+        $redis = RedisX::instance();
         $verifyCode = $redis->get($phone);
 
 
