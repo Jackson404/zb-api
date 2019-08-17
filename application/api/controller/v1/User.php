@@ -51,10 +51,10 @@ class User extends IndexBase
         $vCode = Check::check($params['vCode'] ?? '');
         $miniOpenId = Check::check($params['miniOpenId'] ?? '');
 
-//        if ($vCode == '') {
-//            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
-//            exit;
-//        }
+        if ($vCode == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
 
 //        $redis = new Redis();
         $redis = RedisX::instance();
