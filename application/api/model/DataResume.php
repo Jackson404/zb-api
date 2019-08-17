@@ -151,5 +151,17 @@ class DataResume extends Model
             ->where('isDelete', '=', 0)->find();
     }
 
+    public function detailForShowPage($idCard, $phone)
+    {
+        return $this->where('idCard', '=', $idCard)->where('phone', '=', $phone)
+            ->where('isDelete', '=', 0)
+            //er.id,er.resumeId,r.name,r.gender,r.age,r.workYear,r.education,r.exPosition,r.salary,
+            //            r.curStatus,r.createTime,r.createBy,r.updateTime,r.updateBy
+            ->field('idCard,phone,name,sex as gender,birthYear,educationName as education,workYear,
+                exPosition,exSalary as salary,habitation')
+            ->find();
+    }
+
+
 
 }

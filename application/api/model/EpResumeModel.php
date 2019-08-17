@@ -85,6 +85,37 @@ class EpResumeModel extends Model
     }
 
     /**
+     * 分页获取企业用户的简历列表
+     * @param $userId
+     * @param $pageIndex
+     * @param $pageSize
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public function getListByUserIdPage($userId, $pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->where('userId', '=', $userId)
+            ->where('isDelete', '=', 0)
+            ->paginate(null, false, $config);
+    }
+
+    public function getListByUserIdPageWithCate($userId, $resumeCateId,$pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->where('userId', '=', $userId)
+            ->where('resumeCateId','=',$resumeCateId)
+            ->where('isDelete', '=', 0)
+            ->paginate(null, false, $config);
+    }
+
+    /**
      * 获取用户下载的简历列表
      * @param $userId
      * @return false|\PDOStatement|string|\think\Collection
@@ -123,7 +154,34 @@ class EpResumeModel extends Model
             ->select();
     }
 
-    public function getEpResumeListApplyByCate($userId,$resumeCateId)
+    /**
+     * 获取企业用户的简历列表 前端展示用 跟下载的简历列表字段做别名
+     * @param $userId
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getEpResumeListApplyForShowPage($userId, $pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->alias('er')
+            ->join('zb_resume r', 'er.resumeId=r.id', 'left')
+            ->join('zb_user u', 'r.userId=u.id', 'left')
+            ->join('zb_enterprise_resume_cate c', 'er.resumeCateId=c.id', 'left')
+            ->where('er.userId', '=', $userId)
+            ->where('er.source', '=', 1)
+            ->where('er.isDelete', '=', 0)
+            ->field('er.id,er.resumeId,r.name,r.gender,r.age,r.workYear,r.education,r.exPosition,r.salary,
+            r.curStatus,er.source')
+            ->paginate(null, false, $config);
+    }
+
+
+    public function getEpResumeListApplyByCate($userId, $resumeCateId)
     {
         return $this->alias('er')
             ->join('zb_resume r', 'er.resumeId=r.id', 'left')
@@ -131,7 +189,7 @@ class EpResumeModel extends Model
             ->join('zb_enterprise_resume_cate c', 'er.resumeCateId=c.id', 'left')
             ->where('er.userId', '=', $userId)
             ->where('er.source', '=', 1)
-            ->where('er.resumeCateId','=',$resumeCateId)
+            ->where('er.resumeCateId', '=', $resumeCateId)
             ->where('er.isDelete', '=', 0)
             ->field('er.id,er.resumeId,er.resumeCateId,c.name as resumeCateName,r.userId,u.avatar,r.name,r.phone,r.gender,r.age,r.workYear,r.education,
             r.skills,r.selfEvaluation,r.militaryTime,r.attendedTime,r.corps,r.exPosition,r.salary,
@@ -139,10 +197,10 @@ class EpResumeModel extends Model
             ->select();
     }
 
-    public function getDownResumeListByUserIdWithCate($userId,$resumeCateId)
+    public function getDownResumeListByUserIdWithCate($userId, $resumeCateId)
     {
         return $this->where('userId', '=', $userId)
-            ->where('resumeCateId','=',$resumeCateId)
+            ->where('resumeCateId', '=', $resumeCateId)
             ->where('source', '=', 2)
             ->where('isDelete', '=', 0)
             ->select();

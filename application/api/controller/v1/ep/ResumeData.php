@@ -5,6 +5,7 @@ namespace app\api\controller\v1\ep;
 use app\api\model\DataResume;
 use app\api\model\EpResumeCateModel;
 use app\api\model\EpResumeModel;
+use app\api\model\ResumeModel;
 use think\Request;
 use Util\Check;
 use Util\Util;
@@ -265,33 +266,52 @@ class ResumeData extends EpUserBase
      */
     public function getEpResumeList()
     {
+        $params = Request::instance()->param();
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
         $userId = $GLOBALS['userId'];
         $epResumeModel = new EpResumeModel();
-        $x = $epResumeModel->getEpResumeListApply($userId);
-        $downList = $epResumeModel->getDownResumeListByUserId($userId);
+
+        $page = $epResumeModel->getListByUserIdPage($userId, $pageIndex, $pageSize);
+        $pageData = $page->toArray();
+
+        $pageData = $pageData['data'];
+
+        $resumeModel = new ResumeModel();
         $resumeData = new DataResume();
-        $epResumeCateModel = new EpResumeCateModel();
-        $downResumeList = array();
-        if ($downList != null) {
-            $downListData = $downList->toArray();
-            foreach ($downListData as $k => $v) {
-                $detail = $resumeData->detail($v['idCard'], $v['phone']);
-                $resumeCateId = $v['resumeCateId'];
-                if ($resumeCateId != 0) {
-                    $xx = $epResumeCateModel->getDetail($resumeCateId);
-                    $xxData = $xx->toArray();
-                    $resumeCateName = $xxData['name'];
-                    $detail['resumeCateName'] = $resumeCateName;
-                } else {
-                    $detail['resumeCateName'] = '';
-                }
-                $detail['id'] = $v['id'];
-                $detail['resumeCateId'] = $resumeCateId;
-                array_push($downResumeList, $detail);
+        $total = $page->total();
+
+        $list = array();
+        foreach ($pageData as $k => $v) {
+            $source = $v['source'];
+
+            if ($source == 1) {
+                $resumeId = $v['resumeId'];
+                $xDetail = $resumeModel->getDetailForShow($resumeId);
+                $xData = $xDetail->toArray();
+                $xData['birthYear'] = '';
+                $xData['habitation'] = '';
+                $xData['source'] = 1;
+                array_push($list, $xData);
             }
+
+            if ($source == 2) {
+                $xxDetail = $detail = $resumeData->detailForShowPage($v['idCard'], $v['phone']);
+                $xxData = $xxDetail->toArray();
+                $xxData['age'] = '';
+                $xxData['curStatus'] = '';
+                $xxData['source'] = 2;
+                array_push($list, $xxData);
+            }
+
         }
-        $data['applyResumeList'] = $x;
-        $data['downloadResumeList'] = $downResumeList;
+        $x['pageIndex'] = $pageIndex;
+        $x['pageSize'] = $pageSize;
+        $x['total'] = $total;
+        $x['data'] = $list;
+
+        $data['page'] = $x;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
@@ -326,40 +346,84 @@ class ResumeData extends EpUserBase
         }
     }
 
+    /**
+     * 根据分类获取用户的简历列表
+     * @throws \think\Exception
+     */
     public function getEpResumeListByCate()
     {
-        $userId = $GLOBALS['userId'];
-        $params  = Request::instance()->param();
+        $params = Request::instance()->param();
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
         $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
 
+        $userId = $GLOBALS['userId'];
         $epResumeModel = new EpResumeModel();
-        $x = $epResumeModel->getEpResumeListApplyByCate($userId,$resumeCateId);
-        $downList = $epResumeModel->getDownResumeListByUserIdWithCate($userId,$resumeCateId);
+
+        $page = $epResumeModel->getListByUserIdPageWithCate($userId, $resumeCateId, $pageIndex, $pageSize);
+        $pageData = $page->toArray();
+
+        $pageData = $pageData['data'];
+
+        $resumeModel = new ResumeModel();
         $resumeData = new DataResume();
-        $epResumeCateModel = new EpResumeCateModel();
-        $downResumeList = array();
-        if ($downList != null) {
-            $downListData = $downList->toArray();
-            foreach ($downListData as $k => $v) {
-                $detail = $resumeData->detail($v['idCard'], $v['phone']);
-                $resumeCateId = $v['resumeCateId'];
-                if ($resumeCateId != 0) {
-                    $xx = $epResumeCateModel->getDetail($resumeCateId);
-                    $xxData = $xx->toArray();
-                    $resumeCateName = $xxData['name'];
-                    $detail['resumeCateName'] = $resumeCateName;
-                } else {
-                    $detail['resumeCateName'] = '';
-                }
-                $detail['id'] = $v['id'];
-                $detail['resumeCateId'] = $resumeCateId;
-                array_push($downResumeList, $detail);
+        $total = $page->total();
+
+        $list = array();
+        foreach ($pageData as $k => $v) {
+            $source = $v['source'];
+
+            if ($source == 1) {
+                $resumeId = $v['resumeId'];
+                $xDetail = $resumeModel->getDetailForShow($resumeId);
+                $xData = $xDetail->toArray();
+                $xData['birthYear'] = '';
+                $xData['habitation'] = '';
+                $xData['source'] = 1;
+                array_push($list, $xData);
             }
+
+            if ($source == 2) {
+                $xxDetail = $detail = $resumeData->detailForShowPage($v['idCard'], $v['phone']);
+                $xxData = $xxDetail->toArray();
+                $xxData['age'] = '';
+                $xxData['curStatus'] = '';
+                $xxData['source'] = 2;
+                array_push($list, $xxData);
+            }
+
         }
-        $data['applyResumeList'] = $x;
-        $data['downloadResumeList'] = $downResumeList;
+        $x['pageIndex'] = $pageIndex;
+        $x['pageSize'] = $pageSize;
+        $x['total'] = $total;
+        $x['data'] = $list;
+
+        $data['page'] = $x;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
     }
 
+    public function getEpApplyResumeDetail()
+    {
+        $params = Request::instance()->param();
+        $resumeId = Check::checkInteger($params['resumeId'] ?? '');
+        $resumeModel = new ResumeModel();
+        $detail = $resumeModel->getDetail($resumeId);
+        $data['detail'] = $detail;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
+    }
+
+    public function getEpDownloadResumeDetail()
+    {
+        $params = Request::instance()->param();
+        $idCard = Check::checkInteger($params['idCard'] ?? '');
+        $phone = Check::check($params['phone'] ?? '');
+
+        $resumeData = new DataResume();
+        $detail = $resumeData->detail($idCard, $phone);
+        $data['detail'] = $detail;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
 
 }
