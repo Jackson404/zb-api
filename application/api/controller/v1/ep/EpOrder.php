@@ -4,6 +4,7 @@ namespace app\api\controller\v1\ep;
 
 use app\api\model\EpOrderApplyModel;
 use app\api\model\EpOrderModel;
+use app\api\model\EpUserModel;
 use app\api\model\PositionManagementModel;
 use think\Request;
 use Util\Check;
@@ -70,7 +71,7 @@ class EpOrder extends EpUserBase
         $epOrderModel = new EpOrderModel();
         $userId = $GLOBALS['userId'];
 
-        if ($epOrderModel->checkUserRecOrder($positionId,$userId)) {
+        if ($epOrderModel->checkUserRecOrder($positionId, $userId)) {
             $data['hasRecOrder'] = 1;
         } else {
             $data['hasRecOrder'] = 0;
@@ -134,24 +135,56 @@ class EpOrder extends EpUserBase
     public function getOrderList()
     {
         $params = Request::instance()->param();
-        $orderDate = $params['orderDate'] ?? ''; //筛选订单时间
+        $orderDate = $params['orderDate'] ?? ''; //筛选订单时间 格式2019-08
         $isFinish = $params['isFinish'] ?? 1; //默认已完成
 
         $userId = $GLOBALS['userId'];
+
+        if ($orderDate == ''){
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'],'缺少参数');
+            exit;
+        }
+
+        $epUserModel = new EpUserModel();
+        $userInfo = $epUserModel->getUserInfo($userId);
+        $userData = $userInfo->toArray();
+
+        $userType = $userData['type'];
+        $epId = $userData['epId'];
+
         $orderModel = new EpOrderModel();
 
-        $list = $orderModel->getOrderList($userId, $isFinish);
-        $listData = $list->toArray();
+        $x = explode('-', $orderDate);
+        $recOrderYear = $x[0];
+        $recOrderMonth = $x[1];
 
-        $newList = array();
-        if ($orderDate != '') {
-            foreach ($listData as $k => $v) {
-                if ($v['orderDate'] == $orderDate) {
-                    array_push($newList, $v);
-                }
-            }
+        if ($userType == 1) {
+            $list = $orderModel->getOrderListWithOrderDateWithEpUser($epId, $isFinish, $recOrderYear, $recOrderMonth);
+            list($entryNumMonth, $incomeMonth,$orderNumMonth,$incomeTotal,$orderNum) = $orderModel->getOrderInfoByMonthWithEpUser($recOrderYear, $recOrderMonth, $epId,$isFinish);
+
+            $data['incomeTotal'] = $incomeTotal;
+            $data['orderNum'] = $orderNum;
+            $data['orderNumMonth'] = $orderNumMonth;
+            $data['entryNumMonth'] = $entryNumMonth;
+            $data['incomeMonth'] = $incomeMonth;
+
+        } else if ($userType == 2) {
+
+            $list = $orderModel->getOrderListWithOrderDateWithEmUser($userId, $isFinish, $recOrderYear, $recOrderMonth);
+
+            list($entryNumMonth, $incomeMonth,$orderNumMonth,$incomeTotal,$orderNum) = $orderModel->getOrderInfoByMonthWithEmUser($recOrderYear, $recOrderMonth, $userId,$isFinish);
+
+            $data['incomeTotal'] = $incomeTotal;
+            $data['orderNum'] = $orderNum;
+            $data['orderNumMonth'] = $orderNumMonth;
+            $data['entryNumMonth'] = $entryNumMonth;
+            $data['incomeMonth'] = $incomeMonth;
+        } else {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'],'用户未认证');
+            exit;
         }
-        $data['list'] = $newList;
+
+        $data['list'] = $list;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
 
     }

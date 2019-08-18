@@ -4,7 +4,11 @@ namespace app\api\controller\v1\ep;
 
 use app\api\model\CompanyManagementModel;
 use app\api\model\EpCertModel;
+use app\api\model\EpOrderApplyModel;
 use app\api\model\EpOrderModel;
+use app\api\model\EpResumeCateModel;
+use app\api\model\EpResumeModel;
+use app\api\model\EpUserCert;
 use app\api\model\EpUserCertModel;
 use app\api\model\EpUserEmGroupModel;
 use app\api\model\EpUserLoginHistoryModel;
@@ -366,20 +370,61 @@ class EpUser extends EpUserBase
             Util::printResult($GLOBALS['ERROR_SUCCESS'], '不是企业用户');
             exit;
         }
-
         $epCertModel = new EpCertModel();
         $res = $epCertModel->getByUserIdAndType($epUserId, 1);
         $resData = $res->toArray();
-        if ($resData == null) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '没有员工');
-            exit;
-        }
         $epId = $resData['epId'];
-
         $epUserCertModel = new EpUserCertModel();
         $res = $epUserCertModel->getEmApplyListByEpId($epId);
-        $data['list'] = $res;
+        $x = $res->toArray();
+        $epOrderModel = new EpOrderModel();
+        foreach ($x as $k => $v) {
+            $userId = $v['userId'];
+            list($entryNumMonth, $incomeMonth, $orderNumMonth) = $epOrderModel->getOrderInfoByMonthWithEmUserNowMonth($userId);
+            $x[$k]['orderNumMonth'] = $orderNumMonth;
+            $x[$k]['entryNumMonth'] = $entryNumMonth;
+            $x[$k]['incomeMonth'] = $incomeMonth;
+
+            if ($v['groupId'] == 0) {
+                $x[$k]['groupName'] = '未分组';
+            }
+        }
+        $data['list'] = $x;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    /**
+     * 获取员工详情
+     */
+    public function getEmUserDetail()
+    {
+        $params = Request::instance()->param();
+        $orderDate = $params['orderDate'] ?? ''; //筛选订单时间 格式2019-08
+        $isFinish = $params['isFinish'] ?? 1; //默认已完成
+        $userId = Check::checkInteger($params['userId'] ?? ''); //员工id
+
+        if ($orderDate == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
+            exit;
+        }
+
+        $orderModel = new EpOrderModel();
+
+        $x = explode('-', $orderDate);
+        $recOrderYear = $x[0];
+        $recOrderMonth = $x[1];
+
+        $list = $orderModel->getOrderListWithOrderDateWithEmUser($userId, $isFinish, $recOrderYear, $recOrderMonth);
+        list($entryNumMonth, $incomeMonth, $orderNumMonth, $incomeTotal, $orderNum) = $orderModel->getOrderInfoByMonthWithEmUser($recOrderYear, $recOrderMonth, $userId, $isFinish);
+
+        $data['incomeTotal'] = $incomeTotal;
+        $data['orderNum'] = $orderNum;
+        $data['orderNumMonth'] = $orderNumMonth;
+        $data['entryNumMonth'] = $entryNumMonth;
+        $data['incomeMonth'] = $incomeMonth;
+        $data['list'] = $list;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
     }
 
     /**
@@ -392,9 +437,33 @@ class EpUser extends EpUserBase
     {
         $params = Request::instance()->param();
         $groupId = Check::checkInteger($params['groupId'] ?? '');
+
+        $epUserId = $GLOBALS['userId'];
+        $epUserModel = new EpUserModel();
+        $type = $epUserModel->verifyUserType($epUserId);
+        if ($type != 1) {
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], '不是企业用户');
+            exit;
+        }
+
         $epUserCertModel = new EpUserCertModel();
         $res = $epUserCertModel->getEmApplyListByGroupId($groupId);
-        $data['list'] = $res;
+
+        $x = $res->toArray();
+
+        $epOrderModel = new EpOrderModel();
+        foreach ($x as $k => $v) {
+            $userId = $v['userId'];
+            list($entryNumMonth, $incomeMonth, $orderNumMonth) = $epOrderModel->getOrderInfoByMonthWithEmUserNowMonth($userId);
+            $x[$k]['orderNumMonth'] = $orderNumMonth;
+            $x[$k]['entryNumMonth'] = $entryNumMonth;
+            $x[$k]['incomeMonth'] = $incomeMonth;
+
+            if ($v['groupId'] == 0) {
+                $x[$k]['groupName'] = '未分组';
+            }
+        }
+        $data['list'] = $x;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
@@ -535,6 +604,30 @@ class EpUser extends EpUserBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
+    public function delEmUser()
+    {
+//        $params = Request::instance()->param();
+//        $userId = Check::checkInteger($params['userId'] ?? '');
+//
+//        $epUserModel = new EpUserModel();
+//        $epUserModel->isUpdate(true)->save(['id'=>$userId,'isDelete'=>1]);
+//        $epUserCertModel = new EpUserCertModel();
+//        $epUserCertModel->isUpdate(true)->save(['userId'=>$userId,'isDelete'=>1]);
+//        $epUserCert  = new EpUserCert();
+//        $epUserCert->isUpdate(true)->save(['userId'=>$userId,'isDelete'=>1]);
+//        $epOrderModel = new EpOrderModel();
+//        $epOrderModel->isUpdate(true)->save(['userId'=>$userId,'isDelete'=>1]);
+//        $epOrderApplyModel = new EpOrderApplyModel();
+//        $epOrderApplyModel->isUpdate(true)->save(['shareUserId'=>$userId,'isDelete'=>1]);
+//        $epResumeModel = new EpResumeModel();
+//        $epResumeModel->isUpdate(true)->save(['userId'=>$userId,'isDelete'=>1]);
+//        $epResumeCateModel = new EpResumeCateModel();
+//        $epResumeCateModel->isUpdate(true)->save(['userId'=>$userId,'isDelete'=>1]);
+//
+//        Util::printResult($GLOBALS['ERROR_SUCCESS'],'删除成功');
+
+    }
+
     /**
      * 接单
      * @throws Exception
@@ -545,6 +638,17 @@ class EpUser extends EpUserBase
         $params = Request::instance()->param();
         $positionId = Check::checkInteger($params['positionId'] ?? '');
         $userId = $GLOBALS['userId'];
+
+        $epUserModel = new EpUserModel();
+        $userInfo = $epUserModel->getUserInfo($userId);
+        $userData = $userInfo->toArray();
+        if ($userData['isReview'] != 2) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户未认证,不可接单');
+            exit;
+        }
+
+        $epId = $userData['epId'];
+
         $epOrderModel = new EpOrderModel();
         if ($epOrderModel->checkUserRecOrder($positionId, $userId)) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户已经接过该单');
@@ -575,8 +679,11 @@ class EpUser extends EpUserBase
             $arr = [
                 'orderId' => $orderId,
                 'userId' => $userId,
+                'epId' => $epId,
                 'positionId' => $positionId,
                 'qrCode' => $saveUrl,
+                'recOrderYear' => date('Y', time()),
+                'recOrderMonth' => date('m', time()),
                 'createBy' => $userId,
                 'createTime' => currentTime(),
                 'updateBy' => $userId,
@@ -597,75 +704,6 @@ class EpUser extends EpUserBase
             exit;
         } catch (OssException $e) {
             Util::printResult($e->getCode(), $e->getMessage());
-            exit;
-        }
-    }
-
-
-    /**
-     * 接单 企业用户 普通用户都可以接单
-     */
-    public function receiveOrder111()
-    {
-        $params = Request::instance()->param();
-        $positionId = Check::checkInteger($params['positionId'] ?? '');
-        $userId = $GLOBALS['userId'];
-        $epOrderModel = new EpOrderModel();
-        if ($epOrderModel->checkUserRecOrder($positionId, $userId)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户已经接过该单');
-            exit;
-        }
-        $orderId = get_order_sn();
-        try {
-            $json = json_encode(
-                [
-                    'userId' => $userId,
-                    'positionId' => $positionId,
-                    'orderId' => $orderId
-                ]
-            );
-            //生成二维码
-            $qrCode = new QrCode($json);
-            $qrCode->setSize(300);
-            $qrCode->setWriterByName('png');
-            $qrCode->setMargin(10);
-            $qrCode->setEncoding('UTF-8');
-            $qrCode->setErrorCorrectionLevel(new ErrorCorrectionLevel(ErrorCorrectionLevel::HIGH));
-            $qrCode->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0]);
-            $qrCode->setBackgroundColor(['r' => 255, 'g' => 255, 'b' => 255, 'a' => 0]);
-            $qrCode->setLabel('扫描二维码报名', 12);
-            $qrCode->setLogoPath(ROOT_PATH . 'public/avatar/a1.png');
-            $qrCode->setLogoSize(50, 50);
-            $qrCode->setRoundBlockSize(true);
-            $qrCode->setValidateResult(false);
-            $qrCode->setWriterOptions(['exclude_xml_declaration' => true]);
-
-            $qrCodeUrl = ROOT_PATH . 'public/order/' . $orderId . '.png';
-            $saveUrl = '/order/' . $orderId . '.png';
-            $qrCode->writeFile($qrCodeUrl);
-
-            $arr = [
-                'orderId' => $orderId,
-                'userId' => $userId,
-                'positionId' => $positionId,
-                'qrCode' => $saveUrl,
-                'createBy' => $userId,
-                'createTime' => currentTime(),
-                'updateBy' => $userId,
-                'updateTime' => currentTime()
-            ];
-            $recId = $epOrderModel->add($arr);
-            if ($recId > 0) {
-                $data['recId'] = $recId;
-                $data['orderId'] = $orderId;
-                $data['qrCode'] = $saveUrl;
-                Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-                exit;
-            } else {
-                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '添加失败');
-            }
-        } catch (Exception $e) {
-            Util::printResult($GLOBALS['ERROR_EXCEPTION'], '出现异常');
             exit;
         }
     }

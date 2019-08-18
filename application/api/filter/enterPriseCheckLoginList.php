@@ -3,6 +3,7 @@ $whiteList = [
     'api/v1.ep.EpUser/epCertification',
     'api/v1.ep.EpUser/pCertification',
     'api/v1.ep.EpUser/getEmListByEpUserId',
+    'api/v1.ep.EpUser/getEmUserDetail',
     'api/v1.ep.EpUser/getEmListByGroupId',
     'api/v1.ep.EpUser/review',
     'api/v1.ep.EpUser/addEmGroup',

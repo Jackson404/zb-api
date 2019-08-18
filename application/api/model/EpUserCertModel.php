@@ -179,6 +179,7 @@ class EpUserCertModel extends Model
                 $up = $this->table('zb_enterprise_user')->where('id', '=', $emUserId)->where('isDelete', '=', 0)
                     ->update(
                         [
+                            'epId'=>$companyId,
                             'isReview' => 2,
                             'type' => $type
                         ]
@@ -297,6 +298,7 @@ class EpUserCertModel extends Model
                 $up = $this->table('zb_enterprise_user')->where('id', '=', $userId)->where('isDelete', '=', 0)
                     ->update(
                         [
+                            'epId'=>$companyId,
                             'isReview' => 2,
                             'type' => $type
                         ]
@@ -340,25 +342,28 @@ class EpUserCertModel extends Model
      */
     public function getEmApplyListByEpId($epId)
     {
-
-//        return $this->where('applyEpId', '=', $epId)
-//            ->where('isDelete', '=', 0)
-//            ->select();
         return $this->alias('r')
             ->join('zb_enterprise_user u','r.userId=u.id','left')
             ->join('zb_enterprise_em_group g','r.groupId=g.groupId','left')
             ->where('r.applyEpId','=',$epId)
             ->where('r.isDelete','=',0)
-            ->field('r.id,r.userId,u.name as username,r.applyEpId,r.groupId,g.name as groupName,
-            u.orderNum,u.incomeTotal,
-            r.realname,r.realphone,r.idCard,r.idCardFrontPic,r.idCardBackPic,r.companyName,
-            r.pass,r.createTime,r.createBy,r.updateTime,r.updateBy')
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.createTime')
             ->select();
+
+//        return $this->alias('r')
+//            ->join('zb_enterprise_user u','r.userId=u.id','left')
+//            ->join('zb_enterprise_em_group g','r.groupId=g.groupId','left')
+//            ->where('r.applyEpId','=',$epId)
+//            ->where('r.isDelete','=',0)
+//            ->field('r.id,r.userId,u.name as username,r.applyEpId,r.groupId,g.name as groupName,
+//            r.realname,r.realphone,r.idCard,r.idCardFrontPic,r.idCardBackPic,r.companyName,
+//            r.pass,r.createTime,r.createBy,r.updateTime,r.updateBy')
+//            ->select();
     }
 
     /**
      * 获取企业的员工申请列表 根据组别
-     * @param $epId
+     * @param $groupId
      * @return false|\PDOStatement|string|\think\Collection
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
@@ -375,10 +380,7 @@ class EpUserCertModel extends Model
             ->join('zb_enterprise_em_group g','r.groupId=g.groupId','left')
             ->where('r.groupId','=',$groupId)
             ->where('r.isDelete','=',0)
-            ->field('r.id,r.userId,u.name as username,r.applyEpId,r.groupId,g.name as groupName,
-            u.orderNum,u.incomeTotal,
-            r.realname,r.realphone,r.idCard,r.idCardFrontPic,r.idCardBackPic,r.companyName,
-            r.pass,r.createTime,r.createBy,r.updateTime,r.updateBy')
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.createTime')
             ->select();
     }
 

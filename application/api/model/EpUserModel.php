@@ -39,17 +39,25 @@ class EpUserModel extends Model
     {
         $res = $this->where('companyName', '=', $companyName)
             ->where('isDelete', '=', 0)
-            ->where('type','=',1)
-            ->where('isReview','=',2)
+            ->where('type', '=', 1)
+            ->where('isReview', '=', 2)
             ->find();
         return $res;
     }
 
-    public function verifyUserType($userId){
-        $res = $this->where('id','=',$userId)
-            ->where('isDelete','=',0)
+    public function verifyUserType($userId)
+    {
+        $res = $this->where('id', '=', $userId)
+            ->where('isDelete', '=', 0)
             ->value('type');
         return $res;
+    }
+
+    public function getUserInfo($userId)
+    {
+        return $this->where('id', '=', $userId)
+            ->where('isDelete', '=', 0)
+            ->find();
     }
 
 }

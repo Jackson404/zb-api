@@ -89,11 +89,198 @@ class EpOrderModel extends Model
      */
     public function getDetailByOrderId($orderId)
     {
-        $res = $this->where('orderId', '=', $orderId)
-            ->where('isDelete', '=', 0)
+        $res = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->join('zb_enterprise_user eu', 'o.userId=eu.id', 'left')
+            ->where('o.orderId','=',$orderId)
+            ->where('o.isDelete', '=', 0)
+            ->field('o.id,o.orderId,o.userId,
+            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
+            o.recOrderYear,o.recOrderMonth,
+            o.createTime,o.createBy,o.updateTime,o.updateBy')
             ->find();
         return $res;
     }
+
+    /**
+     * 员工获取订单列表
+     * @param $userId
+     * @param $isFinish
+     * @param $recOrderYear
+     * @param $recOrderMonth
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getOrderListWithOrderDateWithEmUser($userId, $isFinish, $recOrderYear, $recOrderMonth)
+    {
+        if ($isFinish == 1) {
+            $con = '<';
+        }
+        if ($isFinish == 0) {
+            $con = '>';
+        }
+        $res = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->join('zb_enterprise_user eu', 'o.userId=eu.id', 'left')
+            ->where('p.endTime', $con, time())
+            ->where('o.recOrderYear', '=', $recOrderYear)
+            ->where('o.recOrderMonth', '=', $recOrderMonth)
+            ->where('o.userId', '=', $userId)
+            ->where('o.isDelete', '=', 0)
+            ->field('o.id,o.orderId,o.userId,
+            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
+            o.recOrderYear,o.recOrderMonth,
+            o.createTime,o.createBy,o.updateTime,o.updateBy')
+            ->select();
+        return $res;
+    }
+
+    /**
+     * 企业用户获取订单列表
+     * @param $epId
+     * @param $isFinish
+     * @param $recOrderYear
+     * @param $recOrderMonth
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getOrderListWithOrderDateWithEpUser($epId, $isFinish, $recOrderYear, $recOrderMonth)
+    {
+        if ($isFinish == 1) {
+            $con = '<';
+        }
+        if ($isFinish == 0) {
+            $con = '>';
+        }
+        $res = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->join('zb_enterprise_user eu', 'o.userId=eu.id', 'left')
+            ->where('p.endTime', $con, time())
+            ->where('o.recOrderYear', '=', $recOrderYear)
+            ->where('o.recOrderMonth', '=', $recOrderMonth)
+            ->where('o.epId', '=', $epId)
+            ->where('o.isDelete', '=', 0)
+            ->field('o.id,o.orderId,o.userId,
+            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
+            o.recOrderYear,o.recOrderMonth,
+            o.createTime,o.createBy,o.updateTime,o.updateBy')
+            ->select();
+        return $res;
+    }
+
+    public function getOrderInfoByMonthWithEpUser($recOrderYear, $recOrderMonth, $epId,$isFinish)
+    {
+        if ($isFinish == 1) {
+            $con = '<';
+        }
+        if ($isFinish == 0) {
+            $con = '>';
+        }
+        $entryNumMonth = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->where('o.recOrderYear', '=', $recOrderYear)
+            ->where('o.recOrderMonth', '=', $recOrderMonth)
+            ->where('o.epId', '=', $epId)
+            ->where('p.endTime',$con,$isFinish)
+            ->where('o.isDelete','=',0)
+            ->sum('o.entryNum');
+        $incomeMonth = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->where('o.recOrderYear', '=', $recOrderYear)
+            ->where('o.recOrderMonth', '=', $recOrderMonth)
+            ->where('o.epId', '=', $epId)
+            ->where('p.endTime',$con,$isFinish)
+            ->where('o.isDelete','=',0)
+            ->sum('income');
+        $orderNumMonth = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->where('o.recOrderYear', '=', $recOrderYear)
+            ->where('o.recOrderMonth', '=', $recOrderMonth)
+            ->where('o.epId', '=', $epId)
+            ->where('p.endTime',$con,$isFinish)
+            ->where('o.isDelete','=',0)
+            ->count();
+        $incomeTotal = $this->where('epId', '=', $epId)
+            ->where('isDelete','=',0)
+            ->sum('income');
+        $orderNum  = $this->where('epId', '=', $epId)
+            ->where('isDelete','=',0)
+            ->count();
+        return [$entryNumMonth, $incomeMonth,$orderNumMonth,$incomeTotal,$orderNum];
+    }
+
+    public function getOrderInfoByMonthWithEmUser($recOrderYear, $recOrderMonth, $userId,$isFinish)
+    {
+        if ($isFinish == 1) {
+            $con = '<';
+        }
+        if ($isFinish == 0) {
+            $con = '>';
+        }
+        $entryNumMonth = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->where('o.recOrderYear', '=', $recOrderYear)
+            ->where('o.recOrderMonth', '=', $recOrderMonth)
+            ->where('o.userId', '=', $userId)
+            ->where('p.endTime',$con,$isFinish)
+            ->where('o.isDelete','=',0)
+            ->sum('o.entryNum');
+        $incomeMonth = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->where('o.recOrderYear', '=', $recOrderYear)
+            ->where('o.recOrderMonth', '=', $recOrderMonth)
+            ->where('o.userId', '=', $userId)
+            ->where('p.endTime',$con,$isFinish)
+            ->where('o.isDelete','=',0)
+            ->sum('income');
+        $orderNumMonth = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->where('o.recOrderYear', '=', $recOrderYear)
+            ->where('o.recOrderMonth', '=', $recOrderMonth)
+            ->where('o.userId', '=', $userId)
+            ->where('p.endTime',$con,$isFinish)
+            ->where('o.isDelete','=',0)
+            ->count();
+        $incomeTotal = $this->where('userId', '=', $userId)
+            ->where('isDelete','=',0)
+            ->sum('income');
+        $orderNum  = $this->where('userId', '=', $userId)
+            ->where('isDelete','=',0)
+            ->count();
+        return [$entryNumMonth, $incomeMonth,$orderNumMonth,$incomeTotal,$orderNum];
+    }
+
+    /**
+     * 获取员工本月的接单信息
+     * @param $userId
+     * @return array
+     * @throws \think\Exception
+     */
+    public function getOrderInfoByMonthWithEmUserNowMonth($userId)
+    {
+        $entryNumMonth = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->where('o.userId', '=', $userId)
+            ->where('o.isDelete','=',0)
+            ->sum('o.entryNum');
+        $incomeMonth = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->where('o.userId', '=', $userId)
+            ->where('o.isDelete','=',0)
+            ->sum('income');
+        $orderNumMonth = $this->alias('o')
+            ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->where('o.userId', '=', $userId)
+            ->where('o.isDelete','=',0)
+            ->count();
+
+        return [$entryNumMonth, $incomeMonth,$orderNumMonth];
+    }
+
 
     public function getOrderList($userId, $isFinish)
     {
@@ -106,7 +293,7 @@ class EpOrderModel extends Model
         $res = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
             ->join('zb_enterprise_user eu', 'o.userId=eu.id', 'left')
-            ->where('p.interviewTime', $con, time())
+            ->where('p.endTime', $con, time())
             ->where('o.userId', '=', $userId)
             ->where('o.isDelete', '=', 0)
             ->field('DATE_FORMAT(o.createTime, "%Y-%m") as orderDate,o.orderId,o.userId,eu.orderNum,eu.incomeTotal,
