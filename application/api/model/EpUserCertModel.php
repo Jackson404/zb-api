@@ -358,7 +358,7 @@ class EpUserCertModel extends Model
             ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
             ->where('r.applyEpId', '=', $epId)
             ->where('r.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
+            ->field('r.id,r.type,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
             ->select();
 
 //        return $this->alias('r')
