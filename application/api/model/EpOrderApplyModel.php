@@ -92,5 +92,17 @@ class EpOrderApplyModel extends Model
             );
     }
 
+    /**
+     * 删除员工时 清空员工的订单申请表中的信息
+     * @param $emUserId
+     * @return EpOrderApplyModel
+     */
+    public function delEmUserOrderApplyInfo($emUserId)
+    {
+        return $this->where('shareUserId', '=', $emUserId)
+            ->where('isDelete', '=', 0)
+            ->update(['isDelete' => 1]);
+    }
+
 
 }

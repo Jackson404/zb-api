@@ -321,10 +321,11 @@ class EpUserCertModel extends Model
                     $this->rollback();
                     return -1;
                 }
+                $this->table('zb_enterprise_cert')->where('userId','=',$userId)->where('isDelete','=',0)
+                    ->update(['isDelete'=>1]);
                 $this->commit();
                 return $updateRow;
             }
-
 
         } catch (Exception $e) {
             $this->rollback();
@@ -523,5 +524,16 @@ class EpUserCertModel extends Model
         return $this->where('isDelete', '=', 0)
             ->where('type', '=', 1)
             ->paginate(null, false, $config);
+    }
+
+    /**
+     * 删除员工时 清空认证表中的信息
+     * @param $emUserId
+     * @return EpUserCertModel
+     */
+    public function delEmUserReviewInfo($emUserId){
+        return $this->where('userId','=',$emUserId)
+            ->where('isDelete','=',0)
+            ->update(['isDelete'=>1]);
     }
 }

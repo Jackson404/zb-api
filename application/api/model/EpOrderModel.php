@@ -92,7 +92,7 @@ class EpOrderModel extends Model
         $res = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
             ->join('zb_enterprise_user eu', 'o.userId=eu.id', 'left')
-            ->where('o.orderId','=',$orderId)
+            ->where('o.orderId', '=', $orderId)
             ->where('o.isDelete', '=', 0)
             ->field('o.id,o.orderId,o.userId,
             eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
@@ -172,7 +172,7 @@ class EpOrderModel extends Model
         return $res;
     }
 
-    public function getOrderInfoByMonthWithEpUser($recOrderYear, $recOrderMonth, $epId,$isFinish)
+    public function getOrderInfoByMonthWithEpUser($recOrderYear, $recOrderMonth, $epId, $isFinish)
     {
         if ($isFinish == 1) {
             $con = '<';
@@ -185,35 +185,35 @@ class EpOrderModel extends Model
             ->where('o.recOrderYear', '=', $recOrderYear)
             ->where('o.recOrderMonth', '=', $recOrderMonth)
             ->where('o.epId', '=', $epId)
-            ->where('p.endTime',$con,$isFinish)
-            ->where('o.isDelete','=',0)
+            ->where('p.endTime', $con, $isFinish)
+            ->where('o.isDelete', '=', 0)
             ->sum('o.entryNum');
         $incomeMonth = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
             ->where('o.recOrderYear', '=', $recOrderYear)
             ->where('o.recOrderMonth', '=', $recOrderMonth)
             ->where('o.epId', '=', $epId)
-            ->where('p.endTime',$con,$isFinish)
-            ->where('o.isDelete','=',0)
+            ->where('p.endTime', $con, $isFinish)
+            ->where('o.isDelete', '=', 0)
             ->sum('income');
         $orderNumMonth = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
             ->where('o.recOrderYear', '=', $recOrderYear)
             ->where('o.recOrderMonth', '=', $recOrderMonth)
             ->where('o.epId', '=', $epId)
-            ->where('p.endTime',$con,$isFinish)
-            ->where('o.isDelete','=',0)
+            ->where('p.endTime', $con, $isFinish)
+            ->where('o.isDelete', '=', 0)
             ->count();
         $incomeTotal = $this->where('epId', '=', $epId)
-            ->where('isDelete','=',0)
+            ->where('isDelete', '=', 0)
             ->sum('income');
-        $orderNum  = $this->where('epId', '=', $epId)
-            ->where('isDelete','=',0)
+        $orderNum = $this->where('epId', '=', $epId)
+            ->where('isDelete', '=', 0)
             ->count();
-        return [$entryNumMonth, $incomeMonth,$orderNumMonth,$incomeTotal,$orderNum];
+        return [$entryNumMonth, $incomeMonth, $orderNumMonth, $incomeTotal, $orderNum];
     }
 
-    public function getOrderInfoByMonthWithEmUser($recOrderYear, $recOrderMonth, $userId,$isFinish)
+    public function getOrderInfoByMonthWithEmUser($recOrderYear, $recOrderMonth, $userId, $isFinish)
     {
         if ($isFinish == 1) {
             $con = '<';
@@ -226,32 +226,32 @@ class EpOrderModel extends Model
             ->where('o.recOrderYear', '=', $recOrderYear)
             ->where('o.recOrderMonth', '=', $recOrderMonth)
             ->where('o.userId', '=', $userId)
-            ->where('p.endTime',$con,$isFinish)
-            ->where('o.isDelete','=',0)
+            ->where('p.endTime', $con, $isFinish)
+            ->where('o.isDelete', '=', 0)
             ->sum('o.entryNum');
         $incomeMonth = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
             ->where('o.recOrderYear', '=', $recOrderYear)
             ->where('o.recOrderMonth', '=', $recOrderMonth)
             ->where('o.userId', '=', $userId)
-            ->where('p.endTime',$con,$isFinish)
-            ->where('o.isDelete','=',0)
+            ->where('p.endTime', $con, $isFinish)
+            ->where('o.isDelete', '=', 0)
             ->sum('income');
         $orderNumMonth = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
             ->where('o.recOrderYear', '=', $recOrderYear)
             ->where('o.recOrderMonth', '=', $recOrderMonth)
             ->where('o.userId', '=', $userId)
-            ->where('p.endTime',$con,$isFinish)
-            ->where('o.isDelete','=',0)
+            ->where('p.endTime', $con, $isFinish)
+            ->where('o.isDelete', '=', 0)
             ->count();
         $incomeTotal = $this->where('userId', '=', $userId)
-            ->where('isDelete','=',0)
+            ->where('isDelete', '=', 0)
             ->sum('income');
-        $orderNum  = $this->where('userId', '=', $userId)
-            ->where('isDelete','=',0)
+        $orderNum = $this->where('userId', '=', $userId)
+            ->where('isDelete', '=', 0)
             ->count();
-        return [$entryNumMonth, $incomeMonth,$orderNumMonth,$incomeTotal,$orderNum];
+        return [$entryNumMonth, $incomeMonth, $orderNumMonth, $incomeTotal, $orderNum];
     }
 
     /**
@@ -265,20 +265,20 @@ class EpOrderModel extends Model
         $entryNumMonth = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
             ->where('o.userId', '=', $userId)
-            ->where('o.isDelete','=',0)
+            ->where('o.isDelete', '=', 0)
             ->sum('o.entryNum');
         $incomeMonth = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
             ->where('o.userId', '=', $userId)
-            ->where('o.isDelete','=',0)
+            ->where('o.isDelete', '=', 0)
             ->sum('income');
         $orderNumMonth = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
             ->where('o.userId', '=', $userId)
-            ->where('o.isDelete','=',0)
+            ->where('o.isDelete', '=', 0)
             ->count();
 
-        return [$entryNumMonth, $incomeMonth,$orderNumMonth];
+        return [$entryNumMonth, $incomeMonth, $orderNumMonth];
     }
 
 
@@ -390,6 +390,18 @@ class EpOrderModel extends Model
         return $this->where('orderId', '=', $orderId)
             ->where('isDelete', '=', 0)
             ->setDec('income', $dec);
+    }
+
+    /**
+     * 删除员工的时候 清空订单表中的信息
+     * @param $emUserId
+     * @return EpOrderModel
+     */
+    public function delEmUserOrderInfo($emUserId)
+    {
+        return $this->where('userId', '=', $emUserId)
+            ->where('isDelete', '=', 0)
+            ->update(['isDelete'=>1]);
     }
 
 }
