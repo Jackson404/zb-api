@@ -191,14 +191,6 @@ class EpUserCertModel extends Model
                     return -11111;
                 }
 
-                $xxx = $this->where('id', '=', $certId)
-                    ->update(
-                        ['applyEpId' => $companyId, 'updateTime' => currentTime()]
-                    );
-                if ($xxx == 0) {
-                    $this->rollback();
-                    return -1;
-                }
                 $this->commit();
                 return $up;
             }
@@ -319,6 +311,17 @@ class EpUserCertModel extends Model
                 if ($up == 0) {
                     $this->rollback();
                     return -11111;
+                }
+
+
+                $xxx = $this->where('id', '=', $certId)
+                    ->update(
+                        ['applyEpId' => $companyId, 'updateTime' => currentTime()]
+                    );
+
+                if ($xxx == 0) {
+                    $this->rollback();
+                    return -1;
                 }
                 $this->commit();
                 return $up;
