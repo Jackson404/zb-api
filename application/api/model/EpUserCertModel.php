@@ -193,7 +193,7 @@ class EpUserCertModel extends Model
 
                 $xxx = $this->where('id', '=', $certId)
                     ->update(
-                        ['epId' => $companyId, 'updateTime' => currentTime()]
+                        ['applyEpId' => $companyId, 'updateTime' => currentTime()]
                     );
                 if ($xxx == 0) {
                     $this->rollback();
