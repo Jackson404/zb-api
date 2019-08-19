@@ -190,6 +190,15 @@ class EpUserCertModel extends Model
                     $this->rollback();
                     return -11111;
                 }
+
+                $updateRow = $this->where('id', '=', $certId)
+                    ->update(
+                        ['epId' => $companyId, 'updateTime' => currentTime()]
+                    );
+                if ($updateRow == 0) {
+                    $this->rollback();
+                    return -1;
+                }
                 $this->commit();
                 return $up;
             }
@@ -264,6 +273,7 @@ class EpUserCertModel extends Model
                         $this->rollback();
                         return -111;
                     }
+
                 } else {
                     $companyData = [
                         'name' => $companyName,
