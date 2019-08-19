@@ -179,7 +179,7 @@ class EpUserCertModel extends Model
                 $up = $this->table('zb_enterprise_user')->where('id', '=', $emUserId)->where('isDelete', '=', 0)
                     ->update(
                         [
-                            'epId'=>$companyId,
+                            'epId' => $companyId,
                             'isReview' => 2,
                             'type' => $type
                         ]
@@ -298,7 +298,7 @@ class EpUserCertModel extends Model
                 $up = $this->table('zb_enterprise_user')->where('id', '=', $userId)->where('isDelete', '=', 0)
                     ->update(
                         [
-                            'epId'=>$companyId,
+                            'epId' => $companyId,
                             'isReview' => 2,
                             'type' => $type
                         ]
@@ -343,10 +343,10 @@ class EpUserCertModel extends Model
     public function getEmApplyListByEpId($epId)
     {
         return $this->alias('r')
-            ->join('zb_enterprise_user u','r.userId=u.id','left')
-            ->join('zb_enterprise_em_group g','r.groupId=g.groupId','left')
-            ->where('r.applyEpId','=',$epId)
-            ->where('r.isDelete','=',0)
+            ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
+            ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
+            ->where('r.applyEpId', '=', $epId)
+            ->where('r.isDelete', '=', 0)
             ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.createTime')
             ->select();
 
@@ -361,6 +361,77 @@ class EpUserCertModel extends Model
 //            ->select();
     }
 
+    public function getEmApplyListByEpIdPage($epId, $pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->alias('r')
+            ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
+            ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
+            ->where('r.applyEpId', '=', $epId)
+            ->where('r.isDelete', '=', 0)
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.createTime')
+            ->paginate(null, false, $config);
+    }
+
+    /**
+     * 获取待审核的员工列表
+     * @param $epId
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getReviewEmApplyListByEpId($epId)
+    {
+        return $this->alias('r')
+            ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
+            ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
+            ->where('r.applyEpId', '=', $epId)
+            ->where('r.pass', '=', 0)
+            ->where('r.isDelete', '=', 0)
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.createTime')
+            ->select();
+    }
+
+    public function getReviewEmApplyListByEpIdPage($epId, $pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->alias('r')
+            ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
+            ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
+            ->where('r.applyEpId', '=', $epId)
+            ->where('r.pass', '=', 0)
+            ->where('r.isDelete', '=', 0)
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.createTime')
+            ->paginate(null, false, $config);
+    }
+
+    public function getEmNumByEpId($epId, $type)
+    {
+        if ($type == 1) {
+            $count = $this
+                ->whereOr('pass', '=', 0)
+                ->whereOr('pass', '=', 1)
+                ->where('isDelete', '=', 0)
+                ->where('applyEpId', '=', $epId)
+                ->count();
+        }
+        if ($type == 2) {
+            $count = $this->where('applyEpId', '=', $epId)
+                ->where('pass', '=', 0)
+                ->where('isDelete', '=', 0)
+                ->count();
+        }
+        return $count;
+    }
+
+
     /**
      * 获取企业的员工申请列表 根据组别
      * @param $groupId
@@ -371,17 +442,29 @@ class EpUserCertModel extends Model
      */
     public function getEmApplyListByGroupId($groupId)
     {
-
-//        return $this->where('applyEpId', '=', $epId)
-//            ->where('isDelete', '=', 0)
-//            ->select();
         return $this->alias('r')
-            ->join('zb_enterprise_user u','r.userId=u.id','left')
-            ->join('zb_enterprise_em_group g','r.groupId=g.groupId','left')
-            ->where('r.groupId','=',$groupId)
-            ->where('r.isDelete','=',0)
+            ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
+            ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
+            ->where('r.groupId', '=', $groupId)
+            ->where('r.isDelete', '=', 0)
             ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.createTime')
             ->select();
+    }
+
+    public function getEmApplyListByGroupIdPage($epId,$groupId, $pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->alias('r')
+            ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
+            ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
+            ->where('r.applyEpId','=',$epId)
+            ->where('r.groupId', '=', $groupId)
+            ->where('r.isDelete', '=', 0)
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.createTime')
+            ->paginate(null, false, $config);
     }
 
 

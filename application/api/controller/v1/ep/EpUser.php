@@ -358,40 +358,6 @@ class EpUser extends EpUserBase
         }
     }
 
-    /**
-     * 获取企业的员工列表
-     */
-    public function getEmListByEpUserId()
-    {
-        $epUserId = $GLOBALS['userId'];
-        $epUserModel = new EpUserModel();
-        $type = $epUserModel->verifyUserType($epUserId);
-        if ($type != 1) {
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], '不是企业用户');
-            exit;
-        }
-        $epCertModel = new EpCertModel();
-        $res = $epCertModel->getByUserIdAndType($epUserId, 1);
-        $resData = $res->toArray();
-        $epId = $resData['epId'];
-        $epUserCertModel = new EpUserCertModel();
-        $res = $epUserCertModel->getEmApplyListByEpId($epId);
-        $x = $res->toArray();
-        $epOrderModel = new EpOrderModel();
-        foreach ($x as $k => $v) {
-            $userId = $v['userId'];
-            list($entryNumMonth, $incomeMonth, $orderNumMonth) = $epOrderModel->getOrderInfoByMonthWithEmUserNowMonth($userId);
-            $x[$k]['orderNumMonth'] = $orderNumMonth;
-            $x[$k]['entryNumMonth'] = $entryNumMonth;
-            $x[$k]['incomeMonth'] = $incomeMonth;
-
-            if ($v['groupId'] == 0) {
-                $x[$k]['groupName'] = '未分组';
-            }
-        }
-        $data['list'] = $x;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
 
     /**
      * 获取员工详情
@@ -428,16 +394,10 @@ class EpUser extends EpUserBase
     }
 
     /**
-     * 根据组别获取员工列表
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * 获取企业的员工列表
      */
-    public function getEmListByGroupId()
+    public function getEmListByEpUserId()
     {
-        $params = Request::instance()->param();
-        $groupId = Check::checkInteger($params['groupId'] ?? '');
-
         $epUserId = $GLOBALS['userId'];
         $epUserModel = new EpUserModel();
         $type = $epUserModel->verifyUserType($epUserId);
@@ -445,12 +405,13 @@ class EpUser extends EpUserBase
             Util::printResult($GLOBALS['ERROR_SUCCESS'], '不是企业用户');
             exit;
         }
-
+        $epCertModel = new EpCertModel();
+        $res = $epCertModel->getByUserIdAndType($epUserId, 1);
+        $resData = $res->toArray();
+        $epId = $resData['epId'];
         $epUserCertModel = new EpUserCertModel();
-        $res = $epUserCertModel->getEmApplyListByGroupId($groupId);
-
+        $res = $epUserCertModel->getEmApplyListByEpId($epId);
         $x = $res->toArray();
-
         $epOrderModel = new EpOrderModel();
         foreach ($x as $k => $v) {
             $userId = $v['userId'];
@@ -465,6 +426,58 @@ class EpUser extends EpUserBase
         }
         $data['list'] = $x;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    /**
+     * 根据组别获取员工列表
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function getEmListByGroupId()
+    {
+        $params = Request::instance()->param();
+        $groupId = Check::checkInteger($params['groupId'] ?? 0); //groupId是-1获取全部的  groupId是-2获取待审核的
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        $epUserId = $GLOBALS['userId'];
+        $epUserModel = new EpUserModel();
+        $type = $epUserModel->verifyUserType($epUserId);
+        if ($type != 1) {
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], '不是企业用户');
+            exit;
+        }
+        $epCertModel = new EpCertModel();
+        $epUserCertModel = new EpUserCertModel();
+        $res = $epCertModel->getByUserIdAndType($epUserId, 1);
+        $resData = $res->toArray();
+        $epId = $resData['epId'];
+
+        if ($groupId == -1) {
+            $res = $epUserCertModel->getEmApplyListByEpIdPage($epId,$pageIndex,$pageSize);
+            $x = $res->toArray();
+        } else if ($groupId == -2) {
+            $res = $epUserCertModel->getReviewEmApplyListByEpIdPage($epId,$pageIndex,$pageSize);
+            $x = $res->toArray();
+        } else {
+            $res = $epUserCertModel->getEmApplyListByGroupIdPage($epId,$groupId,$pageIndex,$pageSize);
+            $x = $res->toArray();
+        }
+
+        $epOrderModel = new EpOrderModel();
+        foreach ($x['data'] as $k => $v) {
+            $userId = $v['userId'];
+            list($entryNumMonth, $incomeMonth, $orderNumMonth) = $epOrderModel->getOrderInfoByMonthWithEmUserNowMonth($userId);
+            $x['data'][$k]['orderNumMonth'] = $orderNumMonth;
+            $x['data'][$k]['entryNumMonth'] = $entryNumMonth;
+            $x['data'][$k]['incomeMonth'] = $incomeMonth;
+
+            if ($v['groupId'] == 0) {
+                $x['data'][$k]['groupName'] = '未分组';
+            }
+        }
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $x);
     }
 
 
@@ -562,10 +575,19 @@ class EpUser extends EpUserBase
             Util::printResult($GLOBALS['ERROR_SUCCESS'], '不是企业用户');
             exit;
         }
+        $epCertModel = new EpCertModel();
+        $epUserCertModel = new EpUserCertModel();
+        $res = $epCertModel->getByUserIdAndType($epUserId, 1);
+        $resData = $res->toArray();
+        $epId = $resData['epId'];
+
+        $emNum = $epUserCertModel->getEmNumByEpId($epId, 1);
+        $reviewNum = $epUserCertModel->getEmNumByEpId($epId, 2);
 
         $epUserEmGroupModel = new EpUserEmGroupModel();
-
         $res = $epUserEmGroupModel->getAllByEpUserId($epUserId);
+        $data['emNum'] = $emNum;
+        $data['reviewNum'] = $reviewNum;
         $data['list'] = $res;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
