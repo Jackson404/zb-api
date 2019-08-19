@@ -130,7 +130,7 @@ class EpOrderModel extends Model
             ->where('o.userId', '=', $userId)
             ->where('o.isDelete', '=', 0)
             ->field('o.id,o.orderId,o.userId,
-            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
+            eu.name,eu.realname,eu.type,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
             o.recOrderYear,o.recOrderMonth,
             o.createTime,o.createBy,o.updateTime,o.updateBy')
             ->select();
@@ -165,7 +165,7 @@ class EpOrderModel extends Model
             ->where('o.epId', '=', $epId)
             ->where('o.isDelete', '=', 0)
             ->field('o.id,o.orderId,o.userId,
-            eu.name,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
+            eu.name,eu.realname,eu.type,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
             o.recOrderYear,o.recOrderMonth,
             o.createTime,o.createBy,o.updateTime,o.updateBy')
             ->select();
