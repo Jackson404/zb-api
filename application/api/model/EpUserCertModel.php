@@ -141,7 +141,7 @@ class EpUserCertModel extends Model
      * @return int|mixed
      * @throws \think\exception\PDOException
      */
-    public function reviewEmByEp($certId, $pass, $emUserId, $companyName, $type)
+    public function reviewEmByEp($certId, $pass, $emUserId, $companyName, $type,$realname)
     {
 
         $this->startTrans();
@@ -179,9 +179,11 @@ class EpUserCertModel extends Model
                 $up = $this->table('zb_enterprise_user')->where('id', '=', $emUserId)->where('isDelete', '=', 0)
                     ->update(
                         [
+                            'realname'=>$realname,
                             'epId' => $companyId,
                             'isReview' => 2,
-                            'type' => $type
+                            'type' => $type,
+                            'updateTime'=>currentTime()
                         ]
                     );
                 if ($up == 0) {

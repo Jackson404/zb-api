@@ -347,8 +347,9 @@ class EpUser extends EpUserBase
         $emUserId = $detail['userId'];
         $companyName = $detail['companyName'];
         $type = $detail['type'];
+        $realname = $detail['realname'];
 
-        $res = $epUserCertModel->reviewEmByEp($certId, $pass, $emUserId, $companyName, $type);
+        $res = $epUserCertModel->reviewEmByEp($certId, $pass, $emUserId, $companyName, $type,$realname);
         if ($res > 0) {
             $arr['updateRow'] = $res;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
