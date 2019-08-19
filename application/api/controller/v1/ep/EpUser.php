@@ -455,13 +455,13 @@ class EpUser extends EpUserBase
         $epId = $resData['epId'];
 
         if ($groupId == -1) {
-            $res = $epUserCertModel->getEmApplyListByEpIdPage($epId,$pageIndex,$pageSize);
+            $res = $epUserCertModel->getEmApplyListByEpIdPage($epId, $pageIndex, $pageSize);
             $x = $res->toArray();
         } else if ($groupId == -2) {
-            $res = $epUserCertModel->getReviewEmApplyListByEpIdPage($epId,$pageIndex,$pageSize);
+            $res = $epUserCertModel->getReviewEmApplyListByEpIdPage($epId, $pageIndex, $pageSize);
             $x = $res->toArray();
         } else {
-            $res = $epUserCertModel->getEmApplyListByGroupIdPage($epId,$groupId,$pageIndex,$pageSize);
+            $res = $epUserCertModel->getEmApplyListByGroupIdPage($epId, $groupId, $pageIndex, $pageSize);
             $x = $res->toArray();
         }
 
@@ -474,7 +474,12 @@ class EpUser extends EpUserBase
             $x['data'][$k]['incomeMonth'] = $incomeMonth;
 
             if ($v['groupId'] == 0) {
-                $x['data'][$k]['groupName'] = '未分组';
+                if ($v['pass'] == 1) {
+                    $x['data'][$k]['groupName'] = '未分组';
+                }
+                if ($v['pass'] == 0) {
+                    $x['data'][$k]['groupName'] = '待审核';
+                }
             }
         }
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $x);

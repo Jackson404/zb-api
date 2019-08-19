@@ -300,7 +300,8 @@ class EpUserCertModel extends Model
                         [
                             'epId' => $companyId,
                             'isReview' => 2,
-                            'type' => $type
+                            'type' => $type,
+                            'updateTime'=>currentTime()
                         ]
                     );
                 if ($up == 0) {
@@ -370,6 +371,8 @@ class EpUserCertModel extends Model
         return $this->alias('r')
             ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
             ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
+            ->whereOr('r.pass','=',0)
+            ->whereOr('r.pass','=',1)
             ->where('r.applyEpId', '=', $epId)
             ->where('r.isDelete', '=', 0)
             ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
@@ -405,6 +408,8 @@ class EpUserCertModel extends Model
         return $this->alias('r')
             ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
             ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
+            ->whereOr('r.pass','=',0)
+            ->whereOr('r.pass','=',1)
             ->where('r.applyEpId', '=', $epId)
             ->where('r.pass', '=', 0)
             ->where('r.isDelete', '=', 0)
@@ -451,7 +456,7 @@ class EpUserCertModel extends Model
             ->select();
     }
 
-    public function getEmApplyListByGroupIdPage($epId,$groupId, $pageIndex, $pageSize)
+    public function getEmApplyListByGroupIdPage($epId, $groupId, $pageIndex, $pageSize)
     {
         $config = [
             'list_rows' => $pageSize,
@@ -460,7 +465,9 @@ class EpUserCertModel extends Model
         return $this->alias('r')
             ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
             ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
-            ->where('r.applyEpId','=',$epId)
+            ->whereOr('r.pass','=',0)
+            ->whereOr('r.pass','=',1)
+            ->where('r.applyEpId', '=', $epId)
             ->where('r.groupId', '=', $groupId)
             ->where('r.isDelete', '=', 0)
             ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
@@ -498,5 +505,23 @@ class EpUserCertModel extends Model
         return $this->where('id', '=', $certId)
             ->where('isDelete', '=', 0)
             ->update($data);
+    }
+
+    /**
+     * 获取审核 企业列表
+     * @param $pageIndex
+     * @param $pageSize
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public function getReviewEpList($pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->where('isDelete', '=', 0)
+            ->where('type', '=', 1)
+            ->paginate(null, false, $config);
     }
 }

@@ -72,7 +72,11 @@ $whiteList = [
     'api/v1.admin.Area/getArea',
     'api/v1.admin.Area/filterAreaInfo',
 
-    'api/v1.admin.EpUserCert/changeCertStatus',
+    'api/v1.admin.EpUserCert/review',
+    'api/v1.admin.EpUserCert/getListPage',
+
     'api/v1.admin.EpMsg/add',
+
+    'api/v1.admin.EpUser/getEpUserList',
 
 ];

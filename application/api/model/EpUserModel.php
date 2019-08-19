@@ -60,4 +60,12 @@ class EpUserModel extends Model
             ->find();
     }
 
+    /**
+     * 获取企业端用户列表
+     */
+    public function getUserList()
+    {
+        return $this->where('isDelete', '=', 0)
+            ->select();
+    }
 }

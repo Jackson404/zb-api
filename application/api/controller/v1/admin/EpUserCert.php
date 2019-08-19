@@ -35,6 +35,7 @@ class EpUserCert extends AdminBase
         $updateRow = $epUserCertModel->reviewEpByAdmin($adminUserId, $certId, $pass, $userId,
             $companyName, $companyAddr, $type);
 
+//        var_dump($updateRow);
         if ($updateRow > 0) {
             $arr['updateRow'] = $updateRow;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
@@ -43,6 +44,17 @@ class EpUserCert extends AdminBase
             Util::printResult($GLOBALS['ERROR_SQL_UPDATE'], '更新失败');
             exit;
         }
+    }
 
+    public function getListPage()
+    {
+        $params = Request::instance()->param();
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        $epUserCertModel = new EpUserCertModel();
+        $page = $epUserCertModel->getReviewEpList($pageIndex, $pageSize);
+        $data['page'] = $page;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 }
