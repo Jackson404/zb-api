@@ -68,4 +68,16 @@ class EpUserModel extends Model
         return $this->where('isDelete', '=', 0)
             ->select();
     }
+
+    /**
+     * 删除员工时  更新用户为未认证状态
+     * @param $emUserId
+     * @return EpUserModel
+     */
+    public function delEmUser($emUserId)
+    {
+        return $this->where('id', '=', $emUserId)
+            ->where('isDelete', '=', 0)
+            ->update(['isReview' => 0, 'type' => 0]);
+    }
 }

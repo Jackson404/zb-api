@@ -21,6 +21,7 @@ use OSS\OssClient;
 use Sms;
 use think\cache\driver\Redis;
 use think\Exception;
+use think\exception\PDOException;
 use think\Request;
 use Util\Check;
 use Util\RedisX;
@@ -570,6 +571,57 @@ class EpUser extends EpUserBase
     }
 
     /**
+     * 企业用户删除员工
+     * @throws PDOException
+     */
+    public function delEmUser()
+    {
+        $params = Request::instance()->param();
+        $emUserId = Check::checkInteger($params['emUserId'] ?? '');
+
+        $epUserId = $GLOBALS['userId'];
+
+        $epUserModel = new EpUserModel();
+        $type = $epUserModel->verifyUserType($epUserId);
+        if ($type != 1) {
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], '不是企业用户');
+            exit;
+        }
+
+        $epUserModel->startTrans();
+        try {
+            $d1 = $epUserModel->delEmUser($emUserId); //更新员工用户状态为未认证状态
+
+            $epResumeModel = new EpResumeModel();
+            $d2 = $epResumeModel->delEmUserResumeInfo($emUserId);
+
+            $epResumeCateModel = new EpResumeCateModel();
+            $d2 = $epResumeCateModel->delEmUserResumeCateInfo($emUserId);
+
+            $epOrderModel = new EpOrderModel();
+            $d3 = $epOrderModel->delEmUserOrderInfo($emUserId);
+
+            $epOrderApplyModel = new EpOrderApplyModel();
+            $d4 = $epOrderApplyModel->delEmUserOrderApplyInfo($emUserId);
+
+            $epReviewModel = new  EpUserCertModel();
+            $d5 = $epReviewModel->delEmUserReviewInfo($emUserId);
+
+            $epCertModel = new EpCertModel();
+            $d6 = $epCertModel->delEmUserCertInfo($emUserId);
+
+            $epUserModel->commit();
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], '删除成功');
+            exit;
+
+        } catch (PDOException $e) {
+            $epUserModel->rollback();
+            Util::printResult($GLOBALS['ERROR_SQL_DELETE'], '删除失败');
+            exit;
+        }
+    }
+
+    /**
      * 企业用户获取组别列表
      */
     public function getEmGroupListByEpUserId()
@@ -630,30 +682,6 @@ class EpUser extends EpUserBase
         $updateRow = $epUserCertModel->updateGroupIdByEpUser($certId, $epUserId, $groupId);
         $data['updateRow'] = $updateRow;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
-
-    public function delEmUser()
-    {
-//        $params = Request::instance()->param();
-//        $userId = Check::checkInteger($params['userId'] ?? '');
-//
-//        $epUserModel = new EpUserModel();
-//        $epUserModel->isUpdate(true)->save(['id'=>$userId,'isDelete'=>1]);
-//        $epUserCertModel = new EpUserCertModel();
-//        $epUserCertModel->isUpdate(true)->save(['userId'=>$userId,'isDelete'=>1]);
-//        $epUserCert  = new EpUserCert();
-//        $epUserCert->isUpdate(true)->save(['userId'=>$userId,'isDelete'=>1]);
-//        $epOrderModel = new EpOrderModel();
-//        $epOrderModel->isUpdate(true)->save(['userId'=>$userId,'isDelete'=>1]);
-//        $epOrderApplyModel = new EpOrderApplyModel();
-//        $epOrderApplyModel->isUpdate(true)->save(['shareUserId'=>$userId,'isDelete'=>1]);
-//        $epResumeModel = new EpResumeModel();
-//        $epResumeModel->isUpdate(true)->save(['userId'=>$userId,'isDelete'=>1]);
-//        $epResumeCateModel = new EpResumeCateModel();
-//        $epResumeCateModel->isUpdate(true)->save(['userId'=>$userId,'isDelete'=>1]);
-//
-//        Util::printResult($GLOBALS['ERROR_SUCCESS'],'删除成功');
-
     }
 
     /**

@@ -10,13 +10,17 @@ $whiteList = [
     'api/v1.ep.EpUser/getEmGroupListByEpUserId',
     'api/v1.ep.EpUser/editEmGroup',
     'api/v1.ep.EpUser/delEmGroup',
+    'api/v1.ep.EpUser/delEmUser',
     'api/v1.ep.EpUser/changeEmGroupByEpUser',
     'api/v1.ep.EpUser/receiveOrder',
     'api/v1.ep.EpUser/getUserRecOrdersPage',
+
     'api/v1.ep.EpOrder/getDetailWithLogin',
     'api/v1.ep.EpOrder/shareOrder',
     'api/v1.ep.EpOrder/getOrderList',
+
     'api/v1.ep.EpOrderApply/apply',
+
     'api/v1.ep.ResumeData/filterResumeData',
     'api/v1.ep.ResumeData/addResumeCate',
     'api/v1.ep.ResumeData/editResumeCate',
@@ -28,5 +32,6 @@ $whiteList = [
     'api/v1.ep.ResumeData/getEpResumeListByCate',
     'api/v1.ep.ResumeData/getEpApplyResumeDetail',
     'api/v1.ep.ResumeData/getEpDownloadResumeDetail',
+
     'api/v1.ep.EpMsg/getList',
 ];

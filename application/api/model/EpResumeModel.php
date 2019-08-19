@@ -103,14 +103,14 @@ class EpResumeModel extends Model
             ->paginate(null, false, $config);
     }
 
-    public function getListByUserIdPageWithCate($userId, $resumeCateId,$pageIndex, $pageSize)
+    public function getListByUserIdPageWithCate($userId, $resumeCateId, $pageIndex, $pageSize)
     {
         $config = [
             'list_rows' => $pageSize,
             'page' => $pageIndex
         ];
         return $this->where('userId', '=', $userId)
-            ->where('resumeCateId','=',$resumeCateId)
+            ->where('resumeCateId', '=', $resumeCateId)
             ->where('isDelete', '=', 0)
             ->paginate(null, false, $config);
     }
@@ -181,6 +181,15 @@ class EpResumeModel extends Model
     }
 
 
+    /**
+     * 根据简历分类获取申请简历列表
+     * @param $userId
+     * @param $resumeCateId
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function getEpResumeListApplyByCate($userId, $resumeCateId)
     {
         return $this->alias('er')
@@ -197,6 +206,15 @@ class EpResumeModel extends Model
             ->select();
     }
 
+    /**
+     * 根据分类获取简历下载列表
+     * @param $userId
+     * @param $resumeCateId
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
     public function getDownResumeListByUserIdWithCate($userId, $resumeCateId)
     {
         return $this->where('userId', '=', $userId)
@@ -204,6 +222,18 @@ class EpResumeModel extends Model
             ->where('source', '=', 2)
             ->where('isDelete', '=', 0)
             ->select();
+    }
+
+    /**
+     * 删除员工的时候 清空员工的简历信息
+     * @param $emUserId
+     * @return EpResumeModel
+     */
+    public function delEmUserResumeInfo($emUserId)
+    {
+        return $this->where('userId','=',$emUserId)
+            ->where('isDelete','=',0)
+            ->update(['isDelete'=>1]);
     }
 
 }
