@@ -263,7 +263,7 @@ class EpUserCertModel extends Model
                     $updateRow = $this->table('zb_company_management')->update($companyData);
                     if ($updateRow == 0) {
                         $this->rollback();
-                        return -111;
+                        return -2;
                     }
 
                 } else {
@@ -280,7 +280,7 @@ class EpUserCertModel extends Model
                     $companyId = $this->table('zb_company_management')->insertGetId($companyData);
                     if ($companyId == 0) {
                         $this->rollback();
-                        return -11;
+                        return -3;
                     }
                 }
 
@@ -296,10 +296,11 @@ class EpUserCertModel extends Model
                 );
                 if ($certInsertGetId == 0) {
                     $this->rollback();
-                    return -1111;
+                    return -4;
                 }
 
-                $up = $this->table('zb_enterprise_user')->where('id', '=', $userId)->where('isDelete', '=', 0)
+                $up = $this->table('zb_enterprise_user')->where('id', '=', $userId)
+                    ->where('isDelete', '=', 0)
                     ->update(
                         [
                             'epId' => $companyId,
@@ -310,19 +311,12 @@ class EpUserCertModel extends Model
                     );
                 if ($up == 0) {
                     $this->rollback();
-                    return -11111;
+                    return -5;
                 }
+                $xl = $this->where('id','=',$certId)
+                    ->where('isDelete','=',0)
+                    ->update(['applyEpId'=>$companyId]);
 
-
-                $xxx = $this->where('id', '=', $certId)
-                    ->update(
-                        ['applyEpId' => $companyId, 'updateTime' => currentTime()]
-                    );
-
-                if ($xxx == 0) {
-                    $this->rollback();
-                    return -1;
-                }
                 $this->commit();
                 return $up;
             }
