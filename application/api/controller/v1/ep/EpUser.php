@@ -557,15 +557,16 @@ class EpUser extends EpUserBase
             Util::printResult($GLOBALS['ERROR_PERMISSION'], '权限错误');
             exit;
         }
-        $data = [
-            'groupId' => $groupId,
-            'isDelete' => 1,
-            'updateTime' => currentTime(),
-            'updateBy' => $epUserId
-        ];
-        $delRow = $epUserEmGroupModel->isUpdate(true)->save($data);
-        $arr['delRow'] = $delRow;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+        $delRow = $epUserEmGroupModel->delGroup($groupId);
+
+        if ($delRow > 0) {
+            $arr['delRow'] = $delRow;
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+            exit;
+        } else {
+            Util::printResult($GLOBALS['ERROR_SQL_DELETE'], '删除失败');
+            exit;
+        }
     }
 
     /**
