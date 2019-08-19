@@ -28,4 +28,5 @@ $whiteList = [
     'api/v1.ep.ResumeData/getEpResumeListByCate',
     'api/v1.ep.ResumeData/getEpApplyResumeDetail',
     'api/v1.ep.ResumeData/getEpDownloadResumeDetail',
+    'api/v1.ep.EpMsg/getList',
 ];
