@@ -390,6 +390,8 @@ class EpUser extends EpUserBase
         $data['orderNumMonth'] = $orderNumMonth;
         $data['entryNumMonth'] = $entryNumMonth;
         $data['incomeMonth'] = $incomeMonth;
+        $data['recOrderYear'] = $recOrderYear;
+        $data['recOrderMonth'] = $recOrderMonth;
         $data['list'] = $list;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
 
