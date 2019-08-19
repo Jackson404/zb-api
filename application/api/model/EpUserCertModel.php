@@ -347,7 +347,7 @@ class EpUserCertModel extends Model
             ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
             ->where('r.applyEpId', '=', $epId)
             ->where('r.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
             ->select();
 
 //        return $this->alias('r')
@@ -372,7 +372,7 @@ class EpUserCertModel extends Model
             ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
             ->where('r.applyEpId', '=', $epId)
             ->where('r.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
             ->paginate(null, false, $config);
     }
 
@@ -392,7 +392,7 @@ class EpUserCertModel extends Model
             ->where('r.applyEpId', '=', $epId)
             ->where('r.pass', '=', 0)
             ->where('r.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
             ->select();
     }
 
@@ -408,7 +408,7 @@ class EpUserCertModel extends Model
             ->where('r.applyEpId', '=', $epId)
             ->where('r.pass', '=', 0)
             ->where('r.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
             ->paginate(null, false, $config);
     }
 
@@ -447,7 +447,7 @@ class EpUserCertModel extends Model
             ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
             ->where('r.groupId', '=', $groupId)
             ->where('r.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
             ->select();
     }
 
@@ -463,7 +463,7 @@ class EpUserCertModel extends Model
             ->where('r.applyEpId','=',$epId)
             ->where('r.groupId', '=', $groupId)
             ->where('r.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.name as username,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
+            ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
             ->paginate(null, false, $config);
     }
 
