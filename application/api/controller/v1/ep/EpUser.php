@@ -591,6 +591,11 @@ class EpUser extends EpUserBase
         $epUserModel->startTrans();
         try {
             $d1 = $epUserModel->delEmUser($emUserId); //更新员工用户状态为未认证状态
+            if ($d1 == 0){
+                $epUserModel->rollback();
+                Util::printResult($GLOBALS['ERROR_SQL_DELETE'], '删除失败');
+                exit;
+            }
 
             $epResumeModel = new EpResumeModel();
             $d2 = $epResumeModel->delEmUserResumeInfo($emUserId);
@@ -606,6 +611,11 @@ class EpUser extends EpUserBase
 
             $epReviewModel = new  EpUserCertModel();
             $d5 = $epReviewModel->delEmUserReviewInfo($emUserId);
+            if ($d5 == 0){
+                $epUserModel->rollback();
+                Util::printResult($GLOBALS['ERROR_SQL_DELETE'], '删除失败');
+                exit;
+            }
 
             $epCertModel = new EpCertModel();
             $d6 = $epCertModel->delEmUserCertInfo($emUserId);
