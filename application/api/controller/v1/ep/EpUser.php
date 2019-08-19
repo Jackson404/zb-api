@@ -74,13 +74,13 @@ class EpUser extends EpUserBase
 //        }
 
 //        $redis = new Redis();
-        $redis = RedisX::instance();
-        $verifyCode = $redis->get($phone);
-
-        if ($vCode != $verifyCode) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '验证码错误');
-            exit;
-        }
+//        $redis = RedisX::instance();
+//        $verifyCode = $redis->get($phone);
+//
+//        if ($vCode != $verifyCode) {
+//            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '验证码错误');
+//            exit;
+//        }
 
         $epUserModel = new EpUserModel();
 
