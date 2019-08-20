@@ -66,7 +66,9 @@ export default {
 			num: 60
 		};
 	},
-	created() {},
+	created() {
+		// test123
+	},
 	methods: {
 		submitForm(formName) {
 			this.$refs[formName].validate(valid => {
