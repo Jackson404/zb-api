@@ -172,6 +172,8 @@ class EpOrder extends EpUserBase
             $data['orderNumMonth'] = $orderNumMonth;
             $data['entryNumMonth'] = $entryNumMonth;
             $data['incomeMonth'] = $incomeMonth;
+            $data['recOrderYear'] = $recOrderYear;
+            $data['recOrderMonth'] = $recOrderMonth;
 
         } else if ($userType == 2) {
 
@@ -184,6 +186,8 @@ class EpOrder extends EpUserBase
             $data['orderNumMonth'] = $orderNumMonth;
             $data['entryNumMonth'] = $entryNumMonth;
             $data['incomeMonth'] = $incomeMonth;
+            $data['recOrderYear'] = $recOrderYear;
+            $data['recOrderMonth'] = $recOrderMonth;
         } else {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户未认证');
             exit;
