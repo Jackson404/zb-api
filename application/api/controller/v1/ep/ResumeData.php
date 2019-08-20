@@ -377,8 +377,6 @@ class ResumeData extends EpUserBase
                 $resumeId = $v['resumeId'];
                 $xDetail = $resumeModel->getDetailForShow($resumeId);
                 $xData = $xDetail->toArray();
-                $xData['birthYear'] = '';
-                $xData['habitation'] = '';
                 $xData['source'] = 1;
                 array_push($list, $xData);
             }
@@ -386,8 +384,6 @@ class ResumeData extends EpUserBase
             if ($source == 2) {
                 $xxDetail = $detail = $resumeData->detailForShowPage($v['idCard'], $v['phone']);
                 $xxData = $xxDetail->toArray();
-                $xxData['age'] = '';
-                $xxData['curStatus'] = '';
                 $xxData['source'] = 2;
                 array_push($list, $xxData);
             }
@@ -422,6 +418,28 @@ class ResumeData extends EpUserBase
 
         $resumeData = new DataResume();
         $detail = $resumeData->detail($idCard, $phone);
+        $data['detail'] = $detail;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
+    public function getEpResumeDetail(){
+        $params = Request::instance()->param();
+
+        $source = Check::checkInteger($params['source'] ?? '');
+
+        if ($source ==1){
+            $resumeId = Check::checkInteger($params['resumeId'] ?? '');
+            $resumeModel = new ResumeModel();
+            $detail = $resumeModel->getDetail($resumeId);
+        }
+        if ($source == 2){
+            $idCard = Check::checkInteger($params['idCard'] ?? '');
+            $phone = Check::check($params['phone'] ?? '');
+
+            $resumeData = new DataResume();
+            $detail = $resumeData->detail($idCard, $phone);
+        }
+
         $data['detail'] = $detail;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
