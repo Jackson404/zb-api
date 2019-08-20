@@ -34,4 +34,5 @@ $whiteList = [
     'api/v1.ep.ResumeData/getEpDownloadResumeDetail',
 
     'api/v1.ep.EpMsg/getList',
+    'api/v1.ep.EpMsg/getDetail',
 ];
