@@ -809,7 +809,6 @@ abstract class Connection
         }
 
         $info = [
-            'MySQL server has gone away',
             'server has gone away',
             'no connection to the server',
             'Lost connection',
