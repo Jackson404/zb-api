@@ -63,19 +63,24 @@ class AdminUser extends AuthBase
         }
 
         $adminUserModel = new AdminUserModel();
-        $count = $adminUserModel->verifyUsername($username);
-        if (!$count) {
+
+        $userDetail = $adminUserModel->getUserInfoByName($username);
+        if ($userDetail == null){
             Util::printResult($GLOBALS['ERROR_USER_EXISTS'], '用户名不存在');
             exit;
         }
 
-        $result = $adminUserModel->getPasswordByName($username);
-        $verify = password_verify($username . $password, $result);
+        $userInfo = $userDetail->toArray();
+        $verifyPassword = $userInfo['password'];
+        $type = $userInfo['type'];
+        $userId = $userInfo['id'];
+
+        $verify = password_verify($username . $password, $verifyPassword);
         if (!$verify) {
             Util::printResult($GLOBALS['ERROR_PASSWORD'], '密码错误');
             exit;
         }
-        $userId = $adminUserModel->getIdByName($username);
+
         $token = password_hash($userId . $username . $password, PASSWORD_DEFAULT);
         $loginIp = $_SERVER["REMOTE_ADDR"];
         $loginTime = date('Y-m-d H:i:s', time());
@@ -94,6 +99,7 @@ class AdminUser extends AuthBase
             $id_token = $userId . '|' . $token;
             $data = [
                 'username' => $username,
+                'type'=>$type,
                 'id_token' => $id_token
             ];
 

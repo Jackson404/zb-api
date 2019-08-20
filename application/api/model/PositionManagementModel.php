@@ -269,8 +269,8 @@ class PositionManagementModel extends Model
 
     public function getRandomPositionListLimit($positionId, $limit)
     {
-        $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,
-            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address,p.applyCount,p.interviewTime,p.unitPrice FROM zb_position_management as p 
+        $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,c.address,c.province,c.city,c.area,
+            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.applyCount,p.interviewTime,p.unitPrice FROM zb_position_management as p 
             LEFT JOIN zb_company_management as c ON p.companyId = c.id 
             WHERE p.isDelete=0 AND p.isShow=1 AND p.id <> '$positionId'
              ORDER BY rand() LIMIT 0,$limit";
@@ -282,7 +282,7 @@ class PositionManagementModel extends Model
     public function getRandomPositionOrderListLimit($positionId, $limit)
     {
         $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,
-            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address,p.applyCount,p.interviewAddress,
+            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,c.province,c.city,c.area,c.address,p.applyCount,p.interviewAddress,
             p.interviewTime,p.unitPrice FROM zb_position_management as p 
             LEFT JOIN zb_company_management as c ON p.companyId = c.id 
             WHERE p.isDelete=0 and p.interviewTime >= unix_timestamp(now()) AND p.isShow=1 AND p.id <> '$positionId'
@@ -295,7 +295,7 @@ class PositionManagementModel extends Model
     public function getRandomPositionLimit()
     {
         $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,
-            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.address,p.applyCount FROM zb_position_management as p LEFT JOIN zb_company_management as c
+            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,c.province,c.city,c.area,c.address,p.applyCount FROM zb_position_management as p LEFT JOIN zb_company_management as c
             ON p.companyId = c.id 
             WHERE p.isDelete=0 AND p.isShow=1 
              ORDER BY rand() LIMIT 0,5";

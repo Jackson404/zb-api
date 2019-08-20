@@ -1,9 +1,15 @@
 <?php
 
+
 namespace app\api\model;
 
 use think\Model;
 
+/**
+ * 弃用
+ * Class CategoryManagementModel
+ * @package app\api\model
+ */
 class CategoryManagementModel extends Model
 {
     protected $name = 'category_management';
