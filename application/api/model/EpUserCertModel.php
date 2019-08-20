@@ -141,7 +141,7 @@ class EpUserCertModel extends Model
      * @return int|mixed
      * @throws \think\exception\PDOException
      */
-    public function reviewEmByEp($certId, $pass, $emUserId, $companyName, $type,$realname)
+    public function reviewEmByEp($certId, $pass, $emUserId, $companyName, $type, $realname)
     {
 
         $this->startTrans();
@@ -179,11 +179,11 @@ class EpUserCertModel extends Model
                 $up = $this->table('zb_enterprise_user')->where('id', '=', $emUserId)->where('isDelete', '=', 0)
                     ->update(
                         [
-                            'realname'=>$realname,
+                            'realname' => $realname,
                             'epId' => $companyId,
                             'isReview' => 2,
                             'type' => $type,
-                            'updateTime'=>currentTime()
+                            'updateTime' => currentTime()
                         ]
                     );
                 if ($up == 0) {
@@ -303,19 +303,20 @@ class EpUserCertModel extends Model
                     ->where('isDelete', '=', 0)
                     ->update(
                         [
+                            'realname' => $companyName,
                             'epId' => $companyId,
                             'isReview' => 2,
                             'type' => $type,
-                            'updateTime'=>currentTime()
+                            'updateTime' => currentTime()
                         ]
                     );
                 if ($up == 0) {
                     $this->rollback();
                     return -5;
                 }
-                $xl = $this->where('id','=',$certId)
-                    ->where('isDelete','=',0)
-                    ->update(['applyEpId'=>$companyId]);
+                $xl = $this->where('id', '=', $certId)
+                    ->where('isDelete', '=', 0)
+                    ->update(['applyEpId' => $companyId]);
 
                 $this->commit();
                 return $up;
@@ -330,8 +331,8 @@ class EpUserCertModel extends Model
                     $this->rollback();
                     return -1;
                 }
-                $this->table('zb_enterprise_cert')->where('userId','=',$userId)->where('isDelete','=',0)
-                    ->update(['isDelete'=>1]);
+                $this->table('zb_enterprise_cert')->where('userId', '=', $userId)->where('isDelete', '=', 0)
+                    ->update(['isDelete' => 1]);
                 $this->commit();
                 return $updateRow;
             }
@@ -381,8 +382,8 @@ class EpUserCertModel extends Model
         return $this->alias('r')
             ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
             ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
-            ->whereOr('r.pass','=',0)
-            ->whereOr('r.pass','=',1)
+            ->whereOr('r.pass', '=', 0)
+            ->whereOr('r.pass', '=', 1)
             ->where('r.applyEpId', '=', $epId)
             ->where('r.isDelete', '=', 0)
             ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
@@ -418,8 +419,8 @@ class EpUserCertModel extends Model
         return $this->alias('r')
             ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
             ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
-            ->whereOr('r.pass','=',0)
-            ->whereOr('r.pass','=',1)
+            ->whereOr('r.pass', '=', 0)
+            ->whereOr('r.pass', '=', 1)
             ->where('r.applyEpId', '=', $epId)
             ->where('r.pass', '=', 0)
             ->where('r.isDelete', '=', 0)
@@ -475,8 +476,8 @@ class EpUserCertModel extends Model
         return $this->alias('r')
             ->join('zb_enterprise_user u', 'r.userId=u.id', 'left')
             ->join('zb_enterprise_em_group g', 'r.groupId=g.groupId', 'left')
-            ->whereOr('r.pass','=',0)
-            ->whereOr('r.pass','=',1)
+            ->whereOr('r.pass', '=', 0)
+            ->whereOr('r.pass', '=', 1)
             ->where('r.applyEpId', '=', $epId)
             ->where('r.groupId', '=', $groupId)
             ->where('r.isDelete', '=', 0)
@@ -540,9 +541,10 @@ class EpUserCertModel extends Model
      * @param $emUserId
      * @return EpUserCertModel
      */
-    public function delEmUserReviewInfo($emUserId){
-        return $this->where('userId','=',$emUserId)
-            ->where('isDelete','=',0)
-            ->update(['isDelete'=>1]);
+    public function delEmUserReviewInfo($emUserId)
+    {
+        return $this->where('userId', '=', $emUserId)
+            ->where('isDelete', '=', 0)
+            ->update(['isDelete' => 1]);
     }
 }

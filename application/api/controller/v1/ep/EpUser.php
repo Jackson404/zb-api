@@ -90,6 +90,7 @@ class EpUser extends EpUserBase
             $data = [
                 'avatar' => $avatar,
                 'name' => $username,
+                'realname'=>$username,
                 'phone' => $phone,
                 'createTime' => currentTime(),
                 'updateTime' => currentTime()
@@ -108,6 +109,7 @@ class EpUser extends EpUserBase
 
         $userId = $detailData['id'];
         $username = $detailData['name'];
+        $realname = $detailData['realname'];
         $avatar = $detailData['avatar'];
         $isReview = $detailData['isReview']; // -1 未通过审核  0等待审核（默认）  1已提交等待审核  2通过审核
         $type = $detailData['type']; // 1企业 2个人
@@ -135,6 +137,7 @@ class EpUser extends EpUserBase
                 'uid' => $userId,
                 'avatar' => $avatar,
                 'name' => $username,
+                'realname'=>$realname,
                 'phone' => $phone,
                 'isReview' => $isReview,
                 'type' => $type,
