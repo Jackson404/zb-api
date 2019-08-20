@@ -58,8 +58,8 @@ class File extends AuthBase
             $res = $ossClient->uploadFile($GLOBALS['BUCKET'], $object, $filepath);
 
             $data['imgUrl'] = 'https://' . $GLOBALS['PIC_SERVER'] . '/' . $object;
-            var_dump($object);
-            var_dump($res);
+//            var_dump($object);
+//            var_dump($res);
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
             exit;
         } catch (OssException $e) {
