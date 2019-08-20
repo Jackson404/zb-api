@@ -28,8 +28,19 @@ class EpMsgModel extends Model
             ->join('zb_enterprise_user eu', 'm.recUserId=eu.id', 'left')
             ->where('m.recUserId', '=', $userId)
             ->where('m.isDelete', '=', 0)
-            ->field('m.sendUserId,au.name as sendUsername,m.title,m.content,m.recUserId,eu.name as recUsername,m.createTime,m.updateTime')
+            ->field('m.sendUserId,au.name as sendUsername,m.title,m.content,m.recUserId,eu.realname,eu.name as recUsername,m.createTime,m.updateTime')
             ->select();
+    }
+
+    public function getDetail($msgId)
+    {
+        return $this->alias('m')
+            ->join('zb_admin_user au', 'm.sendUserId = au.id', 'left')
+            ->join('zb_enterprise_user eu', 'm.recUserId=eu.id', 'left')
+            ->where('m.id', '=', $msgId)
+            ->where('m.isDelete', '=', 0)
+            ->field('m.sendUserId,au.name as sendUsername,m.title,m.content,m.recUserId,eu.realname,eu.name as recUsername,m.createTime,m.updateTime')
+            ->find();
     }
 
 
