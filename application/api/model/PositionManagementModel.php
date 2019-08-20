@@ -24,7 +24,7 @@ class PositionManagementModel extends Model
             ->where('p.id', '=', $positionId)
             ->field('p.id,p.positionCateId,zcm.name as positionCateName,p.name,p.companyId,zco.name as companyName,zco.profile as companyProfile,
             p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,p.workExp,p.education,p.age,p.num,p.labelIds,p.isSoldierPriority,zco.province,zco.city,zco.area,zco.address,
-            p.positionRequirement,p.isShow,p.applyCount,p.interviewAddress,p.interviewTime,p.unitPrice,p.createTime,p.createBy,p.updateTime,p.updateBy')
+            p.positionRequirement,p.isShow,p.applyCount,p.interviewAddress,p.interviewTime,p.unitPrice,p.endTime,p.positionType,p.createTime,p.createBy,p.updateTime,p.updateBy')
             ->find();
     }
 
@@ -270,7 +270,7 @@ class PositionManagementModel extends Model
     public function getRandomPositionListLimit($positionId, $limit)
     {
         $sql = "SELECT p.id, p.name,c.name as companyName,p.minPay,p.maxPay,p.pay,p.minWorkExp,p.maxWorkExp,c.address,c.province,c.city,c.area,
-            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.applyCount,p.interviewTime,p.unitPrice FROM zb_position_management as p 
+            p.workExp,p.education,p.age,p.num,p.education,p.isSoldierPriority,p.applyCount,p.interviewTime,p.unitPrice,p.interviewAddress,p.endTime,p.positionType FROM zb_position_management as p 
             LEFT JOIN zb_company_management as c ON p.companyId = c.id 
             WHERE p.isDelete=0 AND p.isShow=1 AND p.id <> '$positionId'
              ORDER BY rand() LIMIT 0,$limit";
