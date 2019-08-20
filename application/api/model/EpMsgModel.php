@@ -28,7 +28,7 @@ class EpMsgModel extends Model
             ->join('zb_enterprise_user eu', 'm.recUserId=eu.id', 'left')
             ->where('m.recUserId', '=', $userId)
             ->where('m.isDelete', '=', 0)
-            ->field('m.sendUserId,au.name as sendUsername,m.title,m.content,m.recUserId,eu.realname,eu.name as recUsername,m.createTime,m.updateTime')
+            ->field('m.id,m.sendUserId,au.name as sendUsername,m.title,m.content,m.recUserId,eu.realname,eu.name as recUsername,m.createTime,m.updateTime')
             ->select();
     }
 
@@ -39,7 +39,7 @@ class EpMsgModel extends Model
             ->join('zb_enterprise_user eu', 'm.recUserId=eu.id', 'left')
             ->where('m.id', '=', $msgId)
             ->where('m.isDelete', '=', 0)
-            ->field('m.sendUserId,au.name as sendUsername,m.title,m.content,m.recUserId,eu.realname,eu.name as recUsername,m.createTime,m.updateTime')
+            ->field('m.id,m.sendUserId,au.name as sendUsername,m.title,m.content,m.recUserId,eu.realname,eu.name as recUsername,m.createTime,m.updateTime')
             ->find();
     }
 
