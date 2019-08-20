@@ -140,15 +140,20 @@ class EpOrder extends EpUserBase
 
         $userId = $GLOBALS['userId'];
 
-        if ($orderDate == ''){
-            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'],'缺少参数');
+        if ($orderDate == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
 
         $epUserModel = new EpUserModel();
         $userInfo = $epUserModel->getUserInfo($userId);
-        $userData = $userInfo->toArray();
 
+        if ($userInfo == null) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'],'用户不存在');
+            exit;
+        }
+
+        $userData = $userInfo->toArray();
         $userType = $userData['type'];
         $epId = $userData['epId'];
 
@@ -160,7 +165,7 @@ class EpOrder extends EpUserBase
 
         if ($userType == 1) {
             $list = $orderModel->getOrderListWithOrderDateWithEpUser($epId, $isFinish, $recOrderYear, $recOrderMonth);
-            list($entryNumMonth, $incomeMonth,$orderNumMonth,$incomeTotal,$orderNum) = $orderModel->getOrderInfoByMonthWithEpUser($recOrderYear, $recOrderMonth, $epId,$isFinish);
+            list($entryNumMonth, $incomeMonth, $orderNumMonth, $incomeTotal, $orderNum) = $orderModel->getOrderInfoByMonthWithEpUser($recOrderYear, $recOrderMonth, $epId, $isFinish);
 
             $data['incomeTotal'] = $incomeTotal;
             $data['orderNum'] = $orderNum;
@@ -172,7 +177,7 @@ class EpOrder extends EpUserBase
 
             $list = $orderModel->getOrderListWithOrderDateWithEmUser($userId, $isFinish, $recOrderYear, $recOrderMonth);
 
-            list($entryNumMonth, $incomeMonth,$orderNumMonth,$incomeTotal,$orderNum) = $orderModel->getOrderInfoByMonthWithEmUser($recOrderYear, $recOrderMonth, $userId,$isFinish);
+            list($entryNumMonth, $incomeMonth, $orderNumMonth, $incomeTotal, $orderNum) = $orderModel->getOrderInfoByMonthWithEmUser($recOrderYear, $recOrderMonth, $userId, $isFinish);
 
             $data['incomeTotal'] = $incomeTotal;
             $data['orderNum'] = $orderNum;
@@ -180,7 +185,7 @@ class EpOrder extends EpUserBase
             $data['entryNumMonth'] = $entryNumMonth;
             $data['incomeMonth'] = $incomeMonth;
         } else {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'],'用户未认证');
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户未认证');
             exit;
         }
 
