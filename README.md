@@ -11,6 +11,10 @@
      }
 ###项目入口文件  `/public/index.php`
 ### 应用目录在    `/application/`
+### 项目controller,model层 controller接口操作  model层数据库操作 view层暂未使用
+### 接口版本`v1` 
+#### admin是管理后台模块  ep是企业端  epOffline是企业端
+#### 工具类 util文件夹下
 
 ```
 
