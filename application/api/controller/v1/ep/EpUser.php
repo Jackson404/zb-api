@@ -237,7 +237,7 @@ class EpUser extends EpUserBase
             'updateBy' => $userId
         ];
 
-        $id = $epUserCertModel->addCert($arr, $userId);
+        $id = $epUserCertModel->addCert($arr, $userId,$realname);
 
         if ($id > 0) {
             $data['certId'] = $id;
