@@ -205,6 +205,19 @@ class EpUserCertModel extends Model
                     $this->rollback();
                     return -1;
                 }
+                $up = $this->table('zb_enterprise_user')->where('id', '=', $emUserId)
+                    ->where('isDelete', '=', 0)
+                    ->update(
+                        [
+                            'isReview' => 0,
+                            'type' => $type,
+                            'updateTime' => currentTime()
+                        ]
+                    );
+                if ($up == 0) {
+                    $this->rollback();
+                    return -22;
+                }
                 $this->commit();
                 return $updateRow;
             }
