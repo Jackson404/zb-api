@@ -34,32 +34,30 @@ class File extends AuthBase
         }
 
         $tmpInfo = $file->getInfo();
-        //$type = $tmpInfo['type'];
-        //$typeArr = explode('/',$type);
+        $type = $tmpInfo['type'];
+        $typeArr = explode('/', $type);
         $object = $tmpInfo['name'];
 
-//        $nowDate = date('Ymd',time());
-//        $to_object = Util::generateRandomCode(22).'.'.$typeArr[1];
+        $nowDate = date('Ymd', time());
+        $to_object = Util::generateRandomCode(22) . '.' . $typeArr[1];
         $filepath = $tmpInfo['tmp_name'];
 
         try {
             $ossClient = new OssClient($GLOBALS['ACCESS_KEY_ID'], $GLOBALS['ACCESS_KEY_SECRET'], $GLOBALS['ENDPOINT']);
 
-//            // 创建文件夹
-//            $ossClient->createObjectDir($GLOBALS['BUCKET'],$nowDate);
-//
-//            $exist = $ossClient->doesObjectExist($GLOBALS['BUCKET'], $object);
-//            if ($exist){
-//                $ossClient->copyObject($GLOBALS['BUCKET'], $object, $GLOBALS['BUCKET'], $to_object);
-//                echo 'exist';
-//            }
-//            exit;
+            // 创建文件夹
+            $ossClient->createObjectDir($GLOBALS['BUCKET'], $nowDate);
 
-            $res = $ossClient->uploadFile($GLOBALS['BUCKET'], $object, $filepath);
+            // 判断文件是否存在
+            $exist = $ossClient->doesObjectExist($GLOBALS['BUCKET'], $object);
+            if ($exist) {
+                $ossClient->copyObject($GLOBALS['BUCKET'], $object, $GLOBALS['BUCKET'], $nowDate . '/' . $to_object);
+                $ossClient->deleteObject($GLOBALS['BUCKET'], $object);
 
-            $data['imgUrl'] = 'https://' . $GLOBALS['PIC_SERVER'] . '/' . $object;
-//            var_dump($object);
-//            var_dump($res);
+            }
+
+            $res = $ossClient->uploadFile($GLOBALS['BUCKET'], $nowDate . '/' . $to_object, $filepath);
+            $data['imgUrl'] = 'https://' . $GLOBALS['PIC_SERVER'] . '/' . $nowDate . '/' . $to_object;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
             exit;
         } catch (OssException $e) {
