@@ -11,7 +11,7 @@ class EpUserCertModel extends Model
     protected $pk = 'id';
     protected $resultSetType = 'collection';
 
-    public function addCert($data, $userId)
+    public function addCert($data, $userId,$realname)
     {
         $this->startTrans();
         try {
@@ -22,6 +22,7 @@ class EpUserCertModel extends Model
                     ->where('isDelete', '=', 0)
                     ->update(
                         [
+                            'realname'=>$realname,
                             'isReview' => 1,
                             'updateTime' => currentTime()
                         ]
@@ -376,7 +377,7 @@ class EpUserCertModel extends Model
             ->whereOr('r.pass', '=', 1)
             ->where('r.applyEpId', '=', $epId)
             ->where('r.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.name as username,r.realname,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
+            ->field('r.id,r.userId,u.name as username,u.realname,r.realphone,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
             ->paginate(null, false, $config);
     }
 
@@ -414,7 +415,7 @@ class EpUserCertModel extends Model
             ->where('r.applyEpId', '=', $epId)
             ->where('r.pass', '=', 0)
             ->where('r.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
+            ->field('r.id,r.userId,u.name as username,r.realphone,u.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
             ->paginate(null, false, $config);
     }
 
@@ -471,7 +472,7 @@ class EpUserCertModel extends Model
             ->where('r.applyEpId', '=', $epId)
             ->where('r.groupId', '=', $groupId)
             ->where('r.isDelete', '=', 0)
-            ->field('r.id,r.userId,u.name as username,r.realphone,r.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
+            ->field('r.id,r.userId,u.name as username,r.realphone,u.realname,r.applyEpId,r.groupId,g.name as groupName,r.pass,r.createTime')
             ->paginate(null, false, $config);
     }
 

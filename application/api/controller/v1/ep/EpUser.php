@@ -308,7 +308,7 @@ class EpUser extends EpUserBase
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
-        $id = $epUserCertModel->addCert($arr, $userId);
+        $id = $epUserCertModel->addCert($arr, $userId,$realname);
 
         if ($id > 0) {
             $data['certId'] = $id;
