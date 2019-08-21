@@ -147,8 +147,13 @@ class DataResume extends Model
 
     public function detail($idCard, $phone)
     {
-        return $this->where('idCard', '=', $idCard)->where('phone', '=', $phone)
-            ->where('isDelete', '=', 0)->find();
+        return $this->where('idCard', '=', $idCard)
+            ->where('phone', '=', $phone)
+            ->where('isDelete', '=', 0)
+            ->field('idCard,phone,name,sex as gender,birth,birthYear,
+            educationName as education,workYear,exPosition,exSalary as salary,exCity,habitation
+            selfEvaluation,skills,arrivalTime,curStatus,nature,age')
+            ->find();
     }
 
     public function detailForShowPage($idCard, $phone)
@@ -158,7 +163,7 @@ class DataResume extends Model
             //er.id,er.resumeId,r.name,r.gender,r.age,r.workYear,r.education,r.exPosition,r.salary,
             //            r.curStatus,r.createTime,r.createBy,r.updateTime,r.updateBy
             ->field('idCard,phone,name,sex as gender,birthYear,educationName as education,workYear,
-                exPosition,exSalary as salary,habitation')
+                exPosition,exSalary as salary,habitation,curStatus,age')
             ->find();
     }
 

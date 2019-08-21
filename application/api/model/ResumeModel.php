@@ -71,14 +71,16 @@ class ResumeModel extends Model
 
     public function getDetail($resumeId)
     {
-        return $this->where('isDelete', '=', 0)->where('id', '=', $resumeId)->find();
+        return $this->where('isDelete', '=', 0)
+            ->where('id', '=', $resumeId)
+            ->find();
     }
 
     public function getDetailForShow($resumeId)
     {
         return $this->where('isDelete', '=', 0)
             ->where('id', '=', $resumeId)
-            ->field('id,name,gender,age,workYear,education,exPosition,salary,curStatus')
+            ->field('id,name,gender,age,workYear,education,exPosition,salary,curStatus,habitation')
             ->find();
     }
 
