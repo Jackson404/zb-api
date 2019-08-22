@@ -36,36 +36,50 @@ class ResumeData extends EpUserBase
             $exWorkLocationSql = "";
         }
 
-//        1-3年 3-5年 5-10年 10年以上
-
-//        if ($workExp == '不限'){
-//            $workExpSql = "";
-//        }else if ($workExp == '1-3年'){
-//
-//        }
         if ($workExp != '' && $workExp != '不限') {
             $workExpSql = " and  workYear='$workExp'";
         } else {
             $workExpSql = "";
         }
-//        if ($educationName != '' && $educationName != '不限') {
-//            $educationNameSql = "  and educationName = '$educationName'";
-//        } else {
-//            $educationNameSql = "";
-//        }
+
         //限 高中及以下 大专 本科及以上
 
-        if ($educationName == '不限') {
-            $educationNameSql = "";
-        } else if ($educationName == '高中及以下') {
-            $educationNameSql = "  and (educationName like '%高中%' or educationName like '%初中%')";
-        } else if ($educationName == '大专') {
-            $educationNameSql = "  and educationName like '%大专%'";
-        } else if ($educationName == '本科及以上') {
-            $educationNameSql = "  and (educationName like '%本科%' or educationName like '%硕士%' or educationName like '%博士%')";
+        if ($educationName != '' && $educationName != '不限') {
+
+            $educationNameArr = explode(',', $educationName);
+
+            $educationNameSql = "  and  (educationName like '`' ";
+            foreach ($educationNameArr as $k => $v) {
+                if ($v == '不限') {
+                    $educationNameSql .= "";
+                } else if ($v == '高中及以下') {
+                    $educationNameSql .= "  or educationName like '%高中%' or educationName like '%初中%' ";
+                } else if ($v == '大专') {
+                    $educationNameSql .= "  or educationName like '%大专%'";
+                } else if ($v == '本科及以上') {
+                    $educationNameSql .= "  or educationName like '%本科%' or educationName like '%硕士%' or educationName like '%博士%'";
+                } else {
+                    $educationNameSql .= "";
+                }
+            }
+
+            $educationNameSql = $educationNameSql . ')';
+
         } else {
             $educationNameSql = "";
         }
+
+//        if ($educationName == '不限') {
+//            $educationNameSql = "";
+//        } else if ($educationName == '高中及以下') {
+//            $educationNameSql = "  and (educationName like '%高中%' or educationName like '%初中%')";
+//        } else if ($educationName == '大专') {
+//            $educationNameSql = "  and educationName like '%大专%'";
+//        } else if ($educationName == '本科及以上') {
+//            $educationNameSql = "  and (educationName like '%本科%' or educationName like '%硕士%' or educationName like '%博士%')";
+//        } else {
+//            $educationNameSql = "";
+//        }
 
         if ($minAge != 0) {
             $year = date('Y', time());
@@ -422,17 +436,18 @@ class ResumeData extends EpUserBase
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
 
-    public function getEpResumeDetail(){
+    public function getEpResumeDetail()
+    {
         $params = Request::instance()->param();
 
         $source = Check::checkInteger($params['source'] ?? '');
 
-        if ($source ==1){
+        if ($source == 1) {
             $resumeId = Check::checkInteger($params['resumeId'] ?? '');
             $resumeModel = new ResumeModel();
             $detail = $resumeModel->getDetail($resumeId);
         }
-        if ($source == 2){
+        if ($source == 2) {
             $idCard = Check::checkInteger($params['idCard'] ?? '');
             $phone = Check::check($params['phone'] ?? '');
 

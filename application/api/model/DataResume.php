@@ -91,7 +91,7 @@ class DataResume extends Model
 
         $sql = "select idCard,name,sex,birthYear,birth,school,education,educationName,mail,profession,professionId,workYear,
                 exPosition,exSalary,exCity,habitation,houseLocation,workUnit,createTime,deliveryTime,`from`,type  from 
-                $this->table where isDelete=0 $posKeySql $exWorkLocationSql $workExpSql  $educationNameSql  $minAgeSql $maxAgeSql  $sexSql  
+                $this->table where isDelete=0 $posKeySql $exWorkLocationSql $workExpSql    $minAgeSql $maxAgeSql  $sexSql  $educationNameSql
                 order by concat(idCard,phone,updateTime)  desc limit $offset,$pageSize";
         $content = $this->query($sql);
 
