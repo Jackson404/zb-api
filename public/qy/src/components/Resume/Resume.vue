@@ -32,6 +32,7 @@
 							<el-radio :label="3">不限</el-radio>
 							<el-radio :label="6">1-3年</el-radio>
 							<el-radio :label="9">3-5年</el-radio>
+							<el-radio :label="12">5-10年</el-radio>
 						</el-radio-group>
 					</div>
 				</div>
@@ -45,20 +46,25 @@
 							<el-radio :label="9">大专</el-radio>
 							<el-radio :label="12">本科</el-radio>
 							<el-radio :label="15">研究生</el-radio>
+							<el-radio :label="18">博士生</el-radio>
+							<el-radio :label="21">硕士生</el-radio>
 						</el-radio-group>
 					</div>
 				</div>
 
 				<div class="show-list">
 					<div class="show-title">年龄范围：</div>
-					<div class="show-name">
-						<el-radio-group v-model="radio2">
+					<div class="show-name" style="display: flex;align-items: center;">
+						<!-- <el-radio-group v-model="radio2">
 							<el-radio :label="3">不限</el-radio>
 							<el-radio :label="6">16-20岁</el-radio>
 							<el-radio :label="9">20-30岁</el-radio>
 							<el-radio :label="12">30-40岁</el-radio>
 							<el-radio :label="15">40-50岁</el-radio>
-						</el-radio-group>
+						</el-radio-group> -->
+						<el-input v-model="input" placeholder="请输入年龄" style="width: 200px;"></el-input>
+						<div style="width: 40px;height: 1px;background: #8492A6;margin: 0 20px;"></div>
+						<el-input v-model="input" placeholder="请输入年龄" style="width: 200px;"></el-input>
 					</div>
 				</div>
 

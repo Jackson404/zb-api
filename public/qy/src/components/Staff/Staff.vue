@@ -159,20 +159,16 @@
 					<div class="content">
 						<div class="c-top">
 							<div class="c-t-left">{{data}} 订单</div>
-							<div class="c-t-right" style="cursor: pointer;">
-								<el-dropdown>
-									<span class="el-dropdown-link">
-										2019年8月
-										<i class="el-icon-arrow-down el-icon--right"></i>
-									</span>
-									<el-dropdown-menu slot="dropdown">
-										<el-dropdown-item>2019年8月</el-dropdown-item>
-										<el-dropdown-item>2019年7月</el-dropdown-item>
-										<el-dropdown-item>2019年6月</el-dropdown-item>
-										<el-dropdown-item>2019年5月</el-dropdown-item>
-										<el-dropdown-item>2019年4月</el-dropdown-item>
-									</el-dropdown-menu>
-								</el-dropdown>
+							<div class="c-t-right" style="cursor: pointer;" v-if="isFinish==1">
+								<el-date-picker
+								  v-model="value2"
+								  type="month"
+								  placeholder="选择日期"
+								  value-format="yyyy-MM"
+								  style="cursor: pointer;"
+								  @change="date"
+								  >
+								</el-date-picker>
 							</div>
 						</div>
 						<div class="c-t-c">
@@ -185,7 +181,7 @@
 							<div class="u-list" v-for="(item, index) in list" :key="index">
 								<router-link :to="{ name: 'Orderinfo', params: { id: item.orderId} }">
 									<div class="u-l-top">
-										<div class="u-l-t-left">员工名称：{{item.realname}}</div>
+										<div class="u-l-t-left">订单编号：{{item.orderId}}</div>
 										
 										<div class="u-l-t-right">{{item.createTime}}</div>
 									</div>
@@ -263,6 +259,7 @@ export default {
 			orderNumMonth:null,
 			list:[],
 			data:'',
+			value2:'2019-08'
 		};
 	},
 	created() {
@@ -275,7 +272,10 @@ export default {
 			this.isFinish=1;
 			this.handleClickk(this.yuangong);
 		},
-		
+		date(){
+			console.log(this.value2);
+			this.handleClickk(this.yuangong);
+		},
 		one1() {
 			this.status = false;
 			this.isFinish=0;
@@ -444,7 +444,7 @@ export default {
 			var data = {
 				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
 				id_token: this.$cookies.get('access_token'),
-				orderDate:'2019-08',
+				orderDate:this.value2,
 				isFinish:this.isFinish,
 				userId: parseInt(e.userId),
 				

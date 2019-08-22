@@ -2,7 +2,11 @@
 	<div>
 		<Header></Header>
 		<div class="wrap">
-			<div class="top">订单详情</div>
+			<div class="top">
+				<el-page-header @back="goBack" content="订单详情" style="font-size: 23px;">
+				</el-page-header>
+			</div>
+			
 			<div class="content">
 				<div class="c-top">
 					<div class="c-l-c-top">
@@ -60,6 +64,9 @@ export default {
 		this.getinfo(this.$route.params.id);
 	},
 	methods:{
+		goBack(){
+			this.$router.go(-1);
+		},
 		getinfo(e){
 			
 			this.$_loading = this.$loading({
@@ -114,8 +121,7 @@ div {
 }
 .top {
 	width: 100%;
-	height: 80px;
-	line-height: 80px;
+	padding: 20px 0;
 	font-size: 25px;
 	font-family: Adobe Heiti Std R;
 	font-weight: normal;

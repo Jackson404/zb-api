@@ -17,3 +17,11 @@ div{
 .el-menu.el-menu--horizontal{
 	border: 0;
 }
+
+/* .el-input__inner{
+	border: 0;
+	outline: none;
+} */
+.el-date-editor.el-input{
+	width: 130px;
+}

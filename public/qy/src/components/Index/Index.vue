@@ -36,43 +36,58 @@
 				</div>
 
 				<div class="i-wrap">
-					<div class="list" v-for="(item, index) in list" :key="index">
-						<router-link :to="{ name: 'Workinfo', params: { id: item.id } }">
-							<div class="i-list">
-								<div class="i-w-top">
-									<!--岗位名称-->
-									<div class="i-w-title">{{ item.name }}</div>
-									<!--薪资-->
-									<div class="i-w-money">￥ {{ item.unitPrice }}/人</div>
-								</div>
-								<div style="width: 100%;display: flex;flex-wrap: nowrap;align-items: center">
-									<div style="flex: 1;">
-										<!--公司名称-->
-										<div class="i-w-compay">{{ item.companyName }}</div>
-										<!--学历，工作经营，薪资-->
-										<div class="i-w-cty">
-											<div class="i-w-x">{{ item.education }}</div>
-											<div class="i-w-x pad">|</div>
-											<div class="i-w-x" v-if="item.workExp == 0">不限</div>
-											<div class="i-w-x" v-else>{{ item.workExp }}年</div>
-											<div class="i-w-x pad">|</div>
-											<div class="i-w-x">￥:{{ item.pay }}元</div>
-										</div>
-										<!--		地址，人数-->
-										<div class="i-w-add">
-											<div class="i-w-num" style="padding-right: 30px;">人数需求: {{ item.num }}人</div>
-											<div class="i-w-num">面试时间:{{ item.time }}</div>
-										</div>
+					<div v-if="list.length>0">
+						<div class="list" v-for="(item, index) in list" :key="index">
+							<router-link :to="{ name: 'Workinfo', params: { id: item.id } }">
+								<div class="i-list">
+									<div class="i-w-top">
+										<!--岗位名称-->
+										<div class="i-w-title">{{ item.name }}</div>
+										<!--薪资-->
+										<div class="i-w-money">￥ {{ item.unitPrice }}/人</div>
 									</div>
-									<div
-										style="width: 120px;height: 34px;border:1px solid rgba(0,132,255,1);border-radius:18px;text-align: center;line-height: 34px;font-size:18px;font-family:AlibabaPuHuiTiR;font-weight:400;color:rgba(0,132,255,1);"
-									>
-										接单
+									<div style="width: 100%;display: flex;flex-wrap: nowrap;align-items: center">
+										<div style="flex: 1;">
+											<!--公司名称-->
+											<div class="i-w-compay">{{ item.companyName }}</div>
+											<!--学历，工作经营，薪资-->
+											<div class="i-w-cty">
+												<div class="i-w-x">{{ item.education }}</div>
+												<div class="i-w-x pad">|</div>
+												<div class="i-w-x" v-if="item.workExp == 0">不限</div>
+												<div class="i-w-x" v-else>{{ item.workExp }}年</div>
+												<div class="i-w-x pad">|</div>
+												<div class="i-w-x">￥:{{ item.pay }}元</div>
+											</div>
+											<!--		地址，人数-->
+											<div class="i-w-add">
+												<div class="i-w-num" style="padding-right: 30px;">人数需求: {{ item.num }}人</div>
+												<div class="i-w-num">面试时间:{{ item.time }}</div>
+											</div>
+										</div>
+										<!-- <div v-if="item.hasRecOrder==0"
+											style="width: 120px;height: 34px;border:1px solid rgba(0,132,255,1);border-radius:18px;text-align: center;line-height: 34px;font-size:18px;font-family:AlibabaPuHuiTiR;font-weight:400;color:rgba(0,132,255,1);"
+										>
+											接单
+										</div> -->
+										
+										<el-button v-if="item.hasRecOrder==0" type="primary" plain style="font-size: 18px;width: 120px;border-radius: 25px;">接单</el-button>
+										<el-button v-else type="primary" plain style="font-size: 18px;width: 120px;border-radius: 25px;" disabled>已接单</el-button>
+										
 									</div>
 								</div>
-							</div>
-						</router-link>
-					</div>
+							</router-link>
+						</div>
+						</div>
+						<div style="width: 100%;padding: 200px 0;" v-else>
+							<img src="../../assets/more333.png" alt="" style="display: block;margin: 0 auto;">
+							<div style="font-size: 16px;color: #555;text-align: center;letter-spacing: 4;padding: 10px 0;">暂时没有您搜索的岗位</div>
+						</div>
+										
+										
+					</div>	
+					
+				
 				</div>
 				<div style="padding: 50px 0;width: auto;margin: 0 auto;display: flex;justify-content: center;">
 					<!-- <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="total" :current-page.sync="currentPage"></el-pagination> -->
@@ -162,7 +177,8 @@ export default {
 				priceOrder: parseInt(this.zuId),
 				areaInfo: '',
 				pageIndex: parseInt(this.page),
-				pageSize: parseInt(10)
+				pageSize: parseInt(10),
+				id_token:this.$cookies.get('access_token')
 			};
 
 			var _this = this;
@@ -180,6 +196,11 @@ export default {
 
 						this.list = xx;
 						this.total = res.data.total;
+					}else if(res.errorCode == -20000001){
+						this.$cookies.remove("access_token");
+						this.$cookies.remove("name");
+						this.$cookies.remove("type");
+						this.$router.push({ name: 'Login', params: { id: 1} });
 					}
 				})
 				.catch(err => {

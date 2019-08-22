@@ -32,7 +32,6 @@
 		  title="提示"
 		  :visible.sync="dialogVisible"
 		  width="30%"
-		  :before-close="handleClose"
 		  style="margin-top: 20vh;">
 		  <span>确定要退出吗?</span>
 		  <span slot="footer" class="dialog-footer">

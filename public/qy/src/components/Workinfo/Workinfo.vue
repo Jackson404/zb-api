@@ -191,6 +191,8 @@ export default {
 		this.id=this.$route.params.id;
 		console.log(this.$route.params.id)
 		this.getinfo(this.$route.params.id);
+	
+		document.documentElement.scrollTop=0;
 	},
 	watch:{
 		'$route'(to,from) {
@@ -199,9 +201,12 @@ export default {
 		  this.id=to.params.id;
 		  this.getinfo(to.params.id);
 		  console.log(from)
+		
+		  document.documentElement.scrollTop=0;
 		}
 	  },
 	methods:{
+		
 		//获取职位详情
 		getinfo(e){
 			
