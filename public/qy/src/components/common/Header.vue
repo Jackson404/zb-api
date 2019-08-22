@@ -11,7 +11,7 @@
 					</div>
 				</div>
 				<div class="wrap">
-					<div class="left">上海正步网络有限公司</div>
+					<div class="left">正步网络科技（上海）有限公司</div>
 					<!-- 测试 -->
 					<div class="right">
 						<el-menu class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
