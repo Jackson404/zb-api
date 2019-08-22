@@ -5,16 +5,21 @@
 		<div style="width: 1200px;margin: 0px auto;">
 			<div style="height: 40px;"></div>
 			<div class="wrap">
-				<div class="list" v-for="(item,index) in list" :key="index">
-					<router-link :to="{ name: 'Newsinfo',params: { id: item.id } }">
-						<div class="top">
-							<div class="name">{{item.title}}</div>
-							<div class="time">{{item.createTime}}</div>
-						</div>
-						<div class="con">
-							{{item.content}}
-						</div>
-					</router-link>
+				<div v-if="list.length>0">
+					<div class="list" v-for="(item,index) in list" :key="index">
+						<router-link :to="{ name: 'Newsinfo',params: { id: item.id } }">
+							<div class="top">
+								<div class="name">{{item.title}}</div>
+								<div class="time">{{item.createTime}}</div>
+							</div>
+							<div class="con">
+								{{item.content}}
+							</div>
+						</router-link>
+					</div>
+				</div>
+				<div v-else style="width: 100%;padding: 100px 0;text-align: center;font-size: 20px;color: #333;font-weight: bold;letter-spacing: 3px;">
+					暂无数据
 				</div>
 			</div>
 

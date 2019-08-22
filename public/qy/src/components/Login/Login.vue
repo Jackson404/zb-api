@@ -121,7 +121,7 @@ export default {
 								//第一次登录 去审核
 								if (res.data.isReview == 0) {
 									//跳转认证
-									this.$router.push({ name: 'Attestation', params: { access_token: res.data.id_token } });
+									// this.$router.push({ name: 'Attestation', params: { access_token: res.data.id_token } });
 								}
 								//第一次登录 去审核
 								if (res.data.isReview == 1) {

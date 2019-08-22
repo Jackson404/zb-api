@@ -41,8 +41,9 @@
 				</div>
 				<div class="c-t-c">
 					<div class="c-t-list">收益: {{incomeMonth}}</div>
-					<div class="c-t-list">已完成订单: {{entryNumMonth}}</div>
-					<div class="c-t-list">总入职人数: {{orderNumMonth}}</div>
+					<div class="c-t-list">已完成订单: {{orderNumMonth}}</div>
+					<div class="c-t-list">总入职人数: {{entryNumMonth}}</div>
+			
 				</div>
 			
 				<div class="ul">
