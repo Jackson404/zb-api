@@ -240,7 +240,32 @@ class EpUser extends AdminBase
 
     public function getEpUserPage()
     {
+        $params = Request::instance()->param();
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
 
+        $epUserModel = new EpUserModel();
+
+        $page = $epUserModel->getUserListByType(1, $pageIndex, $pageSize);
+        $data['page'] = $page;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
     }
+
+    /**
+     * 获取公司下的员工
+     */
+    public function getEmUserPageByEpId()
+    {
+        $params = Request::instance()->param();
+        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+        $epId = Check::checkInteger($params['epId'] ?? '');
+
+        $epUserModel = new EpUserModel();
+        $emPage = $epUserModel->getEmByEpId($epId, $pageIndex, $pageSize);
+        $data['page'] = $emPage;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+    }
+
 
 }
