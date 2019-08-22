@@ -18,6 +18,7 @@ $whiteList = [
     'api/v1.ep.EpOrder/getDetailWithLogin',
     'api/v1.ep.EpOrder/shareOrder',
     'api/v1.ep.EpOrder/getOrderList',
+    'api/v1.ep.EpOrder/filter',
 
     'api/v1.ep.EpOrderApply/apply',
 

@@ -24,6 +24,7 @@ class EpOrder extends EpUserBase
 
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+        $userId = $GLOBALS['userId'];
 
         if ($areaInfo != '') {
             $areaInfoSql = "  and  (zco.province like '%$areaInfo%' or zco.city like '%$areaInfo%' or zco.area like '%$areaInfo%' or  zco.address like '%$areaInfo%')";
@@ -48,7 +49,16 @@ class EpOrder extends EpUserBase
         $positionModel = new PositionManagementModel();
         list($result, $total) = $positionModel->filterOrder($areaInfoSql, $priceOrderSql, $keywordsSql, $pageIndex, $pageSize);
 
+        $epOrderModel = new EpOrderModel();
+
         foreach ($result as $k => $v) {
+
+            if ($epOrderModel->checkUserRecOrder($v['id'], $userId)) {
+                $result[$k]['hasRecOrder'] = 1;
+            } else {
+                $result[$k]['hasRecOrder'] = 0;
+            }
+
             $result[$k]['labelIds'] = json_decode($v['labelIds'], true);
         }
 
