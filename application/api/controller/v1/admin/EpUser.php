@@ -238,4 +238,9 @@ class EpUser extends AdminBase
 
     }
 
+    public function getEpUserPage()
+    {
+
+    }
+
 }
