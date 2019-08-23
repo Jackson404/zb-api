@@ -75,7 +75,7 @@ class DataResume extends Model
         $offset = ($pageIndex - 1) * $pageSize;
 
         $sql = "select idCard,phone,name,sex,birthYear,birth,school,education,educationName,mail,profession,professionId,workYear,
-                exPosition,exSalary,exCity,habitation,houseLocation,workUnit,createTime,deliveryTime,`from`,type  from 
+                exPosition,exSalary,exCity,habitation,houseLocation,workUnit,createTime,deliveryTime,`from`,`type`,remark  from 
                 $this->table where isDelete=0 $posKeySql $exWorkLocationSql $workExpSql  $educationNameSql  $minAgeSql $maxAgeSql  $sexSql  
                 order by  createTime  desc limit $offset,$pageSize";
         $content = $this->query($sql);
@@ -90,7 +90,7 @@ class DataResume extends Model
         $offset = ($pageIndex - 1) * $pageSize;
 
         $sql = "select idCard,name,sex,birthYear,birth,school,education,educationName,mail,profession,professionId,workYear,
-                exPosition,exSalary,exCity,habitation,houseLocation,workUnit,createTime,deliveryTime,`from`,type  from 
+                exPosition,exSalary,exCity,habitation,houseLocation,workUnit,createTime,deliveryTime,`from`,`type`  from 
                 $this->table where isDelete=0 $posKeySql $exWorkLocationSql $workExpSql    $minAgeSql $maxAgeSql  $sexSql  $educationNameSql
                 order by concat(idCard,phone,updateTime)  desc limit $offset,$pageSize";
         $content = $this->query($sql);

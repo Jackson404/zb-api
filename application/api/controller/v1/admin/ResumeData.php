@@ -210,7 +210,6 @@ class ResumeData extends Controller
 
     }
 
-
     public function getRecordByDate()
     {
         $params = Request::instance()->param();
@@ -278,6 +277,30 @@ class ResumeData extends Controller
             'habitation' => $habitation,
             'houseLocation' => $houseLocation,
             'workUnit' => $workUnit,
+            'updateTime' => date('Y-m-d', time()),
+            'type' => 2
+        ];
+
+        $dataResumeModel = new DataResume();
+        $updateRow = $dataResumeModel->isUpdate(true)->save($data);
+        $arr['updateRow'] = $updateRow;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
+    }
+
+    /**
+     * 对简历添加备注
+     */
+    public function editResumeRemark()
+    {
+        $params = Request::instance()->param();
+        $idCard = $params['idCard'] ?? '';
+        $phone = $params['phone'] ?? '';
+        $remark = $params['remark'] ?? '';
+
+        $data = [
+            'idCard' => $idCard,
+            'phone' => $phone,
+            'remark'=>$remark,
             'updateTime' => date('Y-m-d', time()),
             'type' => 2
         ];

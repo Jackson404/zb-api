@@ -65,6 +65,7 @@ $whiteList = [
     'api/v1.admin.ResumeData/getByPage',
     'api/v1.admin.ResumeData/delResume',
     'api/v1.admin.ResumeData/editResume',
+    'api/v1.admin.ResumeData/editResumeRemark',
     'api/v1.admin.ResumeData/getDetail',
 
     'api/v1.admin.Area/getProvince',
