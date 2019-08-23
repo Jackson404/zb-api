@@ -78,5 +78,9 @@ $whiteList = [
     'api/v1.admin.EpMsg/add',
 
     'api/v1.admin.EpUser/getEpUserList',
+    'api/v1.admin.EpUser/getEpUserPage',
+    'api/v1.admin.EpUser/getEmUserPageByEpId',
+    'api/v1.admin.EpUser/addEmUser',
+    'api/v1.admin.EpUser/addEpUser',
 
 ];

@@ -65,7 +65,7 @@ class EpUser extends EpUserBase
     public function login()
     {
         $params = Request::instance()->param();
-        $phone = Check::check($params['phone'] ?? '', 11, 11);
+        $phone = Check::check($params['phone'] ?? '', 1, 11);
         $vCode = Check::check($params['vCode'] ?? '');
 
 //        if ($vCode == '') {

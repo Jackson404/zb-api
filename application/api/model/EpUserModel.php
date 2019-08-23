@@ -80,4 +80,26 @@ class EpUserModel extends Model
             ->where('isDelete', '=', 0)
             ->update(['isReview' => 0, 'type' => 0]);
     }
+
+    public function getUserListByType($type, $pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->where('isDelete', '=', 0)
+            ->where('type', '=', $type)
+            ->paginate(null, false, $config);
+    }
+
+    public function getEmByEpId($epId, $pageIndex, $pageSize)
+    {
+        $config = [
+            'list_rows' => $pageSize,
+            'page' => $pageIndex
+        ];
+        return $this->where('isDelete', '=', 0)
+            ->where('epId', '=', $epId)
+            ->paginate(null, false, $config);
+    }
 }
