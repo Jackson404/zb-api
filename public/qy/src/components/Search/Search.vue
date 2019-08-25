@@ -52,9 +52,9 @@
 					<div class="show-title">性别：</div>
 					<div class="show-name">
 						<el-radio-group v-model="radio1" @change="sexone">
-							<el-radio :label="-1">不限</el-radio>
-							<el-radio :label="1">男</el-radio>
-							<el-radio :label="0">女</el-radio>
+							<el-radio label="不限">不限</el-radio>
+							<el-radio label="男">男</el-radio>
+							<el-radio label="女">女</el-radio>
 							
 						</el-radio-group>
 					</div>
@@ -239,7 +239,7 @@ export default {
 			],
 			value: '',
 			radio: '不限',
-			radio1: -1,
+			radio1: '不限',
 			radio2: 3,
 			posKey: '',
 			minAge:'',
@@ -248,7 +248,8 @@ export default {
 			dialogTableVisible: false,
 			checkindex: '',
 			listOne: [],
-			educationName:''
+			educationName:'',
+			page:1
 		};
 	},
 	created() {
