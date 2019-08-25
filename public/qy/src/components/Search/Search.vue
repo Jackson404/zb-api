@@ -2,12 +2,9 @@
 	<div>
 		<Header></Header>
 		<div class="wrap">
-			<div class="nav">
-				<div class="n-bar " :class="[status ? 'check' : '']" @click="one()">简历搜索</div>
-				<div class="n-bar" :class="[!status ? 'check' : '']" @click="one1()">简历分类</div>
-			</div>
+			
 
-			<div class="content" v-if="status">
+			<div class="content" >
 				<div class="show-list">
 					<div class="show-title">关键词搜索：</div>
 					<div class="show-name">
@@ -88,23 +85,35 @@
 
 						<el-table-column prop="name" label="姓名" width="120"></el-table-column>
 						<el-table-column prop="sex" label="性别" width="120"></el-table-column>
-						<el-table-column prop="age" label="年龄" width="120"></el-table-column>
+						<el-table-column prop="birth" label="生日" width="120"></el-table-column>
 						<el-table-column prop="educationName" label="学历" width="120"></el-table-column>
-						<el-table-column prop="school" label="居住地" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="school" label="学校" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="workYear" label="工作经验" width="120"></el-table-column>
-						<el-table-column prop="exPosition" label="目前职位" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="curStatus" label="状态" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="exPosition" label="期望职位" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="exSalary" label="期望薪资" show-overflow-tooltip></el-table-column>
 
 						<el-table-column label="操作" width="100">
 							<template slot-scope="scope">
-								<el-button type="text" size="small" @click="handleClick(scope.row)" :data-iid="iid">查看</el-button>
+								<el-button type="text" size="small" @click="handleClick(scope.row)">查看</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
 					<div style="margin-top: 20px;display: flex;flex-wrap: nowrap;align-items: center;">
 						<!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
 						<el-button @click="toggleSelection(tableData)" style="padding: 12px 40px;">全选</el-button>
-						<el-button type="primary" plain style="padding: 12px 40px;">下载</el-button>
+						
+						<el-dropdown style="margin-left: 10px;">
+						  <el-button type="primary">
+							下载<i class="el-icon-arrow-down el-icon--right"></i>
+						  </el-button>
+						  <el-dropdown-menu slot="dropdown">
+							<el-dropdown-item>黄金糕</el-dropdown-item>
+							<el-dropdown-item>狮子头</el-dropdown-item>
+							<el-dropdown-item>螺蛳粉</el-dropdown-item>
+							<el-dropdown-item>双皮奶</el-dropdown-item>
+							<el-dropdown-item>蚵仔煎</el-dropdown-item>
+						  </el-dropdown-menu>
+						</el-dropdown>
 						<!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
 						<div style="flex: 1;display: flex;justify-content: flex-end;">
 							<el-pagination
@@ -112,84 +121,14 @@
 								@current-change="handleCurrentChange"
 								layout="prev, pager, next"
 								:total="total"
-								:current-page.sync="currentPage"
+								
 							></el-pagination>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="content1" v-else>
-				<!-- <el-container>
-					<el-aside width="270px">Aside</el-aside>
-					<el-container>
-					  <el-main>Main</el-main>
-					</el-container>
-				  </el-container> -->
-
-				<el-container>
-					<el-aside width="250px">
-						<el-menu :default-openeds="['1', '3']">
-							<el-submenu index="1">
-								<template slot="title" style="background:#0084FF !important;color: #fff !important;">
-									简历分类
-								</template>
-								<el-menu-item-group>
-									<el-menu-item index="1-1">
-										全部简历
-										<span style="float: right;">4</span>
-									</el-menu-item>
-									<el-menu-item index="1-2">
-										辅警
-										<span style="float: right;">0</span>
-									</el-menu-item>
-									<el-menu-item index="1-3">
-										驾驶员
-										<span style="float: right;">4</span>
-									</el-menu-item>
-								</el-menu-item-group>
-							</el-submenu>
-						</el-menu>
-					</el-aside>
-
-					<el-container>
-						<el-main>
-							<el-table
-								ref="multipleTable"
-								:data="tableData"
-								tooltip-effect="dark"
-								style="width: 100%"
-								@selection-change="handleSelectionChange"
-								@row-click="onRowClick"
-							>
-								<el-table-column type="selection" width="55"></el-table-column>
-
-								<el-table-column prop="name" label="姓名" width="120"></el-table-column>
-								<el-table-column prop="sex==0?'女':'男'" label="性别" width="120"></el-table-column>
-								<el-table-column prop="age" label="年龄" width="120"></el-table-column>
-								<el-table-column prop="educationName" label="学历" width="120"></el-table-column>
-								<el-table-column prop="school" label="居住地" show-overflow-tooltip></el-table-column>
-								<el-table-column prop="workYear" label="工作经验" width="120"></el-table-column>
-								<el-table-column prop="exPosition" label="目前职位" show-overflow-tooltip></el-table-column>
-								<el-table-column prop="curStatus" label="状态" show-overflow-tooltip></el-table-column>
-
-								<el-table-column label="操作" width="100">
-									<template slot-scope="scope">
-										<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-										<el-button type="text" size="small">编辑</el-button>
-									</template>
-								</el-table-column>
-							</el-table>
-							<div style="margin-top: 20px">
-								<!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
-								<el-button @click="toggleSelection(tableData)" style="padding: 12px 40px;">全选</el-button>
-								<el-button type="primary" plain style="padding: 12px 40px;">下载</el-button>
-								<!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
-							</div>
-						</el-main>
-					</el-container>
-				</el-container>
-			</div>
+		
 
 			<el-dialog title="" :visible.sync="dialogTableVisible">
 				<div style="width: 100%;box-sizing: border-box;padding: 0px 20px;">
@@ -256,11 +195,15 @@
 				</div>
 			</el-dialog>
 		</div>
+		<div style="height: 50px;"></div>
+		
+		
 	</div>
 </template>
 
 <script>
 import Header from '@/components/common/Header.vue';
+
 export default {
 	name: 'Resume',
 	components: {
@@ -269,19 +212,7 @@ export default {
 	data() {
 		return {
 			status: true,
-			tableData: [
-				// {
-				// 	date: '2016-05-03',
-				// 	name: '王小虎',
-				// 	address: '上海市普陀区金沙江路 1518 弄',
-				// 	sex: '男',
-				// 	age: 30,
-				// 	xueli: '本科',
-				// 	work: '3年',
-				// 	zhi: '测试',
-				// 	tai: '在职'
-				// },
-			],
+			tableData: [],
 			 checkList: ['不限'],
 			multipleSelection: [],
 			options: [
@@ -313,7 +244,7 @@ export default {
 			posKey: '',
 			minAge:'',
 			maxAge:'',
-			total: '',
+			total: 0,
 			dialogTableVisible: false,
 			checkindex: '',
 			listOne: [],
@@ -429,7 +360,7 @@ export default {
 							} else {
 								xx[i].sex = '男';
 							}
-							xx[i].iid = i;
+							// xx[i].iid = i;
 						}
 
 						this.tableData = xx;

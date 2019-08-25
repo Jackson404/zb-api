@@ -71,15 +71,16 @@ export default {
 					check: false
 				},
 				{
+					name:'简历搜索',
+					url:'Search',
+					check:false
+				},
+				{
 					name: '简历管理',
 					url: 'Resume',
 					check: false
 				}
-				// {
-				// 	name:'服务中心',
-				// 	url:'Service',
-				// 	check:false
-				// },
+				
 			],
 			info: '',
 			name:''

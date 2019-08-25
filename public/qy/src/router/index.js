@@ -5,6 +5,7 @@ Vue.use(Router)
 import Index from '@/components/Index/Index'
 import Order from '@/components/Order/Order'
 import Staff from '@/components/Staff/Staff'
+import Search from '@/components/Search/Search'
 import Resume from '@/components/Resume/Resume'
 import Service from '@/components/Service/Service'
 import News from '@/components/News/News'
@@ -32,6 +33,11 @@ export default new Router({
 			path:'/order',
 			name:'Order',
 			component:Order
+		},
+		{
+			path:'/search',
+			name:'Search',
+			component:Search
 		},
 		{
 			path:'/staff',
