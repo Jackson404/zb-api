@@ -39,7 +39,8 @@ class EpOrderApply extends IndexBase
         $arrivalTime = Check::check($params['arrivalTime'] ?? ''); //到岗时间
         $isSoldierPriority = Check::checkInteger($params['isSoldierPriority'] ?? 0); //是否是退役军人 默认0 0否 1是
 
-        $orderId = Check::checkInteger($params['orderId'] ?? '');
+//        $orderId = Check::checkInteger($params['orderId'] ?? '');
+        $positionId = Check::checkInteger($params['positionId'] ?? '');
         $shareUserId = Check::checkInteger($params['shareUserId'] ?? '');
         $applyUserId = $GLOBALS['userId'];
 
@@ -92,6 +93,15 @@ class EpOrderApply extends IndexBase
                 exit;
             }
         }
+
+        $epOrderModel = new EpOrderModel();
+
+        $orderDetail = $epOrderModel->verifyUserRecOrderDetail($positionId,$shareUserId);
+        if ($orderDetail == null){
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '该订单不存在');
+            exit;
+        }
+        $orderId = $orderDetail->orderId;
 
         $epOrderApplyModel = new EpOrderApplyModel();
 
@@ -147,7 +157,7 @@ class EpOrderApply extends IndexBase
                 exit;
             } else {
                 $resumeModel->rollback();
-                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
+                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '申请失败');
                 exit;
             }
         }

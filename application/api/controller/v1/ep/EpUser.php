@@ -2,7 +2,6 @@
 
 namespace app\api\controller\v1\ep;
 
-use app\api\controller\v1\File;
 use app\api\model\CompanyManagementModel;
 use app\api\model\EpCertModel;
 use app\api\model\EpOrderApplyModel;
@@ -15,12 +14,9 @@ use app\api\model\EpUserEmGroupModel;
 use app\api\model\EpUserLoginHistoryModel;
 use app\api\model\EpUserModel;
 use Curl\Curl;
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\QrCode;
 use OSS\Core\OssException;
 use OSS\OssClient;
 use Sms;
-use think\cache\driver\Redis;
 use think\Exception;
 use think\exception\PDOException;
 use think\Request;
@@ -738,7 +734,8 @@ class EpUser extends EpUserBase
             $access_token = $xRes->access_token;
 
             $xx = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' . $access_token;
-            $scene = "$userId&$positionId&$orderId";
+//            $scene = "$userId&$positionId&$orderId";
+            $scene = "$userId&$positionId";
             $page = "pages/jobinfo/jobinfo";
 //            $page = "pages/index/index";
 
