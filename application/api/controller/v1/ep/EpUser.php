@@ -738,10 +738,9 @@ class EpUser extends EpUserBase
             $access_token = $xRes->access_token;
 
             $xx = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' . $access_token;
-//            $scene = "$userId&$positionId&$orderId";
-            $scene = "?id=$positionId&uid=$userId&oId=$orderId";
-//            $page = "pages/jobinfo/jobinfo".'?id='.$positionId.'&uid='.$userId.'&orderId='.$orderId;
+            $scene = "$userId&$positionId&$orderId";
             $page = "pages/jobinfo/jobinfo";
+//            $page = "pages/index/index";
 
             $curl->post($xx, ['scene' => $scene, 'page' => $page]);
             $xxRes = $curl->response;
