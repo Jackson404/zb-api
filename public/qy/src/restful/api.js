@@ -301,8 +301,8 @@ export function addResumeCate(data) {
 }
 
 //获取简历分类列表
-export function getResumeCateList(data) {
-	var url = '/api/v1.ep.ResumeData/getResumeCateList';
+export function getEpResumeListByCate(data) {
+	var url = '/api/v1.ep.ResumeData/getEpResumeListByCate';
 	return Axios.post(url, data).then((res) => {
 		return res.data;
 	})

@@ -1,0 +1,2 @@
+<import src="./jianliadd3.vue.wxml" />
+    <template is="cfd18660" data="{{ ...$root['0'], $root }}"/>
