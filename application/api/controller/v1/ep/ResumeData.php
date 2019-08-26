@@ -210,6 +210,7 @@ class ResumeData extends EpUserBase
 
         $list = $epResumeCateModel->getResumeCateListByUserId($userId);
         $list->push(['id'=>-1,'name'=>'全部分组'],0);
+        $list->push(['id'=>0,'name'=>'未分组'],1);
 //        var_dump($list->toArray());
         $epResumeModel = new EpResumeModel();
         $listData = $list->toArray();
