@@ -435,9 +435,9 @@ class ResumeData extends EpUserBase
         }
 
         $epResumeCateModel = new EpResumeModel();
-        $updateRow = $epResumeCateModel->isUpdate(true)->saveAll($x);
-        if ($updateRow > 0) {
-            $data['updateRow'] = $updateRow;
+        $res = $epResumeCateModel->isUpdate(true)->saveAll($x);
+        if ($res->count() > 0) {
+            $data['updateRow'] = $res->count();
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
             exit;
         } else {
@@ -499,50 +499,32 @@ class ResumeData extends EpUserBase
 
     }
 
-    public function getEpApplyResumeDetail()
-    {
-        $params = Request::instance()->param();
-        $resumeId = Check::checkInteger($params['resumeId'] ?? '');
-        $resumeModel = new ResumeModel();
-        $detail = $resumeModel->getDetail($resumeId);
-        $data['detail'] = $detail;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-
-    }
-
-    public function getEpDownloadResumeDetail()
-    {
-        $params = Request::instance()->param();
-        $idCard = Check::checkInteger($params['idCard'] ?? '');
-        $phone = Check::check($params['phone'] ?? '');
-
-        $resumeData = new DataResume();
-        $detail = $resumeData->detail($idCard, $phone);
-        $data['detail'] = $detail;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
-
+    /**
+     * 获取简历详情
+     */
     public function getEpResumeDetail()
     {
         $params = Request::instance()->param();
+        $uniqueCode = Check::check($params['uniqueCode'] ?? '');
 
-        $source = Check::checkInteger($params['source'] ?? '');
-
-        if ($source == 1) {
-            $resumeId = Check::checkInteger($params['resumeId'] ?? '');
+        $uniArr = explode('|', $uniqueCode);
+        $uniCount = count($uniArr);
+        if ($uniArr[$uniCount - 1] == 1) {
+            $resumeId = $uniArr[0];
             $resumeModel = new ResumeModel();
             $detail = $resumeModel->getDetail($resumeId);
         }
-        if ($source == 2) {
-            $idCard = Check::checkInteger($params['idCard'] ?? '');
-            $phone = Check::check($params['phone'] ?? '');
 
+        if ($uniArr[$uniCount - 1] == 2) {
+            $idCard = $uniArr[0];
+            $phone = $uniArr[1];
             $resumeData = new DataResume();
             $detail = $resumeData->detail($idCard, $phone);
         }
-
         $data['detail'] = $detail;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+
     }
+
 
 }
