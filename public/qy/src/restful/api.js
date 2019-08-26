@@ -281,6 +281,61 @@ export function getListOne(data) {
 }
 
 
+//获取企业用户的简历列表
+export function getEpResumeList(data) {
+	var url = '/api/v1.ep.ResumeData/getEpResumeList';
+	return Axios.post(url, data).then((res) => {
+		return res.data;
+	})
+
+}
+
+
+//创建简历分类
+export function addResumeCate(data) {
+	var url = '/api/v1.ep.ResumeData/addResumeCate';
+	return Axios.post(url, data).then((res) => {
+		return res.data;
+	})
+
+}
+
+//获取简历分类列表
+export function getResumeCateList(data) {
+	var url = '/api/v1.ep.ResumeData/getResumeCateList';
+	return Axios.post(url, data).then((res) => {
+		return res.data;
+	})
+
+}
+
+//编辑简历分类
+export function editResumeCate(data) {
+	var url = '/api/v1.ep.ResumeData/editResumeCate';
+	return Axios.post(url, data).then((res) => {
+		return res.data;
+	})
+
+}
+
+//删除简历分类
+export function delResumeCate(data) {
+	var url = '/api/v1.ep.ResumeData/delResumeCate';
+	return Axios.post(url, data).then((res) => {
+		return res.data;
+	})
+
+}
+
+//简历修改分类
+export function moveResumeToCate(data) {
+	var url = '/api/v1.ep.ResumeData/moveResumeToCate';
+	return Axios.post(url, data).then((res) => {
+		return res.data;
+	})
+
+}
+
 //post 携带canshu
 
 // 

@@ -2,195 +2,115 @@
 	<div>
 		<Header></Header>
 		<div class="wrap">
-			<div class="nav">
-				<div class="n-bar " :class="[status ? 'check' : '']" @click="one()">简历搜索</div>
-				<div class="n-bar" :class="[!status ? 'check' : '']" @click="one1()">简历分类</div>
-			</div>
+			<div class="l-left">
+				<el-col style="width: 100%;">
+					<el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+						<el-submenu index="1">
+							<template slot="title">
+								<i class="el-icon-menu"></i>
+								<span>简历分类</span>
+							</template>
+							<el-menu-item-group>
+								<el-menu-item index="1-1" @click="go(-1)">全部员工<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item>
+								<el-menu-item index="'2-'+(index+1)" v-for="(item, index) in gridData" :key="index" @click="go(item.groupId)">{{ item.name }}</el-menu-item>
+							</el-menu-item-group>
+						</el-submenu>
+						
+					</el-menu>
+				</el-col>
 
-			<div class="content" v-if="status">
-				<div class="show-list">
-					<div class="show-title">关键词搜索：</div>
-					<div class="show-name">
-						<el-input style="width: 300px;;" v-model="posKey" placeholder="请输入您要输入的内容"></el-input>
-						<div style="width: 20px;"></div>
-						<el-button type="primary" @click="search">搜索</el-button>
-					</div>
-				</div>
-				<!-- <div class="show-list">
-					<div class="show-title">期望地点：</div>
-					<div class="show-name">
-						<el-select v-model="value" placeholder="不限">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-						</el-select>
-					</div>
-				</div> -->
-
-				<div class="show-list">
-					<div class="show-title">工作经验：</div>
-					<div class="show-name">
-						<el-radio-group v-model="radio" @change="work">
-							<el-radio label="不限">不限</el-radio>
-							<el-radio label="1-3年">1-3年</el-radio>
-							<el-radio label="3-5年">3-5年</el-radio>
-							<el-radio label="5-10年">5-10年</el-radio>
-						</el-radio-group>
-					</div>
-				</div>
-				
-				<div class="show-list">
-					<div class="show-title">学历水平：</div>
-					<div class="show-name">
-						 <!-- <el-checkbox-group v-model="checkList" @change="xueli"> -->
-						 <el-checkbox-group v-model="checkList" >	 
-							<el-checkbox label="不限" @change="xx"></el-checkbox>
-							<el-checkbox label="高中及以下" @change="xx1"></el-checkbox>
-							<el-checkbox label="大专" @change="xx1"></el-checkbox>
-							<el-checkbox label="本科及以上" @change="xx1"></el-checkbox>
-							
-						 </el-checkbox-group>
-					</div>
-				</div>
-
-				<div class="show-list">
-					<div class="show-title">性别：</div>
-					<div class="show-name">
-						<el-radio-group v-model="radio1" @change="sexone">
-							<el-radio :label="-1">不限</el-radio>
-							<el-radio :label="1">男</el-radio>
-							<el-radio :label="0">女</el-radio>
-							
-						</el-radio-group>
-					</div>
-				</div>
-				
-				
 				
 
-				<div class="show-list">
-					<div class="show-title">年龄范围：</div>
-					<div class="show-name" style="display: flex;align-items: center;">
-						<!-- <el-radio-group v-model="radio2">
-							<el-radio :label="3">不限</el-radio>
-							<el-radio :label="6">16-20岁</el-radio>
-							<el-radio :label="9">20-30岁</el-radio>
-							<el-radio :label="12">30-40岁</el-radio>
-							<el-radio :label="15">40-50岁</el-radio>
-						</el-radio-group> -->
-						<el-input v-model="minAge" placeholder="请输入年龄" style="width: 200px;" @blur="gose"></el-input>
-						<div style="width: 40px;height: 1px;background: #8492A6;margin: 0 20px;"></div>
-						<el-input v-model="maxAge" placeholder="请输入年龄" style="width: 200px;" @blur="gose"></el-input>
-					</div>
-				</div>
-
-				<div class="list">
-					<el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
-						<el-table-column type="selection" width="55"></el-table-column>
-
-						<el-table-column prop="name" label="姓名" width="120"></el-table-column>
-						<el-table-column prop="sex" label="性别" width="120"></el-table-column>
-						<el-table-column prop="age" label="年龄" width="120"></el-table-column>
-						<el-table-column prop="educationName" label="学历" width="120"></el-table-column>
-						<el-table-column prop="school" label="居住地" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="workYear" label="工作经验" width="120"></el-table-column>
-						<el-table-column prop="exPosition" label="目前职位" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="curStatus" label="状态" show-overflow-tooltip></el-table-column>
-
-						<el-table-column label="操作" width="100">
+				<el-popover placement="right" width="400" trigger="click">
+					<el-table :data="gridData">
+						<el-table-column width="250" property="name" label="分组名称"></el-table-column>
+						<el-table-column label="操作" width="150">
 							<template slot-scope="scope">
-								<el-button type="text" size="small" @click="handleClick(scope.row)" :data-iid="iid">查看</el-button>
+								<el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+								<el-button type="text" size="small" @click="handleClick1(scope.row)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
-					<div style="margin-top: 20px;display: flex;flex-wrap: nowrap;align-items: center;">
-						<!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
-						<el-button @click="toggleSelection(tableData)" style="padding: 12px 40px;">全选</el-button>
-						<el-button type="primary" plain style="padding: 12px 40px;">下载</el-button>
-						<!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
-						<div style="flex: 1;display: flex;justify-content: flex-end;">
-							<el-pagination
-								background
-								@current-change="handleCurrentChange"
-								layout="prev, pager, next"
-								:total="total"
-								:current-page.sync="currentPage"
-							></el-pagination>
-						</div>
+					<el-button size="medium" style="margin-top: 20px;width: 100%;font-size: 16px;border-radius: 0;" slot="reference">分组管理</el-button>
+
+					<el-button type="primary" size="small" style="margin: 15px 0;" @click="dialogFormVisible = true">新增分组</el-button>
+				</el-popover>
+			</div>
+
+			<div class="right">
+				<!--	第一部分-->
+				<el-table
+					ref="multipleTable"
+					:data="tableData"
+					tooltip-effect="dark"
+					style="width: 100%"
+					@selection-change="handleSelectionChange"
+					@row-click="onRowClick"
+				>
+					<el-table-column type="selection" width="55"></el-table-column>
+				
+					<el-table-column prop="name" label="姓名" width="120"></el-table-column>
+					<el-table-column prop="sex==0?'女':'男'" label="性别" width="120"></el-table-column>
+					<el-table-column prop="age" label="年龄" width="120"></el-table-column>
+					<el-table-column prop="educationName" label="学历" width="120"></el-table-column>
+					<el-table-column prop="school" label="居住地" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="workYear" label="工作经验" width="120"></el-table-column>
+					<el-table-column prop="exPosition" label="目前职位" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="curStatus" label="状态" show-overflow-tooltip></el-table-column>
+				
+					<el-table-column label="操作" width="100">
+						<template slot-scope="scope">
+							<el-button @click="handleClick2(scope.row)" type="text" size="small">查看</el-button>
+							<!-- <el-button type="text" size="small">编辑</el-button> -->
+						</template>
+					</el-table-column>
+				</el-table>
+				<div style="margin-top: 20px;display: flex;flex-wrap: nowrap;">
+					<!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
+				
+					<el-button  @click="toggleSelection(tableData)" style="padding: 12px 40px;">全选</el-button>
+					<el-dropdown style="margin-left: 10px;" @command="check">
+					  <el-button style="padding: 12px 30px;">
+						移动至<i class="el-icon-arrow-down el-icon--right" style="padding-left: 10px;"></i>
+					  </el-button>
+					  <el-dropdown-menu slot="dropdown">
+						<el-dropdown-item v-for="(item, index) in gridData" :key="index" :command="index">{{ item.name }}</el-dropdown-item>
+					  </el-dropdown-menu>
+					</el-dropdown>
+					
+					<!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
+					<div style="width: auto;margin: 0 auto;display: flex;justify-content: flex-end;">
+						<el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="total" ></el-pagination>
 					</div>
+				</div>
+				
+				<!--		编辑-->
+
+			
+					
 				</div>
 			</div>
 
-			<div class="content1" v-else>
-				<!-- <el-container>
-					<el-aside width="270px">Aside</el-aside>
-					<el-container>
-					  <el-main>Main</el-main>
-					</el-container>
-				  </el-container> -->
+			<el-dialog title="新增分组" :visible.sync="dialogFormVisible">
+				<el-form>
+					<el-form-item label="分组名称"><el-input v-model="name" autocomplete="off" placeholder="请输入分组名称"></el-input></el-form-item>
+				</el-form>
+				<div slot="footer" class="dialog-footer">
+					<el-button @click="dialogFormVisible = false">取 消</el-button>
+					<el-button type="primary" @click="addZ">确 定</el-button>
+				</div>
+			</el-dialog>
 
-				<el-container>
-					<el-aside width="250px">
-						<el-menu :default-openeds="['1', '3']">
-							<el-submenu index="1">
-								<template slot="title" style="background:#0084FF !important;color: #fff !important;">
-									简历分类
-								</template>
-								<el-menu-item-group>
-									<el-menu-item index="1-1">
-										全部简历
-										<span style="float: right;">4</span>
-									</el-menu-item>
-									<el-menu-item index="1-2">
-										辅警
-										<span style="float: right;">0</span>
-									</el-menu-item>
-									<el-menu-item index="1-3">
-										驾驶员
-										<span style="float: right;">4</span>
-									</el-menu-item>
-								</el-menu-item-group>
-							</el-submenu>
-						</el-menu>
-					</el-aside>
-
-					<el-container>
-						<el-main>
-							<el-table
-								ref="multipleTable"
-								:data="tableData"
-								tooltip-effect="dark"
-								style="width: 100%"
-								@selection-change="handleSelectionChange"
-								@row-click="onRowClick"
-							>
-								<el-table-column type="selection" width="55"></el-table-column>
-
-								<el-table-column prop="name" label="姓名" width="120"></el-table-column>
-								<el-table-column prop="sex==0?'女':'男'" label="性别" width="120"></el-table-column>
-								<el-table-column prop="age" label="年龄" width="120"></el-table-column>
-								<el-table-column prop="educationName" label="学历" width="120"></el-table-column>
-								<el-table-column prop="school" label="居住地" show-overflow-tooltip></el-table-column>
-								<el-table-column prop="workYear" label="工作经验" width="120"></el-table-column>
-								<el-table-column prop="exPosition" label="目前职位" show-overflow-tooltip></el-table-column>
-								<el-table-column prop="curStatus" label="状态" show-overflow-tooltip></el-table-column>
-
-								<el-table-column label="操作" width="100">
-									<template slot-scope="scope">
-										<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-										<el-button type="text" size="small">编辑</el-button>
-									</template>
-								</el-table-column>
-							</el-table>
-							<div style="margin-top: 20px">
-								<!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
-								<el-button @click="toggleSelection(tableData)" style="padding: 12px 40px;">全选</el-button>
-								<el-button type="primary" plain style="padding: 12px 40px;">下载</el-button>
-								<!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
-							</div>
-						</el-main>
-					</el-container>
-				</el-container>
-			</div>
-
+			<el-dialog title="修改分组" :visible.sync="dialogFormVisible1">
+				<el-form>
+					<el-form-item label="分组名称"><el-input v-model="name1" autocomplete="off" placeholder="请输入分组名称"></el-input></el-form-item>
+				</el-form>
+				<div slot="footer" class="dialog-footer">
+					<el-button @click="dialogFormVisible1 = false">取 消</el-button>
+					<el-button type="primary" @click="addZ1">确 定</el-button>
+				</div>
+			</el-dialog>
+			
 			<el-dialog title="" :visible.sync="dialogTableVisible">
 				<div style="width: 100%;box-sizing: border-box;padding: 0px 20px;">
 					<div style="height: 40px;line-height: 40px;font-size: 18px;color: #333;">张校长</div>
@@ -255,6 +175,8 @@
 					</div>
 				</div>
 			</el-dialog>
+				
+		
 		</div>
 	</div>
 </template>
@@ -262,193 +184,59 @@
 <script>
 import Header from '@/components/common/Header.vue';
 export default {
-	name: 'Resume',
+	name: 'Staff',
 	components: {
 		Header
 	},
 	data() {
 		return {
-			status: true,
-			tableData: [
-				// {
-				// 	date: '2016-05-03',
-				// 	name: '王小虎',
-				// 	address: '上海市普陀区金沙江路 1518 弄',
-				// 	sex: '男',
-				// 	age: 30,
-				// 	xueli: '本科',
-				// 	work: '3年',
-				// 	zhi: '测试',
-				// 	tai: '在职'
-				// },
-			],
-			 checkList: ['不限'],
-			multipleSelection: [],
-			options: [
-				{
-					value: '选项1',
-					label: '上海'
-				},
-				{
-					value: '选项2',
-					label: '北京'
-				},
-				{
-					value: '选项3',
-					label: '深圳'
-				},
-				{
-					value: '选项4',
-					label: '重庆'
-				},
-				{
-					value: '选项5',
-					label: '西安'
-				}
-			],
-			value: '',
-			radio: '不限',
-			radio1: -1,
-			radio2: 3,
-			posKey: '',
-			minAge:'',
-			maxAge:'',
-			total: '',
+			gridData: [],
+			dialogFormVisible: false,
+			name: '',
+			dialogFormVisible1: false,
 			dialogTableVisible: false,
-			checkindex: '',
-			listOne: [],
-			educationName:''
-		};
+			name1: '',
+			pageIndex: 1,
+			groupId: -1,
+			id: '',
+			total:1,
+			tableData: [],
+			yg:[],
+			zu:'',
+			zuId:0,
+			emNum:0,
+			reviewNum:0,
+			outerVisible4:false,
+			status: true,
+			isFinish:1,
+			yuangong:[],
+			incomeMonth:null,
+			entryNumMonth:null,
+			orderNumMonth:null,
+			list:[],
+			data:'',
+			value2:'2019-08',
+			listOne:[],
+			multipleSelection:[],
+			};
 	},
 	created() {
-		console.log('一登陆');
-		if (this.$cookies.isKey('access_token')) {
-			//已登录
-			console.log('已登陆');
-		} else {
-			//未登录
-			this.$router.push({ name: 'Login', params: { userId: '123' } });
-			console.log('未登陆');
-		}
-		this.categoryList();
+		this.getEmGroup();
+		// this.getinfo()
 	},
 	methods: {
-		gose(){
-			if(this.minAge<1){return};
-			if(this.maxAge<1){return};
-			
-			this.categoryList()
-		},
-		//搜索
-		search(){
-			if(this.posKey<1){
-				this.$message({
-					message: '请输入您要搜索的内容',
-					type: 'warning',
-					offset:'100'
-				});
-				return;
-			};
-			this.categoryList()
-			
-		},
-		//工作经验
-		work(){
-			console.log(this.radio);
-			this.categoryList()
-		},
-		sexone(){
-			this.categoryList()
-		},
-		xueli(){
-			console.log(this.checkList)
-			for(var i=0;i<this.checkList.length;i++){
-				if(this.checkList[i]=='不限'){
-					this.checkList=['不限']
-				}
-			}
-			
-			
-		},
-		xx(){
-			this.checkList=['不限'];
-			this.educationName='不限';
-			this.categoryList()
-		},
-		xx1(){
-			var index = this.checkList.indexOf('不限'); 
-			if (index > -1) { 
-			this.checkList.splice(index, 1); 
-			}
-			var a='';
-			for(var i=0;i<this.checkList.length;i++){
-				if(i!=this.checkList.length-1){
-					var b=this.checkList[i]+',';
-					a=a+ b
-				}else{
-					var b=this.checkList[i];
-					a=a+ b
-				}
-			}
-			this.educationName=a;
-			this.categoryList()
-			
-		},
-		categoryList() {
-			this.$_loading = this.$loading({
-				lock: true,
-				text: 'Loading',
-				spinner: 'el-icon-loading',
-				background: 'rgba(0, 0, 0, 0.7)'
-			});
-			var data = {
-				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
-				id_token: this.$cookies.get('access_token'),
-				posKey:this.posKey,
-				wxWorkLocation: '',
-				workExp: this.radio,
-				educationName: this.educationName,
-				minAge: this.minAge,
-				maxAge: this.maxAge,
-				sex: this.radio1,
-				pageIndex: parseInt(this.page),
-				pageSize: parseInt(10)
-			};
-
-			var _this = this;
-			this.$http
-				.resume(data)
-				.then(res => {
-					console.log(res);
-					_this.$_loading.close();
-					if (res.errorCode == 0) {
-						var xx = res.data.page;
-						for (var i = 0; i < xx.length; i++) {
-							if (xx[i].sex == 0) {
-								xx[i].sex = '女';
-							} else {
-								xx[i].sex = '男';
-							}
-							xx[i].iid = i;
-						}
-
-						this.tableData = xx;
-
-						this.total = res.data.total;
-					}
-				})
-				.catch(err => {
-					console.log(err);
-				});
+		handleSelectionChange(val) {
+			console.log(val);
+			this.multipleSelection = val;
 		},
 		onRowClick: function(row, rowIndex) {
 			console.log(row);
 			console.log(rowIndex);
 		},
-		handleCurrentChange(e) {
-			console.log(e);
-			this.page = e;
-			this.categoryList();
+		handleClick2(row) {
+			console.log(row);
+			this.dialogTableVisible = true;
+			this.listOne = row;
 		},
 		toggleSelection(rows) {
 			if (rows) {
@@ -459,25 +247,309 @@ export default {
 				this.$refs.multipleTable.clearSelection();
 			}
 		},
-		goAch: function(e) {
-			this.dialogTableVisible = true;
-			this.checkindex = e;
+		handleOpen(key, keyPath) {
+			console.log(key, keyPath);
+		},
+		handleClose(key, keyPath) {
+			console.log(key, keyPath);
+		},
+		getEmGroup: function() {
+			this.$_loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)'
+			});
+			var data = {
+				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
+				id_token: this.$cookies.get('access_token')
+			};
+
+			var _this = this;
+			this.$http
+				.getResumeCateList(data)
+				.then(res => {
+					
+					_this.$_loading.close();
+					console.log('简历分类')
+					console.log(res)	
+					if (res.errorCode == 0) {
+						_this.gridData = res.data.list;
+						// _this.emNum=res.data.emNum;
+						// _this.reviewNum=res.data.reviewNum;
+					}
+					_this.getinfo();
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		},
+		go:function(e){
+			this.groupId=e;
+			this.getinfo();
+		},
+		handleCurrentChange(e) {
 			console.log(e);
+			this.pageIndex = e;
+			this.getinfo();
 		},
-		handleClick(row) {
-			console.log(row);
-			this.dialogTableVisible = true;
-			this.listOne = row;
+		getinfo: function() {
+			this.$_loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)'
+			});
+			var data = {
+				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
+				id_token: this.$cookies.get('access_token'),
+				// groupId: parseInt(this.groupId),
+				pageIndex: parseInt(this.pageIndex),
+				pageSize: 10
+			};
+
+			var _this = this;
+			this.$http
+				.getEpResumeList(data)
+				.then(res => {
+					_this.$_loading.close();
+					console.log('列表');
+					console.log(res);
+					if (res.errorCode == 0) {
+						_this.tableData = res.data.page.data;
+						console.log(_this.tableData)
+						_this.total=res.data.page.total;
+						
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		},
-		handleSelectionChange(val) {
-			console.log(val);
-			this.multipleSelection = val;
+		// 新增分组接口
+		addZ() {
+			this.dialogFormVisible = false;
+			if (this.name < 1) {
+				this.$message({
+					message: '组名不能为空',
+					type: 'warning',
+					offset: '100'
+				});
+				return;
+			}
+
+			this.$_loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)'
+			});
+			var data = {
+				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
+				id_token: this.$cookies.get('access_token'),
+				name: this.name
+			};
+
+			var _this = this;
+			this.$http
+				.addResumeCate(data)
+				.then(res => {
+				
+					_this.$_loading.close();
+					_this.getEmGroup();
+					if (res.errorCode == 0) {
+						setTimeout(function() {
+							_this.$message({
+								message: '新增成功',
+								type: 'success',
+								offset: '100',
+								duration: 3000
+							});
+						}, 1000);
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		},
-		one() {
-			this.status = true;
+		
+		handleCommand(command) {
+			this.zu=command;
+			for(var i=0;i<this.gridData.length;i++){
+				
+				if(this.gridData[i].name==command){
+					this.zuId=this.gridData[i].groupId;
+					break;
+				}
+				
+			}
+			
+		 },
+		// 编辑用户组
+		handleClick(e) {
+			console.log(e);
+			this.dialogFormVisible1 = true;
+			this.name1 = e.name;
+			this.id = e.id;
 		},
-		one1() {
-			this.status = false;
+		
+		
+		
+		
+		
+		
+		// 修改分组接口
+		addZ1() {
+			this.dialogFormVisible1 = false;
+			if (this.name1 < 1) {
+				this.$message({
+					message: '组名不能为空',
+					type: 'warning',
+					offset: '100'
+				});
+				return;
+			}
+
+			this.$_loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)'
+			});
+			var data = {
+				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
+				id_token: this.$cookies.get('access_token'),
+				name: this.name1,
+				resumeCateId: parseInt(this.id)
+			};
+
+			var _this = this;
+			this.$http
+				.editResumeCate(data)
+				.then(res => {
+					console.log('修改');
+					console.log(res);
+					_this.$_loading.close();
+					_this.getEmGroup();
+					if (res.errorCode == 0) {
+						_this.$message({
+							message: '修改成功',
+							type: 'success',
+							offset: '100',
+							duration: 3000
+						});
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		},
+		// 删除用户组
+		handleClick1(e) {
+			this.$confirm('此操作将删除该用户分组, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			})
+				.then(() => {
+					this.delEmGroup(e);
+				})
+				.catch(() => {
+					
+				});
+		},
+		
+		
+		
+		// 删除用户分组
+		delEmGroup(e) {
+			this.$_loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)'
+			});
+			var data = {
+				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
+				id_token: this.$cookies.get('access_token'),
+				resumeCateId: parseInt(e.id)
+			};
+
+			var _this = this;
+			this.$http
+				.delResumeCate(data)
+				.then(res => {
+					
+					_this.$_loading.close();
+					_this.getEmGroup();
+					if (res.errorCode == 0) {
+						setTimeout(function() {
+							_this.$message({
+								message: '删除成功',
+								type: 'success',
+								offset: '100',
+								duration: 3000
+							});
+						}, 1000);
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		},
+		//修改简历分类
+		check(command){
+			
+			console.log(command)
+			var list=this.gridData[command];
+			
+			//判断是否选择简历
+			if (this.multipleSelection.length == 0) {
+				this.$message({
+					message: '请选择下载简历',
+					type: 'warning',
+					offset: '100'
+				});
+				return;
+			}
+			//开始更换分组
+			
+			this.$_loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)'
+			});
+			var data = {
+				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
+				id_token: this.$cookies.get('access_token'),
+				resumeCateId: parseInt(list.id),
+				epResumeRecordId:parseInt(this.multipleSelection[0].id)
+			};
+			
+			var _this = this;
+			this.$http
+				.moveResumeToCate(data)
+				.then(res => {
+					console.log(res);
+					console.log(123456);
+					_this.$_loading.close();
+					_this.getEmGroup();
+					if (res.errorCode == 0) {
+						setTimeout(function() {
+							_this.$message({
+								message: '移动成功',
+								type: 'success',
+								offset: '100',
+								duration: 3000
+							});
+						}, 1000);
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+			
 		}
 	}
 };
@@ -487,15 +559,170 @@ export default {
 div {
 	text-align: left;
 }
+a {
+	text-decoration: none;
+}
 .wrap {
 	width: 1200px;
-	background: #fff;
-	box-sizing: border-box;
 	margin: 0 auto;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
 	margin-top: 110px !important;
-	min-height: 800px;
+	background: #f0f2f5;
+}
+.l-left {
+	width: 220px !important;
+	height: 300px;
 }
 
+.right {
+	width: 950px;
+	background: #fff;
+	box-sizing: border-box;
+	padding: 0 15px;
+}
+.l-t {
+	width: 220px;
+	height: 50px;
+	line-height: 50px;
+	background: rgba(0, 132, 255, 1);
+	font-size: 16px;
+	font-family: AlibabaPuHuiTiR;
+	font-weight: 400;
+	color: rgba(255, 255, 255, 1);
+	text-align: center;
+}
+.l-list {
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+	display: flex;
+	align-content: center;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+
+	color: #4e565e;
+}
+.l-check {
+	background: #7fc1ff;
+	color: #fff !important;
+}
+.l-l-left {
+	width: 50%;
+	font-size: 16px;
+	font-family: AlibabaPuHuiTiR;
+	font-weight: 400;
+	box-sizing: border-box;
+	padding-left: 20px;
+	/*		color:rgba(255,255,255,1);*/
+	color: #4e565e;
+}
+.l-l-right {
+	width: 50%;
+	font-size: 16px;
+	font-family: AlibabaPuHuiTiR;
+	font-weight: 400;
+	color: #4e565e;
+	box-sizing: border-box;
+	padding-right: 20px;
+	text-align: right;
+}
+.r-list {
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+	display: flex;
+	flex-wrap: nowrap;
+	background: #0084ff;
+}
+.r-l-list {
+	flex: 1;
+	text-align: center;
+	font-size: 16px;
+	font-family: AlibabaPuHuiTiR;
+	font-weight: 400;
+	color: rgba(255, 255, 255, 1);
+	text-align: center;
+}
+.r-c-con {
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+	display: flex;
+	flex-wrap: nowrap;
+	box-sizing: border-box;
+	border-bottom: 1px solid rgba(221, 222, 224, 1);
+}
+
+.r-c-con .r-l-list {
+	color: #4e565e;
+}
+.s-list {
+	width: 50%;
+	height: 50px;
+	line-height: 50px;
+	display: flex;
+}
+.s-name {
+	font-size: 16px;
+	font-family: Adobe Heiti Std R;
+	font-weight: normal;
+	color: rgba(78, 86, 94, 1);
+}
+.s-r-name {
+	flex: 1;
+	padding-left: 10px;
+	font-size: 16px;
+	font-family: Adobe Heiti Std R;
+	font-weight: normal;
+	color: rgba(78, 86, 94, 1);
+}
+.cell {
+	font-size: 18px !important;
+}
+
+.top {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 80px 30px;
+
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+}
+.top-left {
+	width: 49%;
+	height: 104px;
+	background: url(../../assets/a11.png);
+	background-size: 100%;
+}
+.top-right {
+	width: 49%;
+	height: 104px;
+	background: url(../../assets/a12.png);
+	background-size: 100%;
+}
+.t-name {
+	width: 100%;
+	height: 50px;
+	line-height: 60px;
+	font-size: 18px;
+	font-family: AlibabaPuHuiTiR;
+	font-weight: 400;
+	color: rgba(255, 255, 255, 1);
+	text-align: center;
+}
+.t-money {
+	width: 100%;
+	height: 50px;
+	line-height: 30px;
+	font-size: 30px;
+	font-family: AlibabaPuHuiTiR;
+	font-weight: 400;
+	color: rgba(255, 255, 255, 1);
+	text-align: center;
+}
 .nav {
 	background: #0084ff;
 	height: 40px;
@@ -514,53 +741,146 @@ div {
 	padding: 0 20px;
 	letter-spacing: 2px;
 	cursor: pointer;
-	border: 0;
+	border: none;
 }
 .check {
 	background: #fff;
 	color: #0084ff;
 }
-.list {
-	width: 100%;
-	box-sizing: border-box;
-	padding: 20px 0;
-}
 .content {
 	width: 100%;
 	box-sizing: border-box;
-	padding: 10px 50px 30px 50px;
+	padding: 20px;
 }
-.content1 {
+.c-top {
 	width: 100%;
-	box-sizing: border-box;
-	padding-top: 40px;
-}
-.show-list {
-	width: 100%;
-	height: 60px;
-	line-height: 60px;
 	display: flex;
 	flex-wrap: nowrap;
-	border-bottom: 1px solid #dddddd;
 	align-items: center;
+	height: 40px;
 }
-.show-title {
-	width: 150px;
+.c-t-left {
+	flex: 1;
+	font-size: 20px;
+	font-family: Adobe Heiti Std R;
+	font-weight: normal;
+	color: rgba(78, 86, 94, 1);
+}
+.c-t-right {
+	width: 100px;
+	text-align: right;
 	font-size: 16px;
 	font-family: AlibabaPuHuiTiR;
 	font-weight: 400;
 	color: rgba(78, 86, 94, 1);
 }
-.show-name {
-	flex: 1;
+.c-t-c {
+	height: 30px;
 	display: flex;
 	flex-wrap: nowrap;
-	height: 60px;
-	line-height: 60px;
 	align-items: center;
 }
-
-.el-menu-item-group__title {
-	display: none !important;
+.c-t-list {
+	font-size: 16px;
+	font-family: Adobe Heiti Std R;
+	font-weight: normal;
+	color: rgba(255, 123, 77, 1);
+	padding-right: 70px;
+}
+.ul {
+	width: 100%;
+	padding: 15px 0;
+}
+.u-list {
+	width: 100%;
+}
+.u-l-top {
+	height: 50px;
+	line-height: 50px;
+	box-sizing: border-box;
+	padding: 0 20px;
+	display: flex;
+	flex-wrap: nowrap;
+	border: 1px solid rgba(141, 146, 151, 1);
+	background: #f0f2f5;
+}
+.u-l-t-left {
+	flex: 1;
+	font-size: 20px;
+	font-family: Adobe Heiti Std R;
+	font-weight: normal;
+	color: rgba(78, 86, 94, 1);
+}
+.u-l-t-right {
+	width: 200px;
+	font-size: 16px;
+	font-family: Adobe Heiti Std R;
+	font-weight: normal;
+	color: rgba(78, 86, 94, 1);
+	text-align: right;
+}
+.u-l-cen {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 20px;
+	border-left: 1px solid rgba(141, 146, 151, 1);
+	border-right: 1px solid rgba(141, 146, 151, 1);
+	border-bottom: 1px solid rgba(141, 146, 151, 1);
+}
+.c-l-c-top {
+	width: 100%;
+	height: 35px;
+	line-height: 35px;
+	display: flex;
+	flex-wrap: nowrap;
+}
+.c-l-c-t-left {
+	flex: 1;
+	font-size: 16px;
+	font-family: AlibabaPuHuiTiR;
+	font-weight: 400;
+	color: rgba(78, 86, 94, 1);
+}
+.c-l-c-t-right {
+	width: 150px;
+	text-align: right;
+	font-size: 18px;
+	font-family: AlibabaPuHuiTiR;
+	font-weight: 400;
+	color: rgba(255, 123, 77, 1);
+}
+.c-c-wrap {
+	width: 100%;
+	padding: 15px 0;
+	border-top: 1px solid rgba(141, 146, 151, 1);
+	display: flex;
+	padding-right: 100px;
+	box-sizing: border-box;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+}
+.c-c-w-list {
+	width: 25%;
+}
+.c-c-w-l-top {
+	font-size: 24px;
+	font-family: AlibabaPuHuiTiR;
+	font-weight: 400;
+	color: rgba(0, 132, 255, 1);
+	height: 35px;
+	line-height: 35px;
+	text-align: center;
+}
+.c-c-w-l-bom {
+	font-size: 16px;
+	font-family: AlibabaPuHuiTiR;
+	font-weight: 400;
+	color: rgba(78, 86, 94, 1);
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+}
+.el-dialog__body{
+	padding: 30px 0 !important;
 }
 </style>
