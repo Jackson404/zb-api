@@ -69,18 +69,6 @@ class ResumeData extends EpUserBase
             $educationNameSql = "";
         }
 
-//        if ($educationName == '不限') {
-//            $educationNameSql = "";
-//        } else if ($educationName == '高中及以下') {
-//            $educationNameSql = "  and (educationName like '%高中%' or educationName like '%初中%')";
-//        } else if ($educationName == '大专') {
-//            $educationNameSql = "  and educationName like '%大专%'";
-//        } else if ($educationName == '本科及以上') {
-//            $educationNameSql = "  and (educationName like '%本科%' or educationName like '%硕士%' or educationName like '%博士%')";
-//        } else {
-//            $educationNameSql = "";
-//        }
-
         if ($minAge != 0) {
             $year = date('Y', time());
             $birthYear = $year - $minAge;
@@ -275,6 +263,53 @@ class ResumeData extends EpUserBase
 
     }
 
+    public function downLoadMultiResume()
+    {
+//        [{"idCard":0,"phone":123222222,"resumeCateId":1},{"idCard":0,"phone":123222222,"resumeCateId":1}]
+        $params = Request::instance()->param();
+        $idCard = Check::check($params['idCard'] ?? ''); //身份证号
+        $phone = Check::check($params['phone'] ?? ''); //手机号
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? 0); //简历分组id
+        $userId = $GLOBALS['userId'];
+
+        $epResumeModel = new EpResumeModel();
+        if ($epResumeModel->resumeExistsSource2($userId, $idCard, $phone)) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '简历已经下载过了');
+            exit;
+        }
+
+        $date = date('Y-m-d', time());
+        $count = $epResumeModel->getDownloadNumOneDay($date, $userId);
+        if ($count > 100) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '一天下载数量超出限制100');
+            exit;
+        }
+        $arr = [
+            'userId' => $userId,
+            'resumeId' => 0,
+            'idCard' => $idCard,
+            'phone' => $phone,
+            'resumeCateId' => $resumeCateId,
+            'source' => 2,
+            'createTime' => currentTime(),
+            'createBy' => $userId,
+            'updateTime' => currentTime(),
+            'updateBy' => $userId
+        ];
+
+        $insertRow = $epResumeModel->save($arr);
+
+        if ($insertRow > 0) {
+            $data['insertRow'] = $insertRow;
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+            exit;
+        } else {
+            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
+            exit;
+        }
+
+    }
+
     /**
      * 获取企业用户的简历列表
      */
@@ -369,29 +404,27 @@ class ResumeData extends EpUserBase
         $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
-        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ??  ''); //简历分类id
 
         $userId = $GLOBALS['userId'];
         $epResumeModel = new EpResumeModel();
 
         $page = $epResumeModel->getListByUserIdPageWithCate($userId, $resumeCateId, $pageIndex, $pageSize);
-        $pageData = $page->toArray();
-
-        $pageData = $pageData['data'];
 
         $resumeModel = new ResumeModel();
         $resumeData = new DataResume();
         $total = $page->total();
+        $pageData = $page->getCollection();
 
         $list = array();
         foreach ($pageData as $k => $v) {
-            $source = $v['source'];
-
+            $source = $v->source;
             if ($source == 1) {
-                $resumeId = $v['resumeId'];
+                $resumeId = $v->resumeId;
                 $xDetail = $resumeModel->getDetailForShow($resumeId);
                 $xData = $xDetail->toArray();
                 $xData['source'] = 1;
+                $xData['epResumeRecordId'] = $v->id;
                 array_push($list, $xData);
             }
 
@@ -399,9 +432,9 @@ class ResumeData extends EpUserBase
                 $xxDetail = $detail = $resumeData->detailForShowPage($v['idCard'], $v['phone']);
                 $xxData = $xxDetail->toArray();
                 $xxData['source'] = 2;
+                $xxData['epResumeRecordId'] = $v->id;
                 array_push($list, $xxData);
             }
-
         }
         $x['pageIndex'] = $pageIndex;
         $x['pageSize'] = $pageSize;

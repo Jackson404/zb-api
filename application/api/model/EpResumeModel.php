@@ -109,10 +109,17 @@ class EpResumeModel extends Model
             'list_rows' => $pageSize,
             'page' => $pageIndex
         ];
-        return $this->where('userId', '=', $userId)
-            ->where('resumeCateId', '=', $resumeCateId)
-            ->where('isDelete', '=', 0)
-            ->paginate(null, false, $config);
+        if ($resumeCateId == -1) {
+            $res = $this->where('userId', '=', $userId)
+                ->where('isDelete', '=', 0)
+                ->paginate(null, false, $config);
+        } else {
+            $res = $this->where('userId', '=', $userId)
+                ->where('resumeCateId', '=', $resumeCateId)
+                ->where('isDelete', '=', 0)
+                ->paginate(null, false, $config);
+        }
+        return $res;
     }
 
     /**
@@ -231,9 +238,9 @@ class EpResumeModel extends Model
      */
     public function delEmUserResumeInfo($emUserId)
     {
-        return $this->where('userId','=',$emUserId)
-            ->where('isDelete','=',0)
-            ->update(['isDelete'=>1]);
+        return $this->where('userId', '=', $emUserId)
+            ->where('isDelete', '=', 0)
+            ->update(['isDelete' => 1]);
     }
 
 }

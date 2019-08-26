@@ -20,7 +20,8 @@ $whiteList = [
     'api/v1.ep.EpOrder/getOrderList',
     'api/v1.ep.EpOrder/filter',
 
-    'api/v1.ep.EpOrderApply/apply',
+//    'api/v1.ep.EpOrderApply/apply',
+//    'api/v1.ep.EpOrderApply/applyWithResume',
 
     'api/v1.ep.ResumeData/filterResumeData',
     'api/v1.ep.ResumeData/addResumeCate',

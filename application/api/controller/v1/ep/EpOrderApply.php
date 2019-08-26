@@ -7,7 +7,6 @@ use app\api\model\EpOrderApplyModel;
 use app\api\model\EpOrderModel;
 use app\api\model\EpResumeModel;
 use app\api\model\ResumeModel;
-use think\console\command\make\Model;
 use think\Request;
 use Util\Check;
 use Util\Util;
@@ -51,53 +50,52 @@ class EpOrderApply extends IndexBase
 
         $resumeModel = new ResumeModel();
         if ($resumeModel->checkUserHasCreateResume($applyUserId)) {
-            $resume = $resumeModel->getUserResume($applyUserId);
-            $resumeData = $resume->toArray();
-            $resumeId = $resumeData['id'];
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户简历已存在');
+            exit;
+        }
+
+        $data = [
+            'name' => $name,
+            'userId' => $applyUserId,
+            'phone' => $phone,
+            'gender' => $gender,
+            'age' => $age,
+            'workYear' => $workYear,
+            'education' => $education,
+            'salary' => $salary,
+            'skills' => $skills,
+            'selfEvaluation' => $selfEvaluation,
+            'militaryTime' => $militaryTime,
+            'attendedTime' => $attendedTime,
+            'corps' => $corps,
+            'exPosition' => $exPosition,
+            'nature' => $nature,
+            'exCity' => $exCity,
+            'curStatus' => $curStatus,
+            'arrivalTime' => $arrivalTime,
+            'isSoldierPriority' => $isSoldierPriority,
+            'isOpen' => 0,
+            'createTime' => currentTime(),
+            'createBy' => $applyUserId,
+            'updateTime' => currentTime(),
+            'updateBy' => $applyUserId
+        ];
+
+        $resumeModel->startTrans();
+        $insertRow = $resumeModel->save($data);
+
+        if ($insertRow > 0) {
+            $resumeId = $resumeModel->getLastInsID();
         } else {
-            $data = [
-                'name' => $name,
-                'userId' => $applyUserId,
-                'phone' => $phone,
-                'gender' => $gender,
-                'age' => $age,
-                'workYear' => $workYear,
-                'education' => $education,
-                'salary' => $salary,
-                'skills' => $skills,
-                'selfEvaluation' => $selfEvaluation,
-                'militaryTime' => $militaryTime,
-                'attendedTime' => $attendedTime,
-                'corps' => $corps,
-                'exPosition' => $exPosition,
-                'nature' => $nature,
-                'exCity' => $exCity,
-                'curStatus' => $curStatus,
-                'arrivalTime' => $arrivalTime,
-                'isSoldierPriority' => $isSoldierPriority,
-                'isOpen' => 0,
-                'createTime' => currentTime(),
-                'createBy' => $applyUserId,
-                'updateTime' => currentTime(),
-                'updateBy' => $applyUserId
-            ];
-
-            $resumeModel->startTrans();
-            $insertRow = $resumeModel->save($data);
-
-            if ($insertRow > 0) {
-                $resumeId = $resumeModel->getLastInsID();
-            } else {
-                $resumeModel->rollback();
-                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '简历创建失败');
-                exit;
-            }
+            $resumeModel->rollback();
+            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '简历创建失败');
+            exit;
         }
 
         $epOrderModel = new EpOrderModel();
 
-        $orderDetail = $epOrderModel->verifyUserRecOrderDetail($positionId,$shareUserId);
-        if ($orderDetail == null){
+        $orderDetail = $epOrderModel->verifyUserRecOrderDetail($positionId, $shareUserId);
+        if ($orderDetail == null) {
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '该订单不存在');
             exit;
         }
@@ -109,7 +107,6 @@ class EpOrderApply extends IndexBase
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户已经申请过该订单');
             exit;
         }
-
 
         $arr = [
             'orderId' => $orderId,
@@ -161,8 +158,100 @@ class EpOrderApply extends IndexBase
                 exit;
             }
         }
+    }
 
 
+    /**
+     * 用户有简历调用此接口
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
+    public function applyWithResume()
+    {
+        $params = Request::instance()->param();
+        $positionId = Check::checkInteger($params['positionId'] ?? '');
+        $shareUserId = Check::checkInteger($params['shareUserId'] ?? '');
+        $applyUserId = $GLOBALS['userId'];
+
+        $resumeModel = new ResumeModel();
+
+        if (!$resumeModel->checkUserHasCreateResume($applyUserId)) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'],'用户简历不存在');
+            exit;
+        }
+        $resume = $resumeModel->getUserResume($applyUserId);
+        $resumeId = $resume->id;
+        $epOrderModel = new EpOrderModel();
+
+        $orderDetail = $epOrderModel->verifyUserRecOrderDetail($positionId, $shareUserId);
+        if ($orderDetail == null) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '该订单不存在');
+            exit;
+        }
+        $orderId = $orderDetail->orderId;
+
+        $epOrderApplyModel = new EpOrderApplyModel();
+
+        $epOrderApplyModel->startTrans();
+
+        if ($epOrderApplyModel->checkUserHasApply($orderId, $applyUserId) > 0) {
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户已经申请过该订单');
+            exit;
+        }
+
+        $arr = [
+            'orderId' => $orderId,
+            'resumeId' => $resumeId,
+            'shareUserId' => $shareUserId,
+            'applyUserId' => $applyUserId,
+            'createTime' => currentTime(),
+            'updateTime' => currentTime()
+        ];
+
+        $res = $epOrderApplyModel->save($arr);
+        if ($res > 0) {
+            $epOrderModel = new EpOrderModel();
+            $xx = $epOrderModel->incApplyNum($orderId, 1);
+        } else {
+            $epOrderApplyModel->rollback();
+            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '申请失败');
+            exit;
+        }
+
+        $epResumeModel = new EpResumeModel();
+
+        if ($epResumeModel->resumeExistsSource1($applyUserId, $resumeId)) {
+            $epOrderApplyModel->commit();
+            $x['insertRow'] = $res;
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $x);
+            exit;
+        } else {
+            $arr = [
+                'userId' => $shareUserId,
+                'resumeId' => $resumeId,
+                'source' => 1,
+                'createTime' => currentTime(),
+                'createBy' => $shareUserId,
+                'updateTime' => currentTime(),
+                'updateBy' => $shareUserId
+            ];
+
+            $insertRow = $epResumeModel->save($arr);
+
+            if ($insertRow > 0) {
+                $epOrderApplyModel->commit();
+                $x['insertRow'] = $insertRow;
+                Util::printResult($GLOBALS['ERROR_SUCCESS'], $x);
+                exit;
+            } else {
+                $epOrderApplyModel->rollback();
+                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '申请失败');
+                exit;
+            }
+        }
     }
 
 
