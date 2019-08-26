@@ -1,0 +1,71 @@
+
+.body{background: #fff;width: 100%;-webkit-box-sizing: border-box;box-sizing: border-box;padding: 20px 10px;}
+.text{
+	overflow: hidden;
+	-o-text-overflow:ellipsis;
+	   text-overflow:ellipsis;
+	white-space: nowrap;
+}
+.name{color: #333;font-size: 35rpx;}
+.tag{height: 20px;padding: 0 10px;line-height: 20px;font-size: 24rpx;color: #FF6969;border: 1px solid #FF6969;-webkit-border-radius: 15px;border-radius: 15px;}
+.money{color: #363292;font-size: 32rpx;}
+.title1{display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;}
+.gg{font-size: 30rpx;color: #666;}
+.tt{width: 20px;text-align: center;color: #333;font-size: 30rpx;}
+.tagx{
+		width: 100%;height: auto;-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;
+}
+.tagone{
+		font-size: 24rpx;padding: 10rpx 18rpx;background:#EEEEEE ;color: #333333;margin-right: 40rpx;display: inline-block;margin-bottom: 12rpx;
+}
+.address{width: 100%;height: auto;border-top: 2px solid #FAFAFA;border-bottom: 7px solid #FAFAFA;color: #666;font-size: 30rpx;}
+.des{height: 50px;line-height: 50px;font-size: 35rpx !important;color: #333;letter-spacing: 2px;}
+.list{padding-top: 50px;}
+.title{font-size: 35rpx;color: #333;}
+.con{width: 100%;-webkit-box-sizing: border-box;box-sizing: border-box;padding: 80px 20%;}
+.bb{height: 35px;line-height: 35px;border: 1px solid #363292;color: #363292;text-align: center;}
+.axx{padding: 0 10px;font-size: 40rpx;line-height: 35px;}
+.cu-form-group picker::after {
+	
+    font-family: iconfont;
+  display: none;
+  content: "\E6A3";
+  position: absolute;
+  font-size: 34rpx;
+  color: #aaa;
+  line-height: 100rpx;
+  width: 60rpx;
+  text-align: center;
+  top: 0;
+  bottom: 0;
+  right: -20rpx;
+  margin: auto;
+}
+.cu-form-group picker .picker {
+	border: 1px solid #EDEDED;
+  line-height: 60rpx;
+  font-size: 28rpx;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+}
+.uni-mask{
+	z-index: 9999999999999!important;
+}
+.uni-picker{z-index:99999999999999999999999 !important}
+.uni-mask{z-index:999999999999999999999}
+.cu-form-group .title {
+	  text-align: justify;
+	  font-size: 30rpx;
+	  position: relative;
+	  height: 60rpx;
+	  line-height: 60rpx;
+		width: 38%;
+}
+rich-text ._p{
+		font-size: 24rpx !important;
+}
+

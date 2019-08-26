@@ -218,6 +218,7 @@ export default {
 			value2:'2019-08',
 			listOne:[],
 			multipleSelection:[],
+			resumeCateId:-1
 			};
 	},
 	created() {
@@ -262,12 +263,13 @@ export default {
 			});
 			var data = {
 				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
-				id_token: this.$cookies.get('access_token')
+				id_token: this.$cookies.get('access_token'),
+				resumeCateId:parseInt(this.resumeCateId),
 			};
 
 			var _this = this;
 			this.$http
-				.getResumeCateList(data)
+				.getEpResumeListByCate(data)
 				.then(res => {
 					
 					_this.$_loading.close();

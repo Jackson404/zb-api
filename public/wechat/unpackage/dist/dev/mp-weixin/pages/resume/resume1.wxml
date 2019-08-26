@@ -1,0 +1,2 @@
+<import src="./resume1.vue.wxml" />
+    <template is="41b3184e" data="{{ ...$root['0'], $root }}"/>
