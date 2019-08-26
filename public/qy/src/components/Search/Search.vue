@@ -104,7 +104,7 @@
 						
 						<el-dropdown style="margin-left: 10px;">
 						  <el-button type="primary">
-							下载<i class="el-icon-arrow-down el-icon--right"></i>
+							移动至 <i class="el-icon-arrow-down el-icon--right"></i>
 						  </el-button>
 						  <el-dropdown-menu slot="dropdown">
 							<el-dropdown-item>黄金糕</el-dropdown-item>
