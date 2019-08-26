@@ -1,5 +1,8 @@
 ## 正步网络科技（上海）有限公司
 
+##   error_reporting(E_ALL);
+##   ini_set('display_errors', '1');
+
 ### 项目使用ThinkPHP5框架 框架版本是 ``` V5.0.24 ``` 
 ### 项目部署
 ##### 在Nginx低版本中，是不支持PATHINFO的，但是可以通过在Nginx.conf中配置转发规则实现：

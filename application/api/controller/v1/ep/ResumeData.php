@@ -215,7 +215,7 @@ class ResumeData extends EpUserBase
         foreach ($list  as $k=>$v){
             $resumeCateId = $v['id'];
             $count = $epResumeModel->countByResumeCateId($userId,$resumeCateId);
-           $v->count = $count;
+            $list->push(['count'=>$count],$k);
         }
 
         $data['list'] = $list;
