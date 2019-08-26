@@ -292,8 +292,7 @@ class ResumeData extends EpUserBase
             exit;
         }
 
-        $epResumeModel->startTrans();
-        $all = 0;
+        $all = array();
         foreach ($jsonArr as $k => $v) {
             $idCard = $v['idCard'];
             $phone = $v['phone'];
@@ -312,17 +311,16 @@ class ResumeData extends EpUserBase
                 'updateTime' => currentTime(),
                 'updateBy' => $userId
             ];
-            $insertRow = $epResumeModel->save($arr);
-            $all += $insertRow;
-            if ($insertRow == 0) {
-                $epResumeModel->rollback();
-                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
-                exit;
-            }
+            array_push($all, $arr);
         }
-        $epResumeModel->commit();
 
-        $data['insertRow'] = $all;
+        $res = $epResumeModel->saveAll($all);
+
+        if ($res->count() == 0) {
+            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
+            exit;
+        }
+        $data['insertRow'] = $res->count();
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
 
     }
@@ -413,6 +411,44 @@ class ResumeData extends EpUserBase
     }
 
     /**
+     * 批量移动简历到分组
+     */
+    public function moveMultiResumesToCate()
+    {
+        $params = Request::instance()->param();
+        $recordIds = $params['epResumeRecordIds'] ?? ''; //英文逗号分隔的字符串
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
+        $userId = $GLOBALS['userId'];
+
+        $recordArr = explode(',', $recordIds);
+        $x = array();
+        foreach ($recordArr as $k => $v) {
+            $arr = [
+                'id' => $v,
+                'resumeCateId' => $resumeCateId,
+                'createTime' => currentTime(),
+                'createBy' => $userId,
+                'updateTime' => currentTime(),
+                'updateBy' => $userId
+            ];
+            array_push($x, $arr);
+        }
+
+        $epResumeCateModel = new EpResumeModel();
+        $updateRow = $epResumeCateModel->isUpdate(true)->saveAll($x);
+        if ($updateRow > 0) {
+            $data['updateRow'] = $updateRow;
+            Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+            exit;
+        } else {
+            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '更新失败');
+            exit;
+        }
+
+    }
+
+
+    /**
      * 根据分类获取用户的简历列表
      * @throws \think\Exception
      */
@@ -439,15 +475,17 @@ class ResumeData extends EpUserBase
             if ($source == 1) {
                 $resumeId = $v->resumeId;
                 $xDetail = $resumeModel->getDetailForShow($resumeId);
-                $xDetail->setAttr('source',1);
-                $xDetail->setAttr('epResumeRecordId',$v->id);
+                $xDetail->setAttr('source', 1);
+                $xDetail->setAttr('epResumeRecordId', $v->id);
+                $xDetail->setAttr('uniqueCode', $xDetail->id . '|' . $source);
                 array_push($list, $xDetail);
             }
 
             if ($source == 2) {
                 $xxDetail = $detail = $resumeData->detailForShowPage($v['idCard'], $v['phone']);
-                $xxDetail->setAttr('source',2);
-                $xxDetail->setAttr('epResumeRecordId',$v->id);
+                $xxDetail->setAttr('source', 2);
+                $xxDetail->setAttr('epResumeRecordId', $v->id);
+                $xxDetail->setAttr('uniqueCode', $xxDetail->idCard . '|' . $xxDetail->phone . '|' . $source);
                 array_push($list, $xxDetail);
             }
         }
