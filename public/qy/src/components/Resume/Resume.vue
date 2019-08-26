@@ -11,8 +11,8 @@
 								<span>简历分类</span>
 							</template>
 							<el-menu-item-group>
-								<el-menu-item index="1-1" @click="go(-1)">全部简历<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item>
-								<el-menu-item index="'2-'+(index+1)" v-for="(item, index) in gridData" :key="index" @click="go(item.groupId)">{{ item.name }}</el-menu-item>
+								<!-- <el-menu-item index="1-1" @click="go(-1)">全部简历<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item> -->
+								<el-menu-item index="'1-'+(index+1)" v-for="(item, index) in gridData" :key="index" @click="go(item.id)">{{ item.name }}<span style="float: right;font-size: 16px;">{{item.count}}</span></el-menu-item>
 							</el-menu-item-group>
 						</el-submenu>
 						
@@ -288,7 +288,8 @@ export default {
 				});
 		},
 		go:function(e){
-			this.groupId=e;
+			console.log(e)
+			this.resumeCateId=e;
 			this.getinfo();
 		},
 		handleCurrentChange(e) {
@@ -306,7 +307,7 @@ export default {
 			var data = {
 				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
 				id_token: this.$cookies.get('access_token'),
-				 resumeCateId: parseInt(this.resumeCateId),
+				resumeCateId: parseInt(this.resumeCateId),
 				pageIndex: parseInt(this.pageIndex),
 				pageSize: 10
 			};
@@ -516,17 +517,17 @@ export default {
 				return;
 			}
 			
-			// var num=this.multipleSelection;
-			// var arr=[];
-			// for(var i=0;i<num.length;i++){
-			// 	var data={
-			// 		"idCard":num[i].idCard,
-			// 		"phone":num[i].phone,
-			// 	}
-			// 	
-			// 	arr.push(data)
-			// 	
-			// }
+			var num=this.multipleSelection;
+			var arr='';
+			for(var i=0;i<num.length;i++){
+				if(i==num.length-1){
+					var a=num[i].epResumeRecordId;
+					arr=arr+a
+				}else{
+					var a=num[i].epResumeRecordId+',';
+					arr=arr+a
+				}	
+			}
 			//开始更换分组
 			
 			this.$_loading = this.$loading({
@@ -539,6 +540,7 @@ export default {
 				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
 				id_token: this.$cookies.get('access_token'),
 				resumeCateId: parseInt(list.id),
+				epResumeRecordIds:arr,
 				epResumeRecordId:parseInt(this.multipleSelection[0].id)
 			};
 			
