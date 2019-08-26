@@ -211,7 +211,12 @@ class ResumeData extends EpUserBase
         $list = $epResumeCateModel->getResumeCateListByUserId($userId);
         $list->push(['id'=>-1,'name'=>'全部分组'],0);
 //        var_dump($list->toArray());
-//        foreach ($list )
+        $epResumeModel = new EpResumeModel();
+        foreach ($list  as $k=>$v){
+            $resumeCateId = $v['id'];
+            $count = $epResumeModel->countByResumeCateId($userId,$resumeCateId);
+            $list[$k]['count'] = $count;
+        }
 
         $data['list'] = $list;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);

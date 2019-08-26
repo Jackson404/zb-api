@@ -129,6 +129,20 @@ class EpResumeModel extends Model
         return [$count, $res];
     }
 
+    public function countByResumeCateId($userId,$resumeCateId){
+        if ($resumeCateId == -1) {
+            $count = $this->where('userId', '=', $userId)
+                ->where('isDelete', '=', 0)
+                ->count();
+        } else {
+            $count = $this->where('userId', '=', $userId)
+                ->where('resumeCateId', '=', $resumeCateId)
+                ->where('isDelete', '=', 0)
+                ->count();
+        }
+        return $count;
+    }
+
     /**
      * 获取用户下载的简历列表
      * @param $userId
