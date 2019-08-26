@@ -14,12 +14,9 @@ use app\api\model\EpUserEmGroupModel;
 use app\api\model\EpUserLoginHistoryModel;
 use app\api\model\EpUserModel;
 use Curl\Curl;
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\QrCode;
 use OSS\Core\OssException;
 use OSS\OssClient;
 use Sms;
-use think\cache\driver\Redis;
 use think\Exception;
 use think\exception\PDOException;
 use think\Request;
@@ -90,7 +87,7 @@ class EpUser extends EpUserBase
             $data = [
                 'avatar' => $avatar,
                 'name' => $username,
-                'realname'=>$username,
+                'realname' => $username,
                 'phone' => $phone,
                 'createTime' => currentTime(),
                 'updateTime' => currentTime()
@@ -137,7 +134,7 @@ class EpUser extends EpUserBase
                 'uid' => $userId,
                 'avatar' => $avatar,
                 'name' => $username,
-                'realname'=>$realname,
+                'realname' => $realname,
                 'phone' => $phone,
                 'isReview' => $isReview,
                 'type' => $type,
@@ -237,7 +234,7 @@ class EpUser extends EpUserBase
             'updateBy' => $userId
         ];
 
-        $id = $epUserCertModel->addCert($arr, $userId,$realname);
+        $id = $epUserCertModel->addCert($arr, $userId, $realname);
 
         if ($id > 0) {
             $data['certId'] = $id;
@@ -308,7 +305,7 @@ class EpUser extends EpUserBase
             'updateTime' => currentTime(),
             'updateBy' => $userId
         ];
-        $id = $epUserCertModel->addCert($arr, $userId,$realname);
+        $id = $epUserCertModel->addCert($arr, $userId, $realname);
 
         if ($id > 0) {
             $data['certId'] = $id;
@@ -352,7 +349,7 @@ class EpUser extends EpUserBase
         $type = $detail['type'];
         $realname = $detail['realname'];
 
-        $res = $epUserCertModel->reviewEmByEp($certId, $pass, $emUserId, $companyName, $type,$realname);
+        $res = $epUserCertModel->reviewEmByEp($certId, $pass, $emUserId, $companyName, $type, $realname);
         if ($res > 0) {
             $arr['updateRow'] = $res;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $arr);
@@ -597,7 +594,7 @@ class EpUser extends EpUserBase
         $epUserModel->startTrans();
         try {
             $d1 = $epUserModel->delEmUser($emUserId); //更新员工用户状态为未认证状态
-            if ($d1 == 0){
+            if ($d1 == 0) {
                 $epUserModel->rollback();
                 Util::printResult($GLOBALS['ERROR_SQL_DELETE'], '删除失败');
                 exit;
@@ -617,7 +614,7 @@ class EpUser extends EpUserBase
 
             $epReviewModel = new  EpUserCertModel();
             $d5 = $epReviewModel->delEmUserReviewInfo($emUserId);
-            if ($d5 == 0){
+            if ($d5 == 0) {
                 $epUserModel->rollback();
                 Util::printResult($GLOBALS['ERROR_SQL_DELETE'], '删除失败');
                 exit;
@@ -737,17 +734,33 @@ class EpUser extends EpUserBase
             $access_token = $xRes->access_token;
 
             $xx = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' . $access_token;
-            $scene = "$userId&$positionId&$orderId";
-            $page = "pages/index/index";
+//            $scene = "$userId&$positionId&$orderId";
+            $scene = "$userId&$positionId";
+            $page = "pages/jobinfo/jobinfo";
+//            $page = "pages/index/index";
 
             $curl->post($xx, ['scene' => $scene, 'page' => $page]);
             $xxRes = $curl->response;
+
             $object = 'mini_' . $orderId . '.png';
 
-            $ossClient = new OssClient($GLOBALS['ACCESS_KEY_ID'], $GLOBALS['ACCESS_KEY_SECRET'], $GLOBALS['ENDPOINT']);
-            $xll = $ossClient->putObject($GLOBALS['BUCKET'], $object, $xxRes);
+            $nowDate = date('Ymd', time());
 
-            $saveUrl = 'https://' . $GLOBALS['PIC_SERVER'] . '/' . $object;
+            $ossClient = new OssClient($GLOBALS['ACCESS_KEY_ID'], $GLOBALS['ACCESS_KEY_SECRET'], $GLOBALS['ENDPOINT']);
+
+            // 创建文件夹
+            $ossClient->createObjectDir($GLOBALS['BUCKET'], $nowDate);
+
+            // 判断文件是否存在
+            $exist = $ossClient->doesObjectExist($GLOBALS['BUCKET'], $object);
+            if ($exist) {
+                $ossClient->copyObject($GLOBALS['BUCKET'], $object, $GLOBALS['BUCKET'], $nowDate . '/' . $object);
+                $ossClient->deleteObject($GLOBALS['BUCKET'], $object);
+            }
+            $xll = $ossClient->putObject($GLOBALS['BUCKET'], $nowDate . '/' . $object, $xxRes);
+
+            $saveUrl = 'https://' . $GLOBALS['PIC_SERVER'] . '/' . $nowDate . '/' . $object;
+
             $arr = [
                 'orderId' => $orderId,
                 'userId' => $userId,
