@@ -110,16 +110,23 @@ class EpResumeModel extends Model
             'page' => $pageIndex
         ];
         if ($resumeCateId == -1) {
+            $count = $this->where('userId', '=', $userId)
+                ->where('isDelete', '=', 0)
+                ->count();
             $res = $this->where('userId', '=', $userId)
                 ->where('isDelete', '=', 0)
                 ->paginate(null, false, $config);
         } else {
+            $count = $this->where('userId', '=', $userId)
+                ->where('resumeCateId', '=', $resumeCateId)
+                ->where('isDelete', '=', 0)
+                ->count();
             $res = $this->where('userId', '=', $userId)
                 ->where('resumeCateId', '=', $resumeCateId)
                 ->where('isDelete', '=', 0)
                 ->paginate(null, false, $config);
         }
-        return $res;
+        return [$count, $res];
     }
 
     /**

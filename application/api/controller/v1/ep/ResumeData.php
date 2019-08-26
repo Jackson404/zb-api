@@ -404,12 +404,12 @@ class ResumeData extends EpUserBase
         $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
-        $resumeCateId = Check::checkInteger($params['resumeCateId'] ??  ''); //简历分类id
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
 
         $userId = $GLOBALS['userId'];
         $epResumeModel = new EpResumeModel();
 
-        $page = $epResumeModel->getListByUserIdPageWithCate($userId, $resumeCateId, $pageIndex, $pageSize);
+        list($count, $page) = $epResumeModel->getListByUserIdPageWithCate($userId, $resumeCateId, $pageIndex, $pageSize);
 
         $resumeModel = new ResumeModel();
         $resumeData = new DataResume();
@@ -439,6 +439,7 @@ class ResumeData extends EpUserBase
         $x['pageIndex'] = $pageIndex;
         $x['pageSize'] = $pageSize;
         $x['total'] = $total;
+        $x['resumeCount'] = $count;
         $x['data'] = $list;
 
         $data['page'] = $x;
