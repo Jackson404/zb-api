@@ -4,11 +4,12 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
+		"coverView": true,
 		"autoAudits": false,
 		"checkInvalidKey": true,
 		"checkSiteMap": true,
@@ -22,7 +23,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.7.0",
 	"appid": "wx02c9a76ab01f424c",
-	"projectname": "招聘",
+	"projectname": "%E6%8B%9B%E8%81%98",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
@@ -46,10 +47,10 @@
 			"current": 0,
 			"list": [
 				{
-					"id": 0,
+					"id": -1,
 					"name": "pages/jobinfo/jobinfo",
 					"pathName": "pages/jobinfo/jobinfo",
-					"query": "scene= 2#88#",
+					"query": "scene=2#88#",
 					"scene": null
 				}
 			]

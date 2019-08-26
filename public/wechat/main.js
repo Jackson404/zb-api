@@ -4,8 +4,8 @@ import App from './App'
 Vue.config.productionTip = false
 Vue.prototype.websiteUrl = 'http://koukou.soft-shop.cn/api/'
 // Vue.prototype.apiServer = 'https://521.zhengbu121.com/api/'
-// Vue.prototype.apiServer = 'https://mini.zhengbu121.com'
-Vue.prototype.apiServer = 'http://47.103.102.222'
+Vue.prototype.apiServer = 'https://mini.zhengbu121.com'
+// Vue.prototype.apiServer = 'http://47.103.102.222'
 
 
 

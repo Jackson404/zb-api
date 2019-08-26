@@ -1,2 +1,2 @@
 <import src="./jianli.vue.wxml" />
-    <template is="93e7867a" data="{{ ...$root['0'], $root }}"/>
+    <template is="1e863c46" data="{{ ...$root['0'], $root }}"/>

@@ -1,2 +1,2 @@
 <import src="./jobinfo.vue.wxml" />
-    <template is="3070d4bb" data="{{ ...$root['0'], $root }}"/>
+    <template is="6268ff7e" data="{{ ...$root['0'], $root }}"/>

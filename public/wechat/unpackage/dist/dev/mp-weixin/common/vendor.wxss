@@ -1,5 +1,5 @@
 
-.common-list.data-v-dc7823a0{
+.common-list.data-v-c1beb3c8{
 	padding: 20rpx;
 	width: 100%;
 	-webkit-box-sizing: border-box;
@@ -7,43 +7,43 @@
 	overflow: hidden;
 	border-bottom: 10rpx solid #FAFAFA;
 }
-.text.data-v-dc7823a0{
+.text.data-v-c1beb3c8{
 	overflow: hidden;
 	-o-text-overflow:ellipsis;
 	   text-overflow:ellipsis;
 	white-space: nowrap;
 }
-.com-top.data-v-dc7823a0{
+.com-top.data-v-c1beb3c8{
 	padding: 10rpx 0;
 	width: 100%;
 }
-.com-left.data-v-dc7823a0{
+.com-left.data-v-c1beb3c8{
 	width: 70%;
 	font-size: 40rpx;
 	color: #333;
 }
-.com-right.data-v-dc7823a0{
+.com-right.data-v-c1beb3c8{
 	width: 30%;
 	font-size: 40rpx;
 	color: #57A6FE;
 	text-align: right;
 }
-.com-mod.data-v-dc7823a0{
+.com-mod.data-v-c1beb3c8{
 	width: 100%;
 	padding: 5rpx 0;
 }
-.com-m-left.data-v-dc7823a0{
+.com-m-left.data-v-c1beb3c8{
 	width: 80%;
 	font-size: 24rpx;
 	color: #333333;
 }
-.com-m-right.data-v-dc7823a0{
+.com-m-right.data-v-c1beb3c8{
 	width: 20%;
 	font-size: 24rpx;
 	color: #333333;
 	text-align: right;
 }
-.bar.data-v-dc7823a0{
+.bar.data-v-c1beb3c8{
 	font-size: 24rpx;
 	color: #333333;
 	padding: 0 15rpx;
@@ -51,7 +51,7 @@
 
 
 
-.load-more.data-v-2f800acc{
+.load-more.data-v-337c6490{
 	text-align: center;
 	color: #AAAAAA;
 	padding: 15rpx;

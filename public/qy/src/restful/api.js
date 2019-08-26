@@ -336,6 +336,35 @@ export function moveResumeToCate(data) {
 
 }
 
+
+//获取简历分类列表
+export function getEpResumeListByCate1(data) {
+	var url = '/api/v1.ep.ResumeData/getResumeCateList';
+	return Axios.post(url, data).then((res) => {
+		return res.data;
+	})
+
+}
+
+//批量下载简历
+
+export function downLoadMultiResume(data) {
+	var url = '/api/v1.ep.ResumeData/downLoadMultiResume';
+	return Axios.post(url, data).then((res) => {
+		return res.data;
+	})
+
+}
+
+//批量移动简历到分组
+export function moveMultiResumesToCate(data) {
+	var url = '/api/v1.ep.ResumeData/moveMultiResumesToCate';
+	return Axios.post(url, data).then((res) => {
+		return res.data;
+	})
+
+}
+
 //post 携带canshu
 
 // 

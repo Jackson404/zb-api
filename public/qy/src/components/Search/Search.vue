@@ -102,16 +102,12 @@
 						<!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
 						<el-button @click="toggleSelection(tableData)" style="padding: 12px 40px;">全选</el-button>
 						
-						<el-dropdown style="margin-left: 10px;">
+						<el-dropdown style="margin-left: 10px;" @command="check">
 						  <el-button type="primary">
-							移动至 <i class="el-icon-arrow-down el-icon--right"></i>
+							下载至 <i class="el-icon-arrow-down el-icon--right"></i>
 						  </el-button>
 						  <el-dropdown-menu slot="dropdown">
-							<el-dropdown-item>黄金糕</el-dropdown-item>
-							<el-dropdown-item>狮子头</el-dropdown-item>
-							<el-dropdown-item>螺蛳粉</el-dropdown-item>
-							<el-dropdown-item>双皮奶</el-dropdown-item>
-							<el-dropdown-item>蚵仔煎</el-dropdown-item>
+							<el-dropdown-item v-for="(item, index) in gridData" :key="index" :command="index">{{ item.name }}</el-dropdown-item>
 						  </el-dropdown-menu>
 						</el-dropdown>
 						<!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
@@ -249,7 +245,8 @@ export default {
 			checkindex: '',
 			listOne: [],
 			educationName:'',
-			page:1
+			page:1,
+			gridData:[],
 		};
 	},
 	created() {
@@ -262,9 +259,36 @@ export default {
 			this.$router.push({ name: 'Login', params: { userId: '123' } });
 			console.log('未登陆');
 		}
+		this.getEmGroup();
 		this.categoryList();
 	},
 	methods: {
+		getEmGroup: function() {
+			
+			
+			var data = {
+				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
+				id_token: this.$cookies.get('access_token'),
+				// resumeCateId:parseInt(this.resumeCateId),
+			};
+		
+			var _this = this;
+			this.$http
+				.getEpResumeListByCate1(data)
+				.then(res => {
+					
+					console.log(res)	
+					if (res.errorCode == 0) {
+						_this.gridData = res.data.list;
+						// _this.emNum=res.data.emNum;
+						// _this.reviewNum=res.data.reviewNum;
+					}
+					
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		},
 		gose(){
 			if(this.minAge<1){return};
 			if(this.maxAge<1){return};
@@ -410,6 +434,73 @@ export default {
 		},
 		one1() {
 			this.status = false;
+		},
+		//下载简历
+		check(command){
+			
+			console.log(command)
+			var list=this.gridData[command];
+			
+			//判断是否选择简历
+			if (this.multipleSelection.length == 0) {
+				this.$message({
+					message: '请选择下载简历',
+					type: 'warning',
+					offset: '100'
+				});
+				return;
+			}
+			//开始更换分组
+			
+			var num=this.multipleSelection;
+			var arr=[];
+			for(var i=0;i<num.length;i++){
+				var data={
+					"idCard":num[i].idCard,
+					"phone":num[i].phone,
+				}
+				
+				arr.push(data)
+				
+			}
+			
+			
+			this.$_loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)'
+			});
+			var data = {
+				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
+				id_token: this.$cookies.get('access_token'),
+				resumeCateId: parseInt(list.id),
+				resumeJson:JSON.stringify(arr)
+			};
+			
+			var _this = this;
+			this.$http
+				.downLoadMultiResume(data)
+				.then(res => {
+					console.log(res);
+					console.log(123456);
+					_this.$_loading.close();
+					_this.getEmGroup();
+					if (res.errorCode == 0) {
+						setTimeout(function() {
+							_this.$message({
+								message: '下载成功',
+								type: 'success',
+								offset: '100',
+								duration: 3000
+							});
+						}, 1000);
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+			
 		}
 	}
 };

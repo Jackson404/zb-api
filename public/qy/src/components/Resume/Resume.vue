@@ -11,7 +11,7 @@
 								<span>简历分类</span>
 							</template>
 							<el-menu-item-group>
-								<el-menu-item index="1-1" @click="go(-1)">全部员工<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item>
+								<el-menu-item index="1-1" @click="go(-1)">全部简历<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item>
 								<el-menu-item index="'2-'+(index+1)" v-for="(item, index) in gridData" :key="index" @click="go(item.groupId)">{{ item.name }}</el-menu-item>
 							</el-menu-item-group>
 						</el-submenu>
@@ -37,7 +37,7 @@
 				</el-popover>
 			</div>
 
-			<div class="right">
+			<div class="right" style="padding-bottom: 20px;">
 				<!--	第一部分-->
 				<el-table
 					ref="multipleTable"
@@ -261,15 +261,16 @@ export default {
 				spinner: 'el-icon-loading',
 				background: 'rgba(0, 0, 0, 0.7)'
 			});
+			console.log('执行')
 			var data = {
 				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
 				id_token: this.$cookies.get('access_token'),
-				resumeCateId:parseInt(this.resumeCateId),
+				// resumeCateId:parseInt(this.resumeCateId),
 			};
 
 			var _this = this;
 			this.$http
-				.getEpResumeListByCate(data)
+				.getEpResumeListByCate1(data)
 				.then(res => {
 					
 					_this.$_loading.close();
@@ -305,14 +306,14 @@ export default {
 			var data = {
 				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
 				id_token: this.$cookies.get('access_token'),
-				// groupId: parseInt(this.groupId),
+				 resumeCateId: parseInt(this.resumeCateId),
 				pageIndex: parseInt(this.pageIndex),
 				pageSize: 10
 			};
 
 			var _this = this;
 			this.$http
-				.getEpResumeList(data)
+				.getEpResumeListByCate(data)
 				.then(res => {
 					_this.$_loading.close();
 					console.log('列表');
@@ -514,6 +515,18 @@ export default {
 				});
 				return;
 			}
+			
+			// var num=this.multipleSelection;
+			// var arr=[];
+			// for(var i=0;i<num.length;i++){
+			// 	var data={
+			// 		"idCard":num[i].idCard,
+			// 		"phone":num[i].phone,
+			// 	}
+			// 	
+			// 	arr.push(data)
+			// 	
+			// }
 			//开始更换分组
 			
 			this.$_loading = this.$loading({
@@ -531,7 +544,7 @@ export default {
 			
 			var _this = this;
 			this.$http
-				.moveResumeToCate(data)
+				.moveMultiResumesToCate(data)
 				.then(res => {
 					console.log(res);
 					console.log(123456);
