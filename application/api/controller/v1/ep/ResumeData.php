@@ -439,18 +439,16 @@ class ResumeData extends EpUserBase
             if ($source == 1) {
                 $resumeId = $v->resumeId;
                 $xDetail = $resumeModel->getDetailForShow($resumeId);
-                $xData = $xDetail->toArray();
-                $xData['source'] = 1;
-                $xData['epResumeRecordId'] = $v->id;
-                array_push($list, $xData);
+                $xDetail->setAttr('source',1);
+                $xDetail->setAttr('epResumeRecordId',$v->id);
+                array_push($list, $xDetail);
             }
 
             if ($source == 2) {
                 $xxDetail = $detail = $resumeData->detailForShowPage($v['idCard'], $v['phone']);
-                $xxData = $xxDetail->toArray();
-                $xxData['source'] = 2;
-                $xxData['epResumeRecordId'] = $v->id;
-                array_push($list, $xxData);
+                $xxDetail->setAttr('source',2);
+                $xxDetail->setAttr('epResumeRecordId',$v->id);
+                array_push($list, $xxDetail);
             }
         }
         $x['pageIndex'] = $pageIndex;
@@ -458,7 +456,6 @@ class ResumeData extends EpUserBase
         $x['total'] = $total;
         $x['resumeCount'] = $count;
         $x['data'] = $list;
-
         $data['page'] = $x;
         Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
 
