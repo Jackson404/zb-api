@@ -263,20 +263,27 @@ class ResumeData extends EpUserBase
 
     }
 
+    /**
+     * 批量下载简历
+     * @throws \think\Exception
+     * @throws \think\exception\PDOException
+     */
     public function downLoadMultiResume()
     {
-//        [{"idCard":0,"phone":123222222,"resumeCateId":1},{"idCard":0,"phone":123222222,"resumeCateId":1}]
+//        [{"idCard":0,"phone":123222222},{"idCard":0,"phone":123222222}]
         $params = Request::instance()->param();
-        $idCard = Check::check($params['idCard'] ?? ''); //身份证号
-        $phone = Check::check($params['phone'] ?? ''); //手机号
-        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? 0); //简历分组id
+        $json = $params['resumeJson'] ?? '';
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? 0);
+
         $userId = $GLOBALS['userId'];
 
-        $epResumeModel = new EpResumeModel();
-        if ($epResumeModel->resumeExistsSource2($userId, $idCard, $phone)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '简历已经下载过了');
+        if ($json == '') {
+            Util::printResult($GLOBALS['ERROR_PARAM_MISSING'], '缺少参数');
             exit;
         }
+        $jsonArr = json_decode($json, true, JSON_UNESCAPED_UNICODE);
+
+        $epResumeModel = new EpResumeModel();
 
         $date = date('Y-m-d', time());
         $count = $epResumeModel->getDownloadNumOneDay($date, $userId);
@@ -284,29 +291,39 @@ class ResumeData extends EpUserBase
             Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '一天下载数量超出限制100');
             exit;
         }
-        $arr = [
-            'userId' => $userId,
-            'resumeId' => 0,
-            'idCard' => $idCard,
-            'phone' => $phone,
-            'resumeCateId' => $resumeCateId,
-            'source' => 2,
-            'createTime' => currentTime(),
-            'createBy' => $userId,
-            'updateTime' => currentTime(),
-            'updateBy' => $userId
-        ];
 
-        $insertRow = $epResumeModel->save($arr);
-
-        if ($insertRow > 0) {
-            $data['insertRow'] = $insertRow;
-            Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-            exit;
-        } else {
-            Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
-            exit;
+        $epResumeModel->startTrans();
+        $all = 0;
+        foreach ($jsonArr as $k => $v) {
+            $idCard = $v['idCard'];
+            $phone = $v['phone'];
+            if ($epResumeModel->resumeExistsSource2($userId, $idCard, $phone)) {
+                continue;
+            }
+            $arr = [
+                'userId' => $userId,
+                'resumeId' => 0,
+                'idCard' => $idCard,
+                'phone' => $phone,
+                'resumeCateId' => $resumeCateId,
+                'source' => 2,
+                'createTime' => currentTime(),
+                'createBy' => $userId,
+                'updateTime' => currentTime(),
+                'updateBy' => $userId
+            ];
+            $insertRow = $epResumeModel->save($arr);
+            $all += $insertRow;
+            if ($insertRow == 0) {
+                $epResumeModel->rollback();
+                Util::printResult($GLOBALS['ERROR_SQL_INSERT'], '下载失败');
+                exit;
+            }
         }
+        $epResumeModel->commit();
+
+        $data['insertRow'] = $all;
+        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
 
     }
 
