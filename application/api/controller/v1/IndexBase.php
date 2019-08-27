@@ -2,10 +2,11 @@
 
 namespace app\api\controller\v1;
 
+use think\Controller;
 use think\Request;
 use Util\Util;
 
-class IndexBase extends AuthBase
+class IndexBase extends Controller
 {
     protected function _initialize()
     {
