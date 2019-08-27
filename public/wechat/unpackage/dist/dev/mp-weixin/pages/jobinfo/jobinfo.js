@@ -228,14 +228,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ "../../../../project/zb-api/public/wechat/css/md5.js");
-var WXBizDataCrypt = __webpack_require__(/*! ../../css/WXBizDataCrypt.js */ "../../../../project/zb-api/public/wechat/css/WXBizDataCrypt.js");var _default =
+
+
+
+
+
+
+
+
+
+var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ "../../../../project/zb-api/public/wechat/css/md5.js");var _default =
+
 {
   data: function data() {
     return {
       phone: '',
       id: '',
-      item: [],
+      item: {
+        name: '',
+        t_jr: 1,
+        pay: '',
+        workExp: '',
+        education: '',
+        age: '',
+        labelIds: [],
+        address: '',
+        positionRequirement: '' },
+
       modalName: null,
       modalName1: null,
       login_code: '',
@@ -251,10 +270,14 @@ var WXBizDataCrypt = __webpack_require__(/*! ../../css/WXBizDataCrypt.js */ "../
       name: '',
       positionId: '', //职位id
       orderId: '',
-      userId: '' };
+      userId: '',
+      stax: false };
 
   },
   onLoad: function onLoad(options) {
+
+
+
     var scene = decodeURIComponent(options.scene);
     console.log(scene);
     if (decodeURIComponent(options.scene)) {
@@ -269,6 +292,10 @@ var WXBizDataCrypt = __webpack_require__(/*! ../../css/WXBizDataCrypt.js */ "../
       this.id = x[1];
     }
 
+
+
+
+
     if (options.userId) {
       console.log('分享');
       this.userId = options.userId;
@@ -282,7 +309,7 @@ var WXBizDataCrypt = __webpack_require__(/*! ../../css/WXBizDataCrypt.js */ "../
     var _this = this;
 
     console.log('执行了');
-    _this.getInfo();
+
     _this.login1();
     uni.login({
       success: function success(res) {
@@ -298,7 +325,7 @@ var WXBizDataCrypt = __webpack_require__(/*! ../../css/WXBizDataCrypt.js */ "../
     return {
       title: '您的朋友邀请您参加' + this.item.name + '职位的面试',
       path: '/pages/jobinfo/jobinfo?userId=' + this.userId + '&positionId=' + this.positionId,
-      imageUrl: 'https://521.zhengbu121.com/statics/images/321123.jpg' };
+      imageUrl: 'https://521.zhengbu121.com/statics/images/321123.png' };
 
   },
   methods: {
@@ -335,7 +362,7 @@ var WXBizDataCrypt = __webpack_require__(/*! ../../css/WXBizDataCrypt.js */ "../
           if (res.data.errorCode == 0) {
             uni.setStorageSync('utoken', res.data.data.access_token);
             _this.login(res.data.data.access_token);
-
+            _this.getInfo();
           }
 
 
@@ -587,6 +614,8 @@ var WXBizDataCrypt = __webpack_require__(/*! ../../css/WXBizDataCrypt.js */ "../
       uni.showLoading({ 'title': "加载中..." });
       uni.request({
         url: _this.apiServer + "/api/v1.PositionManagement/getDetail",
+        // url:_this.apiServer +"/api/v1.ep.EpOrder/getDetailNoLogin",
+
         method: 'POST',
         data: {
 
@@ -603,7 +632,7 @@ var WXBizDataCrypt = __webpack_require__(/*! ../../css/WXBizDataCrypt.js */ "../
           console.log(data);
 
           _this.item = data.detail;
-
+          _this.stax = true;
           // uni.setNavigationBarTitle({
           // 	　　title:data.detail.name
           // })
@@ -751,296 +780,300 @@ var render = function() {
     "view",
     { staticClass: "body", staticStyle: { "min-height": "100vh" } },
     [
-      _c("view", { staticClass: "title" }, [
-        _c(
-          "view",
-          {
-            staticClass: "name",
-            staticStyle: {
-              display: "flex",
-              "flex-wrap": "nowrap",
-              "align-items": "center"
-            }
-          },
-          [
-            _c(
-              "text",
-              {
-                staticClass: "text",
-                staticStyle: {
-                  "font-size": "36rpx",
-                  "max-width": "70%",
-                  display: "block",
-                  "margin-right": "20rpx",
-                  color: "#333333"
-                }
-              },
-              [_vm._v(_vm._s(_vm.item.name))]
-            ),
-            _vm.item.t_jr == 2
-              ? _c("image", {
-                  staticStyle: {
-                    width: "30rpx",
-                    height: "30rpx",
-                    display: "inline-block"
-                  },
-                  attrs: {
-                    src: "https://www.zhengbu121.com/statics/img/1.png",
-                    mode: "widthFix",
-                    "lazy-load": "true"
-                  }
-                })
-              : _vm._e()
-          ]
-        ),
-        _c(
-          "view",
-          {
-            staticStyle: {
-              display: "flex",
-              height: "30px",
-              "line-height": "30px"
-            }
-          },
-          [
-            _c(
-              "view",
-              {
-                staticClass: "money",
-                staticStyle: { color: "#0084FF", "font-size": "30rpx" }
-              },
-              [_vm._v(_vm._s(_vm.item.pay) + "元")]
-            )
-          ]
-        )
-      ]),
-      _c(
-        "view",
-        {
-          staticClass: "title1",
-          staticStyle: {
-            padding: "10rpx 0 20rpx 0",
-            color: "#333333",
-            "font-size": "28rpx"
-          }
-        },
-        [_vm._v(_vm._s(_vm.item.companyName))]
-      ),
-      _c(
-        "view",
-        {
-          staticClass: "title1 u-f-ac",
-          staticStyle: { padding: "0 0 24rpx 0", color: "#363636" }
-        },
-        [
-          _c("view", { staticClass: "u-list u-f-ac" }, [
-            _c("image", {
-              staticStyle: {
-                height: "28rpx",
-                width: "26rpx",
-                display: "block"
-              },
-              attrs: { src: "../../static/xiao/experience.png", mode: "" }
-            }),
-            _vm.item.workExp == 0
-              ? _c(
-                  "view",
-                  {
-                    staticStyle: {
-                      "font-size": "26rpx",
-                      color: "#333333",
-                      padding: "0 40rpx 0 20rpx"
-                    }
-                  },
-                  [_vm._v("不限")]
-                )
-              : _c(
-                  "view",
-                  {
-                    staticStyle: {
-                      "font-size": "26rpx",
-                      color: "#333333",
-                      padding: "0 40rpx 0 20rpx"
-                    }
-                  },
-                  [_vm._v(_vm._s(_vm.item.workExp))]
-                )
-          ]),
-          _c("view", { staticClass: "u-list u-f-ac" }, [
-            _c("image", {
-              staticStyle: {
-                height: "28rpx",
-                width: "32rpx",
-                display: "block"
-              },
-              attrs: { src: "../../static/xiao/education.png", mode: "" }
-            }),
-            _c(
-              "view",
-              {
-                staticStyle: {
-                  "font-size": "26rpx",
-                  color: "#333333",
-                  padding: "0 40rpx 0 20rpx"
-                }
-              },
-              [_vm._v(_vm._s(_vm.item.education))]
-            )
-          ]),
-          _c("view", { staticClass: "u-list u-f-ac" }, [
-            _c("image", {
-              staticStyle: {
-                height: "28rpx",
-                width: "26rpx",
-                display: "block"
-              },
-              attrs: { src: "../../static/xiao/experience.png", mode: "" }
-            }),
-            _c(
-              "view",
-              {
-                staticStyle: {
-                  "font-size": "26rpx",
-                  color: "#333333",
-                  padding: "0 40rpx 0 20rpx"
-                }
-              },
-              [_vm._v(_vm._s(_vm.item.age))]
-            )
-          ])
-        ]
-      ),
-      _c(
-        "view",
-        { staticClass: "tagx u-f-ac" },
-        _vm._l(_vm.item.labelIds, function(items, index) {
-          return _c("view", { key: index, staticClass: "tagone" }, [
-            _vm._v(_vm._s(items))
-          ])
-        })
-      ),
-      _c("view", { staticStyle: { height: "20px" } }),
-      _c(
-        "view",
-        {
-          staticClass: "address",
-          staticStyle: { display: "flex", padding: "20px 0" }
-        },
-        [
-          _c("image", {
-            staticStyle: {
-              width: "14px",
-              height: "18px",
-              display: "block",
-              "margin-right": "10px"
-            },
-            attrs: { src: "../../static/xiao/location.png", mode: "" }
-          }),
-          _c(
-            "view",
-            {
-              staticStyle: {
-                "line-height": "40rpx",
-                "word-wrap": "break-word",
-                padding: "0px 0px 0 5px",
-                flex: "1",
-                "font-size": "26rpx",
-                color: "#666666"
-              }
-            },
-            [_vm._v(_vm._s(_vm.item.address))]
-          )
-        ]
-      ),
-      _c("view", { staticStyle: { height: "15px" } }),
-      _vm._m(0),
-      _c(
-        "view",
-        { staticClass: "content", staticStyle: { padding: "0px 0" } },
-        [
-          _c("rich-text", {
-            staticStyle: {
-              "line-height": "30px",
-              color: "#666666",
-              "font-size": "14px !important",
-              "word-break": "break-word"
-            },
-            attrs: {
-              nodes: _vm.item.positionRequirement,
-              mpcomid: "6268ff7e-0"
-            }
-          })
-        ],
-        1
-      ),
-      _c("view", { staticStyle: { height: "50px" } }),
-      _c(
-        "view",
-        {
-          staticStyle: {
-            height: "50px",
-            "line-height": "50px",
-            position: "fixed",
-            bottom: "0",
-            left: "0",
-            right: "0",
-            "box-shadow": "0 -3rpx 8rpx rgba(0, 0, 0, 0.08)",
-            width: "100%",
-            display: "flex",
-            "flex-wrap": "nowrap",
-            background: "#fff"
-          }
-        },
-        [
-          _c(
-            "view",
-            {
-              staticStyle: {
-                height: "50px",
-                "line-height": "50px",
-                width: "50%"
-              }
-            },
-            [
+      _vm.stax
+        ? _c("view", [
+            _c("view", { staticClass: "title" }, [
               _c(
-                "button",
+                "view",
+                {
+                  staticClass: "name",
+                  staticStyle: {
+                    display: "flex",
+                    "flex-wrap": "nowrap",
+                    "align-items": "center"
+                  }
+                },
+                [
+                  _c(
+                    "text",
+                    {
+                      staticClass: "text",
+                      staticStyle: {
+                        "font-size": "36rpx",
+                        "max-width": "70%",
+                        display: "block",
+                        "margin-right": "20rpx",
+                        color: "#333333"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.item.name))]
+                  ),
+                  _vm.item.t_jr == 2
+                    ? _c("image", {
+                        staticStyle: {
+                          width: "30rpx",
+                          height: "30rpx",
+                          display: "inline-block"
+                        },
+                        attrs: {
+                          src: "https://www.zhengbu121.com/statics/img/1.png",
+                          mode: "widthFix",
+                          "lazy-load": "true"
+                        }
+                      })
+                    : _vm._e()
+                ]
+              ),
+              _c(
+                "view",
                 {
                   staticStyle: {
-                    width: "100%",
-                    border: "0",
-                    outline: "none",
-                    color: "#0084FF",
-                    "text-align": "center",
-                    height: "50px",
-                    "line-height": "50px",
-                    "font-size": "16px"
-                  },
-                  attrs: { type: "button", "open-type": "share" }
+                    display: "flex",
+                    height: "30px",
+                    "line-height": "30px"
+                  }
                 },
-                [_vm._v("分享")]
+                [
+                  _c(
+                    "view",
+                    {
+                      staticClass: "money",
+                      staticStyle: { color: "#0084FF", "font-size": "30rpx" }
+                    },
+                    [_vm._v(_vm._s(_vm.item.pay) + "元")]
+                  )
+                ]
               )
-            ],
-            1
-          ),
-          _c(
-            "view",
-            {
-              staticStyle: {
-                height: "50px",
-                "line-height": "50px",
-                width: "50%",
-                "text-align": "center",
-                color: "#fff",
-                background: "#0084FF",
-                "font-size": "16px"
+            ]),
+            _c(
+              "view",
+              {
+                staticClass: "title1",
+                staticStyle: {
+                  padding: "10rpx 0 20rpx 0",
+                  color: "#333333",
+                  "font-size": "28rpx"
+                }
               },
-              attrs: { eventid: "6268ff7e-0" },
-              on: { tap: _vm.sendinfo }
-            },
-            [_vm._v("报名")]
-          )
-        ]
-      ),
+              [_vm._v(_vm._s(_vm.item.companyName))]
+            ),
+            _c(
+              "view",
+              {
+                staticClass: "title1 u-f-ac",
+                staticStyle: { padding: "0 0 24rpx 0", color: "#363636" }
+              },
+              [
+                _c("view", { staticClass: "u-list u-f-ac" }, [
+                  _c("image", {
+                    staticStyle: {
+                      height: "28rpx",
+                      width: "26rpx",
+                      display: "block"
+                    },
+                    attrs: { src: "../../static/xiao/experience.png", mode: "" }
+                  }),
+                  _vm.item.workExp == 0
+                    ? _c(
+                        "view",
+                        {
+                          staticStyle: {
+                            "font-size": "26rpx",
+                            color: "#333333",
+                            padding: "0 40rpx 0 20rpx"
+                          }
+                        },
+                        [_vm._v("不限")]
+                      )
+                    : _c(
+                        "view",
+                        {
+                          staticStyle: {
+                            "font-size": "26rpx",
+                            color: "#333333",
+                            padding: "0 40rpx 0 20rpx"
+                          }
+                        },
+                        [_vm._v(_vm._s(_vm.item.workExp))]
+                      )
+                ]),
+                _c("view", { staticClass: "u-list u-f-ac" }, [
+                  _c("image", {
+                    staticStyle: {
+                      height: "28rpx",
+                      width: "32rpx",
+                      display: "block"
+                    },
+                    attrs: { src: "../../static/xiao/education.png", mode: "" }
+                  }),
+                  _c(
+                    "view",
+                    {
+                      staticStyle: {
+                        "font-size": "26rpx",
+                        color: "#333333",
+                        padding: "0 40rpx 0 20rpx"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.item.education))]
+                  )
+                ]),
+                _c("view", { staticClass: "u-list u-f-ac" }, [
+                  _c("image", {
+                    staticStyle: {
+                      height: "28rpx",
+                      width: "26rpx",
+                      display: "block"
+                    },
+                    attrs: { src: "../../static/xiao/experience.png", mode: "" }
+                  }),
+                  _c(
+                    "view",
+                    {
+                      staticStyle: {
+                        "font-size": "26rpx",
+                        color: "#333333",
+                        padding: "0 40rpx 0 20rpx"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.item.age))]
+                  )
+                ])
+              ]
+            ),
+            _c(
+              "view",
+              { staticClass: "tagx u-f-ac" },
+              _vm._l(_vm.item.labelIds, function(items, index) {
+                return _c("view", { key: index, staticClass: "tagone" }, [
+                  _vm._v(_vm._s(items))
+                ])
+              })
+            ),
+            _c("view", { staticStyle: { height: "20px" } }),
+            _c(
+              "view",
+              {
+                staticClass: "address",
+                staticStyle: { display: "flex", padding: "20px 0" }
+              },
+              [
+                _c("image", {
+                  staticStyle: {
+                    width: "14px",
+                    height: "18px",
+                    display: "block",
+                    "margin-right": "10px"
+                  },
+                  attrs: { src: "../../static/xiao/location.png", mode: "" }
+                }),
+                _c(
+                  "view",
+                  {
+                    staticStyle: {
+                      "line-height": "40rpx",
+                      "word-wrap": "break-word",
+                      padding: "0px 0px 0 5px",
+                      flex: "1",
+                      "font-size": "26rpx",
+                      color: "#666666"
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.item.address))]
+                )
+              ]
+            ),
+            _c("view", { staticStyle: { height: "15px" } }),
+            _vm._m(0),
+            _c(
+              "view",
+              { staticClass: "content", staticStyle: { padding: "0px 0" } },
+              [
+                _c("rich-text", {
+                  staticStyle: {
+                    "line-height": "30px",
+                    color: "#666666",
+                    "font-size": "14px !important",
+                    "word-break": "break-word"
+                  },
+                  attrs: {
+                    nodes: _vm.item.positionRequirement,
+                    mpcomid: "6268ff7e-0"
+                  }
+                })
+              ],
+              1
+            ),
+            _c("view", { staticStyle: { height: "50px" } }),
+            _c(
+              "view",
+              {
+                staticStyle: {
+                  height: "50px",
+                  "line-height": "50px",
+                  position: "fixed",
+                  bottom: "0",
+                  left: "0",
+                  right: "0",
+                  "box-shadow": "0 -3rpx 8rpx rgba(0, 0, 0, 0.08)",
+                  width: "100%",
+                  display: "flex",
+                  "flex-wrap": "nowrap",
+                  background: "#fff"
+                }
+              },
+              [
+                _c(
+                  "view",
+                  {
+                    staticStyle: {
+                      height: "50px",
+                      "line-height": "50px",
+                      width: "50%"
+                    }
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticStyle: {
+                          width: "100%",
+                          border: "0",
+                          outline: "none",
+                          color: "#0084FF",
+                          "text-align": "center",
+                          height: "50px",
+                          "line-height": "50px",
+                          "font-size": "16px"
+                        },
+                        attrs: { type: "button", "open-type": "share" }
+                      },
+                      [_vm._v("分享")]
+                    )
+                  ],
+                  1
+                ),
+                _c(
+                  "view",
+                  {
+                    staticStyle: {
+                      height: "50px",
+                      "line-height": "50px",
+                      width: "50%",
+                      "text-align": "center",
+                      color: "#fff",
+                      background: "#0084FF",
+                      "font-size": "16px"
+                    },
+                    attrs: { eventid: "6268ff7e-0" },
+                    on: { tap: _vm.sendinfo }
+                  },
+                  [_vm._v("报名")]
+                )
+              ]
+            )
+          ])
+        : _c("view", { staticStyle: { height: "100%" } }, [_vm._m(1)]),
       _c(
         "view",
         {
@@ -1053,7 +1086,7 @@ var render = function() {
             "view",
             { staticClass: "cu-dialog", staticStyle: { width: "70%" } },
             [
-              _vm._m(1),
+              _vm._m(2),
               _c(
                 "view",
                 {
@@ -1122,7 +1155,7 @@ var render = function() {
             "view",
             { staticClass: "cu-dialog", staticStyle: { width: "70%" } },
             [
-              _vm._m(2),
+              _vm._m(3),
               _c(
                 "view",
                 {
@@ -1278,6 +1311,32 @@ var staticRenderFns = [
         [_vm._v("职位详情")]
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "view",
+      {
+        staticClass: "bg-white flex-sub radius shadow-lg",
+        staticStyle: {
+          height: "100vh",
+          "box-sizing": "border-box",
+          "padding-top": "300rpx"
+        }
+      },
+      [
+        _c("image", {
+          staticClass: "gif-white response",
+          staticStyle: { height: "240rpx" },
+          attrs: {
+            src: "https://image.weilanwl.com/gif/loading-white.gif",
+            mode: "aspectFit"
+          }
+        })
+      ]
+    )
   },
   function() {
     var _vm = this

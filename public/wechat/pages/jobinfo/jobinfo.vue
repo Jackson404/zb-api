@@ -1,72 +1,81 @@
 <template>
 	<view class="body" style="min-height: 100vh;">
 		
-		<view class="title">
-			<view class="name" style="display: flex;flex-wrap: nowrap;align-items: center;">
-				<text class="text" style="font-size: 36upx;max-width: 70%;display: block;margin-right: 20upx;color: #333333;">{{item.name}}</text> <image v-if="item.t_jr==2"  src="https://www.zhengbu121.com/statics/img/1.png" mode="widthFix" style="width: 30upx;height: 30upx;display: inline-block;" lazy-load="true"></image>
+		<view v-if="stax">
+			
+			<view class="title">
+				<view class="name" style="display: flex;flex-wrap: nowrap;align-items: center;">
+					<text class="text" style="font-size: 36upx;max-width: 70%;display: block;margin-right: 20upx;color: #333333;">{{item.name}}</text> <image v-if="item.t_jr==2"  src="https://www.zhengbu121.com/statics/img/1.png" mode="widthFix" style="width: 30upx;height: 30upx;display: inline-block;" lazy-load="true"></image>
+					
+				</view>
+				<view style="display: flex;height: 30px;line-height: 30px;">
+				<!-- 	<view class="tag" v-if="item.t_jr==2">退役军人优先</view>
+					<view class="money" v-if="item.t_jr==2" style="margin-left: 20px;color: #0084FF;font-size: 28upx;">{{item.t_xz}}</view> -->
+					<view class="money" style="color: #0084FF;font-size: 30upx;">{{item.pay}}元</view>
+				</view>
+			</view>
+			
+			
+			<view class="title1" style="padding: 10upx 0 20upx 0;color: #333333;font-size: 28upx;">
+				{{item.companyName}}		
+			</view>
+			
+			<view class="title1 u-f-ac" style="padding: 0 0 24upx 0;color: #363636;">
+				<view class="u-list u-f-ac">
+					<image src="../../static/xiao/experience.png" mode="" style="height: 28upx;width: 26upx;display: block;"></image>
+					<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;" v-if="item.workExp==0"> 不限</view>
+					<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;" v-else> {{item.workExp}}</view>
+				</view>
+				<view class="u-list u-f-ac">
+					<image src="../../static/xiao/education.png" mode="" style="height: 28upx;width: 32upx;display: block;"></image>
+					<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;">  {{item.education}}</view>
+				</view>
+				<view class="u-list u-f-ac">
+					<image src="../../static/xiao/experience.png" mode="" style="height: 28upx;width: 26upx;display: block;"></image>
+					<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;"> {{item.age}}</view>
+				</view>
 				
 			</view>
-			<view style="display: flex;height: 30px;line-height: 30px;">
-			<!-- 	<view class="tag" v-if="item.t_jr==2">退役军人优先</view>
-				<view class="money" v-if="item.t_jr==2" style="margin-left: 20px;color: #0084FF;font-size: 28upx;">{{item.t_xz}}</view> -->
-				<view class="money" style="color: #0084FF;font-size: 30upx;">{{item.pay}}元</view>
+			
+			<view class="tagx u-f-ac" >
+				<view class="tagone" v-for="(items, index) in item.labelIds" :key="index">{{items}}</view>
+				
 			</view>
-		</view>
-		
-		
-		<view class="title1" style="padding: 10upx 0 20upx 0;color: #333333;font-size: 28upx;">
-			{{item.companyName}}		
-		</view>
-
-		<view class="title1 u-f-ac" style="padding: 0 0 24upx 0;color: #363636;">
-			<view class="u-list u-f-ac">
-				<image src="../../static/xiao/experience.png" mode="" style="height: 28upx;width: 26upx;display: block;"></image>
-				<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;" v-if="item.workExp==0"> 不限</view>
-				<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;" v-else> {{item.workExp}}</view>
+			<view style="height: 20px;"></view>
+			<view class="address" style="display: flex;padding: 20px 0;">
+				<!-- <text style="background: url(../../static/xiao/location.png);background-size: 100% 100%;width: 14px;height: 18px;display: inline-block;position: relative;margin-right: 10px;"></text> -->
+				<image src="../../static/xiao/location.png" mode="" style="width: 14px;height: 18px;display: block;margin-right: 10px;"></image>
+				<view style="line-height: 40upx;word-wrap: break-word;padding: 0px 0px 0 5px;flex: 1;font-size: 26upx;color: #666666;">
+					{{item.address}}	
+				</view>
 			</view>
-			<view class="u-list u-f-ac">
-				<image src="../../static/xiao/education.png" mode="" style="height: 28upx;width: 32upx;display: block;"></image>
-				<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;">  {{item.education}}</view>
+			<view style="height: 15px;"></view>
+			<view class="des u-f-ac">
+				<image src="../../static/xiao/prove.png" mode="" style="width: 40upx;height: 37upx;"></image>
+				<view style="padding-left: 40upx;font-size: 36upx;color: #333;">职位详情</view>
 			</view>
-			<view class="u-list u-f-ac">
-				<image src="../../static/xiao/experience.png" mode="" style="height: 28upx;width: 26upx;display: block;"></image>
-				<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;"> {{item.age}}</view>
+			<view class="content" style="padding: 0px 0;">
+				<!-- <view style="line-height: 30px;color: #9B9B9B;font-size: 30upx;padding: 5px;word-break: break-word;">{{item.t_yq}}</view> -->
+				<rich-text :nodes="item.positionRequirement" style="line-height: 30px;color: #666666;font-size: 14px !important;word-break: break-word;"></rich-text>
 			</view>
+			
+			<view style="height: 50px;"></view>
+			<view style="height: 50px;line-height: 50px;position: fixed;bottom: 0;left: 0;right: 0;box-shadow: 0 -3upx 8upx rgba(0, 0, 0, 0.08);;width:100%;display: flex;flex-wrap: nowrap;background: #fff;">
+				<view style="height: 50px;line-height: 50px;width: 50%;">
+					<button type="button" open-type="share" style="width: 100%;border: 0;outline: none;color: #0084FF;text-align: center;height: 50px;line-height: 50px;font-size: 16px;">分享</button>
+				</view>
+				
+				<view style="height: 50px;line-height: 50px;width: 50%;text-align: center;color: #fff;background: #0084FF;font-size: 16px;"  @tap="sendinfo">报名</view>
+			</view>
+			
 			
 		</view>
 		
-		<view class="tagx u-f-ac" >
-			<view class="tagone" v-for="(items, index) in item.labelIds" :key="index">{{items}}</view>
-			
-		</view>
-		<view style="height: 20px;"></view>
-		<view class="address" style="display: flex;padding: 20px 0;">
-			<!-- <text style="background: url(../../static/xiao/location.png);background-size: 100% 100%;width: 14px;height: 18px;display: inline-block;position: relative;margin-right: 10px;"></text> -->
-			<image src="../../static/xiao/location.png" mode="" style="width: 14px;height: 18px;display: block;margin-right: 10px;"></image>
-			<view style="line-height: 40upx;word-wrap: break-word;padding: 0px 0px 0 5px;flex: 1;font-size: 26upx;color: #666666;">
-				{{item.address}}	
+		<view v-else style="height: 100%;">
+			<view class="bg-white flex-sub radius shadow-lg" style="height: 100vh;box-sizing: border-box;padding-top: 300upx;">
+				<image src="https://image.weilanwl.com/gif/loading-white.gif" mode="aspectFit" class="gif-white response" style="height:240upx"></image>
 			</view>
 		</view>
-		<view style="height: 15px;"></view>
-		<view class="des u-f-ac">
-			<image src="../../static/xiao/prove.png" mode="" style="width: 40upx;height: 37upx;"></image>
-			<view style="padding-left: 40upx;font-size: 36upx;color: #333;">职位详情</view>
-		</view>
-		<view class="content" style="padding: 0px 0;">
-			<!-- <view style="line-height: 30px;color: #9B9B9B;font-size: 30upx;padding: 5px;word-break: break-word;">{{item.t_yq}}</view> -->
-			<rich-text :nodes="item.positionRequirement" style="line-height: 30px;color: #666666;font-size: 14px !important;word-break: break-word;"></rich-text>
-		</view>
-		
-		<view style="height: 50px;"></view>
-		<view style="height: 50px;line-height: 50px;position: fixed;bottom: 0;left: 0;right: 0;box-shadow: 0 -3upx 8upx rgba(0, 0, 0, 0.08);;width:100%;display: flex;flex-wrap: nowrap;background: #fff;">
-			<view style="height: 50px;line-height: 50px;width: 50%;">
-				<button type="button" open-type="share" style="width: 100%;border: 0;outline: none;color: #0084FF;text-align: center;height: 50px;line-height: 50px;font-size: 16px;">分享</button>
-			</view>
-			
-			<view style="height: 50px;line-height: 50px;width: 50%;text-align: center;color: #fff;background: #0084FF;font-size: 16px;"  @tap="sendinfo">报名</view>
-		</view>
-		
-		
 		
 			<!-- <button @tap="add" data-target="Modal" class="cu-btn bg-red margin-tb-sm lg" style="width: 90%;background: #0084FF;position: fixed;bottom: 8px;left: 5%;">立刻投递</button> -->
 		
@@ -114,13 +123,23 @@
 
 <script>
 	var graceMd5 = require("../../css/md5.js");
-	 var WXBizDataCrypt = require('../../css/WXBizDataCrypt.js'); 
+
 	export default {
 		data() {
 			return {
 				phone:'',
 				id:'',
-				item:[],
+				item:{
+					name:'',
+					t_jr:1,
+					pay:'',
+					workExp:'',
+					education:'',
+					age:'',
+					labelIds:[],
+					address:'',
+					positionRequirement:''
+				},
 				modalName: null,
 				modalName1:null,
 				login_code : '',  
@@ -136,23 +155,31 @@
 				name:'',
 				positionId:'',  //职位id
 				orderId:'',
-				userId:''
+				userId:'',
+				stax:false,
 			};
 		},
 		onLoad:function(options){
-			var scene = decodeURIComponent(options.scene)
-			console.log(scene);
-			if(decodeURIComponent(options.scene)){
-				var scene = decodeURIComponent(options.scene)
-				
-				//切割
-				var x=scene.split('#');
-				console.log('二维码')
-				console.log(x)
-				this.userId=x[0];
-				this.positionId=x[1];
-				this.id=x[1];
-			}
+			
+				// #ifdef  MP-WEIXIN
+					
+					var scene = decodeURIComponent(options.scene)
+					console.log(scene);
+					if(decodeURIComponent(options.scene)){
+						var scene = decodeURIComponent(options.scene)
+						
+						//切割
+						var x=scene.split('#');
+						console.log('二维码')
+						console.log(x)
+						this.userId=x[0];
+						this.positionId=x[1];
+						this.id=x[1];
+					}
+					
+					
+				// #endif
+			
 			
 			if(options.userId){
 				console.log('分享')
@@ -167,7 +194,7 @@
 			var _this =this;
 
 			console.log('执行了');
-			 _this.getInfo();			  
+						  
 			   _this.login1();
 			  uni.login({    
 			      success: function(res) {    
@@ -183,7 +210,7 @@
 					return {
 					  title: '您的朋友邀请您参加'+this.item.name+'职位的面试',
 					  path: '/pages/jobinfo/jobinfo?userId='+this.userId+'&positionId='+this.positionId,
-					  imageUrl:'https://521.zhengbu121.com/statics/images/321123.jpg'
+					  imageUrl:'https://521.zhengbu121.com/statics/images/321123.png'
 					}
 		 },
 		methods: {
@@ -220,7 +247,7 @@
 						if(res.data.errorCode==0){
 							uni.setStorageSync('utoken',res.data.data.access_token);
 							_this.login(res.data.data.access_token);
-							
+							_this.getInfo();
 						}
 						
 						
@@ -472,6 +499,8 @@
 				uni.showLoading({'title':"加载中..."});
 				uni.request({
 					url:_this.apiServer +"/api/v1.PositionManagement/getDetail",
+					// url:_this.apiServer +"/api/v1.ep.EpOrder/getDetailNoLogin",
+					
 					method:'POST',
 					data:{
 						
@@ -488,7 +517,7 @@
 						console.log(data);
 						
 							_this.item=data.detail;
-							
+							_this.stax=true;
 							// uni.setNavigationBarTitle({
 							// 	　　title:data.detail.name
 							// })
