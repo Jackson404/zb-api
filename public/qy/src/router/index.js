@@ -15,6 +15,8 @@ import Attestation from '@/components/Attestation/Attestation'
 import Orderinfo from '@/components/Orderinfo/Orderinfo'
 import Login from '@/components/Login/Login'
 import Restiger from '@/components/Restiger/Restiger'
+import Searcresult from '@/components/Searcresult/Searcresult'
+
 
 export default new Router({
 	linkActiveClass:'check',
@@ -88,6 +90,11 @@ export default new Router({
 			path:'/restiger',
 			name:'Restiger',
 			component:Restiger
+		},
+		{
+			path:'/search_result/:id',
+			name:'Searcresult',
+			component:Searcresult
 		}
 		
 		

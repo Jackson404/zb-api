@@ -4,35 +4,9 @@
 		<div class="hello" style="margin-top: 110px;">
 			<div style="width: 1200px;margin: 0 auto;padding: 20px 0;">
 				<div class="i-top">
-					<el-dropdown>
-						<span class="el-dropdown-link">
-							上海
-							<img src="../../assets/1.png" alt="" style="margin-left: 10px" />
-						</span>
-						
-					</el-dropdown>
+					<el-page-header @back="goBack" :content="keywords" style="line-height: 60px;">
+					</el-page-header>
 
-					<div style="width: 50px;"></div>
-					
-					
-					<el-dropdown @command="handleCommand">
-					  <span class="el-dropdown-link" style="color: red;font-size: 16px;color: rgba(78, 86, 94, 1);">
-						{{zu}}<img src="../../assets/1.png" alt="" style="margin-left: 10px" />
-					  </span>
-					  <el-dropdown-menu slot="dropdown">
-						<el-dropdown-item style="display: block;" :command="'不限'">不限</el-dropdown-item>
-						<el-dropdown-item style="display: block;" :command="'从低到高'">从低到高</el-dropdown-item>
-						<el-dropdown-item style="display: block;" :command="'从高到底'"> 从高到底</el-dropdown-item>
-						
-					  </el-dropdown-menu>
-					</el-dropdown>
-
-					<div class="i-seach">
-						<div class="i-con">
-							<input type="text" class="form-control" v-model="keywords" placeholder="搜索岗位关键词" value="" style="height: 38px;line-height: 38px;" />
-							<div class="i-btn" style="cursor: pointer;" @click="tap">搜索</div>
-						</div>
-					</div>
 				</div>
 
 				<div class="i-wrap">
@@ -101,7 +75,7 @@
 <script>
 import Header from '@/components/common/Header.vue';
 export default {
-	name: 'Index',
+	name: 'Searcresult',
 	components: {
 		Header
 	},
@@ -119,52 +93,15 @@ export default {
 		};
 	},
 	created() {
-		console.log('一登陆');
-		if (this.$cookies.isKey('access_token')) {
-			//已登录
-			console.log('已登陆');
-		} else {
-			//未登录
-			this.$router.push({ name: 'Login', params: { userId: '123' } });
-			console.log('未登陆');
-		}
+		this.keywords=this.$route.params.id;
 		this.categoryList();
 	},
 	methods: {
-		handleCommand(command) {
-			this.zu=command;
-			if(command=='不限'){
-				this.zuId=-1;
-			}
-			if(command=='从低到高'){
-				this.zuId=0;
-			}
-			if(command=='从高到底'){
-				this.zuId=1;
-			}
-			this.categoryList();
-			
-		 },
-		tap:function(){
-			if(this.keywords.length==0){
-				this.$message({
-				  message: '搜索内容不能为空',
-				  type: 'warning',
-				  offset:'100'
-				});
-				return;		
-			}
-			this.$router.push({ name: 'Searcresult', params: { id: this.keywords } });
-			
-			// this.categoryList();	
-		},
-		tui:function(){
-			
-			
-			
-			
-			
-		},
+		 goBack() {
+			console.log('go back');
+			this.$router.go(-1)
+		  },
+		
 		//互殴
 		categoryList() {
 			this.$_loading = this.$loading({
