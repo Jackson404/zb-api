@@ -128,45 +128,45 @@
 
 			<el-dialog title="" :visible.sync="dialogTableVisible">
 				<div style="width: 100%;box-sizing: border-box;padding: 0px 20px;">
-					<div style="height: 40px;line-height: 40px;font-size: 18px;color: #333;">张校长</div>
+					<div style="height: 40px;line-height: 40px;font-size: 18px;color: #333;">{{listOne.name}}</div>
 					<div style="display: flex;flex-wrap: nowrap;align-items: center;padding: 5px 0;">
-						<div style="font-size: 16px;color: #4E565E;">男</div>
+						<div style="font-size: 16px;color: #4E565E;">{{listOne.sex}}</div>
 						<div style="display: inline-block;padding: 0 15px;margin-top: 2px;"><span style="height: 12px;width: 2px;background: #666;display: block;"></span></div>
-						<div style="font-size: 16px;color: #4E565E;">27岁</div>
+						<div style="font-size: 16px;color: #4E565E;">{{listOne.birth}}</div>
 						<div style="display: inline-block;padding: 0 15px;margin-top: 2px;"><span style="height: 12px;width: 2px;background: #666;display: block;"></span></div>
-						<div style="font-size: 16px;color: #4E565E;">4年</div>
+						<div style="font-size: 16px;color: #4E565E;">{{listOne.workYear}}</div>
 						<div style="display: inline-block;padding: 0 15px;margin-top: 2px;"><span style="height: 12px;width: 2px;background: #666;display: block;"></span></div>
-						<div style="font-size: 16px;color: #4E565E;">本科</div>
+						<div style="font-size: 16px;color: #4E565E;">{{listOne.educationName}}</div>
 					</div>
 					<div style="width: 100%;padding: 10px 0 20px 0;display: flex;border-bottom: 1px solid #FAFAFA;">
 						<img src="../../assets/resume-phone.png" alt="" style="width: 15px;display: block;height: 15px;" />
-						<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">18392078783</div>
+						<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">{{listOne.phone}}</div>
 					</div>
 					<div style="width: 100%;height: 40px;line-height: 40px;font-size: 18px;color: #333;padding-top: 15px;">求职意向</div>
 					<div style="width: 100%;display: flex;flex-wrap: wrap;justify-content: space-between;padding: 10px 0; 25px 0;border-bottom: 1px solid #FAFAFA;">
-						<div style="width: 50%;height: 35px;display: flex;align-content: center;line-height: 35px;">
+						<div style="width: 50%;height: 35px;display: flex;align-content: center;line-height: 35px; ">
 							<img src="../../assets/a13.png" alt="" style="width: 15px;display: block;height: 15px;margin-top: 10px;" />
-							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">期望职位：辅警</div>
+							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;flex: 1;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">期望职位：{{listOne.exPosition}}</div>
 						</div>
 						<div style="width: 50%;height: 35px;display: flex;align-content: center;line-height: 35px;">
 							<img src="../../assets/a10.png" alt="" style="width: 15px;display: block;height: 15px;margin-top: 10px;" />
-							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">工作性质：全职</div>
+							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">工作性质：</div>
 						</div>
 						<div style="width: 50%;height: 35px;display: flex;align-content: center;line-height: 35px;">
 							<img src="../../assets/a1.png" alt="" style="width: 13px;display: block;height: 15px;margin-top: 10px;" />
-							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">期望城市：上海</div>
+							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">期望城市：{{listOne.exCity}}</div>
 						</div>
 						<div style="width: 50%;height: 35px;display: flex;align-content: center;line-height: 35px;">
 							<img src="../../assets/a17.png" alt="" style="width: 15px;display: block;height: 15px;margin-top: 10px;" />
-							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">期望薪资：6000-10000元</div>
+							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">期望薪资：{{listOne.exSalary}}</div>
 						</div>
 						<div style="width: 50%;height: 35px;display: flex;align-content: center;line-height: 35px;">
 							<img src="../../assets/a2.png" alt="" style="width: 13px;display: block;height: 15px;margin-top: 10px;" />
-							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">目前状况：已离职</div>
+							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">目前状况：</div>
 						</div>
 						<div style="width: 50%;height: 35px;display: flex;align-content: center;line-height: 35px;">
 							<img src="../../assets/a5.png" alt="" style="width: 15px;display: block;height: 15px;margin-top: 10px;" />
-							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">到岗时间：随时到岗</div>
+							<div style="padding-left: 20px;font-size: 16px;color: #4E565E;">到岗时间：</div>
 						</div>
 					</div>
 					<div style="width: 100%;height: 40px;line-height: 40px;font-size: 18px;color: #333;padding-top: 15px;">简历信息</div>
@@ -175,7 +175,7 @@
 						<div style="flex: 1;box-sizing: border-box;padding-left: 20px;">
 							<div style="height:35px;line-height: 35px;font-size: 16px;color: #4E565E;">自我评价</div>
 							<div style="padding: 4px 0;font-size: 16px;color: #4E565E;line-height: 25px;">
-								自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最...
+									无评价
 							</div>
 						</div>
 					</div>
@@ -184,7 +184,7 @@
 						<div style="flex: 1;box-sizing: border-box;padding-left: 20px;">
 							<div style="height:35px;line-height: 35px;font-size: 16px;color: #4E565E;">技能描述</div>
 							<div style="padding: 4px 0;font-size: 16px;color: #4E565E;line-height: 25px;">
-								自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最多显示三行，自我评价最...
+									无描述
 							</div>
 						</div>
 					</div>
