@@ -167,7 +167,7 @@ class PositionManagementModel extends Model
             ->select();
     }
 
-    public function filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql, $provinceSql, $citySql, $areaSql, $pageIndex, $pageSize)
+    public function filter($searchSql, $positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql, $provinceSql, $citySql, $areaSql, $pageIndex, $pageSize)
     {
 
         $offset = ($pageIndex - 1) * $pageSize;
@@ -177,13 +177,13 @@ class PositionManagementModel extends Model
             p.positionRequirement,p.isShow,p.applyCount,p.createTime,p.createBy,p.updateTime,p.updateBy FROM zb_position_management as p
             LEFT JOIN zb_position_cate as zcm ON p.positionCateId = zcm.id 
             LEFT JOIN zb_company_management as zco ON p.companyId = zco.id 
-            WHERE p.isDelete = 0  $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql  $provinceSql  $citySql  $areaSql  
+            WHERE p.isDelete = 0  $searchSql  $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql  $provinceSql  $citySql  $areaSql  
             order by p.id desc limit $offset,$pageSize";
 
         $countSql = "SELECT count('p.*') FROM zb_position_management as p
             LEFT JOIN zb_position_cate as zcm ON p.positionCateId = zcm.id 
             LEFT JOIN zb_company_management as zco ON p.companyId = zco.id 
-            WHERE p.isDelete = 0  $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql  $provinceSql  $citySql  $areaSql ";
+            WHERE p.isDelete = 0   $searchSql  $positionSql  $salarySql  $educationSql  $workYearSql  $isSoldierPrioritySql $labelIdsSql  $provinceSql  $citySql  $areaSql ";
 
         $result = $this->query($sql);
         $countResult = $this->query($countSql);

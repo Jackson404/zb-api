@@ -16,7 +16,7 @@ class PositionManagement extends IndexBase
         $positionId = Check::checkInteger($params['positionId'] ?? ''); //职位id
         $positionManagementModel = new PositionManagementModel();
         $detail = $positionManagementModel->getDetail($positionId);
-        $randomList = $positionManagementModel->getRandomPositionListLimit($positionId,5);
+        $randomList = $positionManagementModel->getRandomPositionListLimit($positionId, 5);
         $detail['labelIds'] = json_decode($detail['labelIds'], true);
         $data['detail'] = $detail;
         $data['randomList'] = $randomList;
@@ -37,8 +37,8 @@ class PositionManagement extends IndexBase
         $pageArr = $pageData['data'];
 
         foreach ($pageArr as $k => $v) {
-            $pageArr[$k]['createDate'] = date('Y-m-d',strtotime($v['createTime']));
-            $pageArr[$k]['updateDate'] = date('Y-m-d',strtotime($v['updateTime']));
+            $pageArr[$k]['createDate'] = date('Y-m-d', strtotime($v['createTime']));
+            $pageArr[$k]['updateDate'] = date('Y-m-d', strtotime($v['updateTime']));
             $pageArr[$k]['labelIds'] = json_decode($v['labelIds'], true);
         }
 
@@ -55,8 +55,8 @@ class PositionManagement extends IndexBase
         $positionModel = New PositionManagementModel();
         $list = $positionModel->search($searchValue);
         foreach ($list as $k => $v) {
-            $list[$k]['createDate'] = date('Y-m-d',strtotime($v['createTime']));
-            $list[$k]['updateDate'] = date('Y-m-d',strtotime($v['updateTime']));
+            $list[$k]['createDate'] = date('Y-m-d', strtotime($v['createTime']));
+            $list[$k]['updateDate'] = date('Y-m-d', strtotime($v['updateTime']));
             $list[$k]['labelIds'] = json_decode($v['labelIds'], true);
         }
 
@@ -72,6 +72,7 @@ class PositionManagement extends IndexBase
     {
         $params = Request::instance()->param();
 
+        $searchValue = Check::check($params['searchValue']  ?? ''); //关键词搜索
         $positionCateId = Check::checkInteger($params['positionCateId'] ?? 0); // 职位分类id
         $salary = Check::check($params['salary'] ?? ''); // 薪资
         $labelIds = Check::check($params['labelIds'] ?? ''); //福利待遇  label 字符串
@@ -83,6 +84,12 @@ class PositionManagement extends IndexBase
         $area = Check::check($params['area'] ?? ''); //区
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+
+        if ($searchValue != '') {
+            $searchSql = "   and  p.name like '%$searchValue%'";
+        } else {
+            $searchSql = '';
+        }
 
         if ($positionCateId != 0) {
             $positionSql = "  and p.positionCateId= $positionCateId ";
@@ -179,11 +186,11 @@ class PositionManagement extends IndexBase
         }
 
         $positionModel = new PositionManagementModel();
-        list($result, $total) = $positionModel->filter($positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql, $provinceSql, $citySql, $areaSql, $pageIndex, $pageSize);
+        list($result, $total) = $positionModel->filter($searchSql, $positionSql, $salarySql, $educationSql, $workYearSql, $isSoldierPrioritySql, $labelIdsSql, $provinceSql, $citySql, $areaSql, $pageIndex, $pageSize);
 
         foreach ($result as $k => $v) {
-            $result[$k]['createDate'] = date('Y-m-d',strtotime($v['createTime']));
-            $result[$k]['updateDate'] = date('Y-m-d',strtotime($v['updateTime']));
+            $result[$k]['createDate'] = date('Y-m-d', strtotime($v['createTime']));
+            $result[$k]['updateDate'] = date('Y-m-d', strtotime($v['updateTime']));
             $result[$k]['labelIds'] = json_decode($v['labelIds'], true);
         }
 
@@ -210,8 +217,8 @@ class PositionManagement extends IndexBase
         $pageArr = $pageData['data'];
 
         foreach ($pageArr as $k => $v) {
-            $pageArr[$k]['createDate'] = date('Y-m-d',strtotime($v['createTime']));
-            $pageArr[$k]['updateDate'] = date('Y-m-d',strtotime($v['updateTime']));
+            $pageArr[$k]['createDate'] = date('Y-m-d', strtotime($v['createTime']));
+            $pageArr[$k]['updateDate'] = date('Y-m-d', strtotime($v['updateTime']));
             $pageArr[$k]['labelIds'] = json_decode($v['labelIds'], true);
         }
 
