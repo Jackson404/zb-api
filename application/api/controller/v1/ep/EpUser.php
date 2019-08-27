@@ -735,7 +735,7 @@ class EpUser extends EpUserBase
 
             $xx = 'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' . $access_token;
 //            $scene = "$userId&$positionId&$orderId";
-            $scene = "$userId&$positionId";
+            $scene = "$userId#$positionId#";
             $page = "pages/jobinfo/jobinfo";
 //            $page = "pages/index/index";
 
