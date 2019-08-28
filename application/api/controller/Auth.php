@@ -78,10 +78,10 @@ class Auth extends Controller
 //            exit;
 //        }
 
-        if ($accessTokenResult != $result) {
-            Util::printResult('-003', 'access_token错误');
-            exit;
-        }
+//        if ($accessTokenResult != $result) {
+//            Util::printResult('-003', 'access_token错误');
+//            exit;
+//        }
     }
 
     private function authRule($grantType, $webId, $secret, $timeStamp)

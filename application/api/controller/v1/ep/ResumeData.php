@@ -191,6 +191,10 @@ class ResumeData extends EpUserBase
         ];
 
         $delRow = $epResumeCateModel->isUpdate(true)->save($arr);
+
+        $erm = new EpResumeModel();
+        $erm->delByCertId($resumeCateId);
+
         if ($delRow > 0) {
             $data['delRow'] = $delRow;
             Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
@@ -210,7 +214,7 @@ class ResumeData extends EpUserBase
 
         $list = $epResumeCateModel->getResumeCateListByUserId($userId);
         $list->unshift(['id'=>0,'name'=>'未分组']);
-        $list->unshift(['id'=>-1,'name'=>'全部分组']);
+//        $list->unshift(['id'=>-1,'name'=>'全部分组']);
 //        $list->push(['id'=>-1,'name'=>'全部分组']);
 //        $list->push(['id'=>0,'name'=>'未分组']);
 //        var_dump($list->toArray());
@@ -500,6 +504,13 @@ class ResumeData extends EpUserBase
                 $xxDetail->setAttr('epResumeRecordId', $v->id);
                 $xxDetail->setAttr('uniqueCode', $xxDetail->idCard . '|' . $xxDetail->phone . '|' . $source);
                 array_push($list, $xxDetail);
+            }
+        }
+        foreach ($list as $key=>$value){
+            if($value['gender'] == 0){
+                $list[$key]['gender'] = '女';
+            }else{
+                $list[$key]['gender'] = '男';
             }
         }
         $x['pageIndex'] = $pageIndex;
