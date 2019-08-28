@@ -36,8 +36,8 @@
 						<el-table-column width="250" property="name" label="分组名称"></el-table-column>
 						<el-table-column label="操作" width="150">
 							<template slot-scope="scope">
-								<el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-								<el-button type="text" size="small" @click="handleClick1(scope.row)">删除</el-button>
+								<el-button :disabled="scope.row.name == '未分组'" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+								<el-button :disabled="scope.row.name == '未分组'" type="text" size="small" @click="handleClick1(scope.row)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
