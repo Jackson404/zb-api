@@ -90,7 +90,7 @@
 						<el-table-column prop="school" label="学校" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="workYear" label="工作经验" width="120"></el-table-column>
 						<el-table-column prop="exPosition" label="期望职位" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="exSalary" label="期望薪资" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="exCity" label="地区" show-overflow-tooltip></el-table-column>
 
 						<el-table-column label="操作" width="100">
 							<template slot-scope="scope">
