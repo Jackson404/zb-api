@@ -15,6 +15,16 @@
 								<el-menu-item index="'1-'+(index+1)" v-for="(item, index) in gridData" :key="index" @click="go(item.id)">{{ item.name }}<span style="float: right;font-size: 16px;">{{item.count}}</span></el-menu-item>
 							</el-menu-item-group>
 						</el-submenu>
+						<el-submenu index="2">
+							<template slot="title">
+								<i class="el-icon-menu"></i>
+								<span>投递简历</span>
+							</template>
+							<el-menu-item-group>
+								<!-- <el-menu-item index="1-1" @click="go(-1)">全部简历<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item> -->
+								<el-menu-item index="2-1">简历列表<span style="float: right;font-size: 16px;">10</span></el-menu-item>
+							</el-menu-item-group>
+						</el-submenu>
 						
 					</el-menu>
 				</el-col>
@@ -49,14 +59,17 @@
 				>
 					<el-table-column type="selection" width="55"></el-table-column>
 				
-					<el-table-column prop="name" label="姓名" width="120"></el-table-column>
-					<el-table-column prop="sex==0?'女':'男'" label="性别" width="120"></el-table-column>
-					<el-table-column prop="age" label="年龄" width="120"></el-table-column>
-					<el-table-column prop="educationName" label="学历" width="120"></el-table-column>
-					<el-table-column prop="school" label="居住地" show-overflow-tooltip></el-table-column>
+					
+					<el-table-column prop="name" label="姓名" width="100"></el-table-column>
+										
+					<el-table-column prop="age" label="年龄" width="50"></el-table-column>
+					
+					<el-table-column prop="phone" label="联系方式" width="150"></el-table-column>
+					<el-table-column prop="educationName" label="学历" width="80"></el-table-column>
 					<el-table-column prop="workYear" label="工作经验" width="120"></el-table-column>
-					<el-table-column prop="exPosition" label="目前职位" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="curStatus" label="状态" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="exPosition" label="期望职位" width="150"></el-table-column>
+					<el-table-column prop="school" label="居住地" width="100"></el-table-column>
+					
 				
 					<el-table-column label="操作" width="100">
 						<template slot-scope="scope">
