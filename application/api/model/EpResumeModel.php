@@ -264,4 +264,10 @@ class EpResumeModel extends Model
             ->update(['isDelete' => 1]);
     }
 
+    public function delByCertId($resumeCateId)
+    {
+        return $this->where('resumeCateId', '=', $resumeCateId)
+            ->update(['resumeCateId' => 0]);
+    }
+
 }
