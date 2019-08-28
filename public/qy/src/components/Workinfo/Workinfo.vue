@@ -51,7 +51,7 @@
 					</div>
 					<div class="l-r-list">
 						<div class="l-r-title">面试地址:</div>
-						<div class="l-r-con">{{list.interviewAddress}}</div>
+						<div class="l-r-con">{{list.address}}</div>
 					</div>
 					<div class="l-r-list" style="opacity: 0">
 						<div class="l-r-title">单位名称：</div>
