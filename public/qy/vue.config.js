@@ -1,3 +1,10 @@
 module.exports = {
-  lintOnSave: false
+  lintOnSave: false,
+  //webpack配置
+  configureWebpack: {
+    //关闭 webpack 的性能提示
+    performance: {
+      hints:false
+    }
+  }
 }
