@@ -32,12 +32,12 @@
 				
 
 				<el-popover placement="right" width="400" trigger="click">
-					<el-table :data="gridData">
-						<el-table-column width="250" property="name" label="分组名称"></el-table-column>
+					<el-table :data="gridData1">
+						<el-table-column v-if="name != '未分组'" width="250" property="name" label="分组名称"></el-table-column>
 						<el-table-column label="操作" width="150">
 							<template slot-scope="scope">
-								<el-button :disabled="scope.row.name == '未分组'" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-								<el-button :disabled="scope.row.name == '未分组'" type="text" size="small" @click="handleClick1(scope.row)">删除</el-button>
+								<el-button  @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+								<el-button  type="text" size="small" @click="handleClick1(scope.row)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -205,6 +205,7 @@ export default {
 	data() {
 		return {
 			gridData: [],
+			gridData1:[],
 			dialogFormVisible: false,
 			name: '',
 			dialogFormVisible1: false,
@@ -292,6 +293,15 @@ export default {
 					console.log(res)	
 					if (res.errorCode == 0) {
 						_this.gridData = res.data.list;
+						
+						for(var i=0;i<res.data.list.length;i++){
+							if(res.data.list[i].name=='未分组'){
+								
+							}else{
+								_this.gridData1.push(res.data.list[i])
+							}
+						}
+						
 						// _this.emNum=res.data.emNum;
 						// _this.reviewNum=res.data.reviewNum;
 					}
