@@ -213,16 +213,15 @@ class ResumeData extends EpUserBase
         $epResumeCateModel = new EpResumeCateModel();
 
         $list = $epResumeCateModel->getResumeCateListByUserId($userId);
-        $list->unshift(['id'=>0,'name'=>'未分组']);
-//        $list->unshift(['id'=>-1,'name'=>'全部分组']);
-//        $list->push(['id'=>-1,'name'=>'全部分组']);
-//        $list->push(['id'=>0,'name'=>'未分组']);
-//        var_dump($list->toArray());
+        $list->unshift(['id' => -2, 'name' => '下载']);
+        $list->unshift(['id' => 0, 'name' => '投递']);
+//        $list->unshift(['id' => -1, 'name' => '全部分组']);
+
         $epResumeModel = new EpResumeModel();
         $listData = $list->toArray();
-        foreach ($listData  as $k=>$v){
+        foreach ($listData as $k => $v) {
             $resumeCateId = $v['id'];
-            $count = $epResumeModel->countByResumeCateId($userId,$resumeCateId);
+            $count = $epResumeModel->countByResumeCateId($userId, $resumeCateId);
             $listData[$k]['count'] = $count;
         }
 
@@ -239,7 +238,7 @@ class ResumeData extends EpUserBase
         $params = Request::instance()->param();
         $idCard = Check::check($params['idCard'] ?? ''); //身份证号
         $phone = Check::check($params['phone'] ?? ''); //手机号
-        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? 0); //简历分组id
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? -2); //简历分组id
         $userId = $GLOBALS['userId'];
 
         $epResumeModel = new EpResumeModel();
@@ -290,7 +289,7 @@ class ResumeData extends EpUserBase
 //        [{"idCard":0,"phone":123222222},{"idCard":0,"phone":123222222}]
         $params = Request::instance()->param();
         $json = $params['resumeJson'] ?? '';
-        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? 0);
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? -2);
 
         $userId = $GLOBALS['userId'];
 
@@ -342,59 +341,59 @@ class ResumeData extends EpUserBase
 
     }
 
-    /**
-     * 获取企业用户的简历列表
-     */
-    public function getEpResumeList()
-    {
-        $params = Request::instance()->param();
-        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
-        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
-
-        $userId = $GLOBALS['userId'];
-        $epResumeModel = new EpResumeModel();
-
-        $page = $epResumeModel->getListByUserIdPage($userId, $pageIndex, $pageSize);
-        $pageData = $page->toArray();
-
-        $pageData = $pageData['data'];
-
-        $resumeModel = new ResumeModel();
-        $resumeData = new DataResume();
-        $total = $page->total();
-
-        $list = array();
-        foreach ($pageData as $k => $v) {
-            $source = $v['source'];
-
-            if ($source == 1) {
-                $resumeId = $v['resumeId'];
-                $xDetail = $resumeModel->getDetailForShow($resumeId);
-                $xData = $xDetail->toArray();
-                $xData['birthYear'] = '';
-                $xData['habitation'] = '';
-                $xData['source'] = 1;
-                array_push($list, $xData);
-            }
-
-            if ($source == 2) {
-                $xxDetail = $detail = $resumeData->detailForShowPage($v['idCard'], $v['phone']);
-                $xxData = $xxDetail->toArray();
-                $xxData['age'] = '';
-                $xxData['curStatus'] = '';
-                $xxData['source'] = 2;
-                array_push($list, $xxData);
-            }
-
-        }
-        $x['pageIndex'] = $pageIndex;
-        $x['pageSize'] = $pageSize;
-        $x['total'] = $total;
-        $x['data'] = $list;
-
-        $data['page'] = $x;
-        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
-    }
+//    /**
+//     * 获取企业用户的简历列表
+//     */
+//    public function getEpResumeList()
+//    {
+//        $params = Request::instance()->param();
+//        $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
+//        $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
+//
+//        $userId = $GLOBALS['userId'];
+//        $epResumeModel = new EpResumeModel();
+//
+//        $page = $epResumeModel->getListByUserIdPage($userId, $pageIndex, $pageSize);
+//        $pageData = $page->toArray();
+//
+//        $pageData = $pageData['data'];
+//
+//        $resumeModel = new ResumeModel();
+//        $resumeData = new DataResume();
+//        $total = $page->total();
+//
+//        $list = array();
+//        foreach ($pageData as $k => $v) {
+//            $source = $v['source'];
+//
+//            if ($source == 1) {
+//                $resumeId = $v['resumeId'];
+//                $xDetail = $resumeModel->getDetailForShow($resumeId);
+//                $xData = $xDetail->toArray();
+//                $xData['birthYear'] = '';
+//                $xData['habitation'] = '';
+//                $xData['source'] = 1;
+//                array_push($list, $xData);
+//            }
+//
+//            if ($source == 2) {
+//                $xxDetail = $detail = $resumeData->detailForShowPage($v['idCard'], $v['phone']);
+//                $xxData = $xxDetail->toArray();
+//                $xxData['age'] = '';
+//                $xxData['curStatus'] = '';
+//                $xxData['source'] = 2;
+//                array_push($list, $xxData);
+//            }
+//
+//        }
+//        $x['pageIndex'] = $pageIndex;
+//        $x['pageSize'] = $pageSize;
+//        $x['total'] = $total;
+//        $x['data'] = $list;
+//
+//        $data['page'] = $x;
+//        Util::printResult($GLOBALS['ERROR_SUCCESS'], $data);
+//    }
 
     /**
      * 简历修改分组
@@ -474,7 +473,7 @@ class ResumeData extends EpUserBase
         $params = Request::instance()->param();
         $pageIndex = Check::checkInteger($params['pageIndex'] ?? 1);
         $pageSize = Check::checkInteger($params['pageSize'] ?? 10);
-        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? ''); //简历分类id  -1获取全部
 
         $userId = $GLOBALS['userId'];
         $epResumeModel = new EpResumeModel();
@@ -506,10 +505,10 @@ class ResumeData extends EpUserBase
                 array_push($list, $xxDetail);
             }
         }
-        foreach ($list as $key=>$value){
-            if($value['gender'] == 0){
+        foreach ($list as $key => $value) {
+            if ($value['gender'] == 0) {
                 $list[$key]['gender'] = '女';
-            }else{
+            } else {
                 $list[$key]['gender'] = '男';
             }
         }
