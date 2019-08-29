@@ -139,6 +139,7 @@ class EpOrderApply extends IndexBase
                 'userId' => $shareUserId,
                 'resumeId' => $resumeId,
                 'source' => 1,
+                'resumeCateId' => -2,
                 'createTime' => currentTime(),
                 'createBy' => $shareUserId,
                 'updateTime' => currentTime(),
@@ -179,7 +180,7 @@ class EpOrderApply extends IndexBase
         $resumeModel = new ResumeModel();
 
         if (!$resumeModel->checkUserHasCreateResume($applyUserId)) {
-            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'],'用户简历不存在');
+            Util::printResult($GLOBALS['ERROR_PARAM_WRONG'], '用户简历不存在');
             exit;
         }
         $resume = $resumeModel->getUserResume($applyUserId);
@@ -233,6 +234,7 @@ class EpOrderApply extends IndexBase
                 'userId' => $shareUserId,
                 'resumeId' => $resumeId,
                 'source' => 1,
+                'resumeCateId' => -2,
                 'createTime' => currentTime(),
                 'createBy' => $shareUserId,
                 'updateTime' => currentTime(),

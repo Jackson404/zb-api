@@ -14,6 +14,7 @@ class EpResumeCateModel extends Model
     {
         return $this->where('userId', '=', $userId)
             ->where('isDelete', '=', 0)
+            ->field('id,name')
             ->select();
     }
 

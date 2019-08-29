@@ -21,9 +21,9 @@
 			</div>
 			
 			<div class="content">
-				<div class="c-top">
-					<div class="c-t-left">{{data}} 订单</div>
-					<div class="c-t-right" v-if="isFinish==1">
+				<div class="c-top"  v-if="isFinish==1">
+					<div class="c-t-left" >{{data}} 订单</div>
+					<div class="c-t-right">
 						 <el-date-picker
 						  v-model="value2"
 						  type="month"
@@ -35,7 +35,7 @@
 						</el-date-picker>
 					</div>
 				</div>
-				<div class="c-t-c">
+				<div class="c-t-c" v-if="isFinish==1">
 					<div class="c-t-list">收益: {{incomeMonth}}</div>
 					<div class="c-t-list">已完成订单: {{orderNumMonth}}</div>
 					<div class="c-t-list">总入职人数: {{entryNumMonth}}</div>

@@ -8,21 +8,11 @@
 						<el-submenu index="1">
 							<template slot="title">
 								<i class="el-icon-menu"></i>
-								<span>简历分类</span>
+								<span>简历分组</span>
 							</template>
 							<el-menu-item-group>
 								<!-- <el-menu-item index="1-1" @click="go(-1)">全部简历<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item> -->
 								<el-menu-item index="'1-'+(index+1)" v-for="(item, index) in gridData" :key="index" @click="go(item.id)">{{ item.name }}<span style="float: right;font-size: 16px;">{{item.count}}</span></el-menu-item>
-							</el-menu-item-group>
-						</el-submenu>
-						<el-submenu index="2">
-							<template slot="title">
-								<i class="el-icon-menu"></i>
-								<span>投递简历</span>
-							</template>
-							<el-menu-item-group>
-								<!-- <el-menu-item index="1-1" @click="go(-1)">全部简历<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item> -->
-								<el-menu-item index="2-1">简历列表<span style="float: right;font-size: 16px;">10</span></el-menu-item>
 							</el-menu-item-group>
 						</el-submenu>
 						
@@ -35,9 +25,10 @@
 					<el-table :data="gridData1">
 						<el-table-column v-if="name != '未分组'" width="250" property="name" label="分组名称"></el-table-column>
 						<el-table-column label="操作" width="150">
-							<template slot-scope="scope">
-								<el-button  @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-								<el-button  type="text" size="small" @click="handleClick1(scope.row)">删除</el-button>
+
+							<template slot-scope="scope" v-if="scope.row.isEdit">
+								<el-button :disabled="scope.row.name == '未分组'" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+								<el-button :disabled="scope.row.name == '未分组'" type="text" size="small" @click="handleClick1(scope.row)">删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -67,16 +58,16 @@
 					<el-table-column prop="phone" label="联系方式" width="150"></el-table-column>
 					<el-table-column prop="educationName" label="学历" width="80"></el-table-column>
 					<el-table-column prop="workYear" label="工作经验" width="120"></el-table-column>
-					<el-table-column prop="exPosition" label="期望职位" width="150"></el-table-column>
-					<el-table-column prop="school" label="居住地" width="100"></el-table-column>
+					<el-table-column prop="exPosition" label="期望职位" width="200"></el-table-column>
+					<el-table-column prop="school" label="居住地" width="150"></el-table-column>
 					
 				
-					<el-table-column label="操作" width="100">
+					<!-- <el-table-column label="操作" width="100">
 						<template slot-scope="scope">
 							<el-button @click="handleClick2(scope.row)" type="text" size="small">查看</el-button>
-							<!-- <el-button type="text" size="small">编辑</el-button> -->
+							
 						</template>
-					</el-table-column>
+					</el-table-column> -->
 				</el-table>
 				<div style="margin-top: 20px;display: flex;flex-wrap: nowrap;">
 					<!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
@@ -296,6 +287,8 @@ export default {
 						
 						for(var i=0;i<res.data.list.length;i++){
 							if(res.data.list[i].name=='未分组'){
+								
+							}else if(res.data.list[i].name=='投递'){
 								
 							}else{
 								_this.gridData1.push(res.data.list[i])

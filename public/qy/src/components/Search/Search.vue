@@ -11,6 +11,7 @@
 						<el-input style="width: 300px;;" v-model="posKey" placeholder="请输入您要输入的内容"></el-input>
 						<div style="width: 20px;"></div>
 						<el-button type="primary" @click="search">搜索</el-button>
+						<el-button size="medium" @click="des">清空搜索条件</el-button>
 					</div>
 				</div>
 				<!-- <div class="show-list">
@@ -264,6 +265,15 @@ export default {
 		this.categoryList();
 	},
 	methods: {
+		des:function(){
+			this.posKey=''
+			this.radio='不限'
+			this.radio1='不限'
+			this.checkList=['不限']
+			this.minAge=''
+			this.maxAge=''
+			this.categoryList();
+		},
 		getEmGroup: function() {
 			
 			

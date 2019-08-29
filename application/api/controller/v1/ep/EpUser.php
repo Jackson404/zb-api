@@ -81,24 +81,27 @@ class EpUser extends EpUserBase
 
         $epUserModel = new EpUserModel();
 
+        // 检查用户是否存在 不存在就提示 不存在账号
         if (!$epUserModel->checkPhoneExist($phone)) {
-            $username = '正步_' . Util::generateRandomCode(6);
-            $avatar = '/avatar/a1.png';
-            $data = [
-                'avatar' => $avatar,
-                'name' => $username,
-                'realname' => $username,
-                'phone' => $phone,
-                'createTime' => currentTime(),
-                'updateTime' => currentTime()
-            ];
-
-            $insertRow = $epUserModel->save($data);
-
-            if ($insertRow < 0) {
-                util::printResult($GLOBALS['ERROR_REGISTER'], '注册失败');
-                exit;
-            }
+            Util::printResult($GLOBALS['ERROR_USER_EXISTS'],'账号不存在');
+            return;
+//            $username = '正步_' . Util::generateRandomCode(6);
+//            $avatar = '/avatar/a1.png';
+//            $data = [
+//                'avatar' => $avatar,
+//                'name' => $username,
+//                'realname' => $username,
+//                'phone' => $phone,
+//                'createTime' => currentTime(),
+//                'updateTime' => currentTime()
+//            ];
+//
+//            $insertRow = $epUserModel->save($data);
+//
+//            if ($insertRow < 0) {
+//                util::printResult($GLOBALS['ERROR_REGISTER'], '注册失败');
+//                exit;
+//            }
         }
 
         $detail = $epUserModel->getByPhone($phone);

@@ -15,8 +15,8 @@
 					<div class="l-t-bom">
 						<div class="l-t-address">{{list.address}}</div>
 						<div class="l-t-rg">
-							<div class="l-t-btn" @click="share(list.id)">分享</div>
-							<div class="l-t-btn" @click="acc(list.id)">接单</div>
+							<div v-if="status" class="l-t-btn" @click="share(list.id)">分享</div>
+							<div v-else  class="l-t-btn" @click="acc(list.id)">接单</div>
 						</div>
 					</div>
 					<div class="l-t-tag"><div class="tag" v-for="(tag,index) in list.labelIds" :key="index">{{tag}}</div></div>
@@ -431,7 +431,7 @@ div {
 	flex: 1;
 }
 .l-t-rg {
-	width: 200px;
+	width: 100px;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
