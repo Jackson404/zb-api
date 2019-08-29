@@ -3,6 +3,7 @@ import Axios from 'axios'
 import VueCookies from 'vue-cookies'
 //设置公共得https
 Axios.defaults.baseURL = 'http://47.103.102.222'
+// Axios.defaults.baseURL = 'http://zb-api.local.com'
 // Axios.defaults.baseURL='https://yanyuan.soft-shop.cn/api/'
 // Axios.defaults.baseURL='https://www.luffycity.com/api/v1/'
 
