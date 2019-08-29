@@ -14,9 +14,17 @@
 
 					<div class="l-t-bom">
 						<div class="l-t-address">{{list.address}}</div>
-						<div class="l-t-rg">
-							<div v-if="status" class="l-t-btn" @click="share(list.id)">分享</div>
+						<div class="l-t-rg" style="position: relative;">
+							
+							<div v-if="status" class="l-t-btn" @click="share(list.id)">已接单</div>
 							<div v-else  class="l-t-btn" @click="acc(list.id)">接单</div>
+							<!-- 图片显示 -->
+							<div v-if="status" class="share_wrap">
+								<img class="share_img" src="https://pic.zhengbu121.com/20190829/mini_2019082902477.png" alt="邀请二维码" >
+								<div class="share-title">
+									扫码分享职位
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="l-t-tag"><div class="tag" v-for="(tag,index) in list.labelIds" :key="index">{{tag}}</div></div>
@@ -184,7 +192,8 @@ export default {
 			items:[],
 			status:0,
 			qrCode:0,
-			dialogVisible: false
+			dialogVisible: false,
+			visible:true
 		};
 	},
 	created() {
@@ -626,5 +635,14 @@ div {
 	line-height: 24px;
 	word-break: break-all;
 	text-indent: 2rem;
+}
+.share_wrap{
+	width: 200px;height: 240px;background: #fff;box-shadow:0px 0px 6px 0px rgba(0, 0, 0, 0.2);position: absolute;top: 45px;right: 0;box-sizing: border-box;padding: 10px;cursor: pointer;
+}
+.share_img{
+	width: 180px;height: 180px;display: block;
+}
+.share-title{
+	height: 40px;width: 100%;line-height: 40px;color:rgba(78,86,94,1);text-align: center;
 }
 </style>
