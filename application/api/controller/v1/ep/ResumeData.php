@@ -213,15 +213,19 @@ class ResumeData extends EpUserBase
         $epResumeCateModel = new EpResumeCateModel();
 
         $list = $epResumeCateModel->getResumeCateListByUserId($userId);
-        $list->unshift(['id' => 0, 'name' => '未分组']);
-        $list->unshift(['id' => -2, 'name' => '投递']);
+        $list->unshift(['id' => 0, 'name' => '未分组','isEdit'=>false]);
+        $list->unshift(['id' => -2, 'name' => '投递','isEdit'=>false]);
 
         $epResumeModel = new EpResumeModel();
         $listData = $list->toArray();
         foreach ($listData as $k => $v) {
             $resumeCateId = $v['id'];
+
             $count = $epResumeModel->countByResumeCateId($userId, $resumeCateId);
             $listData[$k]['count'] = $count;
+            if ($resumeCateId != 0 &&  $resumeCateId !=-2){
+                $listData[$k]['isEdit'] = true;
+            }
         }
 
         $data['list'] = $listData;
