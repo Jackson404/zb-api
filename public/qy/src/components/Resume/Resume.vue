@@ -8,21 +8,11 @@
 						<el-submenu index="1">
 							<template slot="title">
 								<i class="el-icon-menu"></i>
-								<span>简历分类</span>
+								<span>简历分组</span>
 							</template>
 							<el-menu-item-group>
 								<!-- <el-menu-item index="1-1" @click="go(-1)">全部简历<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item> -->
 								<el-menu-item index="'1-'+(index+1)" v-for="(item, index) in gridData" :key="index" @click="go(item.id)">{{ item.name }}<span style="float: right;font-size: 16px;">{{item.count}}</span></el-menu-item>
-							</el-menu-item-group>
-						</el-submenu>
-						<el-submenu index="2">
-							<template slot="title">
-								<i class="el-icon-menu"></i>
-								<span>投递简历</span>
-							</template>
-							<el-menu-item-group>
-								<!-- <el-menu-item index="1-1" @click="go(-1)">全部简历<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item> -->
-								<el-menu-item index="2-1">简历列表<span style="float: right;font-size: 16px;">10</span></el-menu-item>
 							</el-menu-item-group>
 						</el-submenu>
 						
@@ -35,7 +25,7 @@
 					<el-table :data="gridData">
 						<el-table-column width="250" property="name" label="分组名称"></el-table-column>
 						<el-table-column label="操作" width="150">
-							<template slot-scope="scope">
+							<template slot-scope="scope" v-if="scope.row.isEdit">
 								<el-button :disabled="scope.row.name == '未分组'" @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
 								<el-button :disabled="scope.row.name == '未分组'" type="text" size="small" @click="handleClick1(scope.row)">删除</el-button>
 							</template>
