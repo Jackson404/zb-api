@@ -213,9 +213,8 @@ class ResumeData extends EpUserBase
         $epResumeCateModel = new EpResumeCateModel();
 
         $list = $epResumeCateModel->getResumeCateListByUserId($userId);
-        $list->unshift(['id' => -2, 'name' => '下载']);
-        $list->unshift(['id' => 0, 'name' => '投递']);
-//        $list->unshift(['id' => -1, 'name' => '全部分组']);
+        $list->unshift(['id' => 0, 'name' => '未分组']);
+        $list->unshift(['id' => -2, 'name' => '投递']);
 
         $epResumeModel = new EpResumeModel();
         $listData = $list->toArray();
@@ -238,7 +237,7 @@ class ResumeData extends EpUserBase
         $params = Request::instance()->param();
         $idCard = Check::check($params['idCard'] ?? ''); //身份证号
         $phone = Check::check($params['phone'] ?? ''); //手机号
-        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? -2); //简历分组id
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ??  0); //简历分组id
         $userId = $GLOBALS['userId'];
 
         $epResumeModel = new EpResumeModel();
@@ -289,7 +288,7 @@ class ResumeData extends EpUserBase
 //        [{"idCard":0,"phone":123222222},{"idCard":0,"phone":123222222}]
         $params = Request::instance()->param();
         $json = $params['resumeJson'] ?? '';
-        $resumeCateId = Check::checkInteger($params['resumeCateId'] ?? -2);
+        $resumeCateId = Check::checkInteger($params['resumeCateId'] ??  0);
 
         $userId = $GLOBALS['userId'];
 
