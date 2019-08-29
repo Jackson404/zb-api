@@ -431,7 +431,7 @@ div {
 	flex: 1;
 }
 .l-t-rg {
-	width: 200px;
+	width: 100px;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
