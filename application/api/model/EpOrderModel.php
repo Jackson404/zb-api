@@ -123,13 +123,14 @@ class EpOrderModel extends Model
         }
         $res = $this->alias('o')
             ->join('zb_position_management p', 'o.positionId=p.id', 'left')
+            ->join('zb_company_management com', 'com.id=p.companyId', 'left')
             ->join('zb_enterprise_user eu', 'o.userId=eu.id', 'left')
             ->where('p.endTime', $con, time())
             ->where('o.recOrderYear', '=', $recOrderYear)
             ->where('o.recOrderMonth', '=', $recOrderMonth)
             ->where('o.userId', '=', $userId)
             ->where('o.isDelete', '=', 0)
-            ->field('o.id,o.orderId,o.userId,
+            ->field('o.id,o.orderId,o.userId,com.name as companyName,
             eu.name,eu.realname,eu.type,o.positionId,p.name as positionName,p.unitPrice,o.applyNum,o.interviewNum,o.entryNum,o.income,
             o.recOrderYear,o.recOrderMonth,
             o.createTime,o.createBy,o.updateTime,o.updateBy')

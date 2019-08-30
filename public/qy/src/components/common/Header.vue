@@ -65,11 +65,11 @@ export default {
 					url: 'Order',
 					check: false
 				},
-				{
-					name: '员工管理',
-					url: 'Staff',
-					check: false
-				},
+				// {
+				// 	name: '员工管理',
+				// 	url: 'Staff',
+				// 	check: false
+				// },
 				{
 					name:'简历搜索',
 					url:'Search',

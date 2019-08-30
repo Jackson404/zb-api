@@ -20,27 +20,28 @@
 				<div class="n-bar" :class="[!status ? 'check' : '']" @click="one1()">进行中的订单</div>
 			</div>
 			
-			<div class="content">
-				<div class="c-top"  v-if="isFinish==1">
-					<div class="c-t-left" >{{data}} 订单</div>
-					<div class="c-t-right">
-						 <el-date-picker
-						  v-model="value2"
-						  type="month"
-						  placeholder="选择日期"
-						  value-format="yyyy-MM"
-						  style="cursor: pointer;"
-						  @change="date"
-						  >
-						</el-date-picker>
-					</div>
-				</div>
-				<div class="c-t-c" v-if="isFinish==1">
-					<div class="c-t-list">收益: {{incomeMonth}}</div>
-					<div class="c-t-list">已完成订单: {{orderNumMonth}}</div>
-					<div class="c-t-list">总入职人数: {{entryNumMonth}}</div>
-			
-				</div>
+
+<!--			<div class="content">-->
+<!--				<div class="c-top">-->
+<!--					<div class="c-t-left">{{data}} 订单</div>-->
+<!--					<div class="c-t-right" v-if="isFinish==1">-->
+<!--						 <el-date-picker-->
+<!--						  v-model="value2"-->
+<!--						  type="month"-->
+<!--						  placeholder="选择日期"-->
+<!--						  value-format="yyyy-MM"-->
+<!--						  style="cursor: pointer;"-->
+<!--						  @change="date"-->
+<!--						  >-->
+<!--						</el-date-picker>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--				<div class="c-t-c">-->
+<!--					<div class="c-t-list">收益: {{incomeMonth}}</div>-->
+<!--					<div class="c-t-list">已完成订单: {{orderNumMonth}}</div>-->
+<!--					<div class="c-t-list">总入职人数: {{entryNumMonth}}</div>-->
+<!--			-->
+<!--				</div>-->
 			
 				<div class="ul">
 					<div v-if="list.length>0">
@@ -56,10 +57,10 @@
 							<!-- 中间部分 -->
 							<div class="u-l-cen">
 								<div class="c-l-c-top">
-									<div class="c-l-c-t-left">岗位名称</div>
+									<div class="c-l-c-t-left">{{item.positionName}}</div>
 									<div class="c-l-c-t-right">￥:{{item.unitPrice}}元/人</div>
 								</div>
-								<div class="c-l-c-top" style="padding-bottom: 15px;"><div class="c-l-c-t-left">{{item.positionName}}</div></div>
+								<div class="c-l-c-top" style="padding-bottom: 15px;"><div class="c-l-c-t-left">{{item.companyName}}</div></div>
 			
 								<div class="c-c-wrap" style="position: relative;">
 									<div class="c-c-w-list">
