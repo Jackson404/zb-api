@@ -197,6 +197,9 @@ export default {
 		};
 	},
 	created() {
+		if (!this.$cookies.isKey('access_token')) {
+			this.$router.push({ name: 'Login', params: { userId: '123' } });
+		}
 		this.id=this.$route.params.id;
 		console.log(this.$route.params.id)
 		this.getinfo(this.$route.params.id);

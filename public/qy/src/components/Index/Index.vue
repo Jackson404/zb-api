@@ -4,6 +4,7 @@
 		<div class="hello" style="margin-top: 110px;">
 			<div style="width: 1200px;margin: 0 auto;padding: 20px 0;">
 				<div class="i-top">
+					<!-- 位置 -->
 					<el-dropdown>
 						<span class="el-dropdown-link">
 							上海
@@ -14,7 +15,7 @@
 
 					<div style="width: 50px;"></div>
 					
-					
+					<!-- 筛选类型 -->
 					<el-dropdown @command="handleCommand">
 					  <span class="el-dropdown-link" style="color: red;font-size: 16px;color: rgba(78, 86, 94, 1);">
 						{{zu}}<img src="../../assets/1.png" alt="" style="margin-left: 10px" />
@@ -26,7 +27,7 @@
 						
 					  </el-dropdown-menu>
 					</el-dropdown>
-
+					<!-- 关键词 筛选 -->
 					<div class="i-seach">
 						<div class="i-con">
 							<input type="text" class="form-control" v-model="keywords" placeholder="搜索岗位关键词" value="" style="height: 38px;line-height: 38px;" />
@@ -65,11 +66,7 @@
 												<div class="i-w-num">面试时间:{{ item.time }}</div>
 											</div>
 										</div>
-										<!-- <div v-if="item.hasRecOrder==0"
-											style="width: 120px;height: 34px;border:1px solid rgba(0,132,255,1);border-radius:18px;text-align: center;line-height: 34px;font-size:18px;font-family:AlibabaPuHuiTiR;font-weight:400;color:rgba(0,132,255,1);"
-										>
-											接单
-										</div> -->
+										
 										
 										<el-button v-if="item.hasRecOrder==0" type="primary" plain style="font-size: 18px;width: 120px;border-radius: 25px;">接单</el-button>
 										<el-button v-else type="primary" plain style="font-size: 18px;width: 120px;border-radius: 25px;" disabled>已接单</el-button>
@@ -79,6 +76,7 @@
 							</router-link>
 						</div>
 						</div>
+						<!-- 无岗位显示 -->
 						<div style="width: 100%;padding: 200px 0;" v-else>
 							<img src="../../assets/more333.png" alt="" style="display: block;margin: 0 auto;">
 							<div style="font-size: 16px;color: #555;text-align: center;letter-spacing: 4;padding: 10px 0;">暂时没有您搜索的岗位</div>
@@ -89,8 +87,8 @@
 					
 				
 				</div>
+				<!-- 分页 -->
 				<div style="padding: 50px 0;width: auto;margin: 0 auto;display: flex;justify-content: center;">
-					<!-- <el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="total" :current-page.sync="currentPage"></el-pagination> -->
 					<el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="total" ></el-pagination>
 				</div>
 			</div>
@@ -105,9 +103,6 @@ export default {
 	components: {
 		Header
 	},
-	props: {
-		msg: String
-	},
 	data() {
 		return {
 			list: [],
@@ -119,18 +114,14 @@ export default {
 		};
 	},
 	created() {
-		console.log('一登陆');
-		if (this.$cookies.isKey('access_token')) {
-			//已登录
-			console.log('已登陆');
-		} else {
-			//未登录
+		if (!this.$cookies.isKey('access_token')) {
 			this.$router.push({ name: 'Login', params: { userId: '123' } });
-			console.log('未登陆');
 		}
+		// 获取职位接口
 		this.categoryList();
 	},
 	methods: {
+		// 筛选
 		handleCommand(command) {
 			this.zu=command;
 			if(command=='不限'){
@@ -145,6 +136,7 @@ export default {
 			this.categoryList();
 			
 		 },
+		 // 关键字搜索
 		tap:function(){
 			if(this.keywords.length==0){
 				this.$message({
@@ -155,17 +147,9 @@ export default {
 				return;		
 			}
 			this.$router.push({ name: 'Searcresult', params: { id: this.keywords } });
-			
-			// this.categoryList();	
 		},
-		tui:function(){
-			
-			
-			
-			
-			
-		},
-		//互殴
+		
+		//职位列表查询
 		categoryList() {
 			this.$_loading = this.$loading({
 				lock: true,
@@ -187,7 +171,7 @@ export default {
 			this.$http
 				.filter(data)
 				.then(res => {
-					console.log(res);
+					
 					_this.$_loading.close();
 					if (res.errorCode == 0) {
 						var xx = res.data.page;
@@ -213,6 +197,7 @@ export default {
 		addZero(m) {
 			return m < 10 ? '0' + m : m;
 		},
+		// 时间戳转换时间
 		transformTime(timestamp = +new Date()) {
 			if (timestamp) {
 				var time = new Date(timestamp * 1000);
@@ -227,8 +212,9 @@ export default {
 				return '';
 			}
 		},
+		//分页
 		handleCurrentChange(e) {
-			console.log(e);
+			
 			this.page = e;
 			this.categoryList();
 		}
@@ -236,7 +222,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
 	margin: 40px 0 0;
@@ -316,23 +301,16 @@ div {
 	background: #fff;
 }
 .list {
-	/*		padding: 0 30px;*/
 	box-sizing: border-box;
 	transition-duration: 1s;
 	cursor: pointer;
 }
-/*
-	.list :hover {
-		background: #eee;
-	
-	}
-*/
+
 .i-list {
 	width: 1140px;
 	box-sizing: border-box;
 	padding: 10px 0;
 	border-bottom: 1px solid #f4f4f4;
-
 	margin: 0 auto;
 }
 

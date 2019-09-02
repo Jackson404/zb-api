@@ -3,6 +3,7 @@
 		<Header></Header>
 		<div class="wrap">
 			<div class="l-left">
+				<!-- 简历分组 -->
 				<el-col style="width: 100%;">
 					<el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
 						<el-submenu index="1">
@@ -11,7 +12,6 @@
 								<span>简历分组</span>
 							</template>
 							<el-menu-item-group>
-								<!-- <el-menu-item index="1-1" @click="go(-1)">全部简历<span style="float: right;font-size: 16px;">{{emNum}}</span></el-menu-item> -->
 								<el-menu-item index="'1-'+(index+1)" v-for="(item, index) in gridData" :key="index" @click="go(item.id)">{{ item.name }}<span style="float: right;font-size: 16px;">{{item.count}}</span></el-menu-item>
 							</el-menu-item-group>
 						</el-submenu>
@@ -20,7 +20,7 @@
 				</el-col>
 
 				
-
+				<!-- 操作分组 增删改 -->
 				<el-popover placement="right" width="400" trigger="click">
 					<el-table :data="gridData1">
 						<el-table-column v-if="name != '未分组'" width="250" property="name" label="分组名称"></el-table-column>
@@ -38,8 +38,9 @@
 				</el-popover>
 			</div>
 
+
 			<div class="right" style="padding-bottom: 20px;">
-				<!--	第一部分-->
+				<!--	列表-->
 				<el-table
 					ref="multipleTable"
 					:data="tableData"
@@ -70,8 +71,7 @@
 					</el-table-column> -->
 				</el-table>
 				<div style="margin-top: 20px;display: flex;flex-wrap: nowrap;">
-					<!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
-				
+					<!-- 移动 -->
 					<el-button  @click="toggleSelection(tableData)" style="padding: 12px 40px;">全选</el-button>
 					<el-dropdown style="margin-left: 10px;" @command="check">
 					  <el-button style="padding: 12px 30px;">
@@ -81,7 +81,7 @@
 						<el-dropdown-item v-for="(item, index) in gridData" :key="index" :command="index">{{ item.name }}</el-dropdown-item>
 					  </el-dropdown-menu>
 					</el-dropdown>
-					
+					<!-- 分页 -->
 					<!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
 					<div style="width: auto;margin: 0 auto;display: flex;justify-content: flex-end;">
 						<el-pagination background @current-change="handleCurrentChange" layout="prev, pager, next" :total="total" ></el-pagination>
@@ -94,7 +94,8 @@
 					
 				</div>
 			</div>
-
+			
+			<!-- 新增分组 -->
 			<el-dialog title="新增分组" :visible.sync="dialogFormVisible">
 				<el-form>
 					<el-form-item label="分组名称"><el-input v-model="name" autocomplete="off" placeholder="请输入分组名称"></el-input></el-form-item>
@@ -104,7 +105,7 @@
 					<el-button type="primary" @click="addZ">确 定</el-button>
 				</div>
 			</el-dialog>
-
+			<!-- 修改分组 -->
 			<el-dialog title="修改分组" :visible.sync="dialogFormVisible1">
 				<el-form>
 					<el-form-item label="分组名称"><el-input v-model="name1" autocomplete="off" placeholder="请输入分组名称"></el-input></el-form-item>
@@ -228,6 +229,9 @@ export default {
 			};
 	},
 	created() {
+		if (!this.$cookies.isKey('access_token')) {
+			this.$router.push({ name: 'Login', params: { userId: '123' } });
+		}
 		this.getEmGroup();
 		// this.getinfo()
 	},

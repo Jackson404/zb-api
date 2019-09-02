@@ -2,7 +2,7 @@
 	<div>
 		<Header></Header>
 
-		<div style="width: 1200px;margin: 0px auto;">
+		<div class="box">
 			<div style="height: 20px;"></div>
 			<div class="wrap">
 				<div class="list">
@@ -44,8 +44,12 @@ export default {
 		}
 	},
 	created() {
+		if (!this.$cookies.isKey('access_token')) {
+			this.$router.push({ name: 'Login', params: { userId: '123' } });
+		}
+		//获取传递过来的参数
 		this.id=this.$route.params.id;
-		console.log(this.$route.params)
+		//请求数据
 		this.getinfo(this.$route.params.id);
 		
 		
@@ -85,6 +89,9 @@ export default {
 <style scoped>
 div {
 	text-align: left;
+}
+.box{
+	width: 1200px;margin: 0px auto;
 }
 .wrap {
 	width: 100%;

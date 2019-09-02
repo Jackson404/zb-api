@@ -263,6 +263,9 @@ export default {
 		};
 	},
 	created() {
+		if (!this.$cookies.isKey('access_token')) {
+			this.$router.push({ name: 'Login', params: { userId: '123' } });
+		}
 		this.getEmGroup();
 		// this.getinfo()
 	},

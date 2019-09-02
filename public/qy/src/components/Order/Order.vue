@@ -14,35 +14,12 @@
 				</div>
 			</div>
 
-			<!-- top -->
+			<!-- 切换 -->
 			<div class="nav">
 				<div class="n-bar " :class="[status ? 'check' : '']" @click="one()">已完成的订单</div>
 				<div class="n-bar" :class="[!status ? 'check' : '']" @click="one1()">进行中的订单</div>
 			</div>
-			
 
-<!--			<div class="content">-->
-<!--				<div class="c-top">-->
-<!--					<div class="c-t-left">{{data}} 订单</div>-->
-<!--					<div class="c-t-right" v-if="isFinish==1">-->
-<!--						 <el-date-picker-->
-<!--						  v-model="value2"-->
-<!--						  type="month"-->
-<!--						  placeholder="选择日期"-->
-<!--						  value-format="yyyy-MM"-->
-<!--						  style="cursor: pointer;"-->
-<!--						  @change="date"-->
-<!--						  >-->
-<!--						</el-date-picker>-->
-<!--					</div>-->
-<!--				</div>-->
-<!--				<div class="c-t-c">-->
-<!--					<div class="c-t-list">收益: {{incomeMonth}}</div>-->
-<!--					<div class="c-t-list">已完成订单: {{orderNumMonth}}</div>-->
-<!--					<div class="c-t-list">总入职人数: {{entryNumMonth}}</div>-->
-<!--			-->
-<!--				</div>-->
-			
 				<div class="ul">
 					<div v-if="list.length>0">
 						
@@ -51,7 +28,6 @@
 						<router-link :to="{ name: 'Orderinfo', params: { id: item.orderId} }">
 							<div class="u-l-top">
 								<div class="u-l-t-left" >订单编号：{{item.orderId}}</div>
-								<!-- <div class="u-l-t-left" v-else>员工名称：{{item.companyName}}</div> -->
 								<div class="u-l-t-right">{{item.createTime}}</div>
 							</div>
 							<!-- 中间部分 -->
@@ -125,24 +101,25 @@ export default {
 		};
 	},
 	created() {
+		if (!this.$cookies.isKey('access_token')) {
+			this.$router.push({ name: 'Login', params: { userId: '123' } });
+		}
 		//获取已完成订单
 		this.handleClickk();
 	},
 	methods: {
+		//跳转首页
 		go(){
 			
 			this.$router.push({ name: 'Index', params: { id: 1 } });
 		},
-		date(){
-			console.log(this.value2);
-			this.handleClickk();
-		},
+		//已完成的订单
 		one() {
 			this.status = true;
 			this.isFinish=1;
 			this.handleClickk();
 		},
-		
+		//进行中的订单
 		one1() {
 			this.status = false;
 			this.isFinish=0;
@@ -171,8 +148,7 @@ export default {
 			this.$http
 				.getOrder(data)
 				.then(res => {
-					console.log(12344);
-					console.log(res);
+					
 					_this.$_loading.close();
 					
 					if (res.errorCode == 0) {

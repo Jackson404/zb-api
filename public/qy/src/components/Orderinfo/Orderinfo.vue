@@ -59,14 +59,20 @@ export default {
 		}
 	},
 	created() {
+		if (!this.$cookies.isKey('access_token')) {
+			this.$router.push({ name: 'Login', params: { userId: '123' } });
+		}
+		//获取传递的参数
 		this.orderId=this.$route.params.id;
-		
+		//获取内容
 		this.getinfo(this.$route.params.id);
 	},
 	methods:{
+		//返回
 		goBack(){
 			this.$router.go(-1);
 		},
+		//获取内容
 		getinfo(e){
 			
 			this.$_loading = this.$loading({
@@ -97,8 +103,7 @@ export default {
 					console.log(err);
 				});
 			
-			
-			
+
 			
 		},
 		

@@ -5,6 +5,7 @@
 			
 
 			<div class="content" >
+				<!-- 关键词搜索 -->
 				<div class="show-list">
 					<div class="show-title">关键词搜索：</div>
 					<div class="show-name">
@@ -14,15 +15,8 @@
 						<el-button size="medium" @click="des">清空搜索条件</el-button>
 					</div>
 				</div>
-				<!-- <div class="show-list">
-					<div class="show-title">期望地点：</div>
-					<div class="show-name">
-						<el-select v-model="value" placeholder="不限">
-							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-						</el-select>
-					</div>
-				</div> -->
-
+				
+				<!-- 工作经验 -->
 				<div class="show-list">
 					<div class="show-title">工作经验：</div>
 					<div class="show-name">
@@ -34,7 +28,7 @@
 						</el-radio-group>
 					</div>
 				</div>
-				
+				<!-- 学历水平 -->
 				<div class="show-list">
 					<div class="show-title">学历水平：</div>
 					<div class="show-name">
@@ -48,7 +42,7 @@
 						 </el-checkbox-group>
 					</div>
 				</div>
-
+				<!-- 性别 -->
 				<div class="show-list">
 					<div class="show-title">性别：</div>
 					<div class="show-name">
@@ -63,17 +57,10 @@
 				
 				
 				
-
+				<!-- 年龄范围 -->
 				<div class="show-list">
 					<div class="show-title">年龄范围：</div>
 					<div class="show-name" style="display: flex;align-items: center;">
-						<!-- <el-radio-group v-model="radio2">
-							<el-radio :label="3">不限</el-radio>
-							<el-radio :label="6">16-20岁</el-radio>
-							<el-radio :label="9">20-30岁</el-radio>
-							<el-radio :label="12">30-40岁</el-radio>
-							<el-radio :label="15">40-50岁</el-radio>
-						</el-radio-group> -->
 						<el-input v-model="minAge" placeholder="请输入年龄" style="width: 200px;" @blur="gose"></el-input>
 						<div style="width: 40px;height: 1px;background: #8492A6;margin: 0 20px;"></div>
 						<el-input v-model="maxAge" placeholder="请输入年龄" style="width: 200px;" @blur="gose"></el-input>
@@ -81,6 +68,7 @@
 				</div>
 
 				<div class="list">
+					<!-- 列表 -->
 					<el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 						<el-table-column type="selection" width="55"></el-table-column>
 
@@ -100,6 +88,7 @@
 							</template>
 						</el-table-column> -->
 					</el-table>
+					<!-- 操作 移动 全选 -->
 					<div style="margin-top: 20px;display: flex;flex-wrap: nowrap;align-items: center;">
 						<!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button> -->
 						<el-button @click="toggleSelection(tableData)" style="padding: 12px 40px;">全选</el-button>
@@ -114,6 +103,7 @@
 						</el-dropdown>
 						<!-- <el-button @click="toggleSelection()">取消选择</el-button> -->
 						<div style="flex: 1;display: flex;justify-content: flex-end;">
+							<!-- 分页 -->
 							<el-pagination
 								background
 								@current-change="handleCurrentChange"
@@ -252,19 +242,17 @@ export default {
 		};
 	},
 	created() {
-		console.log('一登陆');
-		if (this.$cookies.isKey('access_token')) {
-			//已登录
-			console.log('已登陆');
-		} else {
-			//未登录
+		
+		if (!this.$cookies.isKey('access_token')) {
 			this.$router.push({ name: 'Login', params: { userId: '123' } });
-			console.log('未登陆');
 		}
+		//获取分组
 		this.getEmGroup();
+		//获取简历信息
 		this.categoryList();
 	},
 	methods: {
+		// 一键重置
 		des:function(){
 			this.posKey=''
 			this.radio='不限'
@@ -274,25 +262,22 @@ export default {
 			this.maxAge=''
 			this.categoryList();
 		},
+		//获取分组
 		getEmGroup: function() {
 			
 			
 			var data = {
 				accessToken: '1565742674|145B1691263AEC04CC1722BA2EF68A86',
 				id_token: this.$cookies.get('access_token'),
-				// resumeCateId:parseInt(this.resumeCateId),
 			};
 		
 			var _this = this;
 			this.$http
 				.getEpResumeListByCate1(data)
 				.then(res => {
-					
-					console.log(res)	
 					if (res.errorCode == 0) {
 						_this.gridData = res.data.list;
-						// _this.emNum=res.data.emNum;
-						// _this.reviewNum=res.data.reviewNum;
+						
 					}
 					
 				})
@@ -300,6 +285,7 @@ export default {
 					console.log(err);
 				});
 		},
+		//年龄筛选
 		gose(){
 			if(this.minAge<1){return}
 			if(this.maxAge<1){return}
@@ -324,11 +310,12 @@ export default {
 			console.log(this.radio);
 			this.categoryList()
 		},
+		//性别筛选
 		sexone(){
 			this.categoryList()
 		},
+		//学历筛选
 		xueli(){
-			console.log(this.checkList)
 			for(var i=0;i<this.checkList.length;i++){
 				if(this.checkList[i]=='不限'){
 					this.checkList=['不限']
@@ -361,6 +348,7 @@ export default {
 			this.categoryList()
 			
 		},
+		//获取内容
 		categoryList() {
 			this.$_loading = this.$loading({
 				lock: true,

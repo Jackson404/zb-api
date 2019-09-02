@@ -8,7 +8,7 @@
 					</el-page-header>
 
 				</div>
-
+<!-- 列表 -->
 				<div class="i-wrap">
 					<div v-if="list.length>0">
 						<div class="list" v-for="(item, index) in list" :key="index">
@@ -93,6 +93,10 @@ export default {
 		};
 	},
 	created() {
+		if (!this.$cookies.isKey('access_token')) {
+			this.$router.push({ name: 'Login', params: { userId: '123' } });
+		}
+		//获取传递参数
 		this.keywords=this.$route.params.id;
 		this.categoryList();
 	},
@@ -102,7 +106,7 @@ export default {
 			this.$router.go(-1)
 		  },
 		
-		//互殴
+		//内容
 		categoryList() {
 			this.$_loading = this.$loading({
 				lock: true,

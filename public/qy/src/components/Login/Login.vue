@@ -12,15 +12,17 @@
 				class="demo-ruleForm"
 				style="border: 1px solid #ebebeb;box-sizing: border-box;padding: 80px 70px 50px 30px;"
 			>
+			<!-- 账号 -->
 				<el-form-item label="账号" prop="pass" style="text-align: center;">
 					<el-input type="text" v-model="ruleForm.pass" autocomplete="off" placeholder="请输入账号"></el-input>
 				</el-form-item>
+			<!-- 验证码 -->	
 				<el-form-item label="验证码" prop="checkPass" style="text-align: center;position: relative;">
 					<el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" placeholder="请输入验证码"></el-input>
 					<el-button @click="sendCode" v-if="send" type="primary" style="position: absolute;right: 0;top: 0;padding: 12px 30px;">获取验证码</el-button>
 					<el-button v-else type="primary" style="position: absolute;right: 0;top: 0;padding: 12px 30px;">{{ num }} s</el-button>
 				</el-form-item>
-
+			<!-- 登录重置 -->
 				<el-form-item>
 					<el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
 					<el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -35,6 +37,7 @@ export default {
 	name: 'Staff',
 
 	data() {
+		// 自定义验证规则 账号验证
 		var validatePass = (rule, value, callback) => {
 			if (value === '') {
 				callback(new Error('请输入账号'));
@@ -45,6 +48,7 @@ export default {
 				callback();
 			}
 		};
+		//验证码验证
 		var validatePass2 = (rule, value, callback) => {
 			if (value === '') {
 				callback(new Error('请输入验证码'));
@@ -68,11 +72,11 @@ export default {
 	},
 	created() {},
 	methods: {
+		// 登录
 		submitForm(formName) {
 			this.$refs[formName].validate(valid => {
 				if (valid) {
-					console.log(valid);
-					console.log(this);
+					
 
 					this.$_loading = this.$loading({
 						lock: true,
@@ -90,7 +94,7 @@ export default {
 					this.$http
 						.login(data)
 						.then(res => {
-							console.log(res);
+							// 关闭 loading
 							_this.$_loading.close();
 							//切换发送显示
 							_this.send = false;
@@ -145,10 +149,13 @@ export default {
 				}
 			});
 		},
+		// 重置
 		resetForm(formName) {
 			this.$refs[formName].resetFields();
 		},
+		// 发送验证码
 		sendCode() {
+			// 验证手机号不能为空
 			if (this.ruleForm.pass.length == 0) {
 				this.$message({
 					message: '请输入手机号哦',
@@ -166,7 +173,7 @@ export default {
 			this.$http
 				.sendSmss(data)
 				.then(res => {
-					console.log(res);
+					
 					//切换发送显示
 					_this.send = false;
 					if (res.errorCode == 0) {
@@ -190,9 +197,10 @@ export default {
 					}
 				})
 				.catch(err => {
-					console.log(err);
+					console.log('err');
 				});
 		},
+		// 倒计时显示
 		countdown() {
 			var num = 59;
 			var _this = this;
