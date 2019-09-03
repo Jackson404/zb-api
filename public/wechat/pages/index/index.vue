@@ -3,9 +3,9 @@
 		<view style="position: fixed;top: 0;left: 0;right: 0;z-index: 9999999;">
 		
 			<image src="https://521.zhengbu121.com/statics/images/321123.jpg"  style="width: 100%;display: block;height: 340upx;"></image>
-			<!-- 搜索想 -->
+			<!-- 搜索项 -->
 				  <view class="top" style="position: absolute;top: 180upx;left: 0;right: 0;background: rgba(255,255,255,0.1);">
-					   <view class="seach shadow" style="display: flex;flex-wrap: nowrap;justify-content: space-between;width: 100%;flex-direction: row;">
+					   <view class="seach shadow" style="display: flex;flex-wrap: nowrap;justify-content: space-between;width: 100%;">
 							<view class="s-left" style="width: 100upx;position: relative;">
 								<image src="../../static/xiao/search.png" mode="" style="width: 40upx;height: 40upx;position: absolute;left: 20upx;top:15upx ;"></image>
 							</view>
@@ -17,19 +17,12 @@
 							</view>
 					   </view>
 				  </view>
-				  <!-- <view style="height: 40upx;background:#fff;"></view> -->
-				  
-				  
+				<!-- 筛选项 -->
 				  <view class="grace-filter" id="grace-filter-header" style="display: flex;width: 100%;">
 				  	<!-- <view class="items" @tap='showOptions1'>行业<text class="grace-iconfont icon-arrow-down"></text></view> -->
 				  	<view class="items" @tap='showOptions2' style="felx:1">薪资<text class="grace-iconfont icon-arrow-down" ></text></view>
 					<view class="items" @tap='showOptions3' style="felx:1">要求<text class="grace-iconfont icon-arrow-down"></text></view>
 
-				  <!-- 	<view class="items" @tap='changePriceOrder'>
-				  		价格
-				  		<image src='../../static/imgs/sort1.png' mode='widthFix' v-if="priceOrder == 1"></image>
-				  		<image src='../../static/imgs/sort2.png' mode='widthFix' v-if="priceOrder == 2"></image>
-				  	</view> -->
 				  	<view class="items" @tap='showOptions99' style="felx:1">其他<text class="grace-iconfont icon-arrow-down"></text></view>
 				  	<!-- 第一个选项 -->
 				  	<view class='grace-filter-options'  v-if="showingIndex == 1" :style="{'width':'100%', 'height' : filterHeight, 'padding':'0','background':'rgba(0,0,0,0.5)'}">
@@ -103,11 +96,6 @@
 					<!-- 第二个选项 -->
 					<view class='grace-filter-options'  v-if="showingIndex2 == 3" :style="{'width':'100%', 'height' : filterHeight, 'padding':'0','background':'rgba(0,0,0,0.5)'}">
 						<view style="background: #fff;" >
-						<!-- <view :class="[index ==  cateIndex ? 'option current' : 'option']" v-for="(item, index) in cateList" :key="index" @tap='changeCate' :data-itemid="index">
-							{{item}}<text class="grace-iconfont icon-right" v-if="index ==  cateIndex"></text>
-						</view> -->
-						
-						<!-- <form @submit='formsubmit' @reset='formReset'> -->
 							<scroll-view scroll-y="true">
 								<view style="width:100%; padding:15upx 0;display: block;position: relative;overflow: scroll;" :style="{'height':filterHeight1}">
 									
@@ -148,14 +136,14 @@
 								</view>
 							</scroll-view>
 							
-					<!-- 	</form> -->
+					
 						
 						
 						</view>
 					</view>
 				  	<!-- 筛选 start -->
 				  	<view class='grace-filter-options'   :style="{'width':'100%', 'height' : filterHeight, 'padding':'0','background':'rgba(0,0,0,0.5)'}" v-if="showingIndex3 == 99">
-				  		<!-- <form @submit='formsubmit' @reset='formReset'> -->
+				  		
 				  			<scroll-view scroll-y="true" style="background: #fff;">
 				  				<view style="width:100%; padding:15upx 0;display: block;position: relative;overflow: scroll;" :style="{'height':filterHeight1}">
 				  					<view class="grace-h5 grace-blod" style="box-sizing: border-box;padding: 15upx;">福利待遇</view>
@@ -193,7 +181,7 @@
 				  			</scroll-view>
 				  			<!-- 按钮  -->
 				  			
-				  <!-- 		</form> -->
+				 
 				  	</view>
 				  	<!-- 筛选 end -->
 				  </view>

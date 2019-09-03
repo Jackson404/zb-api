@@ -7,7 +7,7 @@
 	white-space: nowrap;
 }
 .name{color: #333;font-size: 35rpx;}
-.tag{height: 20px;padding: 0 10px;line-height: 20px;font-size: 24rpx;color: #FF6969;border: 1px solid #FF6969;-webkit-border-radius: 15px;border-radius: 15px;}
+.tag{height: 20px;padding: 0 10px;line-height: 20px;font-size: 24rpx;color: #FF6969;border: 1px solid #FF6969;border-radius: 15px;}
 .money{color: #363292;font-size: 32rpx;}
 .title1{display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;}
 .gg{font-size: 30rpx;color: #666;}

@@ -197,7 +197,7 @@
 								if (res.confirm) {
 									//填写简历
 									uni.navigateTo({
-										url: '../../pagesA/jianli/jianliadd'
+										url: '../jianli/jianliadd'
 									});
 								} else if (res.cancel) {
 									console.log('用户点击取消');
@@ -274,19 +274,19 @@
 			showModal11(e){
 				
 				if(this.username==''){
-// 					uni.showToast({
-// 						title: '姓名不能为空',
-// 						icon: "none"
-// 					})
-					alert('姓名不能为空');
+				uni.showToast({
+						title:'姓名不能为空',
+						icon:"none"
+					});
+					
 					return;
 				}
 				if(this.phone==''){
-				// 					uni.showToast({
-				// 						title: '姓名不能为空',
-				// 						icon: "none"
-				// 					})
-									alert('联系方式不能为空');
+				
+					uni.showToast({
+							title:'联系方式不能为空',
+							icon:"none"
+						});	
 									return;
 								}	
 

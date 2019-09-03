@@ -1,42 +1,43 @@
 
-page{
-		height: 100%;
-		width: 100%;
-		background: #fff;
+page {
+	height: 100%;
+	width: 100%;
+	background: #fff;
 }
 .cu-form-group .title {
-		min-width: -webkit-calc(4em + 15px);
-		min-width: calc(4em + 15px);
+	min-width: calc(4em + 15px);
 }
-.cu-form-group{
+.cu-form-group {
 	border: none !important;
 }
-.title{color: #666;}
+.title {
+	color: #666;
+}
 .cu-form-group picker .picker {
-		border: 1px solid #EDEDED;
-	  line-height: 60rpx;
-	  font-size: 28rpx;
-	  -o-text-overflow: ellipsis;
-	     text-overflow: ellipsis;
-	  white-space: nowrap;
-	  overflow: hidden;
-	  width: 100%;
-	  text-align: center;
+	border: 1px solid #EDEDED;
+	line-height: 60rpx;
+	font-size: 28rpx;
+	-o-text-overflow: ellipsis;
+	   text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 100%;
+	text-align: center;
 }
 .cu-form-group .title {
-	  text-align: justify;
-	  font-size: 30rpx;
-	  position: relative;
-	  height: 60rpx;
-	  line-height: 60rpx;
-		width: 30%;
+	text-align: justify;
+	font-size: 30rpx;
+	position: relative;
+	height: 60rpx;
+	line-height: 60rpx;
+	width: 30%;
 }
-.cu-dialog{
-		display: none;
+.cu-dialog {
+	display: none;
 }
-.input1{
-		font-size: 28rpx;
-		color: #555;
-		padding-right: 25rpx;
+.input1 {
+	font-size: 28rpx;
+	color: #555;
+	padding-right: 25rpx;
 }
 

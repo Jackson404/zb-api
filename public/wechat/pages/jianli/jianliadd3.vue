@@ -5,12 +5,12 @@
 			
 			<view class="cu-form-group" style="display: block;">
 				<view class="title" style="padding-top: 20upx;">优势/技能</view>
-				<textarea v-model="skill" style="background: #F6F6F6;box-sizing: border-box;padding: 15upx;height: 220upx;" maxlength="-1" :disabled="modalName!=null" @input="textareaAInput" placeholder="请填写您拥有的技能"></textarea>
+				<textarea v-model="skill" style="background: #F6F6F6;box-sizing: border-box;padding: 15upx;height: 220upx;" maxlength="-1"  placeholder="请填写您拥有的技能"></textarea>
 			</view>
 			
 			<view class="cu-form-group" style="display: block;">
 				<view class="title" style="padding-top: 20upx;">自我评价</view>
-				<textarea v-model="evaluate" style="background: #F6F6F6;box-sizing: border-box;padding: 15upx;height: 220upx;"  maxlength="-1" :disabled="modalName!=null" @input="textareaAInput" placeholder="请填写自我评价"></textarea>
+				<textarea v-model="evaluate" style="background: #F6F6F6;box-sizing: border-box;padding: 15upx;height: 220upx;"  maxlength="-1"  placeholder="请填写自我评价"></textarea>
 			</view>
 			
 			
@@ -107,7 +107,7 @@
 								
 								setTimeout(function(){
 									uni.switchTab({
-										url:"../../pages/jianli/jianli"
+										url:"jianli"
 									})
 								}, 1000);
 							}else{

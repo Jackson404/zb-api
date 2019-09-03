@@ -10,19 +10,12 @@
     "pages/jobinfo/jobinfo",
     "pages/resume/resume",
     "pages/resume/resume1",
-    "pages/resume/resume2"
+    "pages/resume/resume2",
+    "pages/jianli/jianliadd3",
+    "pages/jianli/jianliadd2",
+    "pages/jianli/jianliadd"
   ],
-  "subPackages": [
-    {
-      "root": "pagesA",
-      "pages": [
-        "phone/phone",
-        "jianli/jianliadd3",
-        "jianli/jianliadd2",
-        "jianli/jianliadd"
-      ]
-    }
-  ],
+  "subPackages": [],
   "window": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "正步网络科技",
@@ -50,14 +43,6 @@
       }
     ]
   },
-  "preloadRule": {
-    "pagesA/phone/phone": {
-      "network": "all",
-      "packages": [
-        "pagesA"
-      ]
-    }
-  },
   "permission": {},
-  "sitemapLocation": "sitemap48.json"
+  "sitemapLocation": "sitemap0.json"
 }

@@ -71,41 +71,28 @@
 		    "style" : {
 				"navigationBarTitleText": "退伍信息"
 			}
-		}
-    ],
-	"subPackages": [{
-        "root": "pagesA",
-        "pages": [{
-            "path": "phone/phone",
-            "style": {}
-        },
+		},
 		{
-		    "path": "jianli/jianliadd3",
+		    "path": "pages/jianli/jianliadd3",
 		    "style": {
 				"navigationBarTitleText": "退伍信息"
 			}
 		},
 		{
-		    "path": "jianli/jianliadd2",
+		    "path": "pages/jianli/jianliadd2",
 		    "style": {
 				"navigationBarTitleText": "求职信息"
 			}
 		},
 		{
-		    "path": "jianli/jianliadd",
+		    "path": "pages/jianli/jianliadd",
 		    "style": {
 				"navigationBarTitleText": "基本信息"
 			}
 		}
-		]
-    }],
-    "preloadRule": {
-        "pagesA/phone/phone": {
-            "network": "all",
-            "packages": ["pagesA"]
-        }
-        
-    },
+    ],
+	
+   
 	"tabBar": {
 		"color": "#000000",
 		"selectedColor": "#2F85FC",
