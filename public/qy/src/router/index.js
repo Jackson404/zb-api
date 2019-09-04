@@ -16,7 +16,7 @@ import Orderinfo from '@/components/Orderinfo/Orderinfo'
 import Login from '@/components/Login/Login'
 import Restiger from '@/components/Restiger/Restiger'
 import Searcresult from '@/components/Searcresult/Searcresult'
-
+import Setmeal from '@/components/Setmeal/Setmeal'
 
 export default new Router({
 	linkActiveClass:'check',
@@ -95,7 +95,12 @@ export default new Router({
 			path:'/search_result/:id',
 			name:'Searcresult',
 			component:Searcresult
-		}
+		},
+		{
+			path:'/setmeal',
+			name:'Setmeal',
+			component:Setmeal
+		},
 		
 		
 		

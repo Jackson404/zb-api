@@ -2,9 +2,17 @@
 	<div>
 		<Header></Header>
 		<div class="wrap">
+			<!-- 头部 -->
 			
-
+<!-- 关键词搜索 -->
+				<div class="nav">
+					<div class="nav-bar" :class="item.check?'check':''" v-for="(item,index) in nav" :key="index" @click="checkNav(index)">{{item.name}}</div>
+					
+				</div>
 			<div class="content" >
+				
+				
+				
 				<!-- 关键词搜索 -->
 				<div class="show-list">
 					<div class="show-title">关键词搜索：</div>
@@ -68,6 +76,9 @@
 				</div>
 
 				<div class="list">
+					
+					
+					
 					<!-- 列表 -->
 					<el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
 						<el-table-column type="selection" width="55"></el-table-column>
@@ -201,8 +212,26 @@ export default {
 		return {
 			status: true,
 			tableData: [],
-			 checkList: ['不限'],
+			checkList: ['不限'],
 			multipleSelection: [],
+			nav:[
+				{
+					name:'普通简历搜索',
+					check:true
+				},
+				{
+					name:'司机类(已开通)',
+					check:false
+				},
+				{
+					name:'运输类(已开通)',
+					check:false
+				},
+				{
+					name:'安全类(未开通)',
+					check:false
+				},
+			],
 			options: [
 				{
 					value: '选项1',
@@ -261,6 +290,20 @@ export default {
 			this.minAge=''
 			this.maxAge=''
 			this.categoryList();
+		},
+		checkNav(e){
+			for(var i=0;i<this.nav.length;i++){
+				if(i==e){
+					this.nav[i].check=true
+					
+				}else{
+					this.nav[i].check=false
+				}
+				
+				
+			}
+			
+			
 		},
 		//获取分组
 		getEmGroup: function() {
@@ -584,5 +627,23 @@ div {
 
 .el-menu-item-group__title {
 	display: none !important;
+}
+.nav{
+	width: 100%;
+	height: 50px !important;
+	line-height: 50px !important;
+	background: #0084FF;
+	box-sizing: border-box;
+	padding: 0 50px;
+}
+.nav-bar{
+	color: #fff;
+	padding: 0 20px;
+	border: 0;
+	cursor: pointer;
+}
+.check{
+	color: #333;
+	background: #fff;
 }
 </style>

@@ -61,6 +61,11 @@ export default {
 					check: true
 				},
 				{
+					name: '增值套餐',
+					url: 'Setmeal',
+					check: false
+				},
+				{
 					name: '订单管理',
 					url: 'Order',
 					check: false
