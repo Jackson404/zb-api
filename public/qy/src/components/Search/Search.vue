@@ -84,14 +84,14 @@
 						<el-table-column type="selection" width="55"></el-table-column>
 
 						<el-table-column prop="name" label="姓名" width="100"></el-table-column>
-					
-						<el-table-column prop="birth" label="年龄" width="60"></el-table-column>
+						<el-table-column prop="sex" label="性别" width="80"></el-table-column>
+						<el-table-column prop="birth" label="年龄" width="80"></el-table-column>
 						<el-table-column prop="educationName" label="学历" width="100"></el-table-column>
 						<el-table-column prop="workYear" label="工作经验" width="120"></el-table-column>
-						<el-table-column prop="exPosition" label="期望职位" width="200"></el-table-column>
-						<el-table-column prop="school" label="居住地" width="200"></el-table-column>
+						<el-table-column prop="exPosition" label="期望职位" width="250"></el-table-column>
+						<el-table-column prop="school" label="居住地" width="300"></el-table-column>
 						
-						<el-table-column prop="exCity" label="地区" width="250"></el-table-column>
+						
 
 						<!-- <el-table-column label="操作" width="100">
 							<template slot-scope="scope">
