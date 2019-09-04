@@ -318,6 +318,7 @@ export default {
 			this.$http
 				.getEpResumeListByCate1(data)
 				.then(res => {
+					console.log(res);
 					if (res.errorCode == 0) {
 						_this.gridData = res.data.list;
 						

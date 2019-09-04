@@ -171,7 +171,7 @@ export default {
 			this.$http
 				.filter(data)
 				.then(res => {
-					
+					console.log(res)
 					_this.$_loading.close();
 					if (res.errorCode == 0) {
 						var xx = res.data.page;

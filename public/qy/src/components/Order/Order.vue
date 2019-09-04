@@ -148,7 +148,7 @@ export default {
 			this.$http
 				.getOrder(data)
 				.then(res => {
-					
+					console.log(res);
 					_this.$_loading.close();
 					
 					if (res.errorCode == 0) {

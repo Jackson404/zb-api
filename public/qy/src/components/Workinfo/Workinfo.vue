@@ -84,30 +84,7 @@
 						<div class="m-w-con" v-html="list.positionRequirement"></div>
 					</div>
 
-					<!-- <div class="m-wrap">
-						
-						
-						<div class="m-w-list">
-							<div class="m-w-title">薪资待遇:</div>
-							<div class="m-w-con">{{list.pay}}</div>
-						</div>
-						<div class="m-w-list">
-							<div class="m-w-title">工作时间:</div>
-							<div class="m-w-con">{{list.workExp}}</div>
-						</div>
-						<div class="m-w-list">
-							<div class="m-w-title">工作地点:</div>
-							<div class="m-w-con">{{list.province}}{{list.city}}{{list.area}}{{list.address}}</div>
-						</div>
-						<div class="m-w-list">
-							<div class="m-w-title">面试时间:</div>
-							<div class="m-w-con">{{list.time}}</div>
-						</div>
-						<div class="m-w-list" style="height: auto;">
-							<div class="m-w-title">岗位职责:</div>
-							<div class="m-w-con" v-html="list.positionRequirement"></div>
-						</div>
-					</div> -->
+					
 
 				</div>
 
@@ -210,10 +187,10 @@
 		watch: {
 			'$route'(to, from) {
 				// 对路由变化作出响应...
-				console.log(to)
+				
 				this.id = to.params.id;
 				this.getinfo(to.params.id);
-				console.log(from)
+				
 
 				document.documentElement.scrollTop = 0;
 			}
@@ -233,7 +210,7 @@
 				this.$http
 					.getDeta(data)
 					.then(res => {
-
+						console.log(res);
 						if (res.errorCode == 0) {
 
 							var xx = res.data.detail;

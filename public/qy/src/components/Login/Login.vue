@@ -94,6 +94,7 @@ export default {
 					this.$http
 						.login(data)
 						.then(res => {
+							console.log(res);
 							// 关闭 loading
 							_this.$_loading.close();
 							//切换发送显示
@@ -173,7 +174,7 @@ export default {
 			this.$http
 				.sendSmss(data)
 				.then(res => {
-					
+					console.log(res)
 					//切换发送显示
 					_this.send = false;
 					if (res.errorCode == 0) {

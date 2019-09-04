@@ -287,6 +287,7 @@ export default {
 					console.log('简历分类')
 					console.log(res)	
 					if (res.errorCode == 0) {
+						_this.gridData1=[];
 						_this.gridData = res.data.list;
 						
 						for(var i=0;i<res.data.list.length;i++){
