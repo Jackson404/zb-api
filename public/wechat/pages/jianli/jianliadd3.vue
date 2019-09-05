@@ -67,7 +67,7 @@
 				
 				
 				uni.showLoading({title:"正在提交"});
-					console.log(_self.imglist);
+					
 					uni.request({
 						url: _self.apiServer + '/api/v1.Resume/add',
 						method: 'POST',
@@ -103,7 +103,7 @@
 							console.log(res);
 								if(res.data.errorCode == '0'){
 								uni.showToast({title:"更新成功", icon:"none"});
-								_self.imglist = [];
+								
 								
 								setTimeout(function(){
 									uni.switchTab({
