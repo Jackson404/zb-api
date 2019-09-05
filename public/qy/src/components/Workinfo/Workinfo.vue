@@ -16,15 +16,32 @@
 						<div class="l-t-address">{{list.address}}</div>
 						<div class="l-t-rg" style="position: relative;">
 
-							<div v-if="status" class="l-t-btn" @click="share(list.id)">已接单</div>
+							<div v-if="status">
+								<!-- <el-popover
+								  placement="top"
+								  width="160"
+								  v-model="visible">
+								  <div class="share_wrap">
+								    <img class="share_img" src="https://pic.zhengbu121.com/20190829/mini_2019082902477.png" alt="邀请二维码">
+								  </div>
+								  <div slot="reference">扫码分享职位</div>
+								  
+								</el-popover> -->
+								
+								<el-popover
+								  placement="bottom"
+								  width="160"
+								  v-model="visible1">
+									
+									  <img class="share_img" src="https://pic.zhengbu121.com/20190829/mini_2019082902477.png" alt="邀请二维码">
+									
+								  <el-button style="color: #888888;font-size: 16px;letter-spacing: 2px;" slot="reference">微信扫码分享</el-button>
+								</el-popover>
+								
+							</div>
 							<div v-else class="l-t-btn" @click="acc(list.id)">接单</div>
 							<!-- 图片显示 -->
-							<div v-if="status" class="share_wrap">
-								<img class="share_img" src="https://pic.zhengbu121.com/20190829/mini_2019082902477.png" alt="邀请二维码">
-								<div class="share-title">
-									扫码分享职位
-								</div>
-							</div>
+							
 						</div>
 					</div>
 					<div class="l-t-tag">
@@ -139,7 +156,7 @@
 			</div>
 		</div>
 
-		<el-dialog title="分享" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+		<!-- <el-dialog title="分享" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
 			<span>
 				<img :src="qrCode" style="width: 300px;height: 300px;display: block;margin: 0 auto;" alt="">
 			</span>
@@ -147,7 +164,7 @@
 				<el-button @click="dialogVisible = false">取 消</el-button>
 				<el-button type="primary" @click="dialogVisible = false"><a :href="qrCode" target="_blank" download="123.jpg" style="color: #fff;text-decoration: none;">一键下载</a></el-button>
 			</span>
-		</el-dialog>
+		</el-dialog> -->
 	</div>
 </template>
 
@@ -166,7 +183,8 @@
 				status: 0,
 				qrCode: 0,
 				dialogVisible: false,
-				visible: true
+				visible: true,
+				visible1:false
 			};
 		},
 		created() {
@@ -433,7 +451,7 @@
 	}
 
 	.l-t-rg {
-		width: 100px;
+		width: 150px;
 		display: flex;
 		flex-wrap: nowrap;
 		justify-content: space-between;
@@ -665,8 +683,8 @@
 	}
 
 	.share_img {
-		width: 180px;
-		height: 180px;
+		width: 160px;
+		height: 160px;
 		display: block;
 	}
 
