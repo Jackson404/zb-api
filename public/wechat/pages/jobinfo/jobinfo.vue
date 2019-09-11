@@ -11,20 +11,20 @@
 				<view style="display: flex;height: 30px;line-height: 30px;">
 				<!-- 	<view class="tag" v-if="item.t_jr==2">退役军人优先</view>
 					<view class="money" v-if="item.t_jr==2" style="margin-left: 20px;color: #0084FF;font-size: 28upx;">{{item.t_xz}}</view> -->
-					<view class="money" style="color: #0084FF;font-size: 30upx;">{{item.pay}}元</view>
+					<view class="money" style="color: #0084FF;font-size: 30upx;">{{item.salary}}元</view>
 				</view>
 			</view>
 			
 			
 			<view class="title1" style="padding: 10upx 0 20upx 0;color: #333333;font-size: 28upx;">
-				{{item.companyName}}		
+				{{item.company_name}}		
 			</view>
 			
 			<view class="title1 u-f-ac" style="padding: 0 0 24upx 0;color: #363636;">
 				<view class="u-list u-f-ac">
 					<image src="../../static/xiao/experience.png" mode="" style="height: 28upx;width: 26upx;display: block;"></image>
-					<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;" v-if="item.workExp==0"> 不限</view>
-					<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;" v-else> {{item.workExp}}</view>
+					<!-- <view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;" v-if="item.workExp==0"> 不限</view> -->
+					<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;" > {{item.work_experience}}</view>
 				</view>
 				<view class="u-list u-f-ac">
 					<image src="../../static/xiao/education.png" mode="" style="height: 28upx;width: 32upx;display: block;"></image>
@@ -32,13 +32,13 @@
 				</view>
 				<view class="u-list u-f-ac">
 					<image src="../../static/xiao/experience.png" mode="" style="height: 28upx;width: 26upx;display: block;"></image>
-					<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;"> {{item.age}}</view>
+					<view style="font-size: 26upx;color: #333333;padding: 0 40upx 0 20upx;"> {{item.education}}</view>
 				</view>
 				
 			</view>
 			
 			<view class="tagx u-f-ac" >
-				<view class="tagone" v-for="(items, index) in item.labelIds" :key="index">{{items}}</view>
+				<view class="tagone" v-for="(items, index) in item.welfare_benefits" :key="index">{{items}}</view>
 				
 			</view>
 			<view style="height: 20px;"></view>
@@ -46,7 +46,7 @@
 				<!-- <text style="background: url(../../static/xiao/location.png);background-size: 100% 100%;width: 14px;height: 18px;display: inline-block;position: relative;margin-right: 10px;"></text> -->
 				<image src="../../static/xiao/location.png" mode="" style="width: 14px;height: 18px;display: block;margin-right: 10px;"></image>
 				<view style="line-height: 40upx;word-wrap: break-word;padding: 0px 0px 0 5px;flex: 1;font-size: 26upx;color: #666666;">
-					{{item.address}}	
+					{{item.company_address}}	
 				</view>
 			</view>
 			<view style="height: 15px;"></view>
@@ -56,7 +56,7 @@
 			</view>
 			<view class="content" style="padding: 0px 0;">
 				<!-- <view style="line-height: 30px;color: #9B9B9B;font-size: 30upx;padding: 5px;word-break: break-word;">{{item.t_yq}}</view> -->
-				<rich-text :nodes="item.positionRequirement" style="line-height: 30px;color: #666666;font-size: 14px !important;word-break: break-word;"></rich-text>
+				<rich-text :nodes="item.responsibility" style="line-height: 30px;color: #666666;font-size: 14px !important;word-break: break-word;"></rich-text>
 			</view>
 			
 			<view style="height: 50px;"></view>
@@ -90,7 +90,7 @@
 			<view style="text-align: left;background: #fff;padding: 10upx 40upx;">
 				
 				<button   open-type="getPhoneNumber" @getphonenumber="getPhoneNumber" data-target="Modal1" class="cu-btn bg-red margin-tb-sm lg" style="width: 80%;background: #0084FF;margin: 15px auto;display: block;line-height: 44px;height: 44px;">微信账户快速登录</button>
-				<button  @tap="wechat1" data-target="Modal1" class="cu-btn bg-red margin-tb-sm lg" style="width: 80%;background: #F4F4F4;margin: 15px auto;display: block;line-height: 44px;color: #333;line-height: 44px;height: 44px;">手机号注册/登录</button>
+				<!-- <button  @tap="wechat1" data-target="Modal1" class="cu-btn bg-red margin-tb-sm lg" style="width: 80%;background: #F4F4F4;margin: 15px auto;display: block;line-height: 44px;color: #333;line-height: 44px;height: 44px;">手机号注册/登录</button> -->
 			</view>
 		</view>
 	</view>
@@ -172,9 +172,13 @@
 						var x=scene.split('#');
 						console.log('二维码')
 						console.log(x)
-						this.userId=x[0];
-						this.positionId=x[1];
-						this.id=x[1];
+						// this.userId=x[0];
+						// this.positionId=x[1];
+						// this.id=x[1];
+						
+						this.userId=options.operator_id;
+						this.positionId=options.job_description_id;
+						this.id=options.job_description_id;
 					}
 					
 					
@@ -195,7 +199,8 @@
 
 			console.log('执行了');
 						  
-			   _this.login1();
+			   _this.login();
+			   _this.getInfo();
 			  uni.login({    
 			      success: function(res) {    
 			          _this.login_code = res.code;  
@@ -263,31 +268,30 @@
 						
 						
 						uni.request({
-							url: _this.apiServer + '/api/v1.User/codeToSession',
+							url: _this.apiServer1 + '/mini/users/xcx_login',
 							method: 'POST',
 							header: {'content-type' : "application/x-www-form-urlencoded"},
 							data:{
-								code   : res.code,
-								accessToken:e
+								xcx_code   : res.code,
 								
 							},
 							success: res => {
 								console.log(1111111);
 								console.log(res);
-								var status=res.data.errorCode;
-								var data=res.data.data;
+								var status=res.data.error_code;
+								var data=res.data;
 								if(status=='0'){
 									//未注册手机号
-									if(data.phone==0){
+									if(data.mobile==0){
 										_this.modalName1 = 'Modal'
-										_this.openid=data.openid;
+										_this.openid=data.xcx_openid;
 										
 									}else{
 										//已注册手机号
 									
-										uni.setStorageSync('uid',res.data.data.uid);
-										uni.setStorageSync('token',res.data.data.id_token);
-										uni.setStorageSync('phone',res.data.data.phone);
+										// uni.setStorageSync('uid',res.data.data.uid);
+										uni.setStorageSync('openid',res.data.xcx_openid);
+										uni.setStorageSync('phone',res.data.mobile);
 									}
 									
 								}
@@ -339,22 +343,19 @@
 					// 
 					
 					uni.request({
-							url: _this.apiServer + '/api/v1.User/number',
+							url: _this.apiServer1 + '/mini/users/get_user_info',
 							// url:'http://47.103.59.100:9091/web/#/page/173',
 							method: 'POST',
 							header: {'content-type' : "application/x-www-form-urlencoded"},
 							data:{
-								'appid':'wx02c9a76ab01f424c',
-								'secret':'22f25c64080e8a640d93d104cbc2a3ea',
-								'jsCode':JSCODE,
+								'js_code':JSCODE,
 								'encryptedData':encryptedData,
 								'iv':iv,
-								accessToken:uni.getStorageSync('utoken')	
 							},
 							success: res => {
 								console.log(res);
-								if(res.data.errorCode==0){
-									_this.phone=res.data.data.phoneNumber;
+								if(res.data.error_code==0){
+									_this.phone=res.data.phoneNumber;
 									 _this.reg1();
 								}
 							}
@@ -403,17 +404,17 @@
 				},1000)
 				
 					uni.request({
-						url: _this.apiServer + '/api/v1.User/sendSms',
+						url: _this.apiServer1 + '/mini/users/send_auth',
 						method: 'POST',
 						header: {'content-type' : "application/x-www-form-urlencoded"},
 						data:{
-							phone   : _this.phone,
-							accessToken: uni.getStorageSync('utoken')
+							mobile   : _this.phone,
+							// accessToken: uni.getStorageSync('utoken')
 							
 						},
 						success:function(res){
 							console.log(res);
-							if(res.data.errorCode == '0'){
+							if(res.data.error_code == '0'){
 								uni.showToast({title:"发送成功", icon:"none"});
 								// _this.newCode=res.data.data;
 								
@@ -428,22 +429,20 @@
 				
 				uni.showLoading({title:"正在提交"});
 				uni.request({
-					url: _this.apiServer + '/api/v1.User/bindMiniOpenIdWithPhone',
+					url: _this.apiServer1 + '/mini/users/xcx_binding',
 					method: 'POST',
 					header: {'content-type' : "application/x-www-form-urlencoded"},
 					data:{
-						phone   : _this.phone,
-						miniOpenId:_this.openid,
-						accessToken: uni.getStorageSync('utoken')
+						mobile   : _this.phone,
+						xcx_openid:_this.openid,
 					},
 					success:function(res){
 						console.log(res);
 						 
-						 if(res.data.errorCode == 0){
+						 if(res.data.error_code == 0){
 				
-								uni.setStorageSync('uid',res.data.data.uid);
-								uni.setStorageSync('token',res.data.data.id_token);
-								uni.setStorageSync('phone',res.data.data.phone);
+								uni.setStorageSync('uid',res.data.sid);
+								uni.setStorageSync('phone',res.data.mobile);
 								uni.showToast({title:'绑定成功',icon:'none'});
 								// uni.setStorageSync('user_id' , res.data.data);	
 								_this.modalName = null
@@ -463,23 +462,22 @@
 				if(_this.code<1){uni.showToast({title:'请输入验证码', icon:"none"}); return ;}
 				uni.showLoading({title:"正在提交"});
 				uni.request({
-					url: _this.apiServer + '/api/v1.User/login',
+					url: _this.apiServer1 + '/mini/users/login',
 					method: 'POST',
 					header: {'content-type' : "application/x-www-form-urlencoded"},
 					data:{
-						phone   : _this.phone,
-						vCode: _this.code,
-						miniOpenId:_this.openid,
-						accessToken: uni.getStorageSync('utoken')
+						mobile   : _this.phone,
+						auth_code: _this.code,
+						xcx_openid:_this.openid
 					},
 					success:function(res){
 						console.log(res);
 						 
-						 if(res.data.errorCode == 0){
+						 if(res.data.error_code == 0){
 				
-								uni.setStorageSync('uid',res.data.data.uid);
-								uni.setStorageSync('token',res.data.data.id_token);
-								uni.setStorageSync('phone',res.data.data.phone);
+								uni.setStorageSync('uid',res.data.sid);
+								uni.setStorageSync('phone',res.data.mobile);
+								
 								uni.showToast({title:'绑定成功',icon:'none'});
 								// uni.setStorageSync('user_id' , res.data.data);	
 								_this.modalName = null
@@ -498,29 +496,30 @@
 			
 				uni.showLoading({'title':"加载中..."});
 				uni.request({
-					url:_this.apiServer +"/api/v1.PositionManagement/getDetail",
+					url:_this.apiServer1 +"/mini/job_descriptions/detail",
 					// url:_this.apiServer +"/api/v1.ep.EpOrder/getDetailNoLogin",
 					
 					method:'POST',
 					data:{
 						
-						'positionId':_this.id,
-						accessToken: uni.getStorageSync('utoken')
+						'job_description_id':_this.id,
 						
 					},
 					header:{'content-type':'application/x-www-form-urlencoded'},
 					success:function(res) {
+						console.log(123456);
+						 console.log(res);
+						 if(res.data.error_code==0){
+							 _this.item=res.data.detail;
+							 _this.stax=true;
+						 }else{
+							uni.showToast({
+									title:res.data.error_reason,
+									icon:"none"
+								}); 
+						 }
 						
-						 
-						var data = res.data.data;
-						var status = res.data.status;
-						console.log(data);
 						
-							_this.item=data.detail;
-							_this.stax=true;
-							// uni.setNavigationBarTitle({
-							// 	　　title:data.detail.name
-							// })
 							
 							uni.hideLoading();
 							
@@ -539,29 +538,30 @@
 				
 				uni.showLoading({'title':"加载中..."});
 				uni.request({
-					url:_this.apiServer +"/api/v1.Resume/getResumeByUserId",
+					url:_this.apiServer1 +"/mini/resumes/apply",
 					method:'POST',
 					data:{
-						"id_token":uni.getStorageSync('token'),
-						'accessToken': uni.getStorageSync('utoken')
-						
-						
+						'sid': uni.getStorageSync('uid'),
+						'operator_id':_this.userId,
+						'job_description_id':_this.id
 					},
 					header:{'content-type':'application/x-www-form-urlencoded'},
 					success:function(res) {
 						uni.hideLoading()
+						 console.log(111111111122);
 						 console.log(res);
-						var data = res.data.data.list;
-						var status = res.data.errorCode;
-						
+						// var data = res.data.data.list;
+						var status = res.data.error_code;
+						 console.log(status);
 						if(status=='0'){
 							
-							console.log(data.id);
-							//投递简历
-							_this.sendfor(data.id);
+							uni.showToast({
+									title:res.data.error_reason,
+									icon:"none"
+								});
 							
-						}else{
-							
+						}else if(status=='-1'){
+							console.log('创建简历了');
 							uni.showModal({
 							title: '提示',
 							content: '请您先添加简历，然后在进行职位投递',

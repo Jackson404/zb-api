@@ -19,7 +19,7 @@ _vue.default.prototype.apiServer = 'https://mini.zhengbu121.com';
 
 
 
-_vue.default.prototype.apiServer1 = 'http://cms.soft-shop.cn/api/';
+_vue.default.prototype.apiServer1 = 'https://lion.zhengbu121.com/';
 
 _vue.default.prototype.websiteUrlx = 'http://xxx.soft-shop.cn/';
 _vue.default.prototype.websiteUrll = 'http://haidao.soft-shop.cn/';

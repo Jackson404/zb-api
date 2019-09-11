@@ -9,7 +9,7 @@ Vue.prototype.apiServer = 'https://mini.zhengbu121.com'
 
 
 
-Vue.prototype.apiServer1 = 'http://cms.soft-shop.cn/api/'
+Vue.prototype.apiServer1 = 'https://lion.zhengbu121.com/'
 
 Vue.prototype.websiteUrlx = 'http://xxx.soft-shop.cn/'
 Vue.prototype.websiteUrll = 'http://haidao.soft-shop.cn/'

@@ -152,7 +152,7 @@ var render = function() {
                       staticClass: "money",
                       staticStyle: { color: "#0084FF", "font-size": "30rpx" }
                     },
-                    [_vm._v(_vm._s(_vm.item.pay) + "元")]
+                    [_vm._v(_vm._s(_vm.item.salary) + "元")]
                   )
                 ]
               )
@@ -167,7 +167,7 @@ var render = function() {
                   "font-size": "28rpx"
                 }
               },
-              [_vm._v(_vm._s(_vm.item.companyName))]
+              [_vm._v(_vm._s(_vm.item.company_name))]
             ),
             _c(
               "view",
@@ -185,29 +185,17 @@ var render = function() {
                     },
                     attrs: { src: "../../static/xiao/experience.png", mode: "" }
                   }),
-                  _vm.item.workExp == 0
-                    ? _c(
-                        "view",
-                        {
-                          staticStyle: {
-                            "font-size": "26rpx",
-                            color: "#333333",
-                            padding: "0 40rpx 0 20rpx"
-                          }
-                        },
-                        [_vm._v("不限")]
-                      )
-                    : _c(
-                        "view",
-                        {
-                          staticStyle: {
-                            "font-size": "26rpx",
-                            color: "#333333",
-                            padding: "0 40rpx 0 20rpx"
-                          }
-                        },
-                        [_vm._v(_vm._s(_vm.item.workExp))]
-                      )
+                  _c(
+                    "view",
+                    {
+                      staticStyle: {
+                        "font-size": "26rpx",
+                        color: "#333333",
+                        padding: "0 40rpx 0 20rpx"
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.item.work_experience))]
+                  )
                 ]),
                 _c("view", { staticClass: "u-list u-f-ac" }, [
                   _c("image", {
@@ -248,7 +236,7 @@ var render = function() {
                         padding: "0 40rpx 0 20rpx"
                       }
                     },
-                    [_vm._v(_vm._s(_vm.item.age))]
+                    [_vm._v(_vm._s(_vm.item.education))]
                   )
                 ])
               ]
@@ -256,7 +244,7 @@ var render = function() {
             _c(
               "view",
               { staticClass: "tagx u-f-ac" },
-              _vm._l(_vm.item.labelIds, function(items, index) {
+              _vm._l(_vm.item.welfare_benefits, function(items, index) {
                 return _c("view", { key: index, staticClass: "tagone" }, [
                   _vm._v(_vm._s(items))
                 ])
@@ -291,7 +279,7 @@ var render = function() {
                       color: "#666666"
                     }
                   },
-                  [_vm._v(_vm._s(_vm.item.address))]
+                  [_vm._v(_vm._s(_vm.item.company_address))]
                 )
               ]
             ),
@@ -309,7 +297,7 @@ var render = function() {
                     "word-break": "break-word"
                   },
                   attrs: {
-                    nodes: _vm.item.positionRequirement,
+                    nodes: _vm.item.responsibility,
                     mpcomid: "6268ff7e-0"
                   }
                 })
@@ -429,24 +417,6 @@ var render = function() {
                       on: { getphonenumber: _vm.getPhoneNumber }
                     },
                     [_vm._v("微信账户快速登录")]
-                  ),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "cu-btn bg-red margin-tb-sm lg",
-                      staticStyle: {
-                        width: "80%",
-                        background: "#F4F4F4",
-                        margin: "15px auto",
-                        display: "block",
-                        "line-height": "44px",
-                        color: "#333",
-                        height: "44px"
-                      },
-                      attrs: { "data-target": "Modal1", eventid: "6268ff7e-2" },
-                      on: { tap: _vm.wechat1 }
-                    },
-                    [_vm._v("手机号注册/登录")]
                   )
                 ],
                 1
@@ -501,7 +471,7 @@ var render = function() {
                         attrs: {
                           placeholder: "输入手机号",
                           name: "input",
-                          eventid: "6268ff7e-3"
+                          eventid: "6268ff7e-2"
                         },
                         domProps: { value: _vm.phone },
                         on: {
@@ -538,7 +508,7 @@ var render = function() {
                         attrs: {
                           placeholder: "输入验证码",
                           name: "input",
-                          eventid: "6268ff7e-4"
+                          eventid: "6268ff7e-3"
                         },
                         domProps: { value: _vm.code },
                         on: {
@@ -558,7 +528,7 @@ var render = function() {
                                 "font-size": "30rpx",
                                 color: "#0486FF"
                               },
-                              attrs: { eventid: "6268ff7e-5" },
+                              attrs: { eventid: "6268ff7e-4" },
                               on: { tap: _vm.send }
                             },
                             [_vm._v("获取验证码")]
@@ -586,7 +556,7 @@ var render = function() {
                         display: "block",
                         "line-height": "44px"
                       },
-                      attrs: { "data-target": "Modal1", eventid: "6268ff7e-6" },
+                      attrs: { "data-target": "Modal1", eventid: "6268ff7e-5" },
                       on: { tap: _vm.reg }
                     },
                     [_vm._v("绑定")]
@@ -890,9 +860,13 @@ var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ 32);var _default =
       var x = scene.split('#');
       console.log('二维码');
       console.log(x);
-      this.userId = x[0];
-      this.positionId = x[1];
-      this.id = x[1];
+      // this.userId=x[0];
+      // this.positionId=x[1];
+      // this.id=x[1];
+
+      this.userId = options.operator_id;
+      this.positionId = options.job_description_id;
+      this.id = options.job_description_id;
     }
 
 
@@ -913,7 +887,8 @@ var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ 32);var _default =
 
     console.log('执行了');
 
-    _this.login1();
+    _this.login();
+    _this.getInfo();
     uni.login({
       success: function success(res) {
         _this.login_code = res.code;
@@ -981,31 +956,30 @@ var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ 32);var _default =
 
 
           uni.request({
-            url: _this.apiServer + '/api/v1.User/codeToSession',
+            url: _this.apiServer1 + '/mini/users/xcx_login',
             method: 'POST',
             header: { 'content-type': "application/x-www-form-urlencoded" },
             data: {
-              code: res.code,
-              accessToken: e },
+              xcx_code: res.code },
 
 
             success: function success(res) {
               console.log(1111111);
               console.log(res);
-              var status = res.data.errorCode;
-              var data = res.data.data;
+              var status = res.data.error_code;
+              var data = res.data;
               if (status == '0') {
                 //未注册手机号
-                if (data.phone == 0) {
+                if (data.mobile == 0) {
                   _this.modalName1 = 'Modal';
-                  _this.openid = data.openid;
+                  _this.openid = data.xcx_openid;
 
                 } else {
                   //已注册手机号
 
-                  uni.setStorageSync('uid', res.data.data.uid);
-                  uni.setStorageSync('token', res.data.data.id_token);
-                  uni.setStorageSync('phone', res.data.data.phone);
+                  // uni.setStorageSync('uid',res.data.data.uid);
+                  uni.setStorageSync('openid', res.data.xcx_openid);
+                  uni.setStorageSync('phone', res.data.mobile);
                 }
 
               }
@@ -1057,22 +1031,19 @@ var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ 32);var _default =
         // 
 
         uni.request({
-          url: _this.apiServer + '/api/v1.User/number',
+          url: _this.apiServer1 + '/mini/users/get_user_info',
           // url:'http://47.103.59.100:9091/web/#/page/173',
           method: 'POST',
           header: { 'content-type': "application/x-www-form-urlencoded" },
           data: {
-            'appid': 'wx02c9a76ab01f424c',
-            'secret': '22f25c64080e8a640d93d104cbc2a3ea',
-            'jsCode': JSCODE,
+            'js_code': JSCODE,
             'encryptedData': encryptedData,
-            'iv': iv,
-            accessToken: uni.getStorageSync('utoken') },
+            'iv': iv },
 
           success: function success(res) {
             console.log(res);
-            if (res.data.errorCode == 0) {
-              _this.phone = res.data.data.phoneNumber;
+            if (res.data.error_code == 0) {
+              _this.phone = res.data.phoneNumber;
               _this.reg1();
             }
           } });
@@ -1121,17 +1092,17 @@ var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ 32);var _default =
       }, 1000);
 
       uni.request({
-        url: _this.apiServer + '/api/v1.User/sendSms',
+        url: _this.apiServer1 + '/mini/users/send_auth',
         method: 'POST',
         header: { 'content-type': "application/x-www-form-urlencoded" },
         data: {
-          phone: _this.phone,
-          accessToken: uni.getStorageSync('utoken') },
-
+          mobile: _this.phone
+          // accessToken: uni.getStorageSync('utoken')
+        },
 
         success: function success(res) {
           console.log(res);
-          if (res.data.errorCode == '0') {
+          if (res.data.error_code == '0') {
             uni.showToast({ title: "发送成功", icon: "none" });
             // _this.newCode=res.data.data;
 
@@ -1146,22 +1117,20 @@ var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ 32);var _default =
 
       uni.showLoading({ title: "正在提交" });
       uni.request({
-        url: _this.apiServer + '/api/v1.User/bindMiniOpenIdWithPhone',
+        url: _this.apiServer1 + '/mini/users/xcx_binding',
         method: 'POST',
         header: { 'content-type': "application/x-www-form-urlencoded" },
         data: {
-          phone: _this.phone,
-          miniOpenId: _this.openid,
-          accessToken: uni.getStorageSync('utoken') },
+          mobile: _this.phone,
+          xcx_openid: _this.openid },
 
         success: function success(res) {
           console.log(res);
 
-          if (res.data.errorCode == 0) {
+          if (res.data.error_code == 0) {
 
-            uni.setStorageSync('uid', res.data.data.uid);
-            uni.setStorageSync('token', res.data.data.id_token);
-            uni.setStorageSync('phone', res.data.data.phone);
+            uni.setStorageSync('uid', res.data.sid);
+            uni.setStorageSync('phone', res.data.mobile);
             uni.showToast({ title: '绑定成功', icon: 'none' });
             // uni.setStorageSync('user_id' , res.data.data);	
             _this.modalName = null;
@@ -1181,23 +1150,22 @@ var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ 32);var _default =
       if (_this.code < 1) {uni.showToast({ title: '请输入验证码', icon: "none" });return;}
       uni.showLoading({ title: "正在提交" });
       uni.request({
-        url: _this.apiServer + '/api/v1.User/login',
+        url: _this.apiServer1 + '/mini/users/login',
         method: 'POST',
         header: { 'content-type': "application/x-www-form-urlencoded" },
         data: {
-          phone: _this.phone,
-          vCode: _this.code,
-          miniOpenId: _this.openid,
-          accessToken: uni.getStorageSync('utoken') },
+          mobile: _this.phone,
+          auth_code: _this.code,
+          xcx_openid: _this.openid },
 
         success: function success(res) {
           console.log(res);
 
-          if (res.data.errorCode == 0) {
+          if (res.data.error_code == 0) {
 
-            uni.setStorageSync('uid', res.data.data.uid);
-            uni.setStorageSync('token', res.data.data.id_token);
-            uni.setStorageSync('phone', res.data.data.phone);
+            uni.setStorageSync('uid', res.data.sid);
+            uni.setStorageSync('phone', res.data.mobile);
+
             uni.showToast({ title: '绑定成功', icon: 'none' });
             // uni.setStorageSync('user_id' , res.data.data);	
             _this.modalName = null;
@@ -1216,29 +1184,30 @@ var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ 32);var _default =
 
       uni.showLoading({ 'title': "加载中..." });
       uni.request({
-        url: _this.apiServer + "/api/v1.PositionManagement/getDetail",
+        url: _this.apiServer1 + "/mini/job_descriptions/detail",
         // url:_this.apiServer +"/api/v1.ep.EpOrder/getDetailNoLogin",
 
         method: 'POST',
         data: {
 
-          'positionId': _this.id,
-          accessToken: uni.getStorageSync('utoken') },
+          'job_description_id': _this.id },
 
 
         header: { 'content-type': 'application/x-www-form-urlencoded' },
         success: function success(res) {
+          console.log(123456);
+          console.log(res);
+          if (res.data.error_code == 0) {
+            _this.item = res.data.detail;
+            _this.stax = true;
+          } else {
+            uni.showToast({
+              title: res.data.error_reason,
+              icon: "none" });
+
+          }
 
 
-          var data = res.data.data;
-          var status = res.data.status;
-          console.log(data);
-
-          _this.item = data.detail;
-          _this.stax = true;
-          // uni.setNavigationBarTitle({
-          // 	　　title:data.detail.name
-          // })
 
           uni.hideLoading();
 
@@ -1257,29 +1226,30 @@ var graceMd5 = __webpack_require__(/*! ../../css/md5.js */ 32);var _default =
 
       uni.showLoading({ 'title': "加载中..." });
       uni.request({
-        url: _this.apiServer + "/api/v1.Resume/getResumeByUserId",
+        url: _this.apiServer1 + "/mini/resumes/apply",
         method: 'POST',
         data: {
-          "id_token": uni.getStorageSync('token'),
-          'accessToken': uni.getStorageSync('utoken') },
-
-
+          'sid': uni.getStorageSync('uid'),
+          'operator_id': _this.userId,
+          'job_description_id': _this.id },
 
         header: { 'content-type': 'application/x-www-form-urlencoded' },
         success: function success(res) {
           uni.hideLoading();
+          console.log(111111111122);
           console.log(res);
-          var data = res.data.data.list;
-          var status = res.data.errorCode;
-
+          // var data = res.data.data.list;
+          var status = res.data.error_code;
+          console.log(status);
           if (status == '0') {
 
-            console.log(data.id);
-            //投递简历
-            _this.sendfor(data.id);
+            uni.showToast({
+              title: res.data.error_reason,
+              icon: "none" });
 
-          } else {
 
+          } else if (status == '-1') {
+            console.log('创建简历了');
             uni.showModal({
               title: '提示',
               content: '请您先添加简历，然后在进行职位投递',

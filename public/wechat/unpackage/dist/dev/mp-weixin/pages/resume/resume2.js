@@ -312,13 +312,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
       uni.showLoading({ title: "正在提交" });
-      console.log(_self.imglist);
+
       uni.request({
-        url: _self.apiServer + '/api/v1.Resume/add',
+        url: _self.apiServer1 + '/mini/resumes/create',
         method: 'POST',
         header: { 'content-type': "application/x-www-form-urlencoded" },
         data: {
-          "selfEvaluation": _self.evaluate,
+          "self_assessment": _self.evaluate,
           "skills": _self.skill,
 
 
@@ -327,28 +327,28 @@ __webpack_require__.r(__webpack_exports__);
           "phone": _self.con.phone,
           "gender": _self.con.gender,
           "age": _self.con.age,
-          "workYear": _self.con.workYear,
+          "working_year": _self.con.workYear,
           "education": _self.con.education,
+
           "militaryTime": _self.con.militaryTime,
           "attendedTime": _self.con.attendedTime,
           "corps": _self.con.corps,
-          "exPosition": _self.con.exPosition,
-          "nature": _self.con.nature,
-          "exCity": _self.con.exCity,
-          "salary": _self.con.salary,
-          "curStatus": _self.con.curStatus,
-          "arrivalTime": _self.con.arrivalTime,
-          "isSoldierPriority": _self.con.isSoldierPriority,
+          "job_objective": _self.con.exPosition,
+          "work_nature": _self.con.nature,
+          "expected_city": _self.con.exCity,
+          "expected_salary": _self.con.salary,
+          "current_working_status": _self.con.curStatus,
+          "available_date": _self.con.arrivalTime,
+          "is_veteran": _self.con.isSoldierPriority,
 
-          accessToken: uni.getStorageSync('utoken'),
-          "id_token": uni.getStorageSync('token') },
+          "sid": uni.getStorageSync('uid') },
 
 
         success: function success(res) {
           console.log(res);
-          if (res.data.errorCode == '0') {
+          if (res.data.error_code == '0') {
             uni.showToast({ title: "创建简历成功", icon: "none" });
-            _self.imglist = [];
+
 
             setTimeout(function () {
               uni.navigateBack({
@@ -356,7 +356,7 @@ __webpack_require__.r(__webpack_exports__);
 
             }, 1000);
           } else {
-            uni.showToast({ title: res.data.msg, icon: "none" });
+            uni.showToast({ title: res.data.error_reason, icon: "none" });
           }
         } });
 
