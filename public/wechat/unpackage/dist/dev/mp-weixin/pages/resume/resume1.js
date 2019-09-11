@@ -613,7 +613,16 @@ __webpack_require__.r(__webpack_exports__);
       id: '',
       modalName: null,
       region: ['广东省', '广州市', '海珠区'],
-      hangye: [],
+      hangye: [
+      {
+        name: '',
+        value: 0,
+        checked: true,
+        list: {} }],
+
+
+
+
       hangindex: 0,
       item: [],
       region1: '广东省,广州市,海珠区',
@@ -640,20 +649,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
       uni.request({
-        url: _this.apiServer + '/api/v1.positionCate/getAllByTree',
+        url: _this.apiServer1 + '/mini/job_description_categories/list',
         method: 'POST',
         header: { 'content-type': "application/x-www-form-urlencoded" },
         data: {
 
-          accessToken: uni.getStorageSync('utoken') },
-
+          // accessToken:uni.getStorageSync('utoken')
+        },
         success: function success(res) {
           console.log(res);
 
           // uni.hideLoading();
-          if (res.data.errorCode == '0') {
-
-            var data = res.data.data;
+          if (res.data.error_code == '0') {
+            _this.hangye = [];
+            var data = res.data.job_description_categories;
             console.log(data);
             for (var i = 0; i < data.length; i++) {
               if (i == 0) {
