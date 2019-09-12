@@ -13,6 +13,16 @@ Vue.prototype.apiServer1 = 'https://lion.zhengbu121.com/'
 
 Vue.prototype.websiteUrlx = 'http://xxx.soft-shop.cn/'
 Vue.prototype.websiteUrll = 'http://haidao.soft-shop.cn/'
+
+// 挂载全局方法
+import config from "./common/config.js"
+Vue.prototype.config=config
+
+
+import request from "./common/request.js";
+Vue.prototype.$http = request;
+
+
 App.mpType = 'app'
 
 const app = new Vue({

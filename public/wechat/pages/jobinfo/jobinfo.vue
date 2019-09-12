@@ -289,8 +289,7 @@
 									}else{
 										//已注册手机号
 									
-										// uni.setStorageSync('uid',res.data.data.uid);
-										uni.setStorageSync('openid',res.data.xcx_openid);
+										uni.setStorageSync('uid',res.data.sid);
 										uni.setStorageSync('phone',res.data.mobile);
 									}
 									
