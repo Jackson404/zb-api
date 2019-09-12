@@ -1,6 +1,5 @@
 <template>
 	<view>
-		
 		<view>
 			<view class="cu-form-group" style="border-bottom: 1px solid #eee !important;">
 				<view class="title">姓名</view>
@@ -14,7 +13,6 @@
 					</view>
 				</picker>
 			</view>
-			
 			<view class="cu-form-group">
 				<view class="title">年龄</view>
 				<picker @change="PickerChange1" :value="index1" :range="picker1">
@@ -23,7 +21,6 @@
 					</view>
 				</picker>
 			</view>
-		
 			<view class="cu-form-group">
 				<view class="title">工作年限</view>
 				<input placeholder="请填写工作年限" v-model="work" name="input" type="number"></input>
@@ -48,17 +45,9 @@
 					</view>
 				</picker>
 			</view>
-			
-			
 			<view style="width: 100%;padding-top: 150upx;">
 			<button @tap="add4" class="cu-btn bg-red margin-tb-sm lg" style="width: 55%;background: #0084FF;margin: 30px auto;display: block;font-size: 35upx;height: 40px;line-height: 40px;">下一步</button>	
-			</view>
-			
-			
-			
-			
-			
-			
+			</view>	
 		</view>
 	</view>
 </template>
@@ -91,6 +80,7 @@
 		methods: {
 			PickerChange(e) {
 				this.index = e.detail.value
+				console.log(this.index);
 			},
 			PickerChange1(e) {
 				this.index1 = e.detail.value

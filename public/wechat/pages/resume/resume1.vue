@@ -1,8 +1,6 @@
 <template>
 	<view>
-		
 		<view>
-			
 			<view class="cu-form-group">
 				<view class="title">期望职位</view>
 				<view class="wrap" @tap="showModal" data-target="DialogModal1">
@@ -47,15 +45,9 @@
 					</view>
 				</picker>
 			</view>
-			
-			
-			
-			
 			<view style="width: 100%;padding-top: 150upx;">
 			<button @tap="add4" class="cu-btn bg-red margin-tb-sm lg" style="width: 55%;background: #0084FF;margin: 30px auto;display: block;font-size: 35upx;height: 40px;line-height: 40px;">下一步</button>	
 			</view>
-			
-			
 			<view class="cu-modal" :class="modalName=='DialogModal1'?'show':''">
 				<view class="cu-dialog">
 					<view class="cu-bar bg-white justify-end" style="border-bottom: 1px solid #EEEEEE;">
@@ -94,12 +86,6 @@
 					</view>
 				</view>
 			</view>
-			
-			
-			
-			
-			
-			
 		</view>
 	</view>
 </template>
@@ -174,11 +160,13 @@
 						console.log(res);
 						
 						// uni.hideLoading();
-						if(res.data.error_code == '0'){
+						if(res.data.error_code == 0){
 							_this.hangye=[];
 							var data=res.data.job_description_categories;
 							console.log(data);
-							for (var i=0;i<data.length;i++) {
+						
+							var jd_length = data.length;
+							for (var i=0;i<jd_length;i++) {
 								if(i==0){
 									var arr={
 										name : data[i].name , 
@@ -195,6 +183,11 @@
 									}
 								}
 								var son=data[i].son;
+								
+								if(son == undefined){
+									son = [];
+								}
+								
 								for (var j = 0; j <son.length; j++) {
 									
 										var arr1={
@@ -210,7 +203,7 @@
 								_this.hangye.push(arr);
 							}
 							
-							
+						
 							
 						}else{
 							uni.showToast({title:res.data.data, icon:"none"});

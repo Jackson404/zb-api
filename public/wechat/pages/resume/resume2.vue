@@ -85,10 +85,10 @@
 												
 							"name":_self.con.name,
 							
-							"phone":_self.con.phone,
+							"mobile":_self.con.phone,
 							"gender":_self.con.gender,
 							"age":_self.con.age,
-							"working_year":_self.con.workYear,
+							"working_years":_self.con.workYear,
 							"education":_self.con.education,
 							
 							"militaryTime":_self.con.militaryTime,
